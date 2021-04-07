@@ -6,7 +6,10 @@ extern ByteCat::Application* ByteCat::createApplication();
 
 int main(int argc, char** argv)
 {
-	std::cout << "Starting the ByteCat Engine... :D";
+	ByteCat::Log::init();
+	BC_CORE_INFO("Initialized Log");
+	BC_INFO("Initialized Log");
+
 	auto app = ByteCat::createApplication();
 	app->run();
 	delete app;

@@ -27,9 +27,15 @@
     <ClInclude Include="src\ByteCat\EntryPoint.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\ByteCat\Log.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ByteCat\Application.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ByteCat\Log.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
