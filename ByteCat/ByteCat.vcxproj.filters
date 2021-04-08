@@ -19,6 +19,7 @@
     <ClInclude Include="src\ByteCat\Log.h">
       <Filter>ByteCat</Filter>
     </ClInclude>
+    <ClInclude Include="src\bcpch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ByteCat\Application.cpp">
@@ -27,5 +28,6 @@
     <ClCompile Include="src\ByteCat\Log.cpp">
       <Filter>ByteCat</Filter>
     </ClCompile>
+    <ClCompile Include="src\bcpch.cpp" />
   </ItemGroup>
 </Project>

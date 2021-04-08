@@ -10,6 +10,11 @@ workspace "ByteCat"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
+IncludeDir = {}
+IncludeDir["GLFW"] = "ByteCat/vendor/GLFW/include"
+
+include "ByteCat/vendor/GLFW"
+
 
 project "ByteCat"
 	location "ByteCat"
@@ -19,6 +24,9 @@ project "ByteCat"
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
+	pchheader "bcpch.h"
+	pchsource "ByteCat/src/bcpch.cpp"
+
 	files
 	{
 		"%{prj.name}/src/**.h",
@@ -27,7 +35,15 @@ project "ByteCat"
 
 	includedirs
 	{
-		"%{prj.name}/vendor/spdlog/include"
+		"%{prj.name}/src",
+		"%{prj.name}/vendor/spdlog/include",
+		"%{IncludeDir.GLFW}"
+	}
+
+	links
+	{
+		"GLFW",
+		"opengl32.lib"
 	}
 
 	filter "system:windows"

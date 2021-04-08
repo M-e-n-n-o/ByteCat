@@ -4,6 +4,7 @@
 
 namespace ByteCat
 {
+	// Inherit from this class in the users application
 	class BYTECAT_API Application
 	{
 	public:
@@ -13,6 +14,6 @@ namespace ByteCat
 		void run();
 	};
 
-	// To be defined in client
-	Application* createApplication();
+	// To be defined in the users application
+	Application* CreateApplication();
 }

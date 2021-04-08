@@ -9,3 +9,7 @@
 #else
 	#error ByteCat only supports Windows!
 #endif
+
+#ifdef BC_DEBUG
+	#define BC_ENABLE_LOG
+#endif

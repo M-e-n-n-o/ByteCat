@@ -1,18 +1,19 @@
+#include "bcpch.h"
 #include "Log.h"
 
 namespace ByteCat
 {
-	std::shared_ptr<spdlog::logger> Log::coreLogger;
-	std::shared_ptr<spdlog::logger> Log::clientLogger;
+	std::shared_ptr<spdlog::logger> Log::CoreLogger;
+	std::shared_ptr<spdlog::logger> Log::ClientLogger;
 
-	void Log::init()
+	void Log::Init()
 	{
 		spdlog::set_pattern("%^[%T] %n: %v%$");
 
-		coreLogger = spdlog::stdout_color_mt("BYTECAT");
-		coreLogger->set_level(spdlog::level::trace);
+		CoreLogger = spdlog::stdout_color_mt("BYTECAT");
+		CoreLogger->set_level(spdlog::level::trace);
 
-		clientLogger = spdlog::stdout_color_mt("APP");
-		clientLogger->set_level(spdlog::level::trace);
+		ClientLogger = spdlog::stdout_color_mt("APP");
+		ClientLogger->set_level(spdlog::level::trace);
 	}
 }
