@@ -80,7 +80,7 @@
       <PrecompiledHeaderFile>bcpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>BC_PLATFORM_WINDOWS;BC_BUILD_DLL;BC_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\glew-2.0.0\include;vendor\GLFW\include;vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -90,6 +90,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>vendor\glew-2.0.0\x64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ImportLibrary>..\bin\Debug-windows-x86_64\ByteCat\ByteCat.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
@@ -102,7 +103,7 @@
       <PrecompiledHeaderFile>bcpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>BC_PLATFORM_WINDOWS;BC_BUILD_DLL;BC_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\glew-2.0.0\include;vendor\GLFW\include;vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -116,6 +117,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>vendor\glew-2.0.0\x64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ImportLibrary>..\bin\Release-windows-x86_64\ByteCat\ByteCat.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
@@ -128,7 +130,7 @@
       <PrecompiledHeaderFile>bcpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>BC_PLATFORM_WINDOWS;BC_BUILD_DLL;BC_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\glew-2.0.0\include;vendor\GLFW\include;vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -142,6 +144,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>vendor\glew-2.0.0\x64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ImportLibrary>..\bin\Dist-windows-x86_64\ByteCat\ByteCat.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
@@ -166,6 +169,9 @@
   <ItemGroup>
     <ProjectReference Include="vendor\GLFW\GLFW.vcxproj">
       <Project>{154B857C-0182-860D-AA6E-6C109684020F}</Project>
+    </ProjectReference>
+    <ProjectReference Include="vendor\glm\GLM.vcxproj">
+      <Project>{05EB870B-71F4-877C-FA6F-9E7C6678937C}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
