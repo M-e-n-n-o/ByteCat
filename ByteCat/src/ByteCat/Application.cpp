@@ -1,5 +1,6 @@
 #include "bcpch.h"
 #include "Application.h"
+#include "Log.h"
 #include <GLFW/glfw3.h>
 
 namespace ByteCat
@@ -8,40 +9,44 @@ namespace ByteCat
 
 	Application::Application()
 	{
-        /* Initialize the library */
         if (!glfwInit())
             return;
 
-        /* Create a windowed mode window and its OpenGL context */
         window = glfwCreateWindow(1280, 720, "ByteCat Engine", NULL, NULL);
         if (!window)
         {
+            BC_CORE_CRITICAL("Failed to create window with OpenGL context");
             glfwTerminate();
             return;
         }
 
-        /* Make the window's context current */
         glfwMakeContextCurrent(window);
-	}
-
-	Application::~Application()
-	{
-        glfwTerminate();
 	}
 
 	void Application::run()
 	{
-        /* Loop until the user closes the window */
         while (!glfwWindowShouldClose(window))
         {
-            /* Render here */
             glClear(GL_COLOR_BUFFER_BIT);
 
-            /* Swap front and back buffers */
-            glfwSwapBuffers(window);
+            // Update
+            onUpdate();
 
-            /* Poll for and process events */
+            // Render
+            onRender();
+            glBegin(GL_TRIANGLES);
+            glVertex2d(-0.5f, -0.5f);
+            glVertex2d(0.0f, 0.5f);
+            glVertex2d(0.5f, -0.5f);
+            glEnd();
+
+            glfwSwapBuffers(window);
             glfwPollEvents();
         }
 	}
+
+    Application::~Application()
+    {
+        glfwTerminate();
+    }
 }
