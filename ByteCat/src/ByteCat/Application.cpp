@@ -9,13 +9,15 @@ namespace ByteCat
 
 	Application::Application()
 	{
+        BC_INFO("ByteCat engine is starting...");
+		
         if (!glfwInit())
             return;
 
         window = glfwCreateWindow(1280, 720, "ByteCat Engine", NULL, NULL);
         if (!window)
         {
-            BC_CORE_CRITICAL("Failed to create window with OpenGL context");
+            BC_CRITICAL("Failed to create window with OpenGL context");
             glfwTerminate();
             return;
         }
@@ -47,6 +49,7 @@ namespace ByteCat
 
     Application::~Application()
     {
+        BC_INFO("ByteCat engine is closing...");
         glfwTerminate();
     }
 }

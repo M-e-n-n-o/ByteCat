@@ -6,17 +6,17 @@ public:
 	// The init of your application
 	Sandbox()
 	{
-		
+
 	}
 
 	void onUpdate() override
 	{
-		BC_INFO("Update");
+		
 	}
 
 	void onRender() override
 	{
-		BC_INFO("Render");
+
 	}
 
 	// The end of your application
