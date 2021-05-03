@@ -10,8 +10,9 @@ workspace "ByteCat"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
-IncludeDir = {}
-IncludeDir["GLFW"] = "ByteCat/vendor/GLFW/include"
+Libs = {}
+Libs["GLFW"] = "ByteCat/vendor/GLFW"
+Libs["GLEW"] = "ByteCat/vendor/glew-2.0.0"
 
 include "ByteCat/vendor/GLFW"
 
@@ -37,13 +38,20 @@ project "ByteCat"
 	{
 		"%{prj.name}/src",
 		"%{prj.name}/vendor/spdlog/include",
-		"%{IncludeDir.GLFW}"
+		"%{Libs.GLEW}/include",
+		"%{Libs.GLFW}/include"
 	}
 
 	links
 	{
+		"%{Libs.GLEW}/x64/bin/glew32.dll",
 		"GLFW",
 		"opengl32.lib"
+	}
+
+	libdirs
+	{
+		"%{Libs.GLEW}/x64/lib"
 	}
 
 	filter "system:windows"

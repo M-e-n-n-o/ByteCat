@@ -1,6 +1,7 @@
 #include "bcpch.h"
 #include "Application.h"
 #include "Log.h"
+#include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
 namespace ByteCat
@@ -39,7 +40,7 @@ namespace ByteCat
             glVertex2d(0.0f, 0.5f);
             glVertex2d(0.5f, -0.5f);
             glEnd();
-
+        	
             glfwSwapBuffers(window);
             glfwPollEvents();
         }
