@@ -3,7 +3,7 @@
 #include "Application.h"
 #include "Log.h"
 
-namespace ByteCat
+namespace BC
 {
     static GLFWwindow* window;
 
@@ -27,15 +27,24 @@ namespace ByteCat
 
 	void Application::run()
 	{
+        static bool isRunning = false;
+		if (isRunning)
+		{
+            BC_INFO("Cannot run the main game loop synchronous");
+            return;
+		}
+
+        isRunning = true;
+		
         while (!glfwWindowShouldClose(window))
         {
             glClear(GL_COLOR_BUFFER_BIT);
 
             // Update
-            onUpdate();
+            update();
 
             // Render
-            onRender();
+            render();
             glBegin(GL_TRIANGLES);
             glVertex2d(-0.5f, -0.5f);
             glVertex2d(0.0f, 0.5f);
@@ -45,6 +54,8 @@ namespace ByteCat
             glfwSwapBuffers(window);
             glfwPollEvents();
         }
+		
+        isRunning = false;
 	}
 
     Application::~Application()

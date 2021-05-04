@@ -2,7 +2,7 @@
 
 #include "Core.h"
 
-namespace ByteCat
+namespace BC
 {
 	// Inherit from this class in the users application
 	class BYTECAT_API Application
@@ -11,8 +11,8 @@ namespace ByteCat
 		Application();
 		virtual ~Application();
 
-		virtual void onUpdate() = 0;
-		virtual void onRender() = 0;
+		virtual void update() = 0;
+		virtual void render() = 0;
 
 		void run();
 	};

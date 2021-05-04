@@ -1,20 +1,20 @@
 #include <ByteCat.h>
 
-class Sandbox : public ByteCat::Application
+class Sandbox : public BC::Application
 {
 public:
 	// The init of your application
 	Sandbox()
 	{
-
+	
 	}
 
-	void onUpdate() override
+	void update() override
 	{
 		
 	}
 
-	void onRender() override
+	void render() override
 	{
 
 	}
@@ -26,7 +26,7 @@ public:
 	}
 };
 
-ByteCat::Application* ByteCat::CreateApplication()
+BC::Application* BC::CreateApplication()
 {
 	return new Sandbox();
 }

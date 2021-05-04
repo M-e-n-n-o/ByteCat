@@ -2,13 +2,13 @@
 
 #ifdef BC_PLATFORM_WINDOWS
 
-extern ByteCat::Application* ByteCat::CreateApplication();
+extern BC::Application* BC::CreateApplication();
 
 int main(int argc, char** argv)
 {
-	ByteCat::Log::Init();
+	BC::Log::Init();
 
-	auto app = ByteCat::CreateApplication();
+	auto app = BC::CreateApplication();
 	app->run();
 	
 	delete app;
