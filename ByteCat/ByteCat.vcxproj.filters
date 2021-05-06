@@ -1,33 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="ByteCat">
-      <UniqueIdentifier>{F121EFFE-5D01-6E9A-6619-F970D277D4FB}</UniqueIdentifier>
+    <Filter Include="byteCat">
+      <UniqueIdentifier>{11BA369E-7D99-B539-86B1-4010F20F1C9B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="events">
+      <UniqueIdentifier>{5A9D08FC-463F-33D2-2FFA-46261B3BBA22}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ByteCat.h" />
-    <ClInclude Include="src\ByteCat\Application.h">
-      <Filter>ByteCat</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ByteCat\Core.h">
-      <Filter>ByteCat</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ByteCat\EntryPoint.h">
-      <Filter>ByteCat</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ByteCat\Log.h">
-      <Filter>ByteCat</Filter>
-    </ClInclude>
     <ClInclude Include="src\bcpch.h" />
+    <ClInclude Include="src\byteCat\Application.h">
+      <Filter>byteCat</Filter>
+    </ClInclude>
+    <ClInclude Include="src\byteCat\Core.h">
+      <Filter>byteCat</Filter>
+    </ClInclude>
+    <ClInclude Include="src\byteCat\EntryPoint.h">
+      <Filter>byteCat</Filter>
+    </ClInclude>
+    <ClInclude Include="src\byteCat\Log.h">
+      <Filter>byteCat</Filter>
+    </ClInclude>
+    <ClInclude Include="src\byteCat\events\Event.h">
+      <Filter>events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\byteCat\events\ApplicationEvent.h" />
+    <ClInclude Include="src\byteCat\events\KeyEvent.h" />
+    <ClInclude Include="src\byteCat\input\KeyCodes.h" />
+    <ClInclude Include="src\byteCat\input\MouseCodes.h" />
+    <ClInclude Include="src\byteCat\events\MouseEvent.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\ByteCat\Application.cpp">
-      <Filter>ByteCat</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ByteCat\Log.cpp">
-      <Filter>ByteCat</Filter>
-    </ClCompile>
     <ClCompile Include="src\bcpch.cpp" />
+    <ClCompile Include="src\byteCat\Application.cpp">
+      <Filter>byteCat</Filter>
+    </ClCompile>
+    <ClCompile Include="src\byteCat\Log.cpp">
+      <Filter>byteCat</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

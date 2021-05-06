@@ -153,18 +153,24 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\ByteCat.h" />
-    <ClInclude Include="src\ByteCat\Application.h" />
-    <ClInclude Include="src\ByteCat\Core.h" />
-    <ClInclude Include="src\ByteCat\EntryPoint.h" />
-    <ClInclude Include="src\ByteCat\Log.h" />
     <ClInclude Include="src\bcpch.h" />
+    <ClInclude Include="src\byteCat\Application.h" />
+    <ClInclude Include="src\byteCat\Core.h" />
+    <ClInclude Include="src\byteCat\EntryPoint.h" />
+    <ClInclude Include="src\byteCat\events\ApplicationEvent.h" />
+    <ClInclude Include="src\byteCat\events\KeyEvent.h" />
+    <ClInclude Include="src\byteCat\events\MouseEvent.h" />
+    <ClInclude Include="src\byteCat\input\KeyCodes.h" />
+    <ClInclude Include="src\byteCat\input\MouseCodes.h" />
+    <ClInclude Include="src\byteCat\Log.h" />
+    <ClInclude Include="src\byteCat\events\Event.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\ByteCat\Application.cpp" />
-    <ClCompile Include="src\ByteCat\Log.cpp" />
     <ClCompile Include="src\bcpch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\byteCat\Application.cpp" />
+    <ClCompile Include="src\byteCat\Log.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="vendor\GLFW\GLFW.vcxproj">

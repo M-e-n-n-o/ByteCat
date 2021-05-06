@@ -104,12 +104,14 @@ project "Sandbox"
 	includedirs
 	{
 		"ByteCat/vendor/spdlog/include",
-		"ByteCat/src"
+		"ByteCat/src",
+		"%{Libs.GLM}"
 	}
 
 	links
 	{
-		"ByteCat"
+		"ByteCat",
+		"GLM"
 	}
 
 	filter "system:windows"

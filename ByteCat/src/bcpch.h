@@ -17,6 +17,8 @@
 #include <unordered_map>
 #include <unordered_set>
 
+#include "byteCat/Log.h"
+
 #ifdef BC_PLATFORM_WINDOWS
 	#include <Windows.h>
 #endif

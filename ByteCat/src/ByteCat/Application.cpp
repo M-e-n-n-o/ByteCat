@@ -1,12 +1,12 @@
 #include "bcpch.h"
 #include <GLFW/glfw3.h>
 #include "Application.h"
-#include "Log.h"
+#include "input/KeyCodes.h"
 
 namespace BC
 {
     static GLFWwindow* window;
-
+	
 	Application::Application()
 	{
         BC_INFO("ByteCat engine is starting...");
@@ -33,7 +33,7 @@ namespace BC
             BC_INFO("Cannot run the main game loop synchronous");
             return;
 		}
-
+        
         isRunning = true;
 		
         while (!glfwWindowShouldClose(window))
