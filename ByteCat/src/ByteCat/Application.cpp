@@ -1,7 +1,8 @@
 #include "bcpch.h"
 #include <GLFW/glfw3.h>
-#include "Application.h"
-#include "input/KeyCodes.h"
+#include "byteCat/Application.h"
+#include "byteCat/input/KeyCodes.h"
+#include "events/KeyEvent.h"
 
 namespace BC
 {
@@ -57,6 +58,20 @@ namespace BC
 		
         isRunning = false;
 	}
+
+    void Application::onEvent(Event& event)
+    {
+        BC_INFO("Got an event!");
+		try
+		{
+			auto& keyEvent = dynamic_cast<KeyPressedEvent&>(event);
+            BC_INFO(keyEvent.getKeyCode());
+			
+        } catch (const std::bad_cast& e)
+        {
+            BC_INFO("Not a key event");
+        }
+    }
 
     Application::~Application()
     {

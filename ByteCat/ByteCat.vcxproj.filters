@@ -47,6 +47,8 @@
     <ClInclude Include="src\byteCat\input\MouseCodes.h">
       <Filter>byteCat\input</Filter>
     </ClInclude>
+    <ClInclude Include="src\byteCat\platform\Window.h" />
+    <ClInclude Include="src\byteCat\platform\windows\WindowsWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\bcpch.cpp" />
@@ -59,5 +61,8 @@
     <ClCompile Include="src\byteCat\input\DefaultInput.cpp">
       <Filter>byteCat\input</Filter>
     </ClCompile>
+    <ClCompile Include="src\byteCat\platform\Window.cpp" />
+    <ClCompile Include="src\byteCat\platform\windows\WindowsWindow.cpp" />
+    <ClCompile Include="src\byteCat\platform\windows\WindowsInput.cpp" />
   </ItemGroup>
 </Project>
