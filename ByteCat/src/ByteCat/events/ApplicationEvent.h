@@ -15,7 +15,7 @@ namespace BC
 
 		unsigned int getWidth() const { return width; }
 		unsigned int getHeight() const { return height; }
-
+		
 		EventType getEventType() const override { return EventType::WindowResize; }
 		int getCategoryFlags() const override { return EventCatApplication; }
 	};

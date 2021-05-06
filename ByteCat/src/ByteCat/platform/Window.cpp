@@ -4,10 +4,10 @@
 
 namespace BC
 {
-	Scope<Window> Window::Create(WindowSetting& windowSetting)
+	Window* Window::Create(WindowSetting& windowSetting)
 	{
 	#ifdef BC_PLATFORM_WINDOWS
-		return CreateScope<WindowsWindow>(windowSetting);
+		return new WindowsWindow(windowSetting);
 	#else
 		BC_CRITICAL("Unknown platform");
 		return nullptr;

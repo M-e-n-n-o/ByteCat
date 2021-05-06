@@ -1,5 +1,4 @@
 #include <ByteCat.h>
-#include <iostream>
 
 using namespace BC;
 
@@ -14,7 +13,7 @@ public:
 
 	void update() override
 	{
-		BC_INFO(Input::IsKeyPressed(KeyCode::A));
+
 	}
 
 	void render() override

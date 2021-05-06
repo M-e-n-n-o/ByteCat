@@ -10,7 +10,8 @@ namespace BC
 	class BYTECAT_API Application : public EventListener
 	{
 	private:
-		static Scope<Window> window;
+		bool isRunning;
+		inline static Window* window;
 		
 	public:
 		Application();

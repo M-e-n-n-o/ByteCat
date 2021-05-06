@@ -26,18 +26,18 @@ namespace BC
 		virtual void update() = 0;
 		virtual void shutdown() = 0;
 		
-		std::string getTitle() const { return setting.title; };
-		int getWidth() const { return setting.width; };
-		int getHeight() const { return setting.height; };
+		std::string getTitle() const { return setting.title; }
+		int getWidth() const { return setting.width; }
+		int getHeight() const { return setting.height; }
 		
 		virtual void setVsync(bool enabled) = 0;
-		bool getVsync() const { return setting.vSync; };
+		bool getVsync() const { return setting.vSync; }
 
 		virtual void* getWindow() const = 0;
 		
 		void setEventListener(EventListener* newListener) { listener = newListener; }
-		EventListener* getEventListener() { return listener; }
+		EventListener* getEventListener() const { return listener; }
 		
-		static Scope<Window> Create(WindowSetting& windowSetting);
+		static Window* Create(WindowSetting& windowSetting);
 	};
 }
