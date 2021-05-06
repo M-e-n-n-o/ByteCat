@@ -13,7 +13,8 @@
 	#endif
 
 #else
-	#error ByteCat only supports Windows for now
+	#define BC_PLATFORM_NONE
+	#error ByteCat does not support your platform right now :(
 #endif
 
 #ifdef BC_DEBUG

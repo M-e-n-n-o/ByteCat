@@ -1,6 +1,9 @@
 #include <ByteCat.h>
+#include <iostream>
 
-class Sandbox : public BC::Application
+using namespace BC;
+
+class Sandbox : public Application
 {
 public:
 	// The init of your application
@@ -11,7 +14,7 @@ public:
 
 	void update() override
 	{
-		
+		BC_INFO(Input::IsKeyPressed(KeyCode::A));
 	}
 
 	void render() override
@@ -26,7 +29,7 @@ public:
 	}
 };
 
-BC::Application* BC::CreateApplication()
+Application* BC::CreateApplication()
 {
 	return new Sandbox();
 }

@@ -10,21 +10,21 @@
 
 	// Core log/assert macros
 	#ifdef BC_CORE_ACCESS
-		#define BC_TRACE(...)         ::BC::Log::GetCoreLogger()->trace(__VA_ARGS__)
-		#define BC_INFO(...)          ::BC::Log::GetCoreLogger()->info(__VA_ARGS__)
-		#define BC_WARN(...)          ::BC::Log::GetCoreLogger()->warn(__VA_ARGS__)
-		#define BC_ERROR(...)         ::BC::Log::GetCoreLogger()->error(__VA_ARGS__)
-		#define BC_CRITICAL(...)      ::BC::Log::GetCoreLogger()->critical(__VA_ARGS__)
+		#define BC_TRACE(...)         ::BC::CORE::Log::GetCoreLogger()->trace(__VA_ARGS__)
+		#define BC_INFO(...)          ::BC::CORE::Log::GetCoreLogger()->info(__VA_ARGS__)
+		#define BC_WARN(...)          ::BC::CORE::Log::GetCoreLogger()->warn(__VA_ARGS__)
+		#define BC_ERROR(...)         ::BC::CORE::Log::GetCoreLogger()->error(__VA_ARGS__)
+		#define BC_CRITICAL(...)      ::BC::CORE::Log::GetCoreLogger()->critical(__VA_ARGS__)
 		#define BC_ASSERT(x, ...) { if(!(x)) { BC_ERROR("Assertion Failed: {0}", __VA_ARGS__); BC_DEBUG_BREAK; } }
 	#endif
 
 	// Client log/assert macros
 	#ifdef BC_CLIENT_ACCESS
-		#define BC_TRACE(...)         ::BC::Log::GetClientLogger()->trace(__VA_ARGS__)
-		#define BC_INFO(...)          ::BC::Log::GetClientLogger()->info(__VA_ARGS__)
-		#define BC_WARN(...)          ::BC::Log::GetClientLogger()->warn(__VA_ARGS__)
-		#define BC_ERROR(...)         ::BC::Log::GetClientLogger()->error(__VA_ARGS__)
-		#define BC_CRITICAL(...)      ::BC::Log::GetClientLogger()->critical(__VA_ARGS__)
+		#define BC_TRACE(...)         ::BC::CORE::Log::GetClientLogger()->trace(__VA_ARGS__)
+		#define BC_INFO(...)          ::BC::CORE::Log::GetClientLogger()->info(__VA_ARGS__)
+		#define BC_WARN(...)          ::BC::CORE::Log::GetClientLogger()->warn(__VA_ARGS__)
+		#define BC_ERROR(...)         ::BC::CORE::Log::GetClientLogger()->error(__VA_ARGS__)
+		#define BC_CRITICAL(...)      ::BC::CORE::Log::GetClientLogger()->critical(__VA_ARGS__)
 		#define BC_ASSERT(x, ...) { if(!(x)) { BC_ERROR("Assertion Failed: {0}", __VA_ARGS__); BC_DEBUG_BREAK; } }
 	#endif
 #else
@@ -49,16 +49,19 @@
 
 namespace BC
 {
-	class BYTECAT_API Log
+	namespace CORE
 	{
-	private:
-		static std::shared_ptr<spdlog::logger> CoreLogger;
-		static std::shared_ptr<spdlog::logger> ClientLogger;
+		class BYTECAT_API Log
+		{
+		private:
+			static std::shared_ptr<spdlog::logger> CoreLogger;
+			static std::shared_ptr<spdlog::logger> ClientLogger;
 
-	public:
-		static void Init();
+		public:
+			static void Init();
 
-		inline static std::shared_ptr<spdlog::logger>& GetCoreLogger() { return CoreLogger; }
-		inline static std::shared_ptr<spdlog::logger>& GetClientLogger() { return ClientLogger; }
-	};
+			inline static std::shared_ptr<spdlog::logger>& GetCoreLogger() { return CoreLogger; }
+			inline static std::shared_ptr<spdlog::logger>& GetClientLogger() { return ClientLogger; }
+		};
+	}
 }

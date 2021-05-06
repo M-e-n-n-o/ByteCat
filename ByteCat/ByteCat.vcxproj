@@ -157,13 +157,14 @@
     <ClInclude Include="src\byteCat\Application.h" />
     <ClInclude Include="src\byteCat\Core.h" />
     <ClInclude Include="src\byteCat\EntryPoint.h" />
+    <ClInclude Include="src\byteCat\Log.h" />
     <ClInclude Include="src\byteCat\events\ApplicationEvent.h" />
+    <ClInclude Include="src\byteCat\events\Event.h" />
     <ClInclude Include="src\byteCat\events\KeyEvent.h" />
     <ClInclude Include="src\byteCat\events\MouseEvent.h" />
+    <ClInclude Include="src\byteCat\input\Input.h" />
     <ClInclude Include="src\byteCat\input\KeyCodes.h" />
     <ClInclude Include="src\byteCat\input\MouseCodes.h" />
-    <ClInclude Include="src\byteCat\Log.h" />
-    <ClInclude Include="src\byteCat\events\Event.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\bcpch.cpp">
@@ -171,6 +172,7 @@
     </ClCompile>
     <ClCompile Include="src\byteCat\Application.cpp" />
     <ClCompile Include="src\byteCat\Log.cpp" />
+    <ClCompile Include="src\byteCat\input\DefaultInput.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="vendor\GLFW\GLFW.vcxproj">

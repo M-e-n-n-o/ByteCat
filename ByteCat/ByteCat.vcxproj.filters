@@ -4,8 +4,11 @@
     <Filter Include="byteCat">
       <UniqueIdentifier>{11BA369E-7D99-B539-86B1-4010F20F1C9B}</UniqueIdentifier>
     </Filter>
-    <Filter Include="events">
-      <UniqueIdentifier>{5A9D08FC-463F-33D2-2FFA-46261B3BBA22}</UniqueIdentifier>
+    <Filter Include="byteCat\events">
+      <UniqueIdentifier>{F55C9B60-E12A-8F66-CABE-FF8CB62B6BCB}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="byteCat\input">
+      <UniqueIdentifier>{F002C550-5CC3-4087-25FE-8904917D8563}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -23,14 +26,27 @@
     <ClInclude Include="src\byteCat\Log.h">
       <Filter>byteCat</Filter>
     </ClInclude>
-    <ClInclude Include="src\byteCat\events\Event.h">
-      <Filter>events</Filter>
+    <ClInclude Include="src\byteCat\events\ApplicationEvent.h">
+      <Filter>byteCat\events</Filter>
     </ClInclude>
-    <ClInclude Include="src\byteCat\events\ApplicationEvent.h" />
-    <ClInclude Include="src\byteCat\events\KeyEvent.h" />
-    <ClInclude Include="src\byteCat\input\KeyCodes.h" />
-    <ClInclude Include="src\byteCat\input\MouseCodes.h" />
-    <ClInclude Include="src\byteCat\events\MouseEvent.h" />
+    <ClInclude Include="src\byteCat\events\Event.h">
+      <Filter>byteCat\events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\byteCat\events\KeyEvent.h">
+      <Filter>byteCat\events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\byteCat\events\MouseEvent.h">
+      <Filter>byteCat\events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\byteCat\input\Input.h">
+      <Filter>byteCat\input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\byteCat\input\KeyCodes.h">
+      <Filter>byteCat\input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\byteCat\input\MouseCodes.h">
+      <Filter>byteCat\input</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\bcpch.cpp" />
@@ -39,6 +55,9 @@
     </ClCompile>
     <ClCompile Include="src\byteCat\Log.cpp">
       <Filter>byteCat</Filter>
+    </ClCompile>
+    <ClCompile Include="src\byteCat\input\DefaultInput.cpp">
+      <Filter>byteCat\input</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
