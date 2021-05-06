@@ -1,12 +1,12 @@
 #pragma once
 
 /*
-	Import this header file to make use of the ByteCat engine
+	Import this header file to make use of the BC engine
 */
 
 #include "ByteCat/Application.h"
 #include "ByteCat/Log.h"
 
-// ------Entry point------
+// --Start of the engine--
 #include "ByteCat/EntryPoint.h"
 // -----------------------

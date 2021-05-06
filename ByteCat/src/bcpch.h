@@ -5,6 +5,7 @@
 */
 
 #include <iostream>
+#include <fstream>
 #include <memory>
 #include <utility>
 #include <algorithm>
@@ -15,6 +16,8 @@
 #include <vector>
 #include <unordered_map>
 #include <unordered_set>
+
+#include "byteCat/Log.h"
 
 #ifdef BC_PLATFORM_WINDOWS
 	#include <Windows.h>

@@ -1,29 +1,32 @@
 #pragma once
 
-#include "Core.h"
+#include "byteCat/Core.h"
 #include "spdlog/spdlog.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
 
 
 // Logging
 #ifdef BC_ENABLE_LOG
-	// Core log macros
-	#define BC_CORE_TRACE(...)    ::ByteCat::Log::GetCoreLogger()->trace(__VA_ARGS__)
-	#define BC_CORE_INFO(...)     ::ByteCat::Log::GetCoreLogger()->info(__VA_ARGS__)
-	#define BC_CORE_WARN(...)     ::ByteCat::Log::GetCoreLogger()->warn(__VA_ARGS__)
-	#define BC_CORE_ERROR(...)    ::ByteCat::Log::GetCoreLogger()->error(__VA_ARGS__)
-	#define BC_CORE_CRITICAL(...) ::ByteCat::Log::GetCoreLogger()->critical(__VA_ARGS__)
 
-	// Client log macros
-	#define BC_TRACE(...)         ::ByteCat::Log::GetClientLogger()->trace(__VA_ARGS__)
-	#define BC_INFO(...)          ::ByteCat::Log::GetClientLogger()->info(__VA_ARGS__)
-	#define BC_WARN(...)          ::ByteCat::Log::GetClientLogger()->warn(__VA_ARGS__)
-	#define BC_ERROR(...)         ::ByteCat::Log::GetClientLogger()->error(__VA_ARGS__)
-	#define BC_CRITICAL(...)      ::ByteCat::Log::GetClientLogger()->critical(__VA_ARGS__)
+	// Core log/assert macros
+	#ifdef BC_CORE_ACCESS
+		#define BC_TRACE(...)         ::BC::Log::GetCoreLogger()->trace(__VA_ARGS__)
+		#define BC_INFO(...)          ::BC::Log::GetCoreLogger()->info(__VA_ARGS__)
+		#define BC_WARN(...)          ::BC::Log::GetCoreLogger()->warn(__VA_ARGS__)
+		#define BC_ERROR(...)         ::BC::Log::GetCoreLogger()->error(__VA_ARGS__)
+		#define BC_CRITICAL(...)      ::BC::Log::GetCoreLogger()->critical(__VA_ARGS__)
+		#define BC_ASSERT(x, ...) { if(!(x)) { BC_ERROR("Assertion Failed: {0}", __VA_ARGS__); BC_DEBUG_BREAK; } }
+	#endif
 
-	// Asserting
-	#define BC_ASSERT(x, ...) { if(!(x)) { BC_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
-	#define BC_CORE_ASSERT(x, ...) { if(!(x)) { BC_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
+	// Client log/assert macros
+	#ifdef BC_CLIENT_ACCESS
+		#define BC_TRACE(...)         ::BC::Log::GetClientLogger()->trace(__VA_ARGS__)
+		#define BC_INFO(...)          ::BC::Log::GetClientLogger()->info(__VA_ARGS__)
+		#define BC_WARN(...)          ::BC::Log::GetClientLogger()->warn(__VA_ARGS__)
+		#define BC_ERROR(...)         ::BC::Log::GetClientLogger()->error(__VA_ARGS__)
+		#define BC_CRITICAL(...)      ::BC::Log::GetClientLogger()->critical(__VA_ARGS__)
+		#define BC_ASSERT(x, ...) { if(!(x)) { BC_ERROR("Assertion Failed: {0}", __VA_ARGS__); BC_DEBUG_BREAK; } }
+	#endif
 #else
 	// Empty core log macros
 	#define BC_CORE_TRACE(...)
@@ -44,7 +47,7 @@
 	#define BC_CORE_ASSERT(x, ...)
 #endif
 
-namespace ByteCat
+namespace BC
 {
 	class BYTECAT_API Log
 	{

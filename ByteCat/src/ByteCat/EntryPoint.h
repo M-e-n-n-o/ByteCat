@@ -2,17 +2,15 @@
 
 #ifdef BC_PLATFORM_WINDOWS
 
-extern ByteCat::Application* ByteCat::CreateApplication();
+extern BC::Application* BC::CreateApplication();
 
 int main(int argc, char** argv)
 {
-	ByteCat::Log::Init();
+	BC::Log::Init();
 
-	auto app = ByteCat::CreateApplication();
-	BC_CORE_INFO("ByteCat engine has started");
+	auto app = BC::CreateApplication();
 	app->run();
-	BC_CORE_INFO("ByteCat engine has closed");
-
+	
 	delete app;
 }
 

@@ -1,7 +1,7 @@
 #include "bcpch.h"
 #include "Log.h"
 
-namespace ByteCat
+namespace BC
 {
 	std::shared_ptr<spdlog::logger> Log::CoreLogger;
 	std::shared_ptr<spdlog::logger> Log::ClientLogger;
