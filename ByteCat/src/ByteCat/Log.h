@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core.h"
+#include "byteCat/Core.h"
 #include "spdlog/spdlog.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
 
@@ -15,7 +15,7 @@
 		#define BC_WARN(...)          ::BC::Log::GetCoreLogger()->warn(__VA_ARGS__)
 		#define BC_ERROR(...)         ::BC::Log::GetCoreLogger()->error(__VA_ARGS__)
 		#define BC_CRITICAL(...)      ::BC::Log::GetCoreLogger()->critical(__VA_ARGS__)
-		#define BC_ASSERT(x, ...) { if(!(x)) { BC_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
+		#define BC_ASSERT(x, ...) { if(!(x)) { BC_ERROR("Assertion Failed: {0}", __VA_ARGS__); BC_DEBUG_BREAK; } }
 	#endif
 
 	// Client log/assert macros
@@ -25,7 +25,7 @@
 		#define BC_WARN(...)          ::BC::Log::GetClientLogger()->warn(__VA_ARGS__)
 		#define BC_ERROR(...)         ::BC::Log::GetClientLogger()->error(__VA_ARGS__)
 		#define BC_CRITICAL(...)      ::BC::Log::GetClientLogger()->critical(__VA_ARGS__)
-		#define BC_ASSERT(x, ...) { if(!(x)) { BC_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
+		#define BC_ASSERT(x, ...) { if(!(x)) { BC_ERROR("Assertion Failed: {0}", __VA_ARGS__); BC_DEBUG_BREAK; } }
 	#endif
 #else
 	// Empty core log macros

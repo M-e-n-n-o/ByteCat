@@ -6,7 +6,7 @@ public:
 	// The init of your application
 	Sandbox()
 	{
-	
+
 	}
 
 	void update() override
