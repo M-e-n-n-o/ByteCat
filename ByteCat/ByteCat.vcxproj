@@ -174,7 +174,6 @@
     </ClCompile>
     <ClCompile Include="src\byteCat\Application.cpp" />
     <ClCompile Include="src\byteCat\Log.cpp" />
-    <ClCompile Include="src\byteCat\input\DefaultInput.cpp" />
     <ClCompile Include="src\byteCat\platform\Window.cpp" />
     <ClCompile Include="src\byteCat\platform\windows\WindowsInput.cpp" />
     <ClCompile Include="src\byteCat\platform\windows\WindowsWindow.cpp" />
