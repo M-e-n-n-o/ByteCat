@@ -10,20 +10,25 @@ namespace BC
 	class BYTECAT_API Application : public EventListener
 	{
 	private:
+		static Application* instance;
+		
 		bool isRunning;
-		inline static Window* window;
+		Window* window;
 		
 	public:
 		Application();
 		virtual ~Application();
 
+		void run();
+
+		Window& getWindow() const { return *window; }
+
+		static Application& GetInstance() { return *instance; }
+
+	private:
 		virtual void update() = 0;
 		virtual void render() = 0;
 
-		void run();
-
-		static Window& GetWindow() { return *window; };
-		
 		void onEvent(Event& event) override;
 	};
 

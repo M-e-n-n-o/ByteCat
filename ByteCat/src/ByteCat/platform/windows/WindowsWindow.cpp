@@ -34,13 +34,13 @@ namespace BC
 		glfwSetWindowSizeCallback(window, [](GLFWwindow* window, int width, int height)
 		{
 			WindowResizeEvent event(width, height);
-			Application::GetWindow().getEventListener()->onEvent(event);
+			Application::GetInstance().getWindow().getEventListener()->onEvent(event);
 		});
 
 		glfwSetWindowCloseCallback(window, [](GLFWwindow* window)
 		{
 			WindowCloseEvent event;
-			Application::GetWindow().getEventListener()->onEvent(event);
+			Application::GetInstance().getWindow().getEventListener()->onEvent(event);
 		});
 
 		glfwSetKeyCallback(window, [](GLFWwindow* window, int key, int scancode, int action, int mods)
@@ -50,21 +50,21 @@ namespace BC
 			case GLFW_PRESS:
 				{
 					KeyPressedEvent event(static_cast<KeyCode>(key), false);
-					Application::GetWindow().getEventListener()->onEvent(event);
+					Application::GetInstance().getWindow().getEventListener()->onEvent(event);
 					break;
 				}
 
 			case GLFW_RELEASE:
 				{
 					KeyReleasedEvent event(static_cast<KeyCode>(key));
-					Application::GetWindow().getEventListener()->onEvent(event);
+					Application::GetInstance().getWindow().getEventListener()->onEvent(event);
 					break;
 				}
 
 			case GLFW_REPEAT:
 				{
 					KeyPressedEvent event(static_cast<KeyCode>(key), true);
-					Application::GetWindow().getEventListener()->onEvent(event);
+					Application::GetInstance().getWindow().getEventListener()->onEvent(event);
 					break;
 				}
 			}
@@ -73,7 +73,7 @@ namespace BC
 		glfwSetCharCallback(window, [](GLFWwindow* window, unsigned int keycode)
 		{
 			KeyTypedEvent event(static_cast<KeyCode>(keycode));
-			Application::GetWindow().getEventListener()->onEvent(event);
+			Application::GetInstance().getWindow().getEventListener()->onEvent(event);
 		});
 
 		glfwSetMouseButtonCallback(window, [](GLFWwindow* window, int button, int action, int mods)
@@ -83,13 +83,13 @@ namespace BC
 			case GLFW_PRESS:
 				{
 					MouseButtonPressedEvent event(static_cast<MouseCode>(button));
-					Application::GetWindow().getEventListener()->onEvent(event);
+					Application::GetInstance().getWindow().getEventListener()->onEvent(event);
 					break;
 				}
 			case GLFW_RELEASE:
 				{
 					MouseButtonReleasedEvent event(static_cast<MouseCode>(button));
-					Application::GetWindow().getEventListener()->onEvent(event);
+					Application::GetInstance().getWindow().getEventListener()->onEvent(event);
 					break;
 				}
 			}
@@ -98,13 +98,13 @@ namespace BC
 		glfwSetScrollCallback(window, [](GLFWwindow* window, double xOffset, double yOffset)
 		{
 			MouseScrolledEvent event((float) xOffset, (float) yOffset);
-			Application::GetWindow().getEventListener()->onEvent(event);
+			Application::GetInstance().getWindow().getEventListener()->onEvent(event);
 		});
 
 		glfwSetCursorPosCallback(window, [](GLFWwindow* window, double xPos, double yPos)
 		{
 			MouseMovedEvent event((float) xPos, (float) yPos);
-			Application::GetWindow().getEventListener()->onEvent(event);
+			Application::GetInstance().getWindow().getEventListener()->onEvent(event);
 		});
 	}
 

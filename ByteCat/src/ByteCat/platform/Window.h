@@ -33,7 +33,7 @@ namespace BC
 		virtual void setVsync(bool enabled) = 0;
 		bool getVsync() const { return setting.vSync; }
 
-		virtual void* getWindow() const = 0;
+		virtual void* getNativeWindow() const = 0;
 		
 		void setEventListener(EventListener* newListener) { listener = newListener; }
 		EventListener* getEventListener() const { return listener; }

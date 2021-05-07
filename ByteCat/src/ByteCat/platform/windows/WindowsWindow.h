@@ -19,6 +19,6 @@ namespace BC
 		
 		void setVsync(bool enabled) override;
 		
-		void* getWindow() const override { return window; };
+		void* getNativeWindow() const override { return window; };
 	};
 }

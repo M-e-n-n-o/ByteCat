@@ -4,8 +4,13 @@
 
 namespace BC
 {
+    Application* Application::instance = nullptr;
+	
 	Application::Application() : isRunning(false)
 	{
+        BC_ASSERT(!instance, "Application already exists!");
+        instance = this;
+		
         BC_INFO("ByteCat engine is starting...");
 		
         WindowSetting setting = { "ByteCat Engine", 1280, 720, true };
@@ -25,26 +30,18 @@ namespace BC
 		
 		while (isRunning)
         {
-            // glClear(GL_COLOR_BUFFER_BIT);
-
             // Update
             update();
 
             // Render
             render();
-			
-            // glBegin(GL_TRIANGLES);
-            // glVertex2d(-0.5f, -0.5f);
-            // glVertex2d(0.0f, 0.5f);
-            // glVertex2d(0.5f, -0.5f);
-            // glEnd();
 
             window->update();
         }
 	}
 
     void Application::onEvent(Event& event)
-    {
+    {		
         switch (event.getEventType())
         {
         case EventType::WindowClose:
@@ -55,7 +52,7 @@ namespace BC
         }
     }
 
-    Application::~Application()
+	Application::~Application()
     {
         BC_INFO("ByteCat engine is closing...");
 		
