@@ -93,6 +93,9 @@
       <AdditionalLibraryDirectories>vendor\glew-2.0.0\x64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ImportLibrary>..\bin\Debug-windows-x86_64\ByteCat\ByteCat.lib</ImportLibrary>
     </Link>
+    <PreBuildEvent>
+      <Command>IF EXIST vendor\glew-2.0.0\x64\glew32.dll\ (xcopy /Q /E /Y /I vendor\glew-2.0.0\x64\glew32.dll ..\bin\Debug-windows-x86_64\Sandbox &gt; nul) ELSE (xcopy /Q /Y /I vendor\glew-2.0.0\x64\glew32.dll ..\bin\Debug-windows-x86_64\Sandbox &gt; nul)</Command>
+    </PreBuildEvent>
     <PostBuildEvent>
       <Command>IF EXIST ..\bin\Debug-windows-x86_64\ByteCat\ByteCat.dll\ (xcopy /Q /E /Y /I ..\bin\Debug-windows-x86_64\ByteCat\ByteCat.dll ..\bin\Debug-windows-x86_64\Sandbox &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Debug-windows-x86_64\ByteCat\ByteCat.dll ..\bin\Debug-windows-x86_64\Sandbox &gt; nul)</Command>
     </PostBuildEvent>
@@ -120,6 +123,9 @@
       <AdditionalLibraryDirectories>vendor\glew-2.0.0\x64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ImportLibrary>..\bin\Release-windows-x86_64\ByteCat\ByteCat.lib</ImportLibrary>
     </Link>
+    <PreBuildEvent>
+      <Command>IF EXIST vendor\glew-2.0.0\x64\glew32.dll\ (xcopy /Q /E /Y /I vendor\glew-2.0.0\x64\glew32.dll ..\bin\Release-windows-x86_64\Sandbox &gt; nul) ELSE (xcopy /Q /Y /I vendor\glew-2.0.0\x64\glew32.dll ..\bin\Release-windows-x86_64\Sandbox &gt; nul)</Command>
+    </PreBuildEvent>
     <PostBuildEvent>
       <Command>IF EXIST ..\bin\Release-windows-x86_64\ByteCat\ByteCat.dll\ (xcopy /Q /E /Y /I ..\bin\Release-windows-x86_64\ByteCat\ByteCat.dll ..\bin\Release-windows-x86_64\Sandbox &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Release-windows-x86_64\ByteCat\ByteCat.dll ..\bin\Release-windows-x86_64\Sandbox &gt; nul)</Command>
     </PostBuildEvent>
@@ -147,6 +153,9 @@
       <AdditionalLibraryDirectories>vendor\glew-2.0.0\x64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ImportLibrary>..\bin\Dist-windows-x86_64\ByteCat\ByteCat.lib</ImportLibrary>
     </Link>
+    <PreBuildEvent>
+      <Command>IF EXIST vendor\glew-2.0.0\x64\glew32.dll\ (xcopy /Q /E /Y /I vendor\glew-2.0.0\x64\glew32.dll ..\bin\Dist-windows-x86_64\Sandbox &gt; nul) ELSE (xcopy /Q /Y /I vendor\glew-2.0.0\x64\glew32.dll ..\bin\Dist-windows-x86_64\Sandbox &gt; nul)</Command>
+    </PreBuildEvent>
     <PostBuildEvent>
       <Command>IF EXIST ..\bin\Dist-windows-x86_64\ByteCat\ByteCat.dll\ (xcopy /Q /E /Y /I ..\bin\Dist-windows-x86_64\ByteCat\ByteCat.dll ..\bin\Dist-windows-x86_64\Sandbox &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Dist-windows-x86_64\ByteCat\ByteCat.dll ..\bin\Dist-windows-x86_64\Sandbox &gt; nul)</Command>
     </PostBuildEvent>

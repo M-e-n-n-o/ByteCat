@@ -74,6 +74,11 @@ project "ByteCat"
 			("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox")
 		}
 
+		prebuildcommands
+		{
+			("{COPY} vendor/glew-2.0.0/x64/glew32.dll ../bin/" .. outputdir .. "/Sandbox")
+		}
+
 	filter "system:linux"
 		cppdialect "C++17"
 		staticruntime "On"
@@ -88,6 +93,11 @@ project "ByteCat"
 		postbuildcommands
 		{
 			("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox")
+		}
+
+		prebuildcommands
+		{
+			("{COPY} vendor/glew-2.0.0/x64/glew32.dll ../bin/" .. outputdir .. "/Sandbox")
 		}
 
 	filter "configurations:Debug"
