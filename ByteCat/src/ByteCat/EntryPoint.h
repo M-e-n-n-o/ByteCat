@@ -1,7 +1,5 @@
 #pragma once
 
-#ifdef BC_PLATFORM_WINDOWS
-
 extern BC::Application* BC::CreateApplication();
 
 int main(int argc, char** argv)
@@ -13,5 +11,3 @@ int main(int argc, char** argv)
 	
 	delete app;
 }
-
-#endif

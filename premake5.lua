@@ -74,6 +74,22 @@ project "ByteCat"
 			("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox")
 		}
 
+	filter "system:linux"
+		cppdialect "C++17"
+		staticruntime "On"
+		systemversion "latest"
+
+		defines
+		{
+			"BC_PLATFORM_LINUX",
+			"BC_BUILD_DLL"
+		}
+
+		postbuildcommands
+		{
+			("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox")
+		}
+
 	filter "configurations:Debug"
 		defines "BC_DEBUG"
 		symbols "On"
@@ -122,6 +138,16 @@ project "Sandbox"
 		defines
 		{
 			"BC_PLATFORM_WINDOWS"
+		}
+
+	filter "system:linux"
+		cppdialect "C++17"
+		staticruntime "On"
+		systemversion "latest"
+
+		defines
+		{
+			"BC_PLATFORM_LINUX"
 		}
 
 	filter "configurations:Debug"
