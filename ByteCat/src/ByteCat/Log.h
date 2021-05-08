@@ -10,41 +10,31 @@
 
 	// Core log/assert macros
 	#ifdef BC_CORE_ACCESS
-		#define BC_TRACE(...)         ::BC::Log::GetCoreLogger()->trace(__VA_ARGS__)
-		#define BC_INFO(...)          ::BC::Log::GetCoreLogger()->info(__VA_ARGS__)
-		#define BC_WARN(...)          ::BC::Log::GetCoreLogger()->warn(__VA_ARGS__)
-		#define BC_ERROR(...)         ::BC::Log::GetCoreLogger()->error(__VA_ARGS__)
-		#define BC_CRITICAL(...)      ::BC::Log::GetCoreLogger()->critical(__VA_ARGS__)
-		#define BC_ASSERT(x, ...) { if(!(x)) { BC_ERROR("Assertion Failed: {0}", __VA_ARGS__); BC_DEBUG_BREAK; } }
+		#define LOG_TRACE(...)         ::BC::Log::GetCoreLogger()->trace(__VA_ARGS__)
+		#define LOG_INFO(...)          ::BC::Log::GetCoreLogger()->info(__VA_ARGS__)
+		#define LOG_WARN(...)          ::BC::Log::GetCoreLogger()->warn(__VA_ARGS__)
+		#define LOG_ERROR(...)         ::BC::Log::GetCoreLogger()->error(__VA_ARGS__)
+		#define LOG_CRITICAL(...)      ::BC::Log::GetCoreLogger()->critical(__VA_ARGS__)
+		#define LOG_ASSERT(x, ...) { if(!(x)) { LOG_ERROR("Assertion Failed: {0}", __VA_ARGS__); BC_DEBUG_BREAK; } }
 	#endif
 
 	// Client log/assert macros
 	#ifdef BC_CLIENT_ACCESS
-		#define BC_TRACE(...)         ::BC::Log::GetClientLogger()->trace(__VA_ARGS__)
-		#define BC_INFO(...)          ::BC::Log::GetClientLogger()->info(__VA_ARGS__)
-		#define BC_WARN(...)          ::BC::Log::GetClientLogger()->warn(__VA_ARGS__)
-		#define BC_ERROR(...)         ::BC::Log::GetClientLogger()->error(__VA_ARGS__)
-		#define BC_CRITICAL(...)      ::BC::Log::GetClientLogger()->critical(__VA_ARGS__)
-		#define BC_ASSERT(x, ...) { if(!(x)) { BC_ERROR("Assertion Failed: {0}", __VA_ARGS__); BC_DEBUG_BREAK; } }
+		#define LOG_TRACE(...)         ::BC::Log::GetClientLogger()->trace(__VA_ARGS__)
+		#define LOG_INFO(...)          ::BC::Log::GetClientLogger()->info(__VA_ARGS__)
+		#define LOG_WARN(...)          ::BC::Log::GetClientLogger()->warn(__VA_ARGS__)
+		#define LOG_ERROR(...)         ::BC::Log::GetClientLogger()->error(__VA_ARGS__)
+		#define LOG_CRITICAL(...)      ::BC::Log::GetClientLogger()->critical(__VA_ARGS__)
+		#define LOG_ASSERT(x, ...) { if(!(x)) { LOG_ERROR("Assertion Failed: {0}", __VA_ARGS__); BC_DEBUG_BREAK; } }
 	#endif
 #else
-	// Empty core log macros
-	#define BC_CORE_TRACE(...)
-	#define BC_CORE_INFO(...)
-	#define BC_CORE_WARN(...)
-	#define BC_CORE_ERROR(...)
-	#define BC_CORE_CRITICAL(...)
-
-	// Empty client log macros
-	#define BC_TRACE(...)
-	#define BC_INFO(...)
-	#define BC_WARN(...)
-	#define BC_ERROR(...)
-	#define BC_CRITICAL(...)
-
-	// Asserting
-	#define BC_ASSERT(x, ...)
-	#define BC_CORE_ASSERT(x, ...)
+	// Empty log/assert macros
+	#define LOG_TRACE(...)
+	#define LOG_INFO(...)
+	#define LOG_WARN(...)
+	#define LOG_ERROR(...)
+	#define LOG_CRITICAL(...)
+	#define LOG_ASSERT(x, ...)
 #endif
 
 namespace BC

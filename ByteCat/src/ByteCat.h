@@ -4,7 +4,7 @@
 	Import this header file to make use of the BC engine.
 */
 
-#include "byteCat/Application.h"
+#include "byteCat/app/Application.h"
 #include "byteCat/Log.h"
 
 #include "byteCat/input/KeyCodes.h"

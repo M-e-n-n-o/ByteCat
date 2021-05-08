@@ -2,7 +2,7 @@
 
 #include "byteCat/Core.h"
 #include "byteCat/events/Event.h"
-#include "platform/Window.h"
+#include "byteCat/app/Window.h"
 
 namespace BC
 {
@@ -27,7 +27,6 @@ namespace BC
 
 	private:
 		virtual void update() = 0;
-		virtual void render() = 0;
 
 		void onEvent(Event& event) override;
 	};

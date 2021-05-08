@@ -1,6 +1,8 @@
 #include "bcpch.h"
-#include "byteCat/Application.h"
-#include "events/KeyEvent.h"
+#include "byteCat/app/Application.h"
+#include "byteCat/events/KeyEvent.h"
+#include "byteCat/render/Loader.h"
+#include "byteCat/render/Renderer.h"
 
 namespace BC
 {
@@ -8,10 +10,10 @@ namespace BC
 	
 	Application::Application() : isRunning(false)
 	{
-        BC_ASSERT(!instance, "Application already exists!");
+        LOG_ASSERT(!instance, "Application already exists!");
         instance = this;
 		
-        BC_INFO("ByteCat engine is starting...");
+        LOG_INFO("ByteCat engine is starting...");
 		
         WindowSetting setting = { "ByteCat Engine", 1280, 720, true };
         window = new Window(setting);
@@ -22,19 +24,31 @@ namespace BC
 	{
 		if (isRunning)
 		{
-            BC_ERROR("Cannot run the main game loop synchronous");
+            LOG_WARN("Cannot run the main game loop synchronous");
             return;
 		}
-        
         isRunning = true;
+
+		
+        std::vector<float> vertices =
+        {
+            -0.5f, 0.5f, 0,
+            -0.5f, -0.5f, 0,
+            0.5f, -0.5f, 0,
+            0.5f, -0.5f, 0,
+            0.5f, 0.5f, 0,
+            -0.5f, 0.5f, 0
+        };
+        RawModel model = Loader::LoadToVAO(vertices);
 		
 		while (isRunning)
         {
+            Renderer::Prepare();
+
+            Renderer::Render(model);
+			
             // Update
             update();
-
-            // Render
-            render();
 
             window->update();
         }
@@ -54,7 +68,9 @@ namespace BC
 
 	Application::~Application()
     {
-        BC_INFO("ByteCat engine is closing...");
+        LOG_INFO("ByteCat engine is closing...");
+
+        Loader::CleanUp();
 		
         delete window;
     }

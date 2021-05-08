@@ -1,6 +1,6 @@
 #include "bcpch.h"
 #include <GLFW/glfw3.h>
-#include "byteCat/Application.h"
+#include "byteCat/app/Application.h"
 #include "byteCat/input/Input.h"
 
 namespace BC

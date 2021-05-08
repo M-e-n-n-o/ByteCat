@@ -1,6 +1,6 @@
 #include "bcpch.h"
-#include "byteCat/platform/Window.h"
-#include "byteCat/Application.h"
+#include "byteCat/app/Window.h"
+#include "byteCat/app/Application.h"
 #include "byteCat/events/ApplicationEvent.h"
 #include "byteCat/events/KeyEvent.h"
 #include "byteCat/events/MouseEvent.h"
@@ -9,7 +9,7 @@ namespace BC
 {
 	Window::Window(WindowSetting& windowSetting)
 	{
-		BC_INFO("Creating a window");
+		LOG_INFO("Creating a window");
 
 		setting = windowSetting;
 
@@ -21,7 +21,7 @@ namespace BC
 		window = glfwCreateWindow(setting.width, setting.height, setting.title.c_str(), NULL, NULL);
 		if (!window)
 		{
-			BC_CRITICAL("Failed to create a window with OpenGL context");
+			LOG_CRITICAL("Failed to create a window with OpenGL context");
 			glfwTerminate();
 			return;
 		}
