@@ -53,11 +53,11 @@
     <ClInclude Include="src\byteCat\input\MouseCodes.h">
       <Filter>byteCat\input</Filter>
     </ClInclude>
-    <ClInclude Include="src\byteCat\platform\Window.h">
-      <Filter>byteCat\platform</Filter>
-    </ClInclude>
     <ClInclude Include="src\byteCat\platform\windows\WindowsWindow.h">
       <Filter>byteCat\platform\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="src\byteCat\platform\Window.h">
+      <Filter>byteCat\platform</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -68,14 +68,14 @@
     <ClCompile Include="src\byteCat\Log.cpp">
       <Filter>byteCat</Filter>
     </ClCompile>
-    <ClCompile Include="src\byteCat\platform\Window.cpp">
-      <Filter>byteCat\platform</Filter>
-    </ClCompile>
     <ClCompile Include="src\byteCat\platform\windows\WindowsInput.cpp">
       <Filter>byteCat\platform\windows</Filter>
     </ClCompile>
     <ClCompile Include="src\byteCat\platform\windows\WindowsWindow.cpp">
       <Filter>byteCat\platform\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="src\byteCat\platform\Window.cpp">
+      <Filter>byteCat\platform</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

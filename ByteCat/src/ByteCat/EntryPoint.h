@@ -6,7 +6,7 @@ extern BC::Application* BC::CreateApplication();
 
 int main(int argc, char** argv)
 {
-	BC::CORE::Log::Init();
+	BC::Log::Init();
 
 	auto app = BC::CreateApplication();
 	app->run();
