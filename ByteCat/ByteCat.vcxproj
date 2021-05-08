@@ -166,7 +166,6 @@
     <ClInclude Include="src\byteCat\input\KeyCodes.h" />
     <ClInclude Include="src\byteCat\input\MouseCodes.h" />
     <ClInclude Include="src\byteCat\platform\Window.h" />
-    <ClInclude Include="src\byteCat\platform\windows\WindowsWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\bcpch.cpp">
@@ -174,9 +173,8 @@
     </ClCompile>
     <ClCompile Include="src\byteCat\Application.cpp" />
     <ClCompile Include="src\byteCat\Log.cpp" />
+    <ClCompile Include="src\byteCat\platform\Input.cpp" />
     <ClCompile Include="src\byteCat\platform\Window.cpp" />
-    <ClCompile Include="src\byteCat\platform\windows\WindowsInput.cpp" />
-    <ClCompile Include="src\byteCat\platform\windows\WindowsWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="vendor\GLFW\GLFW.vcxproj">

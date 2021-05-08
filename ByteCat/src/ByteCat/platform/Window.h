@@ -1,5 +1,6 @@
 #pragma once
 
+#include <GLFW/glfw3.h>
 #include <string>
 #include "byteCat/events/Event.h"
 
@@ -16,28 +17,28 @@ namespace BC
 	
 	class Window
 	{
-	protected:
+	private:
 		EventListener* listener;
 		WindowSetting setting;
+		GLFWwindow* window;
 		
 	public:
-		virtual ~Window() = default;
+		Window(WindowSetting& windowSetting);
+		~Window() { shutdown(); }
 
-		virtual void update() = 0;
-		virtual void shutdown() = 0;
+		void update() const;
+		void shutdown() const;
 		
 		std::string getTitle() const { return setting.title; }
 		int getWidth() const { return setting.width; }
 		int getHeight() const { return setting.height; }
 		
-		virtual void setVsync(bool enabled) = 0;
+		void setVsync(bool enabled);
 		bool getVsync() const { return setting.vSync; }
 
-		virtual void* getNativeWindow() const = 0;
+		GLFWwindow* getNativeWindow() const { return window; };
 		
 		void setEventListener(EventListener* newListener) { listener = newListener; }
 		EventListener* getEventListener() const { return listener; }
-		
-		static Window* Create(WindowSetting& windowSetting);
 	};
 }

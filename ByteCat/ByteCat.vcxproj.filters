@@ -13,9 +13,6 @@
     <Filter Include="byteCat\platform">
       <UniqueIdentifier>{A5750411-916E-2363-BAA0-08E8A6F8026F}</UniqueIdentifier>
     </Filter>
-    <Filter Include="byteCat\platform\windows">
-      <UniqueIdentifier>{FF8C33EE-EBB1-826E-14FD-67FE0081818C}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ByteCat.h" />
@@ -53,9 +50,6 @@
     <ClInclude Include="src\byteCat\input\MouseCodes.h">
       <Filter>byteCat\input</Filter>
     </ClInclude>
-    <ClInclude Include="src\byteCat\platform\windows\WindowsWindow.h">
-      <Filter>byteCat\platform\windows</Filter>
-    </ClInclude>
     <ClInclude Include="src\byteCat\platform\Window.h">
       <Filter>byteCat\platform</Filter>
     </ClInclude>
@@ -68,11 +62,8 @@
     <ClCompile Include="src\byteCat\Log.cpp">
       <Filter>byteCat</Filter>
     </ClCompile>
-    <ClCompile Include="src\byteCat\platform\windows\WindowsInput.cpp">
-      <Filter>byteCat\platform\windows</Filter>
-    </ClCompile>
-    <ClCompile Include="src\byteCat\platform\windows\WindowsWindow.cpp">
-      <Filter>byteCat\platform\windows</Filter>
+    <ClCompile Include="src\byteCat\platform\Input.cpp">
+      <Filter>byteCat\platform</Filter>
     </ClCompile>
     <ClCompile Include="src\byteCat\platform\Window.cpp">
       <Filter>byteCat\platform</Filter>
