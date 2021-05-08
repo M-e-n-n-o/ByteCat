@@ -14,7 +14,7 @@ namespace BC
         BC_INFO("ByteCat engine is starting...");
 		
         WindowSetting setting = { "ByteCat Engine", 1280, 720, true };
-        window = Window::Create(setting);
+        window = new Window(setting);
         window->setEventListener(this);
 	}
 
