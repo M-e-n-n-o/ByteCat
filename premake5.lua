@@ -47,7 +47,7 @@ project "ByteCat"
 
 	links
 	{
-		"%{Libs.GLEW}/x64/bin/glew32.dll",
+		"glew32",
 		"GLFW",
 		"GLM",
 		"opengl32.lib"
