@@ -79,7 +79,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>BC_PLATFORM_WINDOWS;BC_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\ByteCat\vendor\spdlog\include;..\ByteCat\src;..\ByteCat\vendor\GLFW\include;..\ByteCat\vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\ByteCat\vendor\spdlog\include;..\ByteCat\src;..\ByteCat\vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -95,7 +95,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>BC_PLATFORM_WINDOWS;BC_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\ByteCat\vendor\spdlog\include;..\ByteCat\src;..\ByteCat\vendor\GLFW\include;..\ByteCat\vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\ByteCat\vendor\spdlog\include;..\ByteCat\src;..\ByteCat\vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -115,7 +115,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>BC_PLATFORM_WINDOWS;BC_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\ByteCat\vendor\spdlog\include;..\ByteCat\src;..\ByteCat\vendor\GLFW\include;..\ByteCat\vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\ByteCat\vendor\spdlog\include;..\ByteCat\src;..\ByteCat\vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -136,9 +136,6 @@
   <ItemGroup>
     <ProjectReference Include="..\ByteCat\ByteCat.vcxproj">
       <Project>{F121EFFE-5D01-6E9A-6619-F970D277D4FB}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\ByteCat\vendor\GLFW\GLFW.vcxproj">
-      <Project>{154B857C-0182-860D-AA6E-6C109684020F}</Project>
     </ProjectReference>
     <ProjectReference Include="..\ByteCat\vendor\glm\GLM.vcxproj">
       <Project>{05EB870B-71F4-877C-FA6F-9E7C6678937C}</Project>

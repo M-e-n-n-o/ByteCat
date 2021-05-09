@@ -1,5 +1,6 @@
 #include "bcpch.h"
 #include <GL/glew.h>
+#include <GLFW/glfw3.h>
 #include "byteCat/app/Window.h"
 #include "byteCat/app/Application.h"
 #include "byteCat/events/ApplicationEvent.h"
@@ -8,6 +9,8 @@
 
 namespace BC
 {
+	GLFWwindow* nativeWindow;
+	
 	Window::Window(WindowSetting& windowSetting)
 	{
 		LOG_INFO("Creating a window");
@@ -19,31 +22,31 @@ namespace BC
 			return;
 		}
 
-		window = glfwCreateWindow(setting.width, setting.height, setting.title.c_str(), NULL, NULL);
-		if (!window)
+		nativeWindow = glfwCreateWindow(setting.width, setting.height, setting.title.c_str(), NULL, NULL);
+		if (!nativeWindow)
 		{
 			LOG_CRITICAL("Failed to create a window with OpenGL context");
 			glfwTerminate();
 			return;
 		}
 
-		glfwMakeContextCurrent(window);
+		glfwMakeContextCurrent(nativeWindow);
 
 		setVsync(windowSetting.vSync);
 
-		glfwSetWindowSizeCallback(window, [](GLFWwindow* window, int width, int height)
+		glfwSetWindowSizeCallback(nativeWindow, [](GLFWwindow* window, int width, int height)
 		{
 			WindowResizeEvent event(width, height);
 			Application::GetInstance().getWindow().getEventListener()->onEvent(event);
 		});
 
-		glfwSetWindowCloseCallback(window, [](GLFWwindow* window)
+		glfwSetWindowCloseCallback(nativeWindow, [](GLFWwindow* window)
 		{
 			WindowCloseEvent event;
 			Application::GetInstance().getWindow().getEventListener()->onEvent(event);
 		});
 
-		glfwSetKeyCallback(window, [](GLFWwindow* window, int key, int scancode, int action, int mods)
+		glfwSetKeyCallback(nativeWindow, [](GLFWwindow* window, int key, int scancode, int action, int mods)
 		{
 			switch (action)
 			{
@@ -70,13 +73,13 @@ namespace BC
 			}
 		});
 
-		glfwSetCharCallback(window, [](GLFWwindow* window, unsigned int keycode)
+		glfwSetCharCallback(nativeWindow, [](GLFWwindow* window, unsigned int keycode)
 		{
 			KeyTypedEvent event(static_cast<KeyCode>(keycode));
 			Application::GetInstance().getWindow().getEventListener()->onEvent(event);
 		});
 
-		glfwSetMouseButtonCallback(window, [](GLFWwindow* window, int button, int action, int mods)
+		glfwSetMouseButtonCallback(nativeWindow, [](GLFWwindow* window, int button, int action, int mods)
 		{
 			switch (action)
 			{
@@ -95,13 +98,13 @@ namespace BC
 			}
 		});
 
-		glfwSetScrollCallback(window, [](GLFWwindow* window, double xOffset, double yOffset)
+		glfwSetScrollCallback(nativeWindow, [](GLFWwindow* window, double xOffset, double yOffset)
 		{
 			MouseScrolledEvent event((float)xOffset, (float)yOffset);
 			Application::GetInstance().getWindow().getEventListener()->onEvent(event);
 		});
 
-		glfwSetCursorPosCallback(window, [](GLFWwindow* window, double xPos, double yPos)
+		glfwSetCursorPosCallback(nativeWindow, [](GLFWwindow* window, double xPos, double yPos)
 		{
 			MouseMovedEvent event((float)xPos, (float)yPos);
 			Application::GetInstance().getWindow().getEventListener()->onEvent(event);
@@ -112,13 +115,13 @@ namespace BC
 
 	void Window::update() const
 	{
-		glfwSwapBuffers(window);
+		glfwSwapBuffers(nativeWindow);
 		glfwPollEvents();
 	}
 
 	void Window::shutdown() const
 	{
-		glfwDestroyWindow(window);
+		glfwDestroyWindow(nativeWindow);
 		glfwTerminate();
 	}
 
@@ -134,5 +137,10 @@ namespace BC
 		}
 
 		setting.vSync = enabled;
+	}
+
+	void* Window::getNativeWindow() const
+	{
+		return nativeWindow;
 	}
 }

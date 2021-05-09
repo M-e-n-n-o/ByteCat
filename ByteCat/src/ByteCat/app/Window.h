@@ -1,6 +1,5 @@
 #pragma once
 
-#include <GLFW/glfw3.h>
 #include <string>
 #include "byteCat/events/Event.h"
 
@@ -20,7 +19,6 @@ namespace BC
 	private:
 		EventListener* listener;
 		WindowSetting setting;
-		GLFWwindow* window;
 		
 	public:
 		Window(WindowSetting& windowSetting);
@@ -36,7 +34,7 @@ namespace BC
 		void setVsync(bool enabled);
 		bool getVsync() const { return setting.vSync; }
 
-		GLFWwindow* getNativeWindow() const { return window; };
+		void* getNativeWindow() const;
 		
 		void setEventListener(EventListener* newListener) { listener = newListener; }
 		EventListener* getEventListener() const { return listener; }

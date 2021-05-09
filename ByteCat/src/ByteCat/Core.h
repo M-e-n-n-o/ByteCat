@@ -1,5 +1,7 @@
 #pragma once
 
+#include <iostream>
+
 #ifdef BC_PLATFORM_WINDOWS
 	#ifdef BC_BUILD_DLL
 		#define BYTECAT_API __declspec(dllexport)
@@ -40,3 +42,5 @@
 
 
 #define BIT(x) (1 << x)
+
+int main(int argc, char** argv);

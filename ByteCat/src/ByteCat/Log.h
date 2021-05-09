@@ -42,13 +42,17 @@ namespace BC
 	class BYTECAT_API Log
 	{
 	private:
+		friend int ::main(int argc, char** argv);
+		
 		static std::shared_ptr<spdlog::logger> CoreLogger;
 		static std::shared_ptr<spdlog::logger> ClientLogger;
 
-	public:
 		static void Init();
-
-		inline static std::shared_ptr<spdlog::logger>& GetCoreLogger() { return CoreLogger; }
+		
+	public:
 		inline static std::shared_ptr<spdlog::logger>& GetClientLogger() { return ClientLogger; }
+	#ifdef BC_CORE_ACCESS
+		inline static std::shared_ptr<spdlog::logger>& GetCoreLogger() { return CoreLogger; }
+	#endif
 	};
 }

@@ -14,23 +14,26 @@ namespace BC
 		
 		bool isRunning;
 		Window* window;
+
+		friend int ::main(int argc, char** argv);
 		
 	public:
 		Application();
 		virtual ~Application();
-
-		void run();
 
 		Window& getWindow() const { return *window; }
 
 		static Application& GetInstance() { return *instance; }
 
 	private:
+		void start();
+		void run();
+		
 		virtual void update() = 0;
 
 		void onEvent(Event& event) override;
 	};
 
-	// To be defined in the users application
+	// Need to be defined in the users application
 	Application* CreateApplication();
 }

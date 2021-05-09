@@ -1,5 +1,6 @@
 #include "bcpch.h"
 #include "Log.h"
+#include <iostream>
 
 namespace BC
 {

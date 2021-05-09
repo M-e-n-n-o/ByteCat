@@ -131,14 +131,12 @@ project "Sandbox"
 	{
 		"ByteCat/vendor/spdlog/include",
 		"ByteCat/src",
-		"%{Libs.GLFW}/include",
 		"%{Libs.GLM}"
 	}
 
 	links
 	{
 		"ByteCat",
-		"GLFW",
 		"GLM"
 	}
 

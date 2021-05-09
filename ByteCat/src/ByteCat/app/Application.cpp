@@ -20,16 +20,20 @@ namespace BC
         window->setEventListener(this);
 	}
 
-	void Application::run()
-	{
-		if (isRunning)
-		{
+    void Application::start()
+    {
+        if (isRunning)
+        {
             LOG_WARN("Cannot run the main game loop synchronous");
             return;
-		}
+        }
         isRunning = true;
 
-		
+        run();
+    }
+
+	void Application::run()
+	{	
         std::vector<float> vertices =
         {
             -0.5f, 0.5f, 0,

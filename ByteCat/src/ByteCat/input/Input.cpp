@@ -8,14 +8,14 @@ namespace BC
 	bool Input::IsKeyPressed(KeyCode key)
 	{
 		auto* window = Application::GetInstance().getWindow().getNativeWindow();
-		const auto state = glfwGetKey(window, static_cast<int32_t>(key));
+		const auto state = glfwGetKey(static_cast<GLFWwindow*>(window), static_cast<int32_t>(key));
 		return state == GLFW_PRESS || state == GLFW_REPEAT;
 	}
 
 	bool Input::IsMouseButtonPressed(MouseCode button)
 	{
 		auto* window = Application::GetInstance().getWindow().getNativeWindow();
-		const auto state = glfwGetMouseButton(window, static_cast<int32_t>(button));
+		const auto state = glfwGetMouseButton(static_cast<GLFWwindow*>(window), static_cast<int32_t>(button));
 		return state == GLFW_PRESS;
 	}
 
@@ -23,7 +23,7 @@ namespace BC
 	{
 		auto* window = Application::GetInstance().getWindow().getNativeWindow();
 		double xpos, ypos;
-		glfwGetCursorPos(window, &xpos, &ypos);
+		glfwGetCursorPos(static_cast<GLFWwindow*>(window), &xpos, &ypos);
 
 		return { (float)xpos, (float)ypos };
 	}
