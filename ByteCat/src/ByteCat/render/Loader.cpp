@@ -9,16 +9,18 @@ namespace BC
 		static unsigned int createVAO();
 		static void storeDataInAttributeList(int attributeNumber, int coordinateSize, std::vector<float>& data);
 		static void unbindVAO();
+		static void bindIndicesBuffer(std::vector<int>& indices);
 
 		static std::vector<GLuint> vaos;
 		static std::vector<GLuint> vbos;
 
-		RawModel LoadToVAO(std::vector<float>& positions)
+		RawModel LoadToVAO(std::vector<float>& positions, std::vector<int>& indices)
 		{
 			const GLuint vaoID = createVAO();
+			bindIndicesBuffer(indices);
 			storeDataInAttributeList(0, 3, positions);
 			unbindVAO();
-			return { vaoID,  (unsigned int) (positions.size() / 3) };
+			return { vaoID,  (unsigned int) (indices.size()) };
 		}
 
 		void CleanUp()
@@ -55,6 +57,19 @@ namespace BC
 			// Unbind the VBO
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
 		}
+
+		void bindIndicesBuffer(std::vector<int>& indices)
+		{
+			GLuint vboID;
+			// Create new VBO
+			glGenBuffers(1, &vboID);
+			vbos.push_back(vboID);
+			// Bind the VBO
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vboID);
+			// Put dat in the VBO
+			glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(int) * indices.size(), &indices[0], GL_STATIC_DRAW);
+		}
+
 
 		static void unbindVAO()
 		{

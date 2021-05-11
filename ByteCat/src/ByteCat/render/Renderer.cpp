@@ -20,8 +20,8 @@ namespace BC
 			// Enable the VBO who is at position 0 (the positions of the model)
 			glEnableVertexAttribArray(0);
 			
-			// Render the positions (vertices) of the model
-			glDrawArrays(GL_TRIANGLES, 0, model.vertexCount);
+			// Render the vertices of the model
+			glDrawElements(GL_TRIANGLES, model.vertexCount, GL_UNSIGNED_INT, 0);
 			
 			// Unbind/disable the VBO from position 0
 			glDisableVertexAttribArray(0);

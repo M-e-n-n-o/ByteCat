@@ -7,7 +7,7 @@ namespace BC
 {
 	namespace Loader
 	{
-		RawModel LoadToVAO(std::vector<float>& positions);
+		RawModel LoadToVAO(std::vector<float>& positions, std::vector<int>& indices);
 		void CleanUp();
 	}
 }

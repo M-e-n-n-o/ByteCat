@@ -36,14 +36,18 @@ namespace BC
 	{	
         std::vector<float> vertices =
         {
-            -0.5f, 0.5f, 0,
-            -0.5f, -0.5f, 0,
-            0.5f, -0.5f, 0,
-            0.5f, -0.5f, 0,
-            0.5f, 0.5f, 0,
-            -0.5f, 0.5f, 0
+		  -0.5f, 0.5f, 0,
+		  -0.5f, -0.5f, 0,
+		  0.5f, -0.5f, 0,
+		  0.5f, 0.5f, 0
         };
-        RawModel model = Loader::LoadToVAO(vertices);
+
+        std::vector<int> indices =
+        {
+            0,1,3,
+			3,1,2
+        };
+        RawModel model = Loader::LoadToVAO(vertices, indices);
 		
 		while (isRunning)
         {
