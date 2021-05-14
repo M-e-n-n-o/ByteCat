@@ -1,6 +1,6 @@
 #pragma once
 
-#include "byteCat/events/Event.h"
+#include "byteCat/input/events/Event.h"
 #include "byteCat/input/MouseCodes.h"
 
 namespace BC

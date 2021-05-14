@@ -3,9 +3,9 @@
 #include <GLFW/glfw3.h>
 #include "byteCat/app/Window.h"
 #include "byteCat/app/Application.h"
-#include "byteCat/events/ApplicationEvent.h"
-#include "byteCat/events/KeyEvent.h"
-#include "byteCat/events/MouseEvent.h"
+#include "byteCat/input/events/ApplicationEvent.h"
+#include "byteCat/input/events/KeyEvent.h"
+#include "byteCat/input/events/MouseEvent.h"
 
 namespace BC
 {

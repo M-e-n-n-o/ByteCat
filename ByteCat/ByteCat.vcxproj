@@ -168,16 +168,19 @@
     <ClInclude Include="src\byteCat\Log.h" />
     <ClInclude Include="src\byteCat\app\Application.h" />
     <ClInclude Include="src\byteCat\app\Window.h" />
-    <ClInclude Include="src\byteCat\events\ApplicationEvent.h" />
-    <ClInclude Include="src\byteCat\events\Event.h" />
-    <ClInclude Include="src\byteCat\events\KeyEvent.h" />
-    <ClInclude Include="src\byteCat\events\MouseEvent.h" />
     <ClInclude Include="src\byteCat\input\Input.h" />
     <ClInclude Include="src\byteCat\input\KeyCodes.h" />
     <ClInclude Include="src\byteCat\input\MouseCodes.h" />
+    <ClInclude Include="src\byteCat\input\events\ApplicationEvent.h" />
+    <ClInclude Include="src\byteCat\input\events\Event.h" />
+    <ClInclude Include="src\byteCat\input\events\KeyEvent.h" />
+    <ClInclude Include="src\byteCat\input\events\MouseEvent.h" />
     <ClInclude Include="src\byteCat\render\Loader.h" />
-    <ClInclude Include="src\byteCat\render\Model.h" />
     <ClInclude Include="src\byteCat\render\Renderer.h" />
+    <ClInclude Include="src\byteCat\render\models\Model.h" />
+    <ClInclude Include="src\byteCat\render\shaders\ShaderProgram.h" />
+    <ClInclude Include="src\byteCat\render\shaders\StaticShader.h" />
+    <ClInclude Include="src\byteCat\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\bcpch.cpp">
@@ -189,6 +192,9 @@
     <ClCompile Include="src\byteCat\input\Input.cpp" />
     <ClCompile Include="src\byteCat\render\Loader.cpp" />
     <ClCompile Include="src\byteCat\render\Renderer.cpp" />
+    <ClCompile Include="src\byteCat\render\shaders\ShaderProgram.cpp" />
+    <ClCompile Include="src\byteCat\render\shaders\StaticShader.cpp" />
+    <ClCompile Include="src\byteCat\stb_image.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="vendor\GLFW\GLFW.vcxproj">

@@ -90,14 +90,14 @@ project "ByteCat"
 			"BC_BUILD_DLL"
 		}
 
-		postbuildcommands
-		{
-			("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox")
-		}
-
 		prebuildcommands
 		{
 			("{COPY} vendor/glew-2.0.0/x64/glew32.dll ../bin/" .. outputdir .. "/Sandbox")
+		}
+
+		postbuildcommands
+		{
+			("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox")
 		}
 
 	filter "configurations:Debug"
@@ -124,7 +124,7 @@ project "Sandbox"
 	files
 	{
 		"%{prj.name}/src/**.h",
-		"%{prj.name}/src/**.cpp",
+		"%{prj.name}/src/**.cpp"
 	}
 
 	includedirs
@@ -138,6 +138,11 @@ project "Sandbox"
 	{
 		"ByteCat",
 		"GLM"
+	}
+
+	postbuildcommands
+	{
+		("{COPY} res/* ../bin/" .. outputdir .. "/Sandbox/res")
 	}
 
 	filter "system:windows"

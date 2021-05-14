@@ -1,7 +1,7 @@
 #pragma once
 
 #include "byteCat/Core.h"
-#include "byteCat/events/Event.h"
+#include "byteCat/input/events/Event.h"
 #include "byteCat/app/Window.h"
 
 namespace BC

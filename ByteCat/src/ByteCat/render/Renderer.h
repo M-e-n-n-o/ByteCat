@@ -1,12 +1,12 @@
 #pragma once
 
-#include "byteCat/render/Model.h"
+#include "byteCat/render/models/Model.h"
 
 namespace BC
 {
 	namespace Renderer
 	{
 		void Prepare();
-		void Render(RawModel& model);
+		void Render(TexturedModel& texturedModel);
 	}
 }

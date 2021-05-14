@@ -1,5 +1,6 @@
 #include "bcpch.h"
 #include <GL/glew.h>
+#include "byteCat/stb_image.h"
 #include "byteCat/render/Loader.h"
 
 namespace BC
@@ -13,22 +14,55 @@ namespace BC
 
 		static std::vector<GLuint> vaos;
 		static std::vector<GLuint> vbos;
+		static std::vector<GLuint> textures;
 
-		RawModel LoadToVAO(std::vector<float>& positions, std::vector<int>& indices)
+		RawModel LoadToVAO(std::vector<float>& positions, std::vector<float>& textureCoords, std::vector<int>& indices)
 		{
 			const GLuint vaoID = createVAO();
 			bindIndicesBuffer(indices);
 			storeDataInAttributeList(0, 3, positions);
+			storeDataInAttributeList(1, 2, textureCoords);
 			unbindVAO();
 			return { vaoID,  (unsigned int) (indices.size()) };
 		}
 
+		unsigned int LoadTexture(std::string fileName)
+		{
+			int width, height, bpp;
+			unsigned char* imgData = stbi_load(fileName.c_str(), &width, &height, &bpp, 4);
+
+			GLuint textureID;
+			glGenTextures(1, &textureID);
+			glEnable(GL_TEXTURE_2D);
+			glBindTexture(GL_TEXTURE_2D, textureID);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, imgData);
+			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+			stbi_image_free(imgData);
+			textures.push_back(textureID);
+			return textureID;
+		}
+
 		void CleanUp()
 		{
-			glDeleteVertexArrays(static_cast<GLsizei>(vaos.size()), &vaos[0]);
-			vaos.clear();
-			glDeleteBuffers(static_cast<GLsizei>(vbos.size()), &vbos[0]);
-			vbos.clear();
+			if (!vaos.empty())
+			{
+				glDeleteVertexArrays(static_cast<GLsizei>(vaos.size()), &vaos[0]);
+				vaos.clear();
+			}
+
+			if (!vbos.empty())
+			{
+				glDeleteBuffers(static_cast<GLsizei>(vbos.size()), &vbos[0]);
+				vbos.clear();
+			}
+
+			if (!textures.empty())
+			{
+				glDeleteTextures(static_cast<GLsizei>(textures.size()), &textures[0]);
+				textures.clear();
+			}
 		}
 
 		static GLuint createVAO()
