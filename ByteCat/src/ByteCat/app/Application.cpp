@@ -1,5 +1,7 @@
 #include "bcpch.h"
 #include "byteCat/app/Application.h"
+
+#include "byteCat/input/Input.h"
 #include "byteCat/input/events/KeyEvent.h"
 #include "byteCat/render/Loader.h"
 #include "byteCat/render/Renderer.h"

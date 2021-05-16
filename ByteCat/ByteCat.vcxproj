@@ -178,6 +178,7 @@
     <ClInclude Include="src\byteCat\render\Loader.h" />
     <ClInclude Include="src\byteCat\render\Renderer.h" />
     <ClInclude Include="src\byteCat\render\models\Model.h" />
+    <ClInclude Include="src\byteCat\render\shaders\CustomShader.h" />
     <ClInclude Include="src\byteCat\render\shaders\ShaderProgram.h" />
     <ClInclude Include="src\byteCat\render\shaders\StaticShader.h" />
     <ClInclude Include="src\byteCat\stb_image.h" />
@@ -192,6 +193,7 @@
     <ClCompile Include="src\byteCat\input\Input.cpp" />
     <ClCompile Include="src\byteCat\render\Loader.cpp" />
     <ClCompile Include="src\byteCat\render\Renderer.cpp" />
+    <ClCompile Include="src\byteCat\render\shaders\CustomShader.cpp" />
     <ClCompile Include="src\byteCat\render\shaders\ShaderProgram.cpp" />
     <ClCompile Include="src\byteCat\render\shaders\StaticShader.cpp" />
     <ClCompile Include="src\byteCat\stb_image.cpp" />

@@ -80,6 +80,7 @@
     <ClInclude Include="src\byteCat\stb_image.h">
       <Filter>byteCat</Filter>
     </ClInclude>
+    <ClInclude Include="src\byteCat\render\shaders\CustomShader.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\bcpch.cpp" />
@@ -110,5 +111,6 @@
     <ClCompile Include="src\byteCat\stb_image.cpp">
       <Filter>byteCat</Filter>
     </ClCompile>
+    <ClCompile Include="src\byteCat\render\shaders\CustomShader.cpp" />
   </ItemGroup>
 </Project>
