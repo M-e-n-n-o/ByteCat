@@ -36,7 +36,10 @@
 		#error "Platform does not support debugbreak yet!"
 	#endif
 
-#else
+#elif BC_RELEASE
+	#define BC_ENABLE_LOG
+	#define BC_DEBUG_BREAK
+#elif BC_DIST
 	#define BC_DEBUG_BREAK
 #endif
 

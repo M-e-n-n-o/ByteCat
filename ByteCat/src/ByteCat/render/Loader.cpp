@@ -29,6 +29,8 @@ namespace BC
 		unsigned int LoadTexture(std::string fileName)
 		{
 			int width, height, bpp;
+
+			fileName.insert(0, "res/");
 			unsigned char* imgData = stbi_load(fileName.c_str(), &width, &height, &bpp, 4);
 
 			GLuint textureID;

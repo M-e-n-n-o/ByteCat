@@ -64,7 +64,7 @@ namespace BC
         	1, 0
         };
         RawModel model = Loader::LoadToVAO(vertices, textureCoords, indices);
-        ModelTexture texture = { Loader::LoadTexture("res/blokje.png") };
+        ModelTexture texture = { Loader::LoadTexture("blokje.png") };
         TexturedModel texturedModel = { model, texture };
 		
 		while (isRunning)
@@ -90,6 +90,7 @@ namespace BC
         case EventType::WindowClose:
 	        {
 				isRunning = false;
+                event.handled = true;
                 break;
 	        }
         }
