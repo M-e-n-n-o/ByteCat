@@ -65,9 +65,6 @@
     <ClInclude Include="src\byteCat\render\Loader.h">
       <Filter>byteCat\render</Filter>
     </ClInclude>
-    <ClInclude Include="src\byteCat\render\Renderer.h">
-      <Filter>byteCat\render</Filter>
-    </ClInclude>
     <ClInclude Include="src\byteCat\render\models\Model.h">
       <Filter>byteCat\render\models</Filter>
     </ClInclude>
@@ -83,6 +80,10 @@
     <ClInclude Include="src\byteCat\render\shaders\StandardShader.h">
       <Filter>byteCat\render\shaders</Filter>
     </ClInclude>
+    <ClInclude Include="src\byteCat\render\renderers\MeshRenderer.h">
+      <Filter>byteCat\render</Filter>
+    </ClInclude>
+    <ClInclude Include="src\byteCat\render\renderers\Renderer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\bcpch.cpp" />
@@ -101,9 +102,6 @@
     <ClCompile Include="src\byteCat\render\Loader.cpp">
       <Filter>byteCat\render</Filter>
     </ClCompile>
-    <ClCompile Include="src\byteCat\render\Renderer.cpp">
-      <Filter>byteCat\render</Filter>
-    </ClCompile>
     <ClCompile Include="src\byteCat\render\shaders\CustomShader.cpp">
       <Filter>byteCat\render\shaders</Filter>
     </ClCompile>
@@ -116,5 +114,9 @@
     <ClCompile Include="src\byteCat\render\shaders\StandardShader.cpp">
       <Filter>byteCat\render\shaders</Filter>
     </ClCompile>
+    <ClCompile Include="src\byteCat\render\renderers\MeshRenderer.cpp">
+      <Filter>byteCat\render</Filter>
+    </ClCompile>
+    <ClCompile Include="src\byteCat\render\renderers\Renderer.cpp" />
   </ItemGroup>
 </Project>

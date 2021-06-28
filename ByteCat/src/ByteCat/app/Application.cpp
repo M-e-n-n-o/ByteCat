@@ -4,7 +4,7 @@
 #include "byteCat/input/Input.h"
 #include "byteCat/input/events/KeyEvent.h"
 #include "byteCat/render/Loader.h"
-#include "byteCat/render/Renderer.h"
+#include "byteCat/render/renderers/MeshRenderer.h"
 #include "byteCat/render/shaders/StandardShader.h"
 
 namespace BC
@@ -39,6 +39,8 @@ namespace BC
 	{
         StandardShader shader;
         shader.init();
+
+        MeshRenderer renderer;
 		
         std::vector<float> vertices =
         {
@@ -67,9 +69,9 @@ namespace BC
 		
 		while (isRunning)
         {
-            Renderer::Prepare();
+            renderer.prepare();
             shader.start();
-            Renderer::Render(texturedModel);
+            renderer.render(texturedModel);
             shader.stop();
 			
             // Update

@@ -176,7 +176,8 @@
     <ClInclude Include="src\byteCat\input\events\KeyEvent.h" />
     <ClInclude Include="src\byteCat\input\events\MouseEvent.h" />
     <ClInclude Include="src\byteCat\render\Loader.h" />
-    <ClInclude Include="src\byteCat\render\Renderer.h" />
+    <ClInclude Include="src\byteCat\render\renderers\Renderer.h" />
+    <ClInclude Include="src\byteCat\render\renderers\MeshRenderer.h" />
     <ClInclude Include="src\byteCat\render\models\Model.h" />
     <ClInclude Include="src\byteCat\render\shaders\CustomShader.h" />
     <ClInclude Include="src\byteCat\render\shaders\ShaderProgram.h" />
@@ -192,7 +193,8 @@
     <ClCompile Include="src\byteCat\app\Window.cpp" />
     <ClCompile Include="src\byteCat\input\Input.cpp" />
     <ClCompile Include="src\byteCat\render\Loader.cpp" />
-    <ClCompile Include="src\byteCat\render\Renderer.cpp" />
+    <ClCompile Include="src\byteCat\render\renderers\Renderer.cpp" />
+    <ClCompile Include="src\byteCat\render\renderers\MeshRenderer.cpp" />
     <ClCompile Include="src\byteCat\render\shaders\CustomShader.cpp" />
     <ClCompile Include="src\byteCat\render\shaders\ShaderProgram.cpp" />
     <ClCompile Include="src\byteCat\render\shaders\StandardShader.cpp" />
