@@ -13,7 +13,7 @@ public:
 
 	void update() override
 	{
-		
+
 	}
 
 	// The end of your application

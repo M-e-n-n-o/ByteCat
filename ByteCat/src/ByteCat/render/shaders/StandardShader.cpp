@@ -1,5 +1,5 @@
 #include "bcpch.h"
-#include "byteCat/render/shaders/StaticShader.h"
+#include "byteCat/render/shaders/StandardShader.h"
 
 namespace BC
 {
@@ -35,12 +35,14 @@ namespace BC
 	}
 	)";
 
-	StaticShader::StaticShader() : ShaderProgram(vertexShader, fragmentShader)
+	StandardShader::StandardShader() : ShaderProgram(vertexShader, fragmentShader) { }
+
+	void StandardShader::getAllUniformLocations()
 	{
 		
 	}
 
-	void StaticShader::bindAttributes()
+	void StandardShader::bindAttributes()
 	{
 		bindAttribute(0, "position");
 		bindAttribute(1, "textureCoords");

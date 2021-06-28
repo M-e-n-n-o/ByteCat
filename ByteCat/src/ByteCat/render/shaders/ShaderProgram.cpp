@@ -18,34 +18,63 @@ namespace BC
 
 	void ShaderProgram::init()
 	{
-		bindAttributes();
-		glLinkProgram(programID);
-		glValidateProgram(programID);
+		if (!isInit)
+		{
+			bindAttributes();
+			glLinkProgram(programID);
+			glValidateProgram(programID);
+			getAllUniformLocations();
+		} else
+		{
+			LOG_WARN("Shader has already been initiated");
+		}
+
+		isInit = true;
 	}
 
 	void ShaderProgram::start() const
 	{
-		glUseProgram(programID);
+		if (isInit)
+		{
+			glUseProgram(programID);
+		} else
+		{
+			LOG_ERROR("Shader has not been initiated yet");
+		}
 	}
 
 	void ShaderProgram::stop() const
 	{
-		glUseProgram(0);
+		if (isInit)
+		{
+			glUseProgram(0);
+		} else
+		{
+			LOG_ERROR("Shader has not been initiated yet");
+		}
 	}
 
 	void ShaderProgram::cleanUp() const
 	{
-		stop();
-		glDetachShader(programID, vertexShaderID);
-		glDetachShader(programID, fragmentShaderID);
-		glDeleteShader(vertexShaderID);
-		glDeleteShader(fragmentShaderID);
-		glDeleteProgram(programID);
+		if (isInit)
+		{
+			stop();
+			glDetachShader(programID, vertexShaderID);
+			glDetachShader(programID, fragmentShaderID);
+			glDeleteShader(vertexShaderID);
+			glDeleteShader(fragmentShaderID);
+			glDeleteProgram(programID);
+		}
 	}
 
 	void ShaderProgram::bindAttribute(int attribute, std::string variableName) const
 	{
 		glBindAttribLocation(programID, attribute, variableName.c_str());
+	}
+
+	unsigned int ShaderProgram::getUniformLocation(const GLchar* uniformName) const
+	{
+		return glGetUniformLocation(programID, uniformName);
 	}
 
 	int ShaderProgram::loadShader(std::string& shader, int type)

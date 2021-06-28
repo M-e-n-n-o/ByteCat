@@ -23,22 +23,22 @@ namespace BC
 		Vector2,
 		Vector3,
 		Vector4,
-		Matrix4
+		Matrix4,
+		Unknown
 	};
 
 	struct ShaderUniformVariable
 	{
-		std::string variableName;
+		std::string name;
 		ShaderUniformVariableType type;
-		ShaderUniformVariableValue value;
+		unsigned int location;
 	};
 	
 	
 	class CustomShader : public ShaderProgram
 	{
 	private:
-		std::vector<ShaderUniformVariable> vertexVariables;
-		std::vector<ShaderUniformVariable> fragmentVariables;
+		std::vector<ShaderUniformVariable> uniformVariables;
 		
 	public:
 		CustomShader(std::string& vertexShader, std::string& fragmentShader);
@@ -46,9 +46,7 @@ namespace BC
 		void loadUniformVariable(std::string& variableName, ShaderUniformVariableValue value);
 
 	private:
-		std::vector<ShaderUniformVariable> getUniformVariables(std::string& shader);
-	
-	protected:
+		void getAllUniformLocations() override;
 		void bindAttributes() override;
 	};
 }

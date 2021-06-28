@@ -71,16 +71,18 @@
     <ClInclude Include="src\byteCat\render\models\Model.h">
       <Filter>byteCat\render\models</Filter>
     </ClInclude>
-    <ClInclude Include="src\byteCat\render\shaders\ShaderProgram.h">
+    <ClInclude Include="src\byteCat\render\shaders\CustomShader.h">
       <Filter>byteCat\render\shaders</Filter>
     </ClInclude>
-    <ClInclude Include="src\byteCat\render\shaders\StaticShader.h">
+    <ClInclude Include="src\byteCat\render\shaders\ShaderProgram.h">
       <Filter>byteCat\render\shaders</Filter>
     </ClInclude>
     <ClInclude Include="src\byteCat\stb_image.h">
       <Filter>byteCat</Filter>
     </ClInclude>
-    <ClInclude Include="src\byteCat\render\shaders\CustomShader.h" />
+    <ClInclude Include="src\byteCat\render\shaders\StandardShader.h">
+      <Filter>byteCat\render\shaders</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\bcpch.cpp" />
@@ -102,15 +104,17 @@
     <ClCompile Include="src\byteCat\render\Renderer.cpp">
       <Filter>byteCat\render</Filter>
     </ClCompile>
-    <ClCompile Include="src\byteCat\render\shaders\ShaderProgram.cpp">
+    <ClCompile Include="src\byteCat\render\shaders\CustomShader.cpp">
       <Filter>byteCat\render\shaders</Filter>
     </ClCompile>
-    <ClCompile Include="src\byteCat\render\shaders\StaticShader.cpp">
+    <ClCompile Include="src\byteCat\render\shaders\ShaderProgram.cpp">
       <Filter>byteCat\render\shaders</Filter>
     </ClCompile>
     <ClCompile Include="src\byteCat\stb_image.cpp">
       <Filter>byteCat</Filter>
     </ClCompile>
-    <ClCompile Include="src\byteCat\render\shaders\CustomShader.cpp" />
+    <ClCompile Include="src\byteCat\render\shaders\StandardShader.cpp">
+      <Filter>byteCat\render\shaders</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -3,12 +3,15 @@
 
 namespace BC
 {
-	class StaticShader : public ShaderProgram
+	class StandardShader : public ShaderProgram
 	{
+	private:
+	
 	public:
-		StaticShader();
-
+		StandardShader();
+	
 	protected:
+		void getAllUniformLocations() override;
 		void bindAttributes() override;
 	};
 }

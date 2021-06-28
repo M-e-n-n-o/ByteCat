@@ -92,7 +92,7 @@ namespace BC
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
 		}
 
-		void bindIndicesBuffer(std::vector<int>& indices)
+		static void bindIndicesBuffer(std::vector<int>& indices)
 		{
 			GLuint vboID;
 			// Create new VBO

@@ -1,10 +1,15 @@
 #pragma once
 
+#include <GL/glew.h>
+
 namespace BC
 {
 	class ShaderProgram
 	{
 	private:
+		bool isInit = false;
+		
+	protected:
 		int programID;
 		int vertexShaderID;
 		int fragmentShaderID;
@@ -21,6 +26,9 @@ namespace BC
 	protected:
 		virtual void bindAttributes() = 0;
 		void bindAttribute(int attribute, std::string variableName) const;
+
+		virtual void getAllUniformLocations() = 0;
+		unsigned int getUniformLocation(const GLchar* uniformName) const;
 
 	private:
 		int loadShader(std::string& shader, int type);

@@ -5,7 +5,7 @@
 #include "byteCat/input/events/KeyEvent.h"
 #include "byteCat/render/Loader.h"
 #include "byteCat/render/Renderer.h"
-#include "byteCat/render/shaders/StaticShader.h"
+#include "byteCat/render/shaders/StandardShader.h"
 
 namespace BC
 {
@@ -37,7 +37,7 @@ namespace BC
 
 	void Application::run()
 	{
-        StaticShader shader;
+        StandardShader shader;
         shader.init();
 		
         std::vector<float> vertices =
