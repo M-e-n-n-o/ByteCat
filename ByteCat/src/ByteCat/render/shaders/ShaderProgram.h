@@ -19,8 +19,8 @@ namespace BC
 		virtual ~ShaderProgram() { cleanUp(); }
 
 		void init();
-		void start() const;
-		void stop() const;
+		void bind() const;
+		void unbind() const;
 		void cleanUp() const;
 	
 	protected:

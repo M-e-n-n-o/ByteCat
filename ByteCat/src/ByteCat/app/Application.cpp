@@ -3,9 +3,10 @@
 
 #include "byteCat/input/Input.h"
 #include "byteCat/input/events/KeyEvent.h"
-#include "byteCat/render/Loader.h"
 #include "byteCat/render/renderers/MeshRenderer.h"
 #include "byteCat/render/shaders/StandardShader.h"
+#include "byteCat/render/models/Mesh.h"
+#include "byteCat/render/models/Texture.h"
 
 namespace BC
 {
@@ -36,11 +37,11 @@ namespace BC
     }
 
 	void Application::run()
-	{
+	{		
         StandardShader shader;
         shader.init();
 
-        MeshRenderer renderer;
+        //MeshRenderer renderer;
 		
         std::vector<float> vertices =
         {
@@ -63,31 +64,30 @@ namespace BC
         	1, 1,
         	1, 0
         };
-        RawModel model = Loader::LoadToVAO(vertices, textureCoords, indices);
-        ModelTexture texture = { Loader::LoadTexture("blokje.png") };
-        TexturedModel texturedModel = { model, texture };
+
+        Mesh mesh(vertices, textureCoords, indices);
+        Texture2D texture("blokje.png");
+        LOG_INFO("Texture width: {0}, height: {1}", texture.getWidth(), texture.getHeight());
 		
-		while (isRunning)
-        {
-            renderer.prepare();
-            shader.start();
-            renderer.render(texturedModel);
-            shader.stop();
-			
-            // Update
-            update();
-
-            window->update();
-        }
-
-        Loader::CleanUp();
+		// while (isRunning)
+  //       {
+  //           renderer.prepare();
+  //           shader.bind();
+  //           renderer.render(texturedModel);
+  //           shader.unbind();
+		// 	
+  //           // Update
+  //           update();
+  //
+  //           window->update();
+  //       }
 	}
 
     void Application::onEvent(Event& event)
     {		
         switch (event.getEventType())
         {
-        case EventType::WindowClose:
+		case EventType::WindowClose:
 	        {
 				isRunning = false;
                 event.handled = true;

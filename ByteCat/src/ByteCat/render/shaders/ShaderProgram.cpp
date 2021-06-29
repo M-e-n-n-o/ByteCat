@@ -32,7 +32,7 @@ namespace BC
 		isInit = true;
 	}
 
-	void ShaderProgram::start() const
+	void ShaderProgram::bind() const
 	{
 		if (isInit)
 		{
@@ -43,7 +43,7 @@ namespace BC
 		}
 	}
 
-	void ShaderProgram::stop() const
+	void ShaderProgram::unbind() const
 	{
 		if (isInit)
 		{
@@ -58,7 +58,7 @@ namespace BC
 	{
 		if (isInit)
 		{
-			stop();
+			unbind();
 			glDetachShader(programID, vertexShaderID);
 			glDetachShader(programID, fragmentShaderID);
 			glDeleteShader(vertexShaderID);
