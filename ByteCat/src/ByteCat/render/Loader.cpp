@@ -22,6 +22,8 @@ namespace BC
 			bindIndicesBuffer(indices);
 			storeDataInAttributeList(0, 3, positions);
 			storeDataInAttributeList(1, 2, textureCoords);
+			glEnableVertexAttribArray(0);
+			glEnableVertexAttribArray(1);
 			unbindVAO();
 			return { vaoID,  (unsigned int) (indices.size()) };
 		}
@@ -102,7 +104,7 @@ namespace BC
 			vbos.push_back(vboID);
 			// Bind the VBO
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vboID);
-			// Put dat in the VBO
+			// Put data in the VBO
 			glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(int) * indices.size(), &indices[0], GL_STATIC_DRAW);
 		}
 
