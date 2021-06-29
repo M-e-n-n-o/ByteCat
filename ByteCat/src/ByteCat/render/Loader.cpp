@@ -37,7 +37,8 @@ namespace BC
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, imgData);
 			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
+			glBindTexture(GL_TEXTURE_2D, 0);
+			
 			stbi_image_free(imgData);
 			return textureID;
 		}

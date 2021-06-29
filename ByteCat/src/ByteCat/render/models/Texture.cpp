@@ -16,6 +16,7 @@ namespace BC
 
 	Texture2D::~Texture2D()
 	{
+		glBindTexture(GL_TEXTURE_2D, 0);
 		glDeleteTextures(1, &textureID);
 	}
 

@@ -16,11 +16,6 @@ namespace BC
 		glDeleteBuffers(static_cast<GLsizei>(vao->vbos.size()), &vao->vbos[0]);
 	}
 
-	void Mesh::render() const
-	{
-		glDrawElements(GL_TRIANGLES, vao->vertexCount, GL_UNSIGNED_INT, 0);
-	}
-
 	void Mesh::bind() const
 	{
 		glBindVertexArray(vao->id);

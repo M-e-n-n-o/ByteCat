@@ -15,14 +15,11 @@ namespace BC
 	
 	class Mesh
 	{
-	private:
-		std::shared_ptr<VAO> vao;
-
 	public:
+		std::shared_ptr<VAO> vao;
+		
 		Mesh(std::vector<float>& positions, std::vector<float>& textureCoords, std::vector<int>& indices);
 		~Mesh();
-
-		void render() const;
 		
 		void bind() const;
 		void unbind() const;

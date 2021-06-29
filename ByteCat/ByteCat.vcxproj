@@ -180,7 +180,7 @@
     <ClInclude Include="src\byteCat\render\models\Texture.h" />
     <ClInclude Include="src\byteCat\render\renderers\Renderer.h" />
     <ClInclude Include="src\byteCat\render\renderers\MeshRenderer.h" />
-    <ClInclude Include="src\byteCat\render\shaders\CustomShader.h" />
+    <ClInclude Include="src\byteCat\render\shaders\Shader.h" />
     <ClInclude Include="src\byteCat\render\shaders\ShaderProgram.h" />
     <ClInclude Include="src\byteCat\render\shaders\StandardShader.h" />
     <ClInclude Include="src\byteCat\stb_image.h" />
@@ -198,7 +198,7 @@
     <ClCompile Include="src\byteCat\render\models\Texture.cpp" />
     <ClCompile Include="src\byteCat\render\renderers\Renderer.cpp" />
     <ClCompile Include="src\byteCat\render\renderers\MeshRenderer.cpp" />
-    <ClCompile Include="src\byteCat\render\shaders\CustomShader.cpp" />
+    <ClCompile Include="src\byteCat\render\shaders\Shader.cpp" />
     <ClCompile Include="src\byteCat\render\shaders\ShaderProgram.cpp" />
     <ClCompile Include="src\byteCat\render\shaders\StandardShader.cpp" />
     <ClCompile Include="src\byteCat\stb_image.cpp" />

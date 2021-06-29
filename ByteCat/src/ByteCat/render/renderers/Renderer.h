@@ -1,6 +1,8 @@
 #pragma once
 
 #include <glm/glm.hpp>
+#include "byteCat/render/models/Mesh.h"
+#include "byteCat/render/shaders/Shader.h"
 
 namespace BC
 {
@@ -14,5 +16,7 @@ namespace BC
 		virtual ~Renderer() = default;
 
 		void prepare() const;
+
+		void renderVAO(VAO& vao, Shader& shader);
 	};
 }
