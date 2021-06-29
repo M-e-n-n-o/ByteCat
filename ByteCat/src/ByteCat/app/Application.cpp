@@ -7,6 +7,8 @@
 #include "byteCat/render/models/Mesh.h"
 #include "byteCat/render/models/Texture.h"
 #include "byteCat/render/shaders/Shader.h"
+#include "byteCat/render/shaders/StandardShader.h"
+#include "byteCat/utils/Maths.h"
 
 namespace BC
 {
@@ -35,14 +37,9 @@ namespace BC
 
         run();
     }
-    Texture2D texture("blokje.png");
+	
 	void Application::run()
-	{		
-        //StandardShader shader;
-        //shader.init();
-
-        //MeshRenderer renderer;
-		
+	{				
         std::vector<float> vertices =
         {
 		  -0.5f, 0.5f, 0,
@@ -66,53 +63,16 @@ namespace BC
         };
 
         Mesh mesh(vertices, textureCoords, indices);
-        // Texture2D texture("blokje.png");
-        LOG_INFO("Texture width: {0}, height: {1}", texture.getWidth(), texture.getHeight());
-
-        std::string vertexShader = R"(
-		#version 400 core
-
-		in vec3 position;
-		in vec2 textureCoords;
-
-		out vec2 passTextureCoords;
-
+        Texture2D texture("blokje.png");
 		
-		void main(void)
-		{
-			gl_Position = vec4(position, 1.0);
-			passTextureCoords = textureCoords;
-		}
-		)";
-
-        std::string fragmentShader = R"(
-		#version 400 core
-
-		in vec2 passTextureCoords;
-
-		out vec4 outColor;
-
-		uniform sampler2D textureSampler;
-
-		
-		void main(void)
-		{
-			outColor = texture(textureSampler, passTextureCoords);
-		}
-		)";
-		
-        Shader shader(vertexShader, fragmentShader, []()
-        {
-			LOG_INFO("Shader textures set");
-            texture.bind(1);
-        });
-
+        StandardShader shader(texture);
         Renderer renderer;
 		
         while (isRunning)
         {
             renderer.prepare();
             shader.bind();
+            shader.loadMatrix4("modelMatrix", Utils::CreateModelMatrix(glm::vec3(-1, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)));
             renderer.renderVAO(*mesh.vao, shader);
             shader.unbind();
 

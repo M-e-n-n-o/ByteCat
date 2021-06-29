@@ -1,17 +1,18 @@
 #pragma once
-#include "byteCat/render/shaders/ShaderProgram.h"
+
+#include "byteCat/render/models/Texture.h"
+#include "byteCat/render/shaders/Shader.h"
 
 namespace BC
 {
-	class StandardShader : public ShaderProgram
+	class StandardShader : public Shader
 	{
 	private:
+		Texture2D* mainTexture;
 	
 	public:
-		StandardShader();
-	
-	protected:
-		void getAllUniformLocations() override;
-		void bindAttributes() override;
+		StandardShader(Texture2D& texture);
+
+		void setMainTexture(Texture2D& texture) { mainTexture = &texture; }
 	};
 }

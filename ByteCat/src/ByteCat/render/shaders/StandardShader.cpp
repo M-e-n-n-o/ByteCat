@@ -11,10 +11,11 @@ namespace BC
 
 	out vec2 passTextureCoords;
 
+	uniform mat4 modelMatrix;
 	
 	void main(void)
 	{
-		gl_Position = vec4(position, 1.0);
+		gl_Position = modelMatrix * vec4(position, 1.0);
 		passTextureCoords = textureCoords;
 	}
 	)";
@@ -35,16 +36,12 @@ namespace BC
 	}
 	)";
 
-	StandardShader::StandardShader() : ShaderProgram(vertexShader, fragmentShader) { }
 
-	void StandardShader::getAllUniformLocations()
+	StandardShader::StandardShader(Texture2D& texture): Shader(vertexShader, fragmentShader), mainTexture(&texture)
 	{
-		
-	}
-
-	void StandardShader::bindAttributes()
-	{
-		bindAttribute(0, "position");
-		bindAttribute(1, "textureCoords");
+		setTextures([this]()
+		{
+			mainTexture->bind();
+		});
 	}
 }

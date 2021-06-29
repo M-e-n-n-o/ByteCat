@@ -12,10 +12,10 @@ namespace BC
 		glClearColor(CLEAR_COLOR.r, CLEAR_COLOR.g, CLEAR_COLOR.b, 1.0f);
 	}
 
-	void Renderer::renderVAO(VAO& vao, Shader& shader)
+	void Renderer::renderVAO(VAO& vao, Shader& shader) const
 	{
 		glBindVertexArray(vao.id);
-		shader.setTextures();
+		shader.bindTextures();
 		glDrawElements(GL_TRIANGLES, vao.vertexCount, GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
 	}

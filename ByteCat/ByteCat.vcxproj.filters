@@ -65,17 +65,11 @@
     <ClInclude Include="src\byteCat\render\Loader.h">
       <Filter>byteCat\render</Filter>
     </ClInclude>
-    <ClInclude Include="src\byteCat\render\shaders\ShaderProgram.h">
-      <Filter>byteCat\render\shaders</Filter>
-    </ClInclude>
     <ClInclude Include="src\byteCat\stb_image.h">
       <Filter>byteCat</Filter>
     </ClInclude>
     <ClInclude Include="src\byteCat\render\shaders\StandardShader.h">
       <Filter>byteCat\render\shaders</Filter>
-    </ClInclude>
-    <ClInclude Include="src\byteCat\render\renderers\MeshRenderer.h">
-      <Filter>byteCat\render</Filter>
     </ClInclude>
     <ClInclude Include="src\byteCat\render\renderers\Renderer.h" />
     <ClInclude Include="src\byteCat\render\models\Texture.h" />
@@ -83,6 +77,7 @@
     <ClInclude Include="src\byteCat\render\shaders\Shader.h">
       <Filter>byteCat\render\shaders</Filter>
     </ClInclude>
+    <ClInclude Include="src\byteCat\utils\Maths.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\bcpch.cpp" />
@@ -101,17 +96,11 @@
     <ClCompile Include="src\byteCat\render\Loader.cpp">
       <Filter>byteCat\render</Filter>
     </ClCompile>
-    <ClCompile Include="src\byteCat\render\shaders\ShaderProgram.cpp">
-      <Filter>byteCat\render\shaders</Filter>
-    </ClCompile>
     <ClCompile Include="src\byteCat\stb_image.cpp">
       <Filter>byteCat</Filter>
     </ClCompile>
     <ClCompile Include="src\byteCat\render\shaders\StandardShader.cpp">
       <Filter>byteCat\render\shaders</Filter>
-    </ClCompile>
-    <ClCompile Include="src\byteCat\render\renderers\MeshRenderer.cpp">
-      <Filter>byteCat\render</Filter>
     </ClCompile>
     <ClCompile Include="src\byteCat\render\renderers\Renderer.cpp" />
     <ClCompile Include="src\byteCat\render\models\Texture.cpp" />
@@ -119,5 +108,6 @@
     <ClCompile Include="src\byteCat\render\shaders\Shader.cpp">
       <Filter>byteCat\render\shaders</Filter>
     </ClCompile>
+    <ClCompile Include="src\byteCat\utils\Maths.cpp" />
   </ItemGroup>
 </Project>

@@ -16,7 +16,8 @@ namespace BC
 		virtual ~Renderer() = default;
 
 		void prepare() const;
-
-		void renderVAO(VAO& vao, Shader& shader);
+		void setClearColor(glm::vec3 color) { CLEAR_COLOR = color; }
+		
+		void renderVAO(VAO& vao, Shader& shader) const;
 	};
 }

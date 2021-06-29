@@ -4,9 +4,9 @@
 
 namespace BC
 {	
-	Shader::Shader(std::string& vertexShader, std::string& fragmentShader, std::function<void()> setTextures)
+	Shader::Shader(std::string& vertexShader, std::string& fragmentShader)
 	{
-		setTexturesFunc = setTextures;
+		hasTextures = (fragmentShader.find("sampler") != std::string::npos);
 		
 		vertexShaderID = loadShader(vertexShader, GL_VERTEX_SHADER);
 		fragmentShaderID = loadShader(fragmentShader, GL_FRAGMENT_SHADER);
@@ -18,7 +18,6 @@ namespace BC
 		bindAttributes();
 		glLinkProgram(programID);
 		glValidateProgram(programID);
-		// getAllUniformLocations();
 	}
 
 	Shader::~Shader()
@@ -30,30 +29,6 @@ namespace BC
 		glDeleteShader(fragmentShaderID);
 		glDeleteProgram(programID);
 	}
-
-	// void Shader::loadUniformVariable(std::string variableName, ShaderUniformVariableValue value)
-	// {
-	// 	for (auto& variable : uniformVariables)
-	// 	{
-	// 		if (variable.name == variableName)
-	// 		{
-	// 			switch (variable.type)
-	// 			{
-	// 			case ShaderUniformVariableType::Float: glUniform1f(variable.location, value.Float); break;
-	// 			case ShaderUniformVariableType::Int: glUniform1i(variable.location, value.Int); break;
-	// 			case ShaderUniformVariableType::Vector2: glUniform2fv(variable.location, 1, glm::value_ptr(value.Vector2)); break;
-	// 			case ShaderUniformVariableType::Vector3: glUniform3fv(variable.location, 1, glm::value_ptr(value.Vector3)); break;
-	// 			case ShaderUniformVariableType::Vector4: glUniform4fv(variable.location, 1, glm::value_ptr(value.Vector4)); break;
-	// 			case ShaderUniformVariableType::Matrix4: glUniformMatrix4fv(variable.location, 1, GL_FALSE, glm::value_ptr(value.Matrix4)); break;
-	// 			default: LOG_ERROR("The value is not a valid type");
-	// 			}
-	//
-	// 			return;
-	// 		}
-	// 	}
-	//
-	// 	LOG_ERROR("Variable \"{0}\" not found in the shader code", variableName);
-	// }
 
 	void Shader::loadFloat(std::string name, float value) const
 	{
@@ -109,39 +84,6 @@ namespace BC
 		}
 	}
 
-	// void Shader::getAllUniformLocations()
-	// {
-	// 	int totalVariables;
-	// 	glGetProgramiv(programID, GL_ACTIVE_UNIFORMS, &totalVariables);
-	//
-	// 	for (unsigned int i = 0; i < totalVariables; i++)
-	// 	{
-	// 		int length;
-	// 		int size;
-	// 		GLenum type;
-	// 		char name[64];
-	// 		glGetActiveUniform(programID, i, sizeof(name), &length, &size, &type, name);
-	//
-	// 		ShaderUniformVariableType variableType;
-	// 		switch (type)
-	// 		{
-	// 		case GL_FLOAT: variableType = ShaderUniformVariableType::Float; break;
-	// 		case GL_INT: variableType = ShaderUniformVariableType::Int; break;
-	// 		case GL_FLOAT_VEC2: variableType = ShaderUniformVariableType::Vector2; break;
-	// 		case GL_FLOAT_VEC3: variableType = ShaderUniformVariableType::Vector3; break;
-	// 		case GL_FLOAT_VEC4: variableType = ShaderUniformVariableType::Vector4; break;
-	// 		case GL_FLOAT_MAT4: variableType = ShaderUniformVariableType::Matrix4; break;
-	// 		default: variableType = ShaderUniformVariableType::Unknown; break;
-	// 		}
-	//
-	// 		std::string variableName(name);
-	//
-	// 		const unsigned int location = getUniformLocation(variableName.c_str());
-	//
-	// 		uniformVariables.push_back({ variableName, variableType, location });
-	// 	}
-	// }
-
 	void Shader::bindAttributes()
 	{
 		bindAttribute(0, "position");
@@ -152,6 +94,20 @@ namespace BC
 	void Shader::bindAttribute(int attribute, std::string variableName) const
 	{
 		glBindAttribLocation(programID, attribute, variableName.c_str());
+	}
+
+	void Shader::bindTextures() const
+	{
+		if (bindTexturesFunc == nullptr)
+		{
+			if (hasTextures)
+			{
+				LOG_WARN("No textures are bound on the shader, specify a setTexture function for the shader");
+			}
+			return;
+		}
+		
+		bindTexturesFunc();
 	}
 
 	int Shader::getUniformLocation(const GLchar* uniformName) const
