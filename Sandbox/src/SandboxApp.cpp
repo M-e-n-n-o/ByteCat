@@ -8,7 +8,7 @@ public:
 	// The init of your application
 	Sandbox()
 	{
-		 
+		
 	}
 
 	void update() override
@@ -17,7 +17,7 @@ public:
 	}
 
 	// The end of your application
-	~Sandbox()
+	~Sandbox() override
 	{
 
 	}

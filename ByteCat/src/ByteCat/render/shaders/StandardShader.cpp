@@ -1,5 +1,5 @@
 #include "bcpch.h"
-#include "byteCat/render/shaders/StaticShader.h"
+#include "byteCat/render/shaders/StandardShader.h"
 
 namespace BC
 {
@@ -11,10 +11,11 @@ namespace BC
 
 	out vec2 passTextureCoords;
 
+	uniform mat4 modelMatrix;
 	
 	void main(void)
 	{
-		gl_Position = vec4(position, 1.0);
+		gl_Position = modelMatrix * vec4(position, 1.0);
 		passTextureCoords = textureCoords;
 	}
 	)";
@@ -35,14 +36,12 @@ namespace BC
 	}
 	)";
 
-	StaticShader::StaticShader() : ShaderProgram(vertexShader, fragmentShader)
-	{
-		
-	}
 
-	void StaticShader::bindAttributes()
+	StandardShader::StandardShader(Texture2D& texture): Shader(vertexShader, fragmentShader), mainTexture(std::make_shared<Texture2D>(texture))
 	{
-		bindAttribute(0, "position");
-		bindAttribute(1, "textureCoords");
+		setTextures([this]()
+		{
+			mainTexture->bind();
+		});
 	}
 }

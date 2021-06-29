@@ -176,11 +176,13 @@
     <ClInclude Include="src\byteCat\input\events\KeyEvent.h" />
     <ClInclude Include="src\byteCat\input\events\MouseEvent.h" />
     <ClInclude Include="src\byteCat\render\Loader.h" />
-    <ClInclude Include="src\byteCat\render\Renderer.h" />
-    <ClInclude Include="src\byteCat\render\models\Model.h" />
-    <ClInclude Include="src\byteCat\render\shaders\ShaderProgram.h" />
-    <ClInclude Include="src\byteCat\render\shaders\StaticShader.h" />
+    <ClInclude Include="src\byteCat\render\models\Mesh.h" />
+    <ClInclude Include="src\byteCat\render\models\Texture.h" />
+    <ClInclude Include="src\byteCat\render\renderers\Renderer.h" />
+    <ClInclude Include="src\byteCat\render\shaders\Shader.h" />
+    <ClInclude Include="src\byteCat\render\shaders\StandardShader.h" />
     <ClInclude Include="src\byteCat\stb_image.h" />
+    <ClInclude Include="src\byteCat\utils\Maths.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\bcpch.cpp">
@@ -191,10 +193,13 @@
     <ClCompile Include="src\byteCat\app\Window.cpp" />
     <ClCompile Include="src\byteCat\input\Input.cpp" />
     <ClCompile Include="src\byteCat\render\Loader.cpp" />
-    <ClCompile Include="src\byteCat\render\Renderer.cpp" />
-    <ClCompile Include="src\byteCat\render\shaders\ShaderProgram.cpp" />
-    <ClCompile Include="src\byteCat\render\shaders\StaticShader.cpp" />
+    <ClCompile Include="src\byteCat\render\models\Mesh.cpp" />
+    <ClCompile Include="src\byteCat\render\models\Texture.cpp" />
+    <ClCompile Include="src\byteCat\render\renderers\Renderer.cpp" />
+    <ClCompile Include="src\byteCat\render\shaders\Shader.cpp" />
+    <ClCompile Include="src\byteCat\render\shaders\StandardShader.cpp" />
     <ClCompile Include="src\byteCat\stb_image.cpp" />
+    <ClCompile Include="src\byteCat\utils\Maths.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="vendor\GLFW\GLFW.vcxproj">

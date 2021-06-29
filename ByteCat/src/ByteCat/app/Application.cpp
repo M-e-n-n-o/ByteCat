@@ -1,9 +1,14 @@
 #include "bcpch.h"
 #include "byteCat/app/Application.h"
+
+#include "byteCat/input/Input.h"
 #include "byteCat/input/events/KeyEvent.h"
-#include "byteCat/render/Loader.h"
-#include "byteCat/render/Renderer.h"
-#include "byteCat/render/shaders/StaticShader.h"
+#include "byteCat/render/renderers/Renderer.h"
+#include "byteCat/render/models/Mesh.h"
+#include "byteCat/render/models/Texture.h"
+#include "byteCat/render/shaders/Shader.h"
+#include "byteCat/render/shaders/StandardShader.h"
+#include "byteCat/utils/Maths.h"
 
 namespace BC
 {
@@ -32,12 +37,9 @@ namespace BC
 
         run();
     }
-
+	
 	void Application::run()
-	{
-        StaticShader shader;
-        shader.init();
-		
+	{				
         std::vector<float> vertices =
         {
 		  -0.5f, 0.5f, 0,
@@ -59,33 +61,35 @@ namespace BC
         	1, 1,
         	1, 0
         };
-        RawModel model = Loader::LoadToVAO(vertices, textureCoords, indices);
-        ModelTexture texture = { Loader::LoadTexture("res/blokje.png") };
-        TexturedModel texturedModel = { model, texture };
+
+        Mesh mesh(vertices, textureCoords, indices);
+        Texture2D texture("blokje.png");
 		
-		while (isRunning)
+        StandardShader shader(texture);
+        Renderer renderer;
+		
+        while (isRunning)
         {
-            Renderer::Prepare();
-            shader.start();
-            Renderer::Render(texturedModel);
-            shader.stop();
-			
-            // Update
+            renderer.prepare();
+            shader.bind();
+            shader.loadMatrix4("modelMatrix", Utils::CreateModelMatrix(glm::vec3(-1, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)));
+            renderer.renderVAO(*mesh.vao, shader);
+            shader.unbind();
+
             update();
 
             window->update();
         }
-
-        Loader::CleanUp();
 	}
 
     void Application::onEvent(Event& event)
     {		
         switch (event.getEventType())
         {
-        case EventType::WindowClose:
+		case EventType::WindowClose:
 	        {
 				isRunning = false;
+                event.handled = true;
                 break;
 	        }
         }
