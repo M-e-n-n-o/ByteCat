@@ -171,7 +171,6 @@
     <ClInclude Include="src\byteCat\app\LayerStack.h" />
     <ClInclude Include="src\byteCat\app\Window.h" />
     <ClInclude Include="src\byteCat\imgui\ImGuiLayer.h" />
-    <ClInclude Include="src\byteCat\imgui\ImGuiRenderer.h" />
     <ClInclude Include="src\byteCat\input\Input.h" />
     <ClInclude Include="src\byteCat\input\KeyCodes.h" />
     <ClInclude Include="src\byteCat\input\MouseCodes.h" />
@@ -196,8 +195,8 @@
     <ClCompile Include="src\byteCat\app\Application.cpp" />
     <ClCompile Include="src\byteCat\app\LayerStack.cpp" />
     <ClCompile Include="src\byteCat\app\Window.cpp" />
+    <ClCompile Include="src\byteCat\imgui\ImGuiBuild.cpp" />
     <ClCompile Include="src\byteCat\imgui\ImGuiLayer.cpp" />
-    <ClCompile Include="src\byteCat\imgui\ImGuiRenderer.cpp" />
     <ClCompile Include="src\byteCat\input\Input.cpp" />
     <ClCompile Include="src\byteCat\render\Loader.cpp" />
     <ClCompile Include="src\byteCat\render\Renderer.cpp" />

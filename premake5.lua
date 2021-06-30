@@ -138,6 +138,7 @@ project "Sandbox"
 	{
 		"ByteCat/vendor/spdlog/include",
 		"ByteCat/src",
+		"ByteCat/vendor",
 		"%{Libs.GLM}"
 	}
 

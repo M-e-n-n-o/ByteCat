@@ -56,9 +56,6 @@
     <ClInclude Include="src\byteCat\imgui\ImGuiLayer.h">
       <Filter>byteCat\imgui</Filter>
     </ClInclude>
-    <ClInclude Include="src\byteCat\imgui\ImGuiRenderer.h">
-      <Filter>byteCat\imgui</Filter>
-    </ClInclude>
     <ClInclude Include="src\byteCat\input\Input.h">
       <Filter>byteCat\input</Filter>
     </ClInclude>
@@ -119,10 +116,10 @@
     <ClCompile Include="src\byteCat\app\Window.cpp">
       <Filter>byteCat\app</Filter>
     </ClCompile>
-    <ClCompile Include="src\byteCat\imgui\ImGuiLayer.cpp">
+    <ClCompile Include="src\byteCat\imgui\ImGuiBuild.cpp">
       <Filter>byteCat\imgui</Filter>
     </ClCompile>
-    <ClCompile Include="src\byteCat\imgui\ImGuiRenderer.cpp">
+    <ClCompile Include="src\byteCat\imgui\ImGuiLayer.cpp">
       <Filter>byteCat\imgui</Filter>
     </ClCompile>
     <ClCompile Include="src\byteCat\input\Input.cpp">

@@ -3,7 +3,7 @@
 using namespace BC;
 
 
-class ExampleLayer : public BC::Layer
+class ExampleLayer : public Layer
 {
 public:
 	ExampleLayer() : Layer("ExampleLayer")
@@ -14,6 +14,13 @@ public:
 	void onUpdate() override
 	{
 		
+	}
+
+	void onImGuiRender() override
+	{
+		// ImGui::Begin("Test");
+		// ImGui::Text("Hello World");
+		// ImGui::End();
 	}
 
 	void onEvent(Event& event) override
@@ -38,7 +45,6 @@ public:
 	Sandbox()
 	{
 		pushLayer(new ExampleLayer());
-		pushOverlay(new ImGuiLayer());
 	}
 
 	// The end of your application

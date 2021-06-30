@@ -24,6 +24,9 @@ namespace BC
         WindowSetting setting = { "ByteCat Engine", 1280, 720, true };
         window = new Window(setting);
         window->setEventListener(this);
+
+        imGuiLayer = new ImGuiLayer();
+        pushOverlay(imGuiLayer);
 	}
 
     Application::~Application()
@@ -96,6 +99,13 @@ namespace BC
 			{
                 layer->onUpdate();
 			}
+
+            imGuiLayer->begin();
+            for (Layer* layer : layerStack)
+            {
+                layer->onImGuiRender();
+            }
+            imGuiLayer->end();
 		}
 	}
 
