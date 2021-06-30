@@ -13,12 +13,20 @@ public:
 
 	void onUpdate() override
 	{
-
+		
 	}
 
 	void onEvent(Event& event) override
 	{
-
+		if (event.getEventType() == EventType::KeyPressed)
+		{
+			KeyPressedEvent& e = (KeyPressedEvent&) event;
+			if (e.getKeyCode() == KeyCode::Backspace)
+			{
+				LOG_INFO("Backspace is pressed");
+			}
+			LOG_INFO("{0}", (char)e.getKeyCode());
+		}
 	}
 };
 

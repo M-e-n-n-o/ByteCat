@@ -1,7 +1,5 @@
 #pragma once
 
-#include "byteCat/Core.h"
-
 namespace BC
 {
 	enum class KeyCode
