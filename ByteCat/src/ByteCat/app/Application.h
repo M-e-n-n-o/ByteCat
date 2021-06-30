@@ -5,6 +5,7 @@
 #include "byteCat/input/events/Event.h"
 #include "byteCat/app/Window.h"
 #include "byteCat/app/Layer.h"
+#include "byteCat/input/events/ApplicationEvent.h"
 
 namespace BC
 {
@@ -17,6 +18,8 @@ namespace BC
 		LayerStack layerStack;
 		
 		bool isRunning;
+		bool isMinimized;
+		
 		Window* window;
 
 		friend int ::main(int argc, char** argv);
@@ -36,6 +39,8 @@ namespace BC
 		void run();
 
 		void onEvent(Event& event) override;
+		bool onWindowClose(WindowCloseEvent& event);
+		bool onWindowResize(WindowResizeEvent& event);
 	};
 
 	// Need to be defined in the users application

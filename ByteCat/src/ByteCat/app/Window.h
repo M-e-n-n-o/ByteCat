@@ -2,6 +2,7 @@
 
 #include <string>
 #include "byteCat/input/events/Event.h"
+#include "glm/vec2.hpp"
 
 namespace BC
 {
@@ -26,6 +27,8 @@ namespace BC
 
 		void update() const;
 		void shutdown() const;
+
+		void resize(float x, float y);
 		
 		std::string getTitle() const { return setting.title; }
 		int getWidth() const { return setting.width; }

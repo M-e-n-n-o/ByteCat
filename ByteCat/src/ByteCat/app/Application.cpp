@@ -41,6 +41,7 @@ namespace BC
             return;
         }
         isRunning = true;
+        isMinimized = false;
 
         run();
     }
@@ -77,6 +78,13 @@ namespace BC
 
 		while (isRunning)
 		{
+            window->update();
+			
+			if (isMinimized)
+			{
+				continue;	
+			}
+			
             renderer.prepare();
 
 			shader.bind();
@@ -88,18 +96,14 @@ namespace BC
 			{
                 layer->onUpdate();
 			}
-
-            window->update();
 		}
 	}
 
     void Application::onEvent(Event& event)
-    {
-		if (event.getEventType() == EventType::WindowClose)
-		{
-            isRunning = false;
-            event.handled = true;
-		}
+    {		
+        EventDispatcher dispatcher(event);
+        dispatcher.dispatch<WindowCloseEvent>(BC_BIND_EVENT_FN(Application::onWindowClose));
+        dispatcher.dispatch<WindowResizeEvent>(BC_BIND_EVENT_FN(Application::onWindowResize));
 		
         for (auto it = layerStack.end(); it != layerStack.begin();)
         {
@@ -109,6 +113,27 @@ namespace BC
         		break;
         	}
         }
+    }
+
+    bool Application::onWindowClose(WindowCloseEvent& event)
+    {
+        isRunning = false;
+        return true;
+    }
+
+    bool Application::onWindowResize(WindowResizeEvent& event)
+    {
+		if (event.getWidth() == 0 || event.getHeight() == 0)
+		{
+            isMinimized = true;
+            return false;
+		}
+
+        isMinimized = false;
+
+        window->resize(event.getWidth(), event.getHeight());
+
+        return false;
     }
 
     void Application::pushLayer(Layer* layer)
