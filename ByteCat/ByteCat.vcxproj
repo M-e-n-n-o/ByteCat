@@ -84,6 +84,7 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AdditionalOptions>/MDd %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -113,6 +114,7 @@
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalOptions>/MD %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -143,6 +145,7 @@
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalOptions>/MD %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -167,6 +170,8 @@
     <ClInclude Include="src\byteCat\EntryPoint.h" />
     <ClInclude Include="src\byteCat\Log.h" />
     <ClInclude Include="src\byteCat\app\Application.h" />
+    <ClInclude Include="src\byteCat\app\Layer.h" />
+    <ClInclude Include="src\byteCat\app\LayerStack.h" />
     <ClInclude Include="src\byteCat\app\Window.h" />
     <ClInclude Include="src\byteCat\input\Input.h" />
     <ClInclude Include="src\byteCat\input\KeyCodes.h" />
@@ -190,6 +195,7 @@
     </ClCompile>
     <ClCompile Include="src\byteCat\Log.cpp" />
     <ClCompile Include="src\byteCat\app\Application.cpp" />
+    <ClCompile Include="src\byteCat\app\LayerStack.cpp" />
     <ClCompile Include="src\byteCat\app\Window.cpp" />
     <ClCompile Include="src\byteCat\input\Input.cpp" />
     <ClCompile Include="src\byteCat\render\Loader.cpp" />

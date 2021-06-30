@@ -19,7 +19,7 @@ namespace BC
 		virtual unsigned int getWidth() const = 0;
 		virtual unsigned int getHeight() const = 0;
 		
-		virtual void bind(unsigned int number = 0) const = 0;
+		virtual void bind(unsigned int textureUnit = 0) const = 0;
 	};
 
 	
@@ -32,6 +32,6 @@ namespace BC
 		unsigned int getWidth() const override { return width; }
 		unsigned int getHeight() const override { return height; }
 		
-		void bind(unsigned int number = 0) const override;
+		void bind(unsigned int textureUnit = 0) const override;
 	};
 }

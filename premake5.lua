@@ -102,14 +102,17 @@ project "ByteCat"
 
 	filter "configurations:Debug"
 		defines "BC_DEBUG"
+		buildoptions "/MDd"
 		symbols "On"
 
 	filter "configurations:Release"
 		defines "BC_RELEASE"
+		buildoptions "/MD"
 		optimize "On"
 
 	filter "configurations:Dist"
 		defines "BC_DIST"
+		buildoptions "/MD"
 		optimize "On"
 
 
@@ -167,12 +170,15 @@ project "Sandbox"
 
 	filter "configurations:Debug"
 		defines "BC_DEBUG"
+		buildoptions "/MDd"
 		symbols "On"
 
 	filter "configurations:Release"
 		defines "BC_RELEASE"
+		buildoptions "/MD"
 		optimize "On"
 
 	filter "configurations:Dist"
 		defines "BC_DIST"
+		buildoptions "/MD"
 		optimize "On"

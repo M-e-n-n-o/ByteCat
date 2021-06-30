@@ -20,9 +20,9 @@ namespace BC
 		glDeleteTextures(1, &textureID);
 	}
 
-	void Texture2D::bind(unsigned number) const
+	void Texture2D::bind(unsigned textureUnit) const
 	{
-		switch (number)
+		switch (textureUnit)
 		{
 			case 0: glActiveTexture(GL_TEXTURE0); break;
 			case 1: glActiveTexture(GL_TEXTURE1); break;
@@ -30,7 +30,7 @@ namespace BC
 			case 3: glActiveTexture(GL_TEXTURE3); break;
 			case 4: glActiveTexture(GL_TEXTURE4); break;
 			case 5: glActiveTexture(GL_TEXTURE5); break;
-			default: LOG_ERROR("Texture unit {0} cannot be used", number); return;
+			default: LOG_ERROR("Texture unit {0} cannot be used", textureUnit); return;
 		}
 
 		glBindTexture(GL_TEXTURE_2D, textureID);

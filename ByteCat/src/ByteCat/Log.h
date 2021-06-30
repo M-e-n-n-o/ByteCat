@@ -10,7 +10,6 @@
 
 	// Core log/assert macros
 	#ifdef BC_CORE_ACCESS
-		#define LOG_TRACE(...)         ::BC::Log::GetCoreLogger()->trace(__VA_ARGS__)
 		#define LOG_INFO(...)          ::BC::Log::GetCoreLogger()->info(__VA_ARGS__)
 		#define LOG_WARN(...)          ::BC::Log::GetCoreLogger()->warn(__VA_ARGS__)
 		#define LOG_ERROR(...)         ::BC::Log::GetCoreLogger()->error(__VA_ARGS__)
@@ -20,7 +19,6 @@
 
 	// Client log/assert macros
 	#ifdef BC_CLIENT_ACCESS
-		#define LOG_TRACE(...)         ::BC::Log::GetClientLogger()->trace(__VA_ARGS__)
 		#define LOG_INFO(...)          ::BC::Log::GetClientLogger()->info(__VA_ARGS__)
 		#define LOG_WARN(...)          ::BC::Log::GetClientLogger()->warn(__VA_ARGS__)
 		#define LOG_ERROR(...)         ::BC::Log::GetClientLogger()->error(__VA_ARGS__)
@@ -29,7 +27,6 @@
 	#endif
 #else
 	// Empty log/assert macros
-	#define LOG_TRACE(...)
 	#define LOG_INFO(...)
 	#define LOG_WARN(...)
 	#define LOG_ERROR(...)

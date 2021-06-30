@@ -1,7 +1,9 @@
 #pragma once
 
+#include <map>
 #include <GL/glew.h>
 #include <glm/gtc/matrix_transform.hpp>
+#include "byteCat/render/models/Texture.h"
 
 namespace BC
 {	
@@ -13,8 +15,7 @@ namespace BC
 		int fragmentShaderID;
 
 		bool hasTextures;
-
-		std::function<void()> bindTexturesFunc;
+		std::map<unsigned int, Texture&> textures;
 	
 	public:
 		Shader(std::string& vertexShader, std::string& fragmentShader);
@@ -29,9 +30,9 @@ namespace BC
 		void loadVector3(std::string name, glm::vec3 value) const;
 		void loadVector4(std::string name, glm::vec4 value) const;
 		void loadMatrix4(std::string name, glm::mat4 value) const;
-
-		void setTextures(std::function<void()> func) { bindTexturesFunc = func; }
-		void bindTextures() const;
+		
+		void bindTexture(Texture& texture, unsigned int textureUnit = 0);
+		void activateTextures() const;
 
 	private:
 		int getUniformLocation(const GLchar* uniformName) const;

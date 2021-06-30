@@ -15,7 +15,7 @@ namespace BC
 	void Renderer::renderVAO(VAO& vao, Shader& shader) const
 	{
 		glBindVertexArray(vao.id);
-		shader.bindTextures();
+		shader.activateTextures();
 		glDrawElements(GL_TRIANGLES, vao.vertexCount, GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
 	}

@@ -15,13 +15,16 @@ namespace BC
 		VAO LoadToVAO(std::vector<float>& positions, std::vector<float>& textureCoords, std::vector<int>& indices)
 		{
 			const GLuint vaoID = createVAO();
-			std::vector<unsigned int> vbos;
-			vbos.push_back(bindIndicesBuffer(indices));
-			vbos.push_back(storeDataInAttributeList(0, 3, positions));
-			vbos.push_back(storeDataInAttributeList(1, 2, textureCoords));
+			
+			std::vector<VBO> vbos;
+			vbos.push_back({ bindIndicesBuffer(indices), VboType::Indices, std::vector<float>(indices.begin(), indices.end()) });
+			vbos.push_back({ storeDataInAttributeList(0, 3, positions), VboType::VertexPos, positions });
+			vbos.push_back({ storeDataInAttributeList(1, 2, textureCoords), VboType::TextureCoord, textureCoords });
+			
 			glEnableVertexAttribArray(0);
 			glEnableVertexAttribArray(1);
 			glBindVertexArray(0);
+			
 			return { vaoID, (unsigned int)(indices.size()), vbos };
 		}
 

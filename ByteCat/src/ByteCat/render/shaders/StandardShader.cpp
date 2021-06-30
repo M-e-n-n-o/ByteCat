@@ -37,11 +37,8 @@ namespace BC
 	)";
 
 
-	StandardShader::StandardShader(Texture2D& texture): Shader(vertexShader, fragmentShader), mainTexture(std::make_shared<Texture2D>(texture))
+	StandardShader::StandardShader(Texture2D& texture): Shader(vertexShader, fragmentShader)
 	{
-		setTextures([this]()
-		{
-			mainTexture->bind();
-		});
+		bindTexture(texture);
 	}
 }

@@ -90,24 +90,28 @@ namespace BC
 		bindAttribute(1, "textureCoords");
 	}
 
-	
+
 	void Shader::bindAttribute(int attribute, std::string variableName) const
 	{
 		glBindAttribLocation(programID, attribute, variableName.c_str());
 	}
 
-	void Shader::bindTextures() const
+	void Shader::bindTexture(Texture& texture, unsigned textureUnit)
 	{
-		if (bindTexturesFunc == nullptr)
-		{
-			if (hasTextures)
-			{
-				LOG_WARN("No textures are bound on the shader, specify a setTexture function for the shader");
-			}
-			return;
-		}
+		auto it = textures.insert(std::pair<unsigned int, Texture&>(textureUnit, texture));
 		
-		bindTexturesFunc();
+		if (!it.second)
+		{
+			it.first->second = texture;
+		}
+	}
+
+	void Shader::activateTextures() const
+	{
+		for (auto texture : textures)
+		{
+			texture.second.bind(texture.first);
+		}
 	}
 
 	int Shader::getUniformLocation(const GLchar* uniformName) const

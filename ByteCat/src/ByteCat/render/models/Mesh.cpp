@@ -12,8 +12,12 @@ namespace BC
 
 	Mesh::~Mesh()
 	{
+		for (VBO& vbo : vao->vbos)
+		{
+			glDeleteBuffers(1, &vbo.id);
+		}
+		
 		glDeleteVertexArrays(1, &vao->id);
-		glDeleteBuffers(static_cast<GLsizei>(vao->vbos.size()), &vao->vbos[0]);
 	}
 
 	void Mesh::bind() const
@@ -24,5 +28,18 @@ namespace BC
 	void Mesh::unbind() const
 	{
 		glBindVertexArray(0);
+	}
+
+	std::vector<float>& Mesh::getVertexPositions() const
+	{
+		for (VBO& vbo : vao->vbos)
+		{
+			if (vbo.type == VboType::VertexPos)
+			{
+				return vbo.data;
+			}
+		}
+
+		return std::vector<float>();
 	}
 }

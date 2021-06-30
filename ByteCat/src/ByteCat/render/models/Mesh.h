@@ -4,12 +4,28 @@
 
 namespace BC
 {
+	enum class VboType
+	{
+		VertexPos,
+		Indices,
+		TextureCoord,
+		Normal
+	};
+
+	struct VBO
+	{
+		unsigned int id;
+		VboType type;
+
+		std::vector<float>& data;
+	};
+	
 	struct VAO
 	{
 		unsigned int id;
 		unsigned int vertexCount;
 
-		std::vector<unsigned int> vbos;
+		std::vector<VBO> vbos;
 	};
 
 	
@@ -23,5 +39,7 @@ namespace BC
 		
 		void bind() const;
 		void unbind() const;
+
+		std::vector<float>& getVertexPositions() const;
 	};
 }

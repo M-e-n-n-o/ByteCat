@@ -5,6 +5,7 @@
 */
 
 #include "byteCat/app/Application.h"
+#include "byteCat/app/Layer.h"
 #include "byteCat/Log.h"
 
 #include "byteCat/input/KeyCodes.h"

@@ -11,7 +11,7 @@
 #include "byteCat/utils/Maths.h"
 
 namespace BC
-{
+{	
     Application* Application::instance = nullptr;
 	
 	Application::Application() : isRunning(false)
@@ -26,6 +26,13 @@ namespace BC
         window->setEventListener(this);
 	}
 
+    Application::~Application()
+    {
+        LOG_INFO("ByteCat engine is closing...");
+
+        delete window;
+    }
+
     void Application::start()
     {
         if (isRunning)
@@ -39,66 +46,88 @@ namespace BC
     }
 	
 	void Application::run()
-	{				
-        std::vector<float> vertices =
-        {
-		  -0.5f, 0.5f, 0,
-		  -0.5f, -0.5f, 0,
-		  0.5f, -0.5f, 0,
-		  0.5f, 0.5f, 0
-        };
+	{	
+   //      std::vector<float> vertices =
+   //      {
+		 //  -0.5f, 0.5f, 0,
+		 //  -0.5f, -0.5f, 0,
+		 //  0.5f, -0.5f, 0,
+		 //  0.5f, 0.5f, 0
+   //      };
+   //
+   //      std::vector<int> indices =
+   //      {
+   //          0,1,3,
+			// 3,1,2
+   //      };
+   //
+   //      std::vector<float> textureCoords =
+   //      {
+   //      	0, 0,
+   //      	0, 1,
+   //      	1, 1,
+   //      	1, 0
+   //      };
+   //
+   //      Mesh mesh(vertices, textureCoords, indices);
+   //      Texture2D texture("blokje.png");
+		 //
+   //      StandardShader shader(texture);
+         Renderer renderer;
+   //
+   //      while (isRunning)
+   //      {        	
+   //          renderer.prepare();
+   //          shader.bind();
+   //          shader.loadMatrix4("modelMatrix", Utils::CreateModelMatrix(glm::vec3(-1, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)));
+   //          renderer.renderVAO(*mesh.vao, shader);
+   //          shader.unbind();
+   //
+   //          update();
+   //
+   //          window->update();
+   //      }
 
-        std::vector<int> indices =
-        {
-            0,1,3,
-			3,1,2
-        };
-
-        std::vector<float> textureCoords =
-        {
-        	0, 0,
-        	0, 1,
-        	1, 1,
-        	1, 0
-        };
-
-        Mesh mesh(vertices, textureCoords, indices);
-        Texture2D texture("blokje.png");
-		
-        StandardShader shader(texture);
-        Renderer renderer;
-		
-        while (isRunning)
-        {
+		while (isRunning)
+		{
             renderer.prepare();
-            shader.bind();
-            shader.loadMatrix4("modelMatrix", Utils::CreateModelMatrix(glm::vec3(-1, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)));
-            renderer.renderVAO(*mesh.vao, shader);
-            shader.unbind();
 
-            update();
+			for (Layer* layer : layerStack)
+			{
+                layer->onUpdate();
+			}
 
             window->update();
-        }
+		}
 	}
 
     void Application::onEvent(Event& event)
-    {		
-        switch (event.getEventType())
+    {
+		if (event.getEventType() == EventType::WindowClose)
+		{
+            isRunning = false;
+            event.handled = true;
+		}
+		
+        for (auto it = layerStack.end(); it != layerStack.begin();)
         {
-		case EventType::WindowClose:
-	        {
-				isRunning = false;
-                event.handled = true;
-                break;
-	        }
+            (*--it)->onEvent(event);
+        	if (event.handled)
+        	{
+        		break;
+        	}
         }
     }
 
-	Application::~Application()
+    void Application::pushLayer(Layer* layer)
     {
-        LOG_INFO("ByteCat engine is closing...");
-		
-        delete window;
+        layerStack.pushLayer(layer);
+        layer->onAttach();
+    }
+
+    void Application::pushOverlay(Layer* overlay)
+    {
+        layerStack.pushLayer(overlay);
+        overlay->onAttach();
     }
 }

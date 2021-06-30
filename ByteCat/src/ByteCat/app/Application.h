@@ -1,8 +1,10 @@
 #pragma once
 
+#include "byteCat/app/LayerStack.h"
 #include "byteCat/Core.h"
 #include "byteCat/input/events/Event.h"
 #include "byteCat/app/Window.h"
+#include "byteCat/app/Layer.h"
 
 namespace BC
 {
@@ -11,6 +13,8 @@ namespace BC
 	{
 	private:
 		static Application* instance;
+
+		LayerStack layerStack;
 		
 		bool isRunning;
 		Window* window;
@@ -21,15 +25,15 @@ namespace BC
 		Application();
 		virtual ~Application();
 
+		void pushLayer(Layer* layer);
+		void pushOverlay(Layer* overlay);
+		
 		Window& getWindow() const { return *window; }
-
 		static Application& GetInstance() { return *instance; }
 
 	private:
 		void start();
 		void run();
-		
-		virtual void update() = 0;
 
 		void onEvent(Event& event) override;
 	};
