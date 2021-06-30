@@ -1,6 +1,6 @@
 #include "bcpch.h"
 #include <GL/glew.h>
-#include "byteCat/stb_image.h"
+#include "byteCat/utils/stb_image.h"
 #include "byteCat/render/Loader.h"
 
 namespace BC

@@ -14,9 +14,11 @@ Libs = {}
 Libs["GLFW"] = "ByteCat/vendor/GLFW"
 Libs["GLEW"] = "ByteCat/vendor/glew-2.0.0"
 Libs["GLM"] = "ByteCat/vendor/glm"
+Libs["ImGui"] = "ByteCat/vendor/imgui"
 
 include "ByteCat/vendor/GLFW"
 include "ByteCat/vendor/glm"
+include "ByteCat/vendor/imgui"
 
 
 project "ByteCat"
@@ -42,6 +44,7 @@ project "ByteCat"
 		"%{prj.name}/vendor/spdlog/include",
 		"%{Libs.GLEW}/include",
 		"%{Libs.GLFW}/include",
+		"%{Libs.ImGui}",
 		"%{Libs.GLM}"
 	}
 
@@ -49,6 +52,7 @@ project "ByteCat"
 	{
 		"glew32",
 		"GLFW",
+		"ImGui",
 		"GLM",
 		"opengl32.lib"
 	}

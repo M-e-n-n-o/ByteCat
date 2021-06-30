@@ -80,7 +80,7 @@
       <PrecompiledHeaderFile>bcpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>BC_PLATFORM_WINDOWS;BC_BUILD_DLL;BC_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\glew-2.0.0\include;vendor\GLFW\include;vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\glew-2.0.0\include;vendor\GLFW\include;vendor\imgui;vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -107,7 +107,7 @@
       <PrecompiledHeaderFile>bcpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>BC_PLATFORM_WINDOWS;BC_BUILD_DLL;BC_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\glew-2.0.0\include;vendor\GLFW\include;vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\glew-2.0.0\include;vendor\GLFW\include;vendor\imgui;vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -138,7 +138,7 @@
       <PrecompiledHeaderFile>bcpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>BC_PLATFORM_WINDOWS;BC_BUILD_DLL;BC_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\glew-2.0.0\include;vendor\GLFW\include;vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\glew-2.0.0\include;vendor\GLFW\include;vendor\imgui;vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -173,6 +173,8 @@
     <ClInclude Include="src\byteCat\app\Layer.h" />
     <ClInclude Include="src\byteCat\app\LayerStack.h" />
     <ClInclude Include="src\byteCat\app\Window.h" />
+    <ClInclude Include="src\byteCat\imgui\ImGuiLayer.h" />
+    <ClInclude Include="src\byteCat\imgui\ImGuiRenderer.h" />
     <ClInclude Include="src\byteCat\input\Input.h" />
     <ClInclude Include="src\byteCat\input\KeyCodes.h" />
     <ClInclude Include="src\byteCat\input\MouseCodes.h" />
@@ -181,13 +183,13 @@
     <ClInclude Include="src\byteCat\input\events\KeyEvent.h" />
     <ClInclude Include="src\byteCat\input\events\MouseEvent.h" />
     <ClInclude Include="src\byteCat\render\Loader.h" />
+    <ClInclude Include="src\byteCat\render\Renderer.h" />
     <ClInclude Include="src\byteCat\render\models\Mesh.h" />
     <ClInclude Include="src\byteCat\render\models\Texture.h" />
-    <ClInclude Include="src\byteCat\render\Renderer.h" />
     <ClInclude Include="src\byteCat\render\shaders\Shader.h" />
     <ClInclude Include="src\byteCat\render\shaders\StandardShader.h" />
-    <ClInclude Include="src\byteCat\stb_image.h" />
     <ClInclude Include="src\byteCat\utils\Maths.h" />
+    <ClInclude Include="src\byteCat\utils\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\bcpch.cpp">
@@ -197,19 +199,24 @@
     <ClCompile Include="src\byteCat\app\Application.cpp" />
     <ClCompile Include="src\byteCat\app\LayerStack.cpp" />
     <ClCompile Include="src\byteCat\app\Window.cpp" />
+    <ClCompile Include="src\byteCat\imgui\ImGuiLayer.cpp" />
+    <ClCompile Include="src\byteCat\imgui\ImGuiRenderer.cpp" />
     <ClCompile Include="src\byteCat\input\Input.cpp" />
     <ClCompile Include="src\byteCat\render\Loader.cpp" />
+    <ClCompile Include="src\byteCat\render\Renderer.cpp" />
     <ClCompile Include="src\byteCat\render\models\Mesh.cpp" />
     <ClCompile Include="src\byteCat\render\models\Texture.cpp" />
-    <ClCompile Include="src\byteCat\render\Renderer.cpp" />
     <ClCompile Include="src\byteCat\render\shaders\Shader.cpp" />
     <ClCompile Include="src\byteCat\render\shaders\StandardShader.cpp" />
-    <ClCompile Include="src\byteCat\stb_image.cpp" />
     <ClCompile Include="src\byteCat\utils\Maths.cpp" />
+    <ClCompile Include="src\byteCat\utils\stb_image.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="vendor\GLFW\GLFW.vcxproj">
       <Project>{154B857C-0182-860D-AA6E-6C109684020F}</Project>
+    </ProjectReference>
+    <ProjectReference Include="vendor\imgui\ImGui.vcxproj">
+      <Project>{C0FF640D-2C14-8DBE-F595-301E616989EF}</Project>
     </ProjectReference>
     <ProjectReference Include="vendor\glm\GLM.vcxproj">
       <Project>{05EB870B-71F4-877C-FA6F-9E7C6678937C}</Project>

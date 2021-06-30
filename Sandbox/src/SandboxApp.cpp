@@ -6,7 +6,7 @@ using namespace BC;
 class ExampleLayer : public BC::Layer
 {
 public:
-	ExampleLayer() : Layer()
+	ExampleLayer() : Layer("ExampleLayer")
 	{
 		
 	}
@@ -29,8 +29,8 @@ public:
 	// The init of your application
 	Sandbox()
 	{
-		LOG_INFO("Test");
 		pushLayer(new ExampleLayer());
+		pushOverlay(new ImGuiLayer());
 	}
 
 	// The end of your application

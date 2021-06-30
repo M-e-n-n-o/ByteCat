@@ -47,51 +47,43 @@ namespace BC
 	
 	void Application::run()
 	{	
-   //      std::vector<float> vertices =
-   //      {
-		 //  -0.5f, 0.5f, 0,
-		 //  -0.5f, -0.5f, 0,
-		 //  0.5f, -0.5f, 0,
-		 //  0.5f, 0.5f, 0
-   //      };
-   //
-   //      std::vector<int> indices =
-   //      {
-   //          0,1,3,
-			// 3,1,2
-   //      };
-   //
-   //      std::vector<float> textureCoords =
-   //      {
-   //      	0, 0,
-   //      	0, 1,
-   //      	1, 1,
-   //      	1, 0
-   //      };
-   //
-   //      Mesh mesh(vertices, textureCoords, indices);
-   //      Texture2D texture("blokje.png");
-		 //
-   //      StandardShader shader(texture);
-         Renderer renderer;
-   //
-   //      while (isRunning)
-   //      {        	
-   //          renderer.prepare();
-   //          shader.bind();
-   //          shader.loadMatrix4("modelMatrix", Utils::CreateModelMatrix(glm::vec3(-1, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)));
-   //          renderer.renderVAO(*mesh.vao, shader);
-   //          shader.unbind();
-   //
-   //          update();
-   //
-   //          window->update();
-   //      }
+        std::vector<float> vertices =
+        {
+		  -0.5f, 0.5f, 0,
+		  -0.5f, -0.5f, 0,
+		  0.5f, -0.5f, 0,
+		  0.5f, 0.5f, 0
+        };
+   
+        std::vector<int> indices =
+        {
+            0,1,3,
+			3,1,2
+        };
+   
+        std::vector<float> textureCoords =
+        {
+        	0, 0,
+        	0, 1,
+        	1, 1,
+        	1, 0
+        };
+   
+        Mesh mesh(vertices, textureCoords, indices);
+        Texture2D texture("blokje.png");
+		 
+        StandardShader shader(texture);
+        Renderer renderer;
 
 		while (isRunning)
 		{
             renderer.prepare();
 
+			shader.bind();
+			shader.loadMatrix4("modelMatrix", Utils::CreateModelMatrix(glm::vec3(-1, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)));
+			renderer.renderVAO(*mesh.vao, shader);
+			shader.unbind();
+			
 			for (Layer* layer : layerStack)
 			{
                 layer->onUpdate();
