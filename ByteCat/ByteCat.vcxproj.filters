@@ -83,9 +83,6 @@
     <ClInclude Include="src\byteCat\render\models\Texture.h">
       <Filter>byteCat\render\models</Filter>
     </ClInclude>
-    <ClInclude Include="src\byteCat\render\renderers\Renderer.h">
-      <Filter>byteCat\render\renderers</Filter>
-    </ClInclude>
     <ClInclude Include="src\byteCat\render\shaders\Shader.h">
       <Filter>byteCat\render\shaders</Filter>
     </ClInclude>
@@ -97,6 +94,9 @@
     </ClInclude>
     <ClInclude Include="src\byteCat\utils\Maths.h">
       <Filter>byteCat\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\byteCat\render\Renderer.h">
+      <Filter>byteCat\render\renderers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -125,9 +125,6 @@
     <ClCompile Include="src\byteCat\render\models\Texture.cpp">
       <Filter>byteCat\render\models</Filter>
     </ClCompile>
-    <ClCompile Include="src\byteCat\render\renderers\Renderer.cpp">
-      <Filter>byteCat\render\renderers</Filter>
-    </ClCompile>
     <ClCompile Include="src\byteCat\render\shaders\Shader.cpp">
       <Filter>byteCat\render\shaders</Filter>
     </ClCompile>
@@ -139,6 +136,9 @@
     </ClCompile>
     <ClCompile Include="src\byteCat\utils\Maths.cpp">
       <Filter>byteCat\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\byteCat\render\Renderer.cpp">
+      <Filter>byteCat\render\renderers</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

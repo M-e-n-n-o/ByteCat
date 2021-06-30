@@ -12,6 +12,6 @@ namespace BC
 	public:
 		StandardShader(Texture2D& texture);
 
-		void setMainTexture(Texture2D& texture) { bindTexture(texture); }
+		void setMainTexture(Texture2D& texture) { setTexture(texture); }
 	};
 }

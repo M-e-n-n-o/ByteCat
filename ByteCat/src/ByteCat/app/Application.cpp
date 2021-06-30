@@ -3,7 +3,7 @@
 
 #include "byteCat/input/Input.h"
 #include "byteCat/input/events/KeyEvent.h"
-#include "byteCat/render/renderers/Renderer.h"
+#include "byteCat/render/Renderer.h"
 #include "byteCat/render/models/Mesh.h"
 #include "byteCat/render/models/Texture.h"
 #include "byteCat/render/shaders/Shader.h"

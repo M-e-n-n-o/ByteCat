@@ -39,6 +39,6 @@ namespace BC
 
 	StandardShader::StandardShader(Texture2D& texture): Shader(vertexShader, fragmentShader)
 	{
-		bindTexture(texture);
+		setTexture(texture);
 	}
 }

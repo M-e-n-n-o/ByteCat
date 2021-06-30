@@ -96,7 +96,7 @@ namespace BC
 		glBindAttribLocation(programID, attribute, variableName.c_str());
 	}
 
-	void Shader::bindTexture(Texture& texture, unsigned textureUnit)
+	void Shader::setTexture(Texture& texture, unsigned textureUnit)
 	{
 		auto it = textures.insert(std::pair<unsigned int, Texture&>(textureUnit, texture));
 		
@@ -106,7 +106,7 @@ namespace BC
 		}
 	}
 
-	void Shader::activateTextures() const
+	void Shader::bindTextures() const
 	{
 		for (auto texture : textures)
 		{
