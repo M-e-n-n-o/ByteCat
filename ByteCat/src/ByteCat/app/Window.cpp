@@ -125,7 +125,7 @@ namespace BC
 		glfwTerminate();
 	}
 
-	void Window::resize(float x, float y)
+	void Window::resize(unsigned int x, unsigned int y)
 	{
 		setting.width = x;
 		setting.height = y;

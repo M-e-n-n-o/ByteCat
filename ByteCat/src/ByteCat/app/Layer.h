@@ -5,7 +5,7 @@
 
 namespace BC
 {
-	class BYTECAT_API Layer
+	class Layer
 	{
 	private:
 		std::string name;

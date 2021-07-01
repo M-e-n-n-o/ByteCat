@@ -23,9 +23,10 @@ include "ByteCat/vendor/imgui"
 
 project "ByteCat"
 	location "ByteCat"
-	kind "SharedLib"
+	kind "StaticLib"
 	language "C++"
-	staticruntime "off"
+	cppdialect "C++17"
+	staticruntime "on"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -37,6 +38,12 @@ project "ByteCat"
 	{
 		"%{prj.name}/src/**.h",
 		"%{prj.name}/src/**.cpp",
+	}
+
+	defines
+	{
+		"_CRT_SECURE_NO_WARNINGS",
+		"BC_CORE"
 	}
 
 	includedirs
@@ -64,18 +71,11 @@ project "ByteCat"
 	}
 
 	filter "system:windows"
-		cppdialect "C++17"
 		systemversion "latest"
 
 		defines
 		{
-			"BC_PLATFORM_WINDOWS",
-			"BC_BUILD_DLL"
-		}
-
-		postbuildcommands
-		{
-			("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox")
+			"BC_PLATFORM_WINDOWS"
 		}
 
 		prebuildcommands
@@ -84,13 +84,11 @@ project "ByteCat"
 		}
 
 	filter "system:linux"
-		cppdialect "C++17"
 		systemversion "latest"
 
 		defines
 		{
-			"BC_PLATFORM_LINUX",
-			"BC_BUILD_DLL"
+			"BC_PLATFORM_LINUX"
 		}
 
 		prebuildcommands
@@ -98,32 +96,28 @@ project "ByteCat"
 			("{COPY} vendor/glew-2.0.0/x64/glew32.dll ../bin/" .. outputdir .. "/Sandbox")
 		}
 
-		postbuildcommands
-		{
-			("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox")
-		}
-
 	filter "configurations:Debug"
 		defines "BC_DEBUG"
 		runtime "Debug"
-		symbols "On"
+		symbols "on"
 
 	filter "configurations:Release"
 		defines "BC_RELEASE"
 		runtime "Release"
-		optimize "On"
+		optimize "on"
 
 	filter "configurations:Dist"
 		defines "BC_DIST"
 		runtime "Release"
-		optimize "On"
+		optimize "on"
 
 
 project "Sandbox"
 	location "Sandbox"
 	kind "ConsoleApp"
 	language "C++"
-	staticruntime "off"
+	cppdialect "C++17"
+	staticruntime "on"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -154,7 +148,6 @@ project "Sandbox"
 	}
 
 	filter "system:windows"
-		cppdialect "C++17"
 		systemversion "latest"
 
 		defines
@@ -163,7 +156,6 @@ project "Sandbox"
 		}
 
 	filter "system:linux"
-		cppdialect "C++17"
 		systemversion "latest"
 
 		defines
@@ -174,14 +166,14 @@ project "Sandbox"
 	filter "configurations:Debug"
 		defines "BC_DEBUG"
 		runtime "Debug"
-		symbols "On"
+		symbols "on"
 
 	filter "configurations:Release"
 		defines "BC_RELEASE"
 		runtime "Release"
-		optimize "On"
+		optimize "on"
 
 	filter "configurations:Dist"
 		defines "BC_DIST"
 		runtime "Release"
-		optimize "On"
+		optimize "on"

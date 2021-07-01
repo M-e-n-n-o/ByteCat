@@ -2,6 +2,7 @@ project "GLM"
 	kind "StaticLib"
 	language "C"
 	architecture "x86_64"
+	staticruntime "on"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -15,7 +16,6 @@ project "GLM"
     
 	filter "system:windows"
 		systemversion "latest"
-		staticruntime "On"
 
 		defines 
 		{ 

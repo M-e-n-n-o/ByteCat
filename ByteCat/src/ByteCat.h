@@ -8,8 +8,6 @@
 #include "byteCat/app/Layer.h"
 #include "byteCat/Log.h"
 
-#include "imgui/imgui.h"
-
 #include "byteCat/input/events/Event.h"
 #include "byteCat/input/events/ApplicationEvent.h"
 #include "byteCat/input/events/KeyEvent.h"

@@ -1,4 +1,5 @@
 #include <ByteCat.h>
+#include "imgui/imgui.h"
 
 using namespace BC;
 
@@ -18,9 +19,9 @@ public:
 
 	void onImGuiRender() override
 	{
-		// ImGui::Begin("Test");
-		// ImGui::Text("Hello World");
-		// ImGui::End();
+		ImGui::Begin("Test");
+		ImGui::Text("Hello World");
+		ImGui::End();
 	}
 
 	void onEvent(Event& event) override

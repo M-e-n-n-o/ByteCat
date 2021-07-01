@@ -6,7 +6,7 @@
 
 namespace BC
 {
-	class BYTECAT_API LayerStack
+	class LayerStack
 	{
 	private:
 		std::vector<Layer*> layers;

@@ -11,7 +11,7 @@
 namespace BC
 {
 	// Inherit from this class in the users application
-	class BYTECAT_API Application : public EventListener
+	class Application : public EventListener
 	{
 	private:
 		static Application* instance;

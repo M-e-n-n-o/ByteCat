@@ -36,7 +36,7 @@
 
 namespace BC
 {
-	class BYTECAT_API Log
+	class Log
 	{
 	private:
 		friend int ::main(int argc, char** argv);

@@ -8,9 +8,9 @@ namespace BC
 {
 	namespace Input
 	{
-		bool BYTECAT_API IsKeyPressed(KeyCode key);
+		bool IsKeyPressed(KeyCode key);
 		
-		bool BYTECAT_API IsMouseButtonPressed(MouseCode button);
-		glm::vec2 BYTECAT_API GetMousePos();
+		bool IsMouseButtonPressed(MouseCode button);
+		glm::vec2 GetMousePos();
 	};
 }
