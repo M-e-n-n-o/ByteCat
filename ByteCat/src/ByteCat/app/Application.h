@@ -1,7 +1,6 @@
 #pragma once
 
 #include "byteCat/app/LayerStack.h"
-#include "byteCat/Core.h"
 #include "byteCat/input/events/Event.h"
 #include "byteCat/app/Window.h"
 #include "byteCat/app/Layer.h"
@@ -18,10 +17,10 @@ namespace BC
 
 		LayerStack layerStack;
 		ImGuiLayer* imGuiLayer;
-		
+
+		std::unique_ptr<Window> window;
 		bool isRunning;
 		bool isMinimized;
-		Window* window;
 
 		friend int ::main(int argc, char** argv);
 		

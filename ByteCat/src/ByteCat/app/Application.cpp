@@ -20,7 +20,7 @@ namespace BC
         LOG_INFO("ByteCat engine is starting...");
 		
         WindowSetting setting = { "ByteCat Engine", 1280, 720, true };
-        window = new Window(setting);
+        window = std::make_unique<Window>(setting);
         window->setEventListener(this);
 
         imGuiLayer = new ImGuiLayer();
@@ -30,8 +30,6 @@ namespace BC
     Application::~Application()
     {
         LOG_INFO("ByteCat engine is closing...");
-
-        delete window;
     }
 
     void Application::start()
@@ -96,7 +94,7 @@ namespace BC
 			shader.loadMatrix4("modelMatrix", Utils::CreateModelMatrix(glm::vec3(-1, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)));
 			renderer.renderVAO(*mesh.vao, shader);
 			shader.end();
-
+			
 			// ImGui Rendering
             if (imGuiLayer->isEnabled())
             {
@@ -155,12 +153,10 @@ namespace BC
     void Application::pushLayer(Layer* layer)
     {
         layerStack.pushLayer(layer);
-        layer->onAttach();
     }
 
     void Application::pushOverlay(Layer* overlay)
     {
-        layerStack.pushLayer(overlay);
-        overlay->onAttach();
+        layerStack.pushOverlay(overlay);
     }
 }

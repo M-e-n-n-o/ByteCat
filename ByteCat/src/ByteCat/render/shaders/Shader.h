@@ -1,7 +1,6 @@
 #pragma once
 
 #include <map>
-#include <GL/glew.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include "byteCat/render/models/Texture.h"
 
@@ -21,8 +20,8 @@ namespace BC
 		Shader(std::string& vertexShader, std::string& fragmentShader);
 		virtual ~Shader();
 
-		void begin() const { glUseProgram(programID); }
-		void end() const { glUseProgram(0); }
+		void begin() const;
+		void end() const;
 		
 		void loadFloat(std::string name, float value) const;
 		void loadInt(std::string name, int value) const;
@@ -35,7 +34,7 @@ namespace BC
 		void bindTextures() const;
 
 	private:
-		int getUniformLocation(const GLchar* uniformName) const;
+		int getUniformLocation(const char* uniformName) const;
 
 		void bindAttributes();
 		void bindAttribute(int attribute, std::string variableName) const;

@@ -1,4 +1,5 @@
 #include "bcpch.h"
+#include <GL/glew.h>
 #include <glm/gtc/type_ptr.hpp>
 #include "byteCat/render/shaders/Shader.h"
 
@@ -28,6 +29,16 @@ namespace BC
 		glDeleteShader(vertexShaderID);
 		glDeleteShader(fragmentShaderID);
 		glDeleteProgram(programID);
+	}
+
+	void Shader::begin() const
+	{
+		glUseProgram(programID);
+	}
+
+	void Shader::end() const
+	{
+		glUseProgram(0);
 	}
 
 	void Shader::loadFloat(std::string name, float value) const
@@ -114,7 +125,7 @@ namespace BC
 		}
 	}
 
-	int Shader::getUniformLocation(const GLchar* uniformName) const
+	int Shader::getUniformLocation(const char* uniformName) const
 	{
 		GLint location = glGetUniformLocation(programID, uniformName);
 		if (location == -1)
