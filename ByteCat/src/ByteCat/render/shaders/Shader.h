@@ -39,9 +39,6 @@ namespace BC
 	private:
 		int getUniformLocation(std::string& uniformName) const;
 
-		void bindAttributes();
-		void bindAttribute(int attribute, std::string variableName) const;
-
 		int loadShader(std::string& shader, int type) const;
 	};
 }

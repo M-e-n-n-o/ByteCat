@@ -16,7 +16,6 @@ namespace BC
 		glAttachShader(programID, vertexShaderID);
 		glAttachShader(programID, fragmentShaderID);
 		
-		bindAttributes();
 		glLinkProgram(programID);
 		glValidateProgram(programID);
 	}
@@ -93,18 +92,6 @@ namespace BC
 		{
 			glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(value));
 		}
-	}
-
-	void Shader::bindAttributes()
-	{
-		bindAttribute(0, "position");
-		bindAttribute(1, "textureCoords");
-	}
-
-
-	void Shader::bindAttribute(int attribute, std::string variableName) const
-	{
-		glBindAttribLocation(programID, attribute, variableName.c_str());
 	}
 
 	void Shader::setTexture(Texture& texture, unsigned textureUnit)
