@@ -2,9 +2,9 @@
 #include "byteCat/render/shaders/StandardShader.h"
 
 namespace BC
-{
+{	
 	static std::string vertexShader = R"(
-	#version 400 core
+	#version 410
 
 	in vec3 position;
 	in vec2 textureCoords;
@@ -21,7 +21,7 @@ namespace BC
 	)";
 
 	static std::string fragmentShader = R"(
-	#version 400 core
+	#version 410
 
 	in vec2 passTextureCoords;
 
@@ -39,6 +39,6 @@ namespace BC
 
 	StandardShader::StandardShader(Texture2D& texture): Shader(vertexShader, fragmentShader)
 	{
-		bindTexture(texture);
+		setTexture(texture);
 	}
 }

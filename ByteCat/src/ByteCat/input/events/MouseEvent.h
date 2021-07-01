@@ -16,8 +16,8 @@ namespace BC
 
 		float getMouseX() const { return mouseX; }
 		float getMouseY() const { return mouseY; }
-		
-		EventType getEventType() const override { return EventType::MouseMoved; }
+
+		EVENT_CLASS_TYPE(MouseMoved)
 		int getCategoryFlags() const override { return EventCatMouse | EventCatInput; }
 	};
 
@@ -33,8 +33,8 @@ namespace BC
 
 		float getOffsetX() const { return offsetX; }
 		float getOffsetY() const { return offsetY; }
-		
-		EventType getEventType() const override { return EventType::MouseScrolled; }
+
+		EVENT_CLASS_TYPE(MouseScrolled)
 		int getCategoryFlags() const override { return EventCatMouse | EventCatInput; }
 	};
 
@@ -57,8 +57,8 @@ namespace BC
 	{
 	public:
 		MouseButtonPressedEvent(const MouseCode mouseCode) : MouseButtonEvent(mouseCode) {}
-		
-		EventType getEventType() const override { return EventType::MouseButtonPressed; }
+
+		EVENT_CLASS_TYPE(MouseButtonPressed)
 	};
 
 
@@ -66,7 +66,7 @@ namespace BC
 	{
 	public:
 		MouseButtonReleasedEvent(const MouseCode mouseCode) : MouseButtonEvent(mouseCode) {}
-		
-		EventType getEventType() const override { return EventType::MouseButtonReleased; }
+
+		EVENT_CLASS_TYPE(MouseButtonReleased)
 	};
 }

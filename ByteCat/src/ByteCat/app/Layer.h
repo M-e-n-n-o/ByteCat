@@ -5,15 +5,21 @@
 
 namespace BC
 {
-	class BYTECAT_API Layer
+	class Layer
 	{
+	private:
+		std::string name;
+		
 	public:
-		Layer() = default;
+		Layer(std::string name): name(name) {}
 		virtual ~Layer() = default;
 
 		virtual void onAttach() {}
 		virtual void onDetach() {}
 		virtual void onUpdate() {}
+		virtual void onImGuiRender() {}
 		virtual void onEvent(Event& event) {}
+
+		std::string getName() const { return name; }
 	};
 }

@@ -14,15 +14,19 @@ Libs = {}
 Libs["GLFW"] = "ByteCat/vendor/GLFW"
 Libs["GLEW"] = "ByteCat/vendor/glew-2.0.0"
 Libs["GLM"] = "ByteCat/vendor/glm"
+Libs["ImGui"] = "ByteCat/vendor/imgui"
 
 include "ByteCat/vendor/GLFW"
 include "ByteCat/vendor/glm"
+include "ByteCat/vendor/imgui"
 
 
 project "ByteCat"
 	location "ByteCat"
-	kind "SharedLib"
+	kind "StaticLib"
 	language "C++"
+	cppdialect "C++17"
+	staticruntime "on"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -36,12 +40,19 @@ project "ByteCat"
 		"%{prj.name}/src/**.cpp",
 	}
 
+	defines
+	{
+		"_CRT_SECURE_NO_WARNINGS",
+		"BC_CORE"
+	}
+
 	includedirs
 	{
 		"%{prj.name}/src",
 		"%{prj.name}/vendor/spdlog/include",
 		"%{Libs.GLEW}/include",
 		"%{Libs.GLFW}/include",
+		"%{Libs.ImGui}",
 		"%{Libs.GLM}"
 	}
 
@@ -49,6 +60,7 @@ project "ByteCat"
 	{
 		"glew32",
 		"GLFW",
+		"ImGui",
 		"GLM",
 		"opengl32.lib"
 	}
@@ -59,19 +71,11 @@ project "ByteCat"
 	}
 
 	filter "system:windows"
-		cppdialect "C++17"
-		staticruntime "On"
 		systemversion "latest"
 
 		defines
 		{
-			"BC_PLATFORM_WINDOWS",
-			"BC_BUILD_DLL"
-		}
-
-		postbuildcommands
-		{
-			("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox")
+			"BC_PLATFORM_WINDOWS"
 		}
 
 		prebuildcommands
@@ -80,14 +84,11 @@ project "ByteCat"
 		}
 
 	filter "system:linux"
-		cppdialect "C++17"
-		staticruntime "On"
 		systemversion "latest"
 
 		defines
 		{
-			"BC_PLATFORM_LINUX",
-			"BC_BUILD_DLL"
+			"BC_PLATFORM_LINUX"
 		}
 
 		prebuildcommands
@@ -95,31 +96,28 @@ project "ByteCat"
 			("{COPY} vendor/glew-2.0.0/x64/glew32.dll ../bin/" .. outputdir .. "/Sandbox")
 		}
 
-		postbuildcommands
-		{
-			("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox")
-		}
-
 	filter "configurations:Debug"
 		defines "BC_DEBUG"
-		buildoptions "/MDd"
-		symbols "On"
+		runtime "Debug"
+		symbols "on"
 
 	filter "configurations:Release"
 		defines "BC_RELEASE"
-		buildoptions "/MD"
-		optimize "On"
+		runtime "Release"
+		optimize "on"
 
 	filter "configurations:Dist"
 		defines "BC_DIST"
-		buildoptions "/MD"
-		optimize "On"
+		runtime "Release"
+		optimize "on"
 
 
 project "Sandbox"
 	location "Sandbox"
 	kind "ConsoleApp"
 	language "C++"
+	cppdialect "C++17"
+	staticruntime "on"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -134,6 +132,7 @@ project "Sandbox"
 	{
 		"ByteCat/vendor/spdlog/include",
 		"ByteCat/src",
+		"ByteCat/vendor",
 		"%{Libs.GLM}"
 	}
 
@@ -149,8 +148,6 @@ project "Sandbox"
 	}
 
 	filter "system:windows"
-		cppdialect "C++17"
-		staticruntime "On"
 		systemversion "latest"
 
 		defines
@@ -159,8 +156,6 @@ project "Sandbox"
 		}
 
 	filter "system:linux"
-		cppdialect "C++17"
-		staticruntime "On"
 		systemversion "latest"
 
 		defines
@@ -170,15 +165,15 @@ project "Sandbox"
 
 	filter "configurations:Debug"
 		defines "BC_DEBUG"
-		buildoptions "/MDd"
-		symbols "On"
+		runtime "Debug"
+		symbols "on"
 
 	filter "configurations:Release"
 		defines "BC_RELEASE"
-		buildoptions "/MD"
-		optimize "On"
+		runtime "Release"
+		optimize "on"
 
 	filter "configurations:Dist"
 		defines "BC_DIST"
-		buildoptions "/MD"
-		optimize "On"
+		runtime "Release"
+		optimize "on"

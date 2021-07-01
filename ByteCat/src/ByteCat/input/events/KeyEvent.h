@@ -28,7 +28,8 @@ namespace BC
 		KeyPressedEvent(const KeyCode keyCode, bool isRepeat) : KeyEvent(keyCode), isRepeat(isRepeat) {}
 		
 		bool isRepeatEvent() const { return isRepeat; }
-		EventType getEventType() const override { return EventType::KeyPressed; }
+
+		EVENT_CLASS_TYPE(KeyPressed)
 	};
 
 
@@ -36,8 +37,8 @@ namespace BC
 	{
 	public:
 		KeyReleasedEvent(const KeyCode keyCode) : KeyEvent(keyCode) {}
-		
-		EventType getEventType() const override { return EventType::KeyReleased; }
+
+		EVENT_CLASS_TYPE(KeyReleased)
 	};
 
 	
@@ -45,7 +46,7 @@ namespace BC
 	{
 	public:
 		KeyTypedEvent(const KeyCode keyCode) : KeyEvent(keyCode) {}
-		
-		EventType getEventType() const override { return EventType::KeyTyped; }
+
+		EVENT_CLASS_TYPE(KeyTyped)
 	};
 }

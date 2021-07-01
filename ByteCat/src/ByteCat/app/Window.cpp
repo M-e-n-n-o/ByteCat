@@ -125,6 +125,13 @@ namespace BC
 		glfwTerminate();
 	}
 
+	void Window::resize(unsigned int x, unsigned int y)
+	{
+		setting.width = x;
+		setting.height = y;
+		glViewport(0, 0, x, y);
+	}
+
 	void Window::setVsync(bool enabled)
 	{
 		if (enabled)

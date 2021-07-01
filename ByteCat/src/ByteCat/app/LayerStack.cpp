@@ -3,13 +3,10 @@
 
 namespace BC
 {
-	LayerStack::LayerStack()
-	{
-		layerInsert = layers.begin();
-	}
-
 	LayerStack::~LayerStack()
 	{
+		LOG_INFO("Removing all layers");
+		
 		for (Layer* layer : layers)
 		{
 			delete layer;
@@ -18,7 +15,8 @@ namespace BC
 
 	void LayerStack::pushLayer(Layer* layer)
 	{
-		layerInsert = layers.emplace(layerInsert, layer);
+		layers.emplace(layers.begin() + layerInsertIndex, layer);
+		layerInsertIndex++;
 	}
 
 	void LayerStack::pushOverlay(Layer* overlay)
@@ -32,7 +30,7 @@ namespace BC
 		if (it != layers.end())
 		{
 			layers.erase(it);
-			layerInsert -= 1;
+			layerInsertIndex--;
 		}
 	}
 

@@ -31,8 +31,8 @@ namespace BC
 		void loadVector4(std::string name, glm::vec4 value) const;
 		void loadMatrix4(std::string name, glm::mat4 value) const;
 		
-		void bindTexture(Texture& texture, unsigned int textureUnit = 0);
-		void activateTextures() const;
+		void setTexture(Texture& texture, unsigned int textureUnit = 0);
+		void bindTextures() const;
 
 	private:
 		int getUniformLocation(const GLchar* uniformName) const;

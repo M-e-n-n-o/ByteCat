@@ -15,8 +15,9 @@ namespace BC
 
 		unsigned int getWidth() const { return width; }
 		unsigned int getHeight() const { return height; }
+
+		EVENT_CLASS_TYPE(WindowResize)
 		
-		EventType getEventType() const override { return EventType::WindowResize; }
 		int getCategoryFlags() const override { return EventCatApplication; }
 	};
 
@@ -24,7 +25,8 @@ namespace BC
 	class WindowCloseEvent : public Event
 	{
 	public:
-		EventType getEventType() const override { return EventType::WindowClose; }
+		EVENT_CLASS_TYPE(WindowClose)
+		
 		int getCategoryFlags() const override { return EventCatApplication; }
 	};
 }
