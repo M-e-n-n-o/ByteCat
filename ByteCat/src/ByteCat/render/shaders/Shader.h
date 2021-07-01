@@ -1,6 +1,7 @@
 #pragma once
 
 #include <map>
+#include <unordered_map>
 #include <glm/gtc/matrix_transform.hpp>
 #include "byteCat/render/models/Texture.h"
 
@@ -15,6 +16,8 @@ namespace BC
 
 		bool hasTextures;
 		std::map<unsigned int, Texture&> textures;
+
+		mutable std::unordered_map<std::string, int> uniformLocationCache;
 	
 	public:
 		Shader(std::string& vertexShader, std::string& fragmentShader);
@@ -34,7 +37,7 @@ namespace BC
 		void bindTextures() const;
 
 	private:
-		int getUniformLocation(const char* uniformName) const;
+		int getUniformLocation(std::string& uniformName) const;
 
 		void bindAttributes();
 		void bindAttribute(int attribute, std::string variableName) const;

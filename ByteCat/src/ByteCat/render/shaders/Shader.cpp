@@ -43,7 +43,7 @@ namespace BC
 
 	void Shader::loadFloat(std::string name, float value) const
 	{
-		GLint location = getUniformLocation(name.c_str());
+		GLint location = getUniformLocation(name);
 		if (location != -1)
 		{
 			glUniform1f(location, value);
@@ -52,7 +52,7 @@ namespace BC
 
 	void Shader::loadInt(std::string name, int value) const
 	{
-		GLint location = getUniformLocation(name.c_str());
+		GLint location = getUniformLocation(name);
 		if (location != -1)
 		{
 			glUniform1i(location, value);
@@ -61,7 +61,7 @@ namespace BC
 
 	void Shader::loadVector2(std::string name, glm::vec2 value) const
 	{
-		GLint location = getUniformLocation(name.c_str());
+		GLint location = getUniformLocation(name);
 		if (location != -1)
 		{
 			glUniform2fv(location, 1, glm::value_ptr(value));
@@ -70,7 +70,7 @@ namespace BC
 
 	void Shader::loadVector3(std::string name, glm::vec3 value) const
 	{
-		GLint location = getUniformLocation(name.c_str());
+		GLint location = getUniformLocation(name);
 		if (location != -1)
 		{
 			glUniform3fv(location, 1, glm::value_ptr(value));
@@ -79,7 +79,7 @@ namespace BC
 
 	void Shader::loadVector4(std::string name, glm::vec4 value) const
 	{
-		GLint location = getUniformLocation(name.c_str());
+		GLint location = getUniformLocation(name);
 		if (location != -1)
 		{
 			glUniform4fv(location, 1, glm::value_ptr(value));
@@ -88,7 +88,7 @@ namespace BC
 
 	void Shader::loadMatrix4(std::string name, glm::mat4 value) const
 	{
-		GLint location = getUniformLocation(name.c_str());
+		GLint location = getUniformLocation(name);
 		if (location != -1)
 		{
 			glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(value));
@@ -125,14 +125,21 @@ namespace BC
 		}
 	}
 
-	int Shader::getUniformLocation(const char* uniformName) const
+	int Shader::getUniformLocation(std::string& uniformName) const
 	{
-		GLint location = glGetUniformLocation(programID, uniformName);
+		if (uniformLocationCache.find(uniformName) != uniformLocationCache.end())
+		{
+			return uniformLocationCache[uniformName];
+		}
+		
+		GLint location = glGetUniformLocation(programID, uniformName.c_str());
 		if (location == -1)
 		{
 			LOG_ERROR("Variable \"{0}\" not found in the shader code", uniformName);
 			return -1;
 		}
+
+		uniformLocationCache[uniformName] = location;
 		
 		return location;
 	}
