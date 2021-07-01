@@ -79,7 +79,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>BC_PLATFORM_WINDOWS;BC_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\ByteCat\vendor\spdlog\include;..\ByteCat\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\ByteCat\vendor\spdlog\include;..\ByteCat\src;..\ByteCat\vendor;..\ByteCat\vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -89,13 +89,16 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>IF EXIST res\*\ (xcopy /Q /E /Y /I res\* ..\bin\Debug-windows-x86_64\Sandbox\res &gt; nul) ELSE (xcopy /Q /Y /I res\* ..\bin\Debug-windows-x86_64\Sandbox\res &gt; nul)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>BC_PLATFORM_WINDOWS;BC_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\ByteCat\vendor\spdlog\include;..\ByteCat\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\ByteCat\vendor\spdlog\include;..\ByteCat\src;..\ByteCat\vendor;..\ByteCat\vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -109,13 +112,16 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
+    <PostBuildEvent>
+      <Command>IF EXIST res\*\ (xcopy /Q /E /Y /I res\* ..\bin\Release-windows-x86_64\Sandbox\res &gt; nul) ELSE (xcopy /Q /Y /I res\* ..\bin\Release-windows-x86_64\Sandbox\res &gt; nul)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>BC_PLATFORM_WINDOWS;BC_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\ByteCat\vendor\spdlog\include;..\ByteCat\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\ByteCat\vendor\spdlog\include;..\ByteCat\src;..\ByteCat\vendor;..\ByteCat\vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -129,6 +135,9 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
+    <PostBuildEvent>
+      <Command>IF EXIST res\*\ (xcopy /Q /E /Y /I res\* ..\bin\Dist-windows-x86_64\Sandbox\res &gt; nul) ELSE (xcopy /Q /Y /I res\* ..\bin\Dist-windows-x86_64\Sandbox\res &gt; nul)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\SandboxApp.cpp" />
@@ -136,6 +145,9 @@
   <ItemGroup>
     <ProjectReference Include="..\ByteCat\ByteCat.vcxproj">
       <Project>{F121EFFE-5D01-6E9A-6619-F970D277D4FB}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\ByteCat\vendor\glm\GLM.vcxproj">
+      <Project>{05EB870B-71F4-877C-FA6F-9E7C6678937C}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

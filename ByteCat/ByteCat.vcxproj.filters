@@ -1,33 +1,153 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="ByteCat">
-      <UniqueIdentifier>{F121EFFE-5D01-6E9A-6619-F970D277D4FB}</UniqueIdentifier>
+    <Filter Include="byteCat">
+      <UniqueIdentifier>{11BA369E-7D99-B539-86B1-4010F20F1C9B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="byteCat\app">
+      <UniqueIdentifier>{E1CB52F0-4D81-CBE5-D675-C5BC422AC2E9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="byteCat\imgui">
+      <UniqueIdentifier>{3B50C450-A710-4087-704B-8904DCCA8463}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="byteCat\input">
+      <UniqueIdentifier>{F002C550-5CC3-4087-25FE-8904917D8563}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="byteCat\input\events">
+      <UniqueIdentifier>{F414A138-E0A3-2A02-89C2-3EFD75303BA8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="byteCat\render">
+      <UniqueIdentifier>{808FBF7D-6C5D-B383-55F1-23AA415E8FE8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="byteCat\render\models">
+      <UniqueIdentifier>{53C5F7BF-BF31-B3BA-8825-4B18F450D522}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="byteCat\render\shaders">
+      <UniqueIdentifier>{79CC427C-65C6-6BCE-4E33-02DF3ACCD13A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="byteCat\utils">
+      <UniqueIdentifier>{5154A151-BD14-1D88-864F-6605F2CE6164}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ByteCat.h" />
-    <ClInclude Include="src\ByteCat\Application.h">
-      <Filter>ByteCat</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ByteCat\Core.h">
-      <Filter>ByteCat</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ByteCat\EntryPoint.h">
-      <Filter>ByteCat</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ByteCat\Log.h">
-      <Filter>ByteCat</Filter>
-    </ClInclude>
     <ClInclude Include="src\bcpch.h" />
+    <ClInclude Include="src\byteCat\Core.h">
+      <Filter>byteCat</Filter>
+    </ClInclude>
+    <ClInclude Include="src\byteCat\EntryPoint.h">
+      <Filter>byteCat</Filter>
+    </ClInclude>
+    <ClInclude Include="src\byteCat\Log.h">
+      <Filter>byteCat</Filter>
+    </ClInclude>
+    <ClInclude Include="src\byteCat\app\Application.h">
+      <Filter>byteCat\app</Filter>
+    </ClInclude>
+    <ClInclude Include="src\byteCat\app\Layer.h">
+      <Filter>byteCat\app</Filter>
+    </ClInclude>
+    <ClInclude Include="src\byteCat\app\LayerStack.h">
+      <Filter>byteCat\app</Filter>
+    </ClInclude>
+    <ClInclude Include="src\byteCat\app\Window.h">
+      <Filter>byteCat\app</Filter>
+    </ClInclude>
+    <ClInclude Include="src\byteCat\imgui\ImGuiLayer.h">
+      <Filter>byteCat\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\byteCat\input\Input.h">
+      <Filter>byteCat\input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\byteCat\input\KeyCodes.h">
+      <Filter>byteCat\input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\byteCat\input\MouseCodes.h">
+      <Filter>byteCat\input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\byteCat\input\events\ApplicationEvent.h">
+      <Filter>byteCat\input\events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\byteCat\input\events\Event.h">
+      <Filter>byteCat\input\events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\byteCat\input\events\KeyEvent.h">
+      <Filter>byteCat\input\events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\byteCat\input\events\MouseEvent.h">
+      <Filter>byteCat\input\events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\byteCat\render\Loader.h">
+      <Filter>byteCat\render</Filter>
+    </ClInclude>
+    <ClInclude Include="src\byteCat\render\Renderer.h">
+      <Filter>byteCat\render</Filter>
+    </ClInclude>
+    <ClInclude Include="src\byteCat\render\models\Mesh.h">
+      <Filter>byteCat\render\models</Filter>
+    </ClInclude>
+    <ClInclude Include="src\byteCat\render\models\Texture.h">
+      <Filter>byteCat\render\models</Filter>
+    </ClInclude>
+    <ClInclude Include="src\byteCat\render\shaders\Shader.h">
+      <Filter>byteCat\render\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="src\byteCat\render\shaders\StandardShader.h">
+      <Filter>byteCat\render\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="src\byteCat\utils\Maths.h">
+      <Filter>byteCat\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\byteCat\utils\stb_image.h">
+      <Filter>byteCat\utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\ByteCat\Application.cpp">
-      <Filter>ByteCat</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ByteCat\Log.cpp">
-      <Filter>ByteCat</Filter>
-    </ClCompile>
     <ClCompile Include="src\bcpch.cpp" />
+    <ClCompile Include="src\byteCat\Log.cpp">
+      <Filter>byteCat</Filter>
+    </ClCompile>
+    <ClCompile Include="src\byteCat\app\Application.cpp">
+      <Filter>byteCat\app</Filter>
+    </ClCompile>
+    <ClCompile Include="src\byteCat\app\LayerStack.cpp">
+      <Filter>byteCat\app</Filter>
+    </ClCompile>
+    <ClCompile Include="src\byteCat\app\Window.cpp">
+      <Filter>byteCat\app</Filter>
+    </ClCompile>
+    <ClCompile Include="src\byteCat\imgui\ImGuiBuild.cpp">
+      <Filter>byteCat\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\byteCat\imgui\ImGuiLayer.cpp">
+      <Filter>byteCat\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\byteCat\input\Input.cpp">
+      <Filter>byteCat\input</Filter>
+    </ClCompile>
+    <ClCompile Include="src\byteCat\render\Loader.cpp">
+      <Filter>byteCat\render</Filter>
+    </ClCompile>
+    <ClCompile Include="src\byteCat\render\Renderer.cpp">
+      <Filter>byteCat\render</Filter>
+    </ClCompile>
+    <ClCompile Include="src\byteCat\render\models\Mesh.cpp">
+      <Filter>byteCat\render\models</Filter>
+    </ClCompile>
+    <ClCompile Include="src\byteCat\render\models\Texture.cpp">
+      <Filter>byteCat\render\models</Filter>
+    </ClCompile>
+    <ClCompile Include="src\byteCat\render\shaders\Shader.cpp">
+      <Filter>byteCat\render\shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="src\byteCat\render\shaders\StandardShader.cpp">
+      <Filter>byteCat\render\shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="src\byteCat\utils\Maths.cpp">
+      <Filter>byteCat\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\byteCat\utils\stb_image.cpp">
+      <Filter>byteCat\utils</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

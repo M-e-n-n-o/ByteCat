@@ -23,19 +23,19 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v142</PlatformToolset>
@@ -54,33 +54,30 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LinkIncremental>true</LinkIncremental>
     <OutDir>..\bin\Debug-windows-x86_64\ByteCat\</OutDir>
     <IntDir>..\bin-int\Debug-windows-x86_64\ByteCat\</IntDir>
     <TargetName>ByteCat</TargetName>
-    <TargetExt>.dll</TargetExt>
+    <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LinkIncremental>false</LinkIncremental>
     <OutDir>..\bin\Release-windows-x86_64\ByteCat\</OutDir>
     <IntDir>..\bin-int\Release-windows-x86_64\ByteCat\</IntDir>
     <TargetName>ByteCat</TargetName>
-    <TargetExt>.dll</TargetExt>
+    <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
-    <LinkIncremental>false</LinkIncremental>
     <OutDir>..\bin\Dist-windows-x86_64\ByteCat\</OutDir>
     <IntDir>..\bin-int\Dist-windows-x86_64\ByteCat\</IntDir>
     <TargetName>ByteCat</TargetName>
-    <TargetExt>.dll</TargetExt>
+    <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>bcpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>BC_PLATFORM_WINDOWS;BC_BUILD_DLL;BC_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;BC_CORE;BC_PLATFORM_WINDOWS;BC_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\glew-2.0.0\include;vendor\GLFW\include;vendor\imgui;vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -89,20 +86,22 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <ImportLibrary>..\bin\Debug-windows-x86_64\ByteCat\ByteCat.lib</ImportLibrary>
     </Link>
-    <PostBuildEvent>
-      <Command>IF EXIST ..\bin\Debug-windows-x86_64\ByteCat\ByteCat.dll\ (xcopy /Q /E /Y /I ..\bin\Debug-windows-x86_64\ByteCat\ByteCat.dll ..\bin\Debug-windows-x86_64\Sandbox &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Debug-windows-x86_64\ByteCat\ByteCat.dll ..\bin\Debug-windows-x86_64\Sandbox &gt; nul)</Command>
-    </PostBuildEvent>
+    <Lib>
+      <AdditionalDependencies>glew32.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>vendor\glew-2.0.0\x64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
+    <PreBuildEvent>
+      <Command>IF EXIST vendor\glew-2.0.0\x64\glew32.dll\ (xcopy /Q /E /Y /I vendor\glew-2.0.0\x64\glew32.dll ..\bin\Debug-windows-x86_64\Sandbox &gt; nul) ELSE (xcopy /Q /Y /I vendor\glew-2.0.0\x64\glew32.dll ..\bin\Debug-windows-x86_64\Sandbox &gt; nul)</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>bcpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>BC_PLATFORM_WINDOWS;BC_BUILD_DLL;BC_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;BC_CORE;BC_PLATFORM_WINDOWS;BC_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\glew-2.0.0\include;vendor\GLFW\include;vendor\imgui;vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -115,20 +114,22 @@
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <ImportLibrary>..\bin\Release-windows-x86_64\ByteCat\ByteCat.lib</ImportLibrary>
     </Link>
-    <PostBuildEvent>
-      <Command>IF EXIST ..\bin\Release-windows-x86_64\ByteCat\ByteCat.dll\ (xcopy /Q /E /Y /I ..\bin\Release-windows-x86_64\ByteCat\ByteCat.dll ..\bin\Release-windows-x86_64\Sandbox &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Release-windows-x86_64\ByteCat\ByteCat.dll ..\bin\Release-windows-x86_64\Sandbox &gt; nul)</Command>
-    </PostBuildEvent>
+    <Lib>
+      <AdditionalDependencies>glew32.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>vendor\glew-2.0.0\x64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
+    <PreBuildEvent>
+      <Command>IF EXIST vendor\glew-2.0.0\x64\glew32.dll\ (xcopy /Q /E /Y /I vendor\glew-2.0.0\x64\glew32.dll ..\bin\Release-windows-x86_64\Sandbox &gt; nul) ELSE (xcopy /Q /Y /I vendor\glew-2.0.0\x64\glew32.dll ..\bin\Release-windows-x86_64\Sandbox &gt; nul)</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>bcpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>BC_PLATFORM_WINDOWS;BC_BUILD_DLL;BC_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;BC_CORE;BC_PLATFORM_WINDOWS;BC_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\glew-2.0.0\include;vendor\GLFW\include;vendor\imgui;vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -141,31 +142,71 @@
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <ImportLibrary>..\bin\Dist-windows-x86_64\ByteCat\ByteCat.lib</ImportLibrary>
     </Link>
-    <PostBuildEvent>
-      <Command>IF EXIST ..\bin\Dist-windows-x86_64\ByteCat\ByteCat.dll\ (xcopy /Q /E /Y /I ..\bin\Dist-windows-x86_64\ByteCat\ByteCat.dll ..\bin\Dist-windows-x86_64\Sandbox &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Dist-windows-x86_64\ByteCat\ByteCat.dll ..\bin\Dist-windows-x86_64\Sandbox &gt; nul)</Command>
-    </PostBuildEvent>
+    <Lib>
+      <AdditionalDependencies>glew32.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>vendor\glew-2.0.0\x64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
+    <PreBuildEvent>
+      <Command>IF EXIST vendor\glew-2.0.0\x64\glew32.dll\ (xcopy /Q /E /Y /I vendor\glew-2.0.0\x64\glew32.dll ..\bin\Dist-windows-x86_64\Sandbox &gt; nul) ELSE (xcopy /Q /Y /I vendor\glew-2.0.0\x64\glew32.dll ..\bin\Dist-windows-x86_64\Sandbox &gt; nul)</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\ByteCat.h" />
-    <ClInclude Include="src\ByteCat\Application.h" />
-    <ClInclude Include="src\ByteCat\Core.h" />
-    <ClInclude Include="src\ByteCat\EntryPoint.h" />
-    <ClInclude Include="src\ByteCat\Log.h" />
     <ClInclude Include="src\bcpch.h" />
+    <ClInclude Include="src\byteCat\Core.h" />
+    <ClInclude Include="src\byteCat\EntryPoint.h" />
+    <ClInclude Include="src\byteCat\Log.h" />
+    <ClInclude Include="src\byteCat\app\Application.h" />
+    <ClInclude Include="src\byteCat\app\Layer.h" />
+    <ClInclude Include="src\byteCat\app\LayerStack.h" />
+    <ClInclude Include="src\byteCat\app\Window.h" />
+    <ClInclude Include="src\byteCat\imgui\ImGuiLayer.h" />
+    <ClInclude Include="src\byteCat\input\Input.h" />
+    <ClInclude Include="src\byteCat\input\KeyCodes.h" />
+    <ClInclude Include="src\byteCat\input\MouseCodes.h" />
+    <ClInclude Include="src\byteCat\input\events\ApplicationEvent.h" />
+    <ClInclude Include="src\byteCat\input\events\Event.h" />
+    <ClInclude Include="src\byteCat\input\events\KeyEvent.h" />
+    <ClInclude Include="src\byteCat\input\events\MouseEvent.h" />
+    <ClInclude Include="src\byteCat\render\Loader.h" />
+    <ClInclude Include="src\byteCat\render\Renderer.h" />
+    <ClInclude Include="src\byteCat\render\models\Mesh.h" />
+    <ClInclude Include="src\byteCat\render\models\Texture.h" />
+    <ClInclude Include="src\byteCat\render\shaders\Shader.h" />
+    <ClInclude Include="src\byteCat\render\shaders\StandardShader.h" />
+    <ClInclude Include="src\byteCat\utils\Maths.h" />
+    <ClInclude Include="src\byteCat\utils\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\ByteCat\Application.cpp" />
-    <ClCompile Include="src\ByteCat\Log.cpp" />
     <ClCompile Include="src\bcpch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\byteCat\Log.cpp" />
+    <ClCompile Include="src\byteCat\app\Application.cpp" />
+    <ClCompile Include="src\byteCat\app\LayerStack.cpp" />
+    <ClCompile Include="src\byteCat\app\Window.cpp" />
+    <ClCompile Include="src\byteCat\imgui\ImGuiBuild.cpp" />
+    <ClCompile Include="src\byteCat\imgui\ImGuiLayer.cpp" />
+    <ClCompile Include="src\byteCat\input\Input.cpp" />
+    <ClCompile Include="src\byteCat\render\Loader.cpp" />
+    <ClCompile Include="src\byteCat\render\Renderer.cpp" />
+    <ClCompile Include="src\byteCat\render\models\Mesh.cpp" />
+    <ClCompile Include="src\byteCat\render\models\Texture.cpp" />
+    <ClCompile Include="src\byteCat\render\shaders\Shader.cpp" />
+    <ClCompile Include="src\byteCat\render\shaders\StandardShader.cpp" />
+    <ClCompile Include="src\byteCat\utils\Maths.cpp" />
+    <ClCompile Include="src\byteCat\utils\stb_image.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="vendor\GLFW\GLFW.vcxproj">
       <Project>{154B857C-0182-860D-AA6E-6C109684020F}</Project>
+    </ProjectReference>
+    <ProjectReference Include="vendor\imgui\ImGui.vcxproj">
+      <Project>{C0FF640D-2C14-8DBE-F595-301E616989EF}</Project>
+    </ProjectReference>
+    <ProjectReference Include="vendor\glm\GLM.vcxproj">
+      <Project>{05EB870B-71F4-877C-FA6F-9E7C6678937C}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

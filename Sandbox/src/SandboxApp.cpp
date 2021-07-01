@@ -1,32 +1,62 @@
 #include <ByteCat.h>
+#include "imgui/imgui.h"
 
-class Sandbox : public ByteCat::Application
+using namespace BC;
+
+
+class ExampleLayer : public Layer
 {
 public:
-	// The init of your application
-	Sandbox()
+	ExampleLayer() : Layer("ExampleLayer")
 	{
 		
 	}
 
 	void onUpdate() override
 	{
-		BC_INFO("Update");
+		
 	}
 
-	void onRender() override
+	void onImGuiRender() override
 	{
-		BC_INFO("Render");
+		ImGui::Begin("Test");
+		ImGui::Text("Hello World");
+		ImGui::End();
+	}
+
+	void onEvent(Event& event) override
+	{
+		if (event.getEventType() == EventType::KeyPressed)
+		{
+			KeyPressedEvent& e = (KeyPressedEvent&) event;
+			if (e.getKeyCode() == KeyCode::Backspace)
+			{
+				LOG_INFO("Backspace is pressed");
+				
+			}
+			LOG_INFO("{0}", (char)e.getKeyCode());
+		}
+	}
+};
+
+
+class Sandbox : public Application
+{
+public:
+	// The init of your application
+	Sandbox()
+	{
+		pushLayer(new ExampleLayer());
 	}
 
 	// The end of your application
-	~Sandbox()
+	~Sandbox() override
 	{
 
 	}
 };
 
-ByteCat::Application* ByteCat::CreateApplication()
+Application* BC::CreateApplication()
 {
 	return new Sandbox();
 }

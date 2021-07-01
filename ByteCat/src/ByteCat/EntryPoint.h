@@ -1,19 +1,15 @@
 #pragma once
 
-#ifdef BC_PLATFORM_WINDOWS
+#include "byteCat/app/Application.h"
 
-extern ByteCat::Application* ByteCat::CreateApplication();
+extern BC::Application* BC::CreateApplication();
 
 int main(int argc, char** argv)
 {
-	ByteCat::Log::Init();
+	BC::Log::Init();
 
-	auto app = ByteCat::CreateApplication();
-	BC_CORE_INFO("ByteCat engine has started");
-	app->run();
-	BC_CORE_INFO("ByteCat engine has closed");
-
+	auto app = BC::CreateApplication();
+	app->start();
+	
 	delete app;
 }
-
-#endif
