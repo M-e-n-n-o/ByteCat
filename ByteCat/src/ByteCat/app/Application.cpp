@@ -1,8 +1,6 @@
 #include "bcpch.h"
 #include "byteCat/app/Application.h"
 
-#include "byteCat/input/Input.h"
-#include "byteCat/input/events/KeyEvent.h"
 #include "byteCat/render/Renderer.h"
 #include "byteCat/render/models/Mesh.h"
 #include "byteCat/render/models/Texture.h"
@@ -78,34 +76,37 @@ namespace BC
 		 
         StandardShader shader(texture);
         Renderer renderer;
-
+		
 		while (isRunning)
 		{
             window->update();
 			
-			if (isMinimized)
-			{
-				continue;	
-			}
-			
-            renderer.prepare();
+            if (isMinimized) { continue; }
 
-			shader.bind();
-			shader.loadMatrix4("modelMatrix", Utils::CreateModelMatrix(glm::vec3(-1, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)));
-			renderer.renderVAO(*mesh.vao, shader);
-			shader.unbind();
-			
-			for (Layer* layer : layerStack)
-			{
-                layer->onUpdate();
-			}
-
-            imGuiLayer->begin();
+			// Updating
             for (Layer* layer : layerStack)
             {
-                layer->onImGuiRender();
+                if (layer->isEnabled()) { layer->onUpdate(); }
             }
-            imGuiLayer->end();
+
+			// Rendering
+            renderer.prepare();
+
+			shader.begin();
+			shader.loadMatrix4("modelMatrix", Utils::CreateModelMatrix(glm::vec3(-1, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)));
+			renderer.renderVAO(*mesh.vao, shader);
+			shader.end();
+
+			// ImGui Rendering
+            if (imGuiLayer->isEnabled())
+            {
+                imGuiLayer->begin();
+                for (Layer* layer : layerStack)
+                {
+                    if (layer->isEnabled()) { layer->onImGuiRender(); }
+                }
+                imGuiLayer->end();
+            }
 		}
 	}
 
@@ -117,11 +118,16 @@ namespace BC
 		
         for (auto it = layerStack.end(); it != layerStack.begin();)
         {
-            (*--it)->onEvent(event);
-        	if (event.handled)
-        	{
-        		break;
-        	}
+            --it;
+        	
+            if ((*it)->isEnabled())
+            {
+                (*it)->onEvent(event);
+                if (event.handled)
+                {
+                    break;
+                }
+            }
         }
     }
 

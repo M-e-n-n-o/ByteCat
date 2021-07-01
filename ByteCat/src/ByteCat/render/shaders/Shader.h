@@ -21,8 +21,8 @@ namespace BC
 		Shader(std::string& vertexShader, std::string& fragmentShader);
 		virtual ~Shader();
 
-		void bind() const { glUseProgram(programID); }
-		void unbind() const { glUseProgram(0); }
+		void begin() const { glUseProgram(programID); }
+		void end() const { glUseProgram(0); }
 		
 		void loadFloat(std::string name, float value) const;
 		void loadInt(std::string name, int value) const;

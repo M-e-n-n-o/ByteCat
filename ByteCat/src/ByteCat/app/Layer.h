@@ -9,7 +9,8 @@ namespace BC
 	{
 	private:
 		std::string name;
-		
+		bool enabled = true;
+	
 	public:
 		Layer(std::string name): name(name) {}
 		virtual ~Layer() = default;
@@ -20,6 +21,8 @@ namespace BC
 		virtual void onImGuiRender() {}
 		virtual void onEvent(Event& event) {}
 
+		void enable(bool enabled) { this->enabled = enabled; }
+		bool isEnabled() const { return enabled; }
 		std::string getName() const { return name; }
 	};
 }

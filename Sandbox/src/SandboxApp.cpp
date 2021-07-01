@@ -32,6 +32,7 @@ public:
 			if (e.getKeyCode() == KeyCode::Backspace)
 			{
 				LOG_INFO("Backspace is pressed");
+				
 			}
 			LOG_INFO("{0}", (char)e.getKeyCode());
 		}
