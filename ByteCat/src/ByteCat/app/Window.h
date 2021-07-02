@@ -19,7 +19,7 @@ namespace BC
 	private:
 		EventListener* listener;
 		WindowSetting setting;
-		
+	
 	public:
 		Window(WindowSetting& windowSetting);
 		~Window() { shutdown(); }
@@ -40,5 +40,10 @@ namespace BC
 		
 		void setEventListener(EventListener* newListener) { listener = newListener; }
 		EventListener* getEventListener() const { return listener; }
+
+		static std::unique_ptr<Window> Create(WindowSetting& windowSetting)
+		{
+			return std::make_unique<Window>(windowSetting);
+		}
 	};
 }

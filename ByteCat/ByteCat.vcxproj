@@ -169,13 +169,12 @@
     <ClInclude Include="src\byteCat\input\events\Event.h" />
     <ClInclude Include="src\byteCat\input\events\KeyEvent.h" />
     <ClInclude Include="src\byteCat\input\events\MouseEvent.h" />
-    <ClInclude Include="src\byteCat\render\Loader.h" />
-    <ClInclude Include="src\byteCat\render\Renderer.h" />
-    <ClInclude Include="src\byteCat\render\models\Mesh.h" />
     <ClInclude Include="src\byteCat\render\models\Texture.h" />
     <ClInclude Include="src\byteCat\render\shaders\Shader.h" />
-    <ClInclude Include="src\byteCat\render\shaders\StandardShader.h" />
-    <ClInclude Include="src\byteCat\utils\Maths.h" />
+    <ClInclude Include="src\byteCat\render\shaders\ByteCatShaders.h" />
+    <ClInclude Include="src\byteCat\render\vertex-object\Buffer.h" />
+    <ClInclude Include="src\byteCat\render\vertex-object\VertexArray.h" />
+    <ClInclude Include="src\byteCat\utils\Math.h" />
     <ClInclude Include="src\byteCat\utils\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
@@ -189,13 +188,11 @@
     <ClCompile Include="src\byteCat\imgui\ImGuiBuild.cpp" />
     <ClCompile Include="src\byteCat\imgui\ImGuiLayer.cpp" />
     <ClCompile Include="src\byteCat\input\Input.cpp" />
-    <ClCompile Include="src\byteCat\render\Loader.cpp" />
-    <ClCompile Include="src\byteCat\render\Renderer.cpp" />
-    <ClCompile Include="src\byteCat\render\models\Mesh.cpp" />
     <ClCompile Include="src\byteCat\render\models\Texture.cpp" />
     <ClCompile Include="src\byteCat\render\shaders\Shader.cpp" />
-    <ClCompile Include="src\byteCat\render\shaders\StandardShader.cpp" />
-    <ClCompile Include="src\byteCat\utils\Maths.cpp" />
+    <ClCompile Include="src\byteCat\render\vertex-object\Buffer.cpp" />
+    <ClCompile Include="src\byteCat\render\vertex-object\VertexArray.cpp" />
+    <ClCompile Include="src\byteCat\utils\Math.cpp" />
     <ClCompile Include="src\byteCat\utils\stb_image.cpp" />
   </ItemGroup>
   <ItemGroup>

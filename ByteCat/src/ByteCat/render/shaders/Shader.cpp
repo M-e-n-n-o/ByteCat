@@ -30,12 +30,12 @@ namespace BC
 		glDeleteProgram(programID);
 	}
 
-	void Shader::begin() const
+	void Shader::bind() const
 	{
 		glUseProgram(programID);
 	}
 
-	void Shader::end() const
+	void Shader::unbind() const
 	{
 		glUseProgram(0);
 	}
@@ -94,9 +94,9 @@ namespace BC
 		}
 	}
 
-	void Shader::setTexture(Texture& texture, unsigned textureUnit)
+	void Shader::setTexture(std::shared_ptr<Texture> texture, unsigned textureUnit)
 	{
-		auto it = textures.insert(std::pair<unsigned int, Texture&>(textureUnit, texture));
+		auto it = textures.insert(std::pair<unsigned int, std::shared_ptr<Texture>>(textureUnit, texture));
 		
 		if (!it.second)
 		{
@@ -108,7 +108,7 @@ namespace BC
 	{
 		for (auto texture : textures)
 		{
-			texture.second.bind(texture.first);
+			texture.second->bind(texture.first);
 		}
 	}
 

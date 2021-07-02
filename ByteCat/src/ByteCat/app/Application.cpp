@@ -1,12 +1,12 @@
 #include "bcpch.h"
+#include <GL/glew.h>
 #include "byteCat/app/Application.h"
 
-#include "byteCat/render/Renderer.h"
-#include "byteCat/render/models/Mesh.h"
 #include "byteCat/render/models/Texture.h"
 #include "byteCat/render/shaders/Shader.h"
-#include "byteCat/render/shaders/StandardShader.h"
-#include "byteCat/utils/Maths.h"
+#include "byteCat/utils/Math.h"
+#include "byteCat/render/vertex-object/Buffer.h"
+#include "byteCat/render/vertex-object/VertexArray.h"
 
 namespace BC
 {	
@@ -20,7 +20,7 @@ namespace BC
         LOG_INFO("ByteCat engine is starting...");
 		
         WindowSetting setting = { "ByteCat Engine", 1280, 720, true };
-        window = std::make_unique<Window>(setting);
+        window = Window::Create(setting);
         window->setEventListener(this);
 
         imGuiLayer = new ImGuiLayer();
@@ -47,7 +47,7 @@ namespace BC
 	
 	void Application::run()
 	{	
-        std::vector<float> vertices =
+        float vertices[] =
         {
 		  -0.5f, 0.5f, 0,
 		  -0.5f, -0.5f, 0,
@@ -55,25 +55,39 @@ namespace BC
 		  0.5f, 0.5f, 0
         };
    
-        std::vector<int> indices =
+        unsigned int indices[] =
         {
             0,1,3,
 			3,1,2
         };
    
-        std::vector<float> textureCoords =
+        float textureCoords[] =
         {
         	0, 0,
         	0, 1,
         	1, 1,
         	1, 0
         };
-   
-        Mesh mesh(vertices, textureCoords, indices);
-        Texture2D texture("blokje.png");
-		 
-        StandardShader shader(texture);
-        Renderer renderer;
+
+        std::shared_ptr<Shader> shader = Shader::Create(ByteCatShader::Standard);
+		
+        std::shared_ptr<Texture2D> texture = Texture2D::Create("blokje.png");
+        shader->setTexture(texture);
+
+		
+        std::shared_ptr<VertexArray> vao = VertexArray::Create();
+		
+        std::shared_ptr<VertexBuffer> vertexBuffer = VertexBuffer::Create(vertices, sizeof(vertices));
+        vertexBuffer->setBufferType({ ShaderDataType::Float3 });
+        vao->addVertexBuffer(vertexBuffer);
+
+        std::shared_ptr<VertexBuffer> textureBuffer = VertexBuffer::Create(textureCoords, sizeof(textureCoords));
+        textureBuffer->setBufferType({ ShaderDataType::Float2 });
+        vao->addVertexBuffer(textureBuffer);
+
+        std::shared_ptr<IndexBuffer> indexBuffer = IndexBuffer::Create(indices, sizeof(indices));
+        vao->setIndexBuffer(indexBuffer);
+
 		
 		while (isRunning)
 		{
@@ -87,13 +101,20 @@ namespace BC
                 if (layer->isEnabled()) { layer->onUpdate(); }
             }
 
-			// Rendering
-            renderer.prepare();
 
-			shader.begin();
-			shader.loadMatrix4("modelMatrix", Utils::CreateModelMatrix(glm::vec3(-1, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)));
-			renderer.renderVAO(*mesh.vao, shader);
-			shader.end();
+            // Rendering
+            glEnable(GL_DEPTH_TEST);
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+            glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+
+            shader->bind();
+            shader->loadMatrix4("modelMatrix", Utils::CreateModelMatrix(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)));
+            vao->bind();
+            shader->bindTextures();
+            glDrawElements(GL_TRIANGLES, vao->getIndexBuffer()->getCount(), GL_UNSIGNED_INT, 0);
+            vao->unbind();
+            shader->unbind();
+			
 			
 			// ImGui Rendering
             if (imGuiLayer->isEnabled())
