@@ -1,5 +1,4 @@
 #include "bcpch.h"
-#include <GL/glew.h>
 #include "byteCat/app/Application.h"
 
 #include "byteCat/render/models/Texture.h"
@@ -7,6 +6,7 @@
 #include "byteCat/utils/Math.h"
 #include "byteCat/render/vertex-object/Buffer.h"
 #include "byteCat/render/vertex-object/VertexArray.h"
+#include "byteCat/render/Renderer.h"
 
 namespace BC
 {	
@@ -25,6 +25,8 @@ namespace BC
 
         imGuiLayer = new ImGuiLayer();
         pushOverlay(imGuiLayer);
+
+        Renderer::Init();
 	}
 
     Application::~Application()
@@ -85,35 +87,29 @@ namespace BC
         textureBuffer->setBufferType({ ShaderDataType::Float2 });
         vao->addVertexBuffer(textureBuffer);
 
-        std::shared_ptr<IndexBuffer> indexBuffer = IndexBuffer::Create(indices, sizeof(indices));
+        std::shared_ptr<IndexBuffer> indexBuffer = IndexBuffer::Create(indices, sizeof(indices) / sizeof(unsigned int));
         vao->setIndexBuffer(indexBuffer);
 
-		
 		while (isRunning)
 		{
             window->update();
 			
             if (isMinimized) { continue; }
 
+			
 			// Updating
             for (Layer* layer : layerStack)
             {
                 if (layer->isEnabled()) { layer->onUpdate(); }
             }
 
-
+			
             // Rendering
-            glEnable(GL_DEPTH_TEST);
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-            glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
-
-            shader->bind();
-            shader->loadMatrix4("modelMatrix", Utils::CreateModelMatrix(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)));
-            vao->bind();
-            shader->bindTextures();
-            glDrawElements(GL_TRIANGLES, vao->getIndexBuffer()->getCount(), GL_UNSIGNED_INT, 0);
-            vao->unbind();
-            shader->unbind();
+            Renderer::BeginScene();
+			
+            Renderer::Submit(shader, vao, Utils::CreateModelMatrix(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)));
+			
+            Renderer::EndScene();
 			
 			
 			// ImGui Rendering
@@ -167,6 +163,7 @@ namespace BC
         isMinimized = false;
 
         window->resize(event.getWidth(), event.getHeight());
+        Renderer::OnWindowResize(event.getWidth(), event.getHeight());
 
         return false;
     }

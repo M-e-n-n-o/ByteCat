@@ -94,6 +94,8 @@
     <ClInclude Include="src\byteCat\render\shaders\ByteCatShaders.h">
       <Filter>byteCat\render\shaders</Filter>
     </ClInclude>
+    <ClInclude Include="src\byteCat\render\RenderAPI.h" />
+    <ClInclude Include="src\byteCat\render\Renderer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\bcpch.cpp" />
@@ -132,5 +134,7 @@
     </ClCompile>
     <ClCompile Include="src\byteCat\render\vertex-object\Buffer.cpp" />
     <ClCompile Include="src\byteCat\render\vertex-object\VertexArray.cpp" />
+    <ClCompile Include="src\byteCat\render\RenderAPI.cpp" />
+    <ClCompile Include="src\byteCat\render\Renderer.cpp" />
   </ItemGroup>
 </Project>

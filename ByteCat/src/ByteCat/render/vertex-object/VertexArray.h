@@ -24,6 +24,7 @@ namespace BC
 		void addVertexBuffer(const std::shared_ptr<VertexBuffer>& buffer);
 		void setIndexBuffer(const std::shared_ptr<IndexBuffer>& buffer);
 
+		const unsigned int getId() const { return id; }
 		const std::vector<std::shared_ptr<VertexBuffer>>& getVertexBuffers() const { return vertexBuffers; }
 		const std::shared_ptr<IndexBuffer>& getIndexBuffer() const { return indexBuffer; }
 

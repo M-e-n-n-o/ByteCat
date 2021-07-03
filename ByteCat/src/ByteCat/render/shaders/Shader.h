@@ -54,8 +54,8 @@ namespace BC
 			case ByteCatShader::Standard : return Create(shaders::standard::vertexShader, shaders::standard::fragmentShader);
 			}
 
-			LOG_ERROR("ByteCat shader type not found");
-			return nullptr;
+			LOG_ERROR("ByteCat shadertype \"{0}\" not found", shaderType);
+			return Create(std::string("ERROR"), std::string("ERROR"));
 		}
 	
 	private:

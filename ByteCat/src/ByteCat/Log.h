@@ -30,7 +30,7 @@
 	#define LOG_INFO(...)
 	#define LOG_WARN(...)
 	#define LOG_ERROR(...)
-	#define LOG_CRITICAL(...)
+	#define LOG_CRITICAL(x)				std::cerr << x << std::endl;
 	#define LOG_ASSERT(x, ...)
 #endif
 

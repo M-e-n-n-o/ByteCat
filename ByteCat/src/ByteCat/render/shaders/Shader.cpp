@@ -147,13 +147,13 @@ namespace BC
 
 			std::vector<GLchar> errorLog(maxLength);
 			glGetShaderInfoLog(shaderID, maxLength, &maxLength, &errorLog[0]);
+
+			LOG_ERROR("Shader error info:");
 			for (std::vector<GLchar>::const_iterator i = errorLog.begin(); i != errorLog.end(); ++i)
 			{
 				std::cout << *i;
 			}
-			std::cout << std::endl;
 			LOG_ASSERT(false, "Could not compile shader");
-			std::exit(-1);
 		}
 
 		return shaderID;

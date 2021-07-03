@@ -33,14 +33,22 @@ namespace BC
 		glfwMakeContextCurrent(nativeWindow);
 		
 		const int error = glewInit();
-		LOG_ASSERT(!error, "Failed to initialize glew");
+		if (error)
+		{
+			LOG_CRITICAL("Failed to initialize glew");
+			std::exit(-1);
+		}
 
 		LOG_INFO("OpenGL Info:");
 		LOG_INFO("   Vendor:   {0}", glGetString(GL_VENDOR));
 		LOG_INFO("   Renderer: {0}", glGetString(GL_RENDERER));
 		LOG_INFO("   Version:  {0}", glGetString(GL_VERSION));
 
-		LOG_ASSERT(GLEW_VERSION_4_5, "ByteCat requires at least OpenGL version 4.5");
+		if (!GLEW_VERSION_4_5)
+		{
+			LOG_CRITICAL("ByteCat requires at least OpenGL version 4.5");
+			std::exit(-1);
+		}
 		
 		setVsync(windowSetting.vSync);
 
@@ -133,11 +141,10 @@ namespace BC
 		glfwTerminate();
 	}
 
-	void Window::resize(unsigned int x, unsigned int y)
+	void Window::resize(unsigned int width, unsigned int height)
 	{
-		setting.width = x;
-		setting.height = y;
-		glViewport(0, 0, x, y);
+		setting.width = width;
+		setting.height = height;
 	}
 
 	void Window::setVsync(bool enabled)

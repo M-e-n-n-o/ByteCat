@@ -27,7 +27,7 @@ namespace BC
 		void update() const;
 		void shutdown() const;
 
-		void resize(unsigned int x, unsigned int y);
+		void resize(unsigned int width, unsigned int height);
 		
 		std::string getTitle() const { return setting.title; }
 		int getWidth() const { return setting.width; }
