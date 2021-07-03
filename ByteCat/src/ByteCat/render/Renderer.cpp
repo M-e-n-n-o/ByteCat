@@ -29,6 +29,7 @@ namespace BC
 	{
 		// TODO Scene info meekrijgen (camera, lichten, etc.)
 
+		drawCalls = 0;
 		RenderAPI::Clear();
 		RenderAPI::ClearColor(CLEAR_COLOR);
 	}
@@ -42,10 +43,10 @@ namespace BC
 		for (Entity& entity : entities)
 		{
 			entity.shader->bind();
-			entity.shader->loadMatrix4("modelMatrix", entity.transformation);
+			entity.shader->loadMatrix4("modelMatrix", entity.modelMatrix);
 			entity.vao->bind();
 			entity.shader->bindTextures();
-			RenderAPI::Draw(entity.vao);
+			Render(entity.vao);
 			entity.vao->unbind();
 			entity.shader->unbind();
 		}
@@ -55,13 +56,19 @@ namespace BC
 		entities.reserve(ALLOCATE_PER_RESIZE);
 	}
 
-	void Renderer::Submit(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& vao, const glm::mat4& transformation)
+	void Renderer::Submit(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& vao, const glm::mat4& modelMatrix)
 	{		
 		if (entities.size() >= entities.capacity())
 		{
 			entities.reserve(entities.capacity() + ALLOCATE_PER_RESIZE);
 		}
 
-		entities.push_back({ shader, vao, transformation });
+		entities.push_back({ shader, vao, modelMatrix });
+	}
+
+	void Renderer::Render(const std::shared_ptr<VertexArray>& vao)
+	{
+		++drawCalls;
+		RenderAPI::Draw(vao);
 	}
 }

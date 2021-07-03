@@ -75,7 +75,6 @@ namespace BC
 		
         std::shared_ptr<Texture2D> texture = Texture2D::Create("blokje.png");
         shader->setTexture(texture);
-
 		
         std::shared_ptr<VertexArray> vao = VertexArray::Create();
 		
@@ -110,7 +109,7 @@ namespace BC
             Renderer::Submit(shader, vao, Utils::CreateModelMatrix(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)));
 			
             Renderer::EndScene();
-			
+
 			
 			// ImGui Rendering
             if (imGuiLayer->isEnabled())

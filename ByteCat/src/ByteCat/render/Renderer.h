@@ -18,7 +18,7 @@ namespace BC
 	{
 		const std::shared_ptr<Shader> shader;
 		const std::shared_ptr<VertexArray> vao;
-		const glm::mat4 transformation;
+		const glm::mat4 modelMatrix;
 		
 		bool operator==(const Entity& other) const
 		{
@@ -30,7 +30,8 @@ namespace BC
 	{
 	private:
 		static const int ALLOCATE_PER_RESIZE = 20;
-
+		static inline int drawCalls = 0;
+		
 		static inline glm::vec4 CLEAR_COLOR = { 0.5f, 0.5f, 0.5f, 1.0f };
 		
 		static std::unique_ptr<SceneData> sceneData;
@@ -45,8 +46,13 @@ namespace BC
 		static void BeginScene();
 		static void EndScene();
 
-		static void Submit(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& vao, const glm::mat4& transformation = glm::mat4(1.0f));
+		static void Submit(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& vao, const glm::mat4& modelMatrix = glm::mat4(1.0f));
 
 		static void SetClearColor(glm::vec4& color) { CLEAR_COLOR = color; }
+
+		static int GetNumberOfDrawCalls() { return drawCalls; }
+	
+	private:
+		static void Render(const std::shared_ptr<VertexArray>& vao);
 	};
 }
