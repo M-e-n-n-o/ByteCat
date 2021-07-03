@@ -28,7 +28,7 @@ namespace BC
 		
 		void Init()
 		{
-		#ifdef BC_ENABLE_LOG
+		#ifdef BC_DEBUG
 			glEnable(GL_DEBUG_OUTPUT);
 			glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 			glDebugMessageCallback(OpenGLMessageCallback, nullptr);
