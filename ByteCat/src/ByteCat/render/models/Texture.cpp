@@ -1,38 +1,42 @@
 #include "bcpch.h"
 #include <GL/glew.h>
 #include "byteCat/render/models/Texture.h"
-#include "byteCat/render/Loader.h"
+#include "byteCat/utils/stb_image.h"
 
 namespace BC
 {
-	Texture2D::Texture2D(std::string filePath)
+	Texture2D::Texture2D(std::string& filePath)
 	{
 		filePath.insert(0, "res/");
-		int width, height;
-		this->textureID = Loader::Load2DTexture(filePath, width, height);
+
+		LOG_INFO("Loading texture: {0}", filePath);
+		
+		int width, height, bpp;
+		unsigned char* imgData = stbi_load(filePath.c_str(), &width, &height, &bpp, 4);
+		LOG_ASSERT(imgData, "Failed to load the texture");
+
 		this->width = width;
 		this->height = height;
+		this->bpp = bpp;
+		
+		glGenTextures(1, &textureID);
+		glEnable(GL_TEXTURE_2D);
+		glBindTexture(GL_TEXTURE_2D, textureID);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, imgData);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glBindTexture(GL_TEXTURE_2D, 0);
+
+		stbi_image_free(imgData);
 	}
 
 	Texture2D::~Texture2D()
 	{
-		glBindTexture(GL_TEXTURE_2D, 0);
 		glDeleteTextures(1, &textureID);
 	}
 
 	void Texture2D::bind(unsigned textureUnit) const
 	{
-		switch (textureUnit)
-		{
-			case 0: glActiveTexture(GL_TEXTURE0); break;
-			case 1: glActiveTexture(GL_TEXTURE1); break;
-			case 2: glActiveTexture(GL_TEXTURE2); break;
-			case 3: glActiveTexture(GL_TEXTURE3); break;
-			case 4: glActiveTexture(GL_TEXTURE4); break;
-			case 5: glActiveTexture(GL_TEXTURE5); break;
-			default: LOG_ERROR("Texture unit {0} cannot be used", textureUnit); return;
-		}
-
-		glBindTexture(GL_TEXTURE_2D, textureID);
+		glBindTextureUnit(textureUnit, textureID);
 	}
 }

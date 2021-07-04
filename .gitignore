@@ -1,7 +1,13 @@
-# Directories
-.vs/
-bin/
+# ByteCat directories
+**/bin/
 bin-int/
 
 # Files
 *.user
+
+# Visual studio files and folders
+.vs/
+**.sln
+**.vcxproj
+**.vcxproj.filters
+**.vcxproj.user

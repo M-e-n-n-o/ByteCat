@@ -1,7 +1,6 @@
 #pragma once
 
 #include "byteCat/app/LayerStack.h"
-#include "byteCat/Core.h"
 #include "byteCat/input/events/Event.h"
 #include "byteCat/app/Window.h"
 #include "byteCat/app/Layer.h"
@@ -10,7 +9,12 @@
 
 namespace BC
 {
-	// Inherit from this class in the users application
+	/*
+	 * class Application:
+	 *		This class represents the whole ByteCat application itself.
+	 *		When starting this class the application starts.
+	 *		Inherit from this class in the users application to make a ByteCat application.
+	 */
 	class Application : public EventListener
 	{
 	private:
@@ -18,10 +22,10 @@ namespace BC
 
 		LayerStack layerStack;
 		ImGuiLayer* imGuiLayer;
-		
+
+		std::unique_ptr<Window> window;
 		bool isRunning;
 		bool isMinimized;
-		Window* window;
 
 		friend int ::main(int argc, char** argv);
 		
@@ -29,7 +33,9 @@ namespace BC
 		Application();
 		virtual ~Application();
 
+		// Call this function to push a new layer to the LayerStack
 		void pushLayer(Layer* layer);
+		// Call this function to push a new overlay to the LayerStack
 		void pushOverlay(Layer* overlay);
 		
 		Window& getWindow() const { return *window; }
