@@ -33,7 +33,9 @@ namespace BC
 		Application();
 		virtual ~Application();
 
+		// Call this function to push a new layer to the LayerStack
 		void pushLayer(Layer* layer);
+		// Call this function to push a new overlay to the LayerStack
 		void pushOverlay(Layer* overlay);
 		
 		Window& getWindow() const { return *window; }

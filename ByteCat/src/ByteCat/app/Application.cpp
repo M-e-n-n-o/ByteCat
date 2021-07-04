@@ -94,7 +94,7 @@ namespace BC
             window->update();
 			
             if (isMinimized) { continue; }
-
+			
 			
 			// Updating
             for (Layer* layer : layerStack)
@@ -109,7 +109,7 @@ namespace BC
             Renderer::Submit(shader, vao, Utils::CreateModelMatrix(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)));
 			
             Renderer::EndScene();
-
+			
 			
 			// ImGui Rendering
             if (imGuiLayer->isEnabled())

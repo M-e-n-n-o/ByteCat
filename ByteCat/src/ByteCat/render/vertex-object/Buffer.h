@@ -4,11 +4,18 @@
 
 namespace BC
 {
+	/*
+	 * This enum class holds the possible data types a buffer element can exist of.
+	 */
 	enum class ShaderDataType
 	{
 		None = 0, Float, Float2, Float3, Float4, Mat3, Mat4, Int, Int2, Int3, Int4, Bool
 	};
-	
+
+	/*
+	 * Struct BufferElement:
+	 *		This struct represents the kind of data which can be inside a VertexBuffer.
+	 */
 	struct BufferElement
 	{
 		ShaderDataType type;
@@ -39,7 +46,11 @@ namespace BC
 			return 0;
 		}
 	};
-	
+
+	/*
+	 * Class VertexBuffer:
+	 *		This class represents a VBO which holds data about a 3D/2D object (normals, vertex positions, texture coordinates, etc.)
+	 */
 	class VertexBuffer
 	{
 	private:
@@ -51,12 +62,16 @@ namespace BC
 		VertexBuffer(float* data, unsigned int size);
 		~VertexBuffer();
 
+		// Call this function to bind the VBO
 		void bind() const;
+		// Call this function to unbind the VBO
 		void unbind() const;
 
+		// Call this function to change the data inside the VBO
 		void setData(const void* data, unsigned int size);
 
 		const BufferElement& getElement() const { return element; }
+		// Call this function to change the buffer type of the VBO (must be called before adding the VBO to a VertexArray)
 		void setBufferType(const BufferElement& newElement) { element = newElement; }
 		
 		static std::shared_ptr<VertexBuffer> Create(unsigned int size)
@@ -70,6 +85,10 @@ namespace BC
 		}
 	};
 
+	/*
+	 * Class IndexBuffer:
+	 *		This class is the VBO which holds all the indices of a model.
+	 */
 	class IndexBuffer
 	{
 	private:
@@ -80,9 +99,12 @@ namespace BC
 		IndexBuffer(unsigned int* indices, unsigned int count);
 		~IndexBuffer();
 
+		// Call this function to bind the VBO
 		void bind() const;
+		// Call this function to unbind the VBO
 		void unbind() const;
 
+		// Call this function to get the amount of indices inside the buffer
 		unsigned int getCount() const { return count; }
 
 		
