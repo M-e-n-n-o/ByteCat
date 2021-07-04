@@ -1,9 +1,9 @@
 #include "bcpch.h"
 #include "byteCat/app/Application.h"
 
+#include "byteCat/utils/Math.h"
 #include "byteCat/render/models/Texture.h"
 #include "byteCat/render/shaders/Shader.h"
-#include "byteCat/utils/Math.h"
 #include "byteCat/render/vertex-object/Buffer.h"
 #include "byteCat/render/vertex-object/VertexArray.h"
 #include "byteCat/render/Renderer.h"

@@ -71,9 +71,4 @@ namespace BC
 		ImGui_ImplGlfw_Shutdown();
 		ImGui::DestroyContext();
 	}
-
-	void ImGuiLayer::onImGuiRender()
-	{
-		
-	}
 }

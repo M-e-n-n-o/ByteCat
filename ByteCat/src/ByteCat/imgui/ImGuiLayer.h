@@ -1,10 +1,13 @@
 #pragma once
 
-#include "byteCat/Core.h"
 #include "byteCat/app/Layer.h"
 
 namespace BC
 {
+	/*
+	 * Class ImGuiLayer:
+	 *		This layer class starts and stops the imGui rendering
+	 */
 	class ImGuiLayer : public Layer
 	{
 	public:
@@ -16,6 +19,5 @@ namespace BC
 		
 		void onAttach() override;
 		void onDetach() override;
-		void onImGuiRender() override;
 	};
 }

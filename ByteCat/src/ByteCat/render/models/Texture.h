@@ -4,6 +4,11 @@
 
 namespace BC
 {
+	/*
+	 * Class Texture:
+	 *		This class represents a generic ByteCat texture. Derrive from
+	 *		this clas to make a, for example 2D Texture or CubeMap.
+	 */
 	class Texture
 	{
 	protected:
@@ -20,11 +25,16 @@ namespace BC
 		virtual unsigned int getWidth() const = 0;
 		virtual unsigned int getHeight() const = 0;
 		virtual unsigned int getBpp() const = 0;
-		
+
+		// Call this function to bind the texture to a shader
 		virtual void bind(unsigned int textureUnit = 0) const = 0;
 	};
 
-	
+
+	/*
+	 * Class Texture2D:
+	 *		This class represents a ByteCat 2D Texture to render on top of a VertexArray
+	 */
 	class Texture2D : public Texture
 	{
 	public:

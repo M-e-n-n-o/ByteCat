@@ -9,7 +9,12 @@
 
 namespace BC
 {
-	// Inherit from this class in the users application
+	/*
+	 * class Application:
+	 *		This class represents the whole ByteCat application itself.
+	 *		When starting this class the application starts.
+	 *		Inherit from this class in the users application to make a ByteCat application.
+	 */
 	class Application : public EventListener
 	{
 	private:

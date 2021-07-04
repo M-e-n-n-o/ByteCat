@@ -5,6 +5,10 @@
 
 namespace BC
 {
+	/*
+	 * Struct WindowSetting:
+	 *		This struct holds the settings for a window
+	 */
 	struct WindowSetting
 	{
 		std::string title;
@@ -13,7 +17,11 @@ namespace BC
 		bool vSync;
 	};
 
-	
+
+	/*
+	 * Class Window:
+	 *		This class represents a window from a ByteCat application
+	 */
 	class Window
 	{
 	private:
@@ -24,9 +32,12 @@ namespace BC
 		Window(WindowSetting& windowSetting);
 		~Window() { shutdown(); }
 
+		// Swap the buffers and poll the events
 		void update() const;
+		// Shutdown the window
 		void shutdown() const;
 
+		// Change the window settings to the new width and heigt
 		void resize(unsigned int width, unsigned int height);
 		
 		std::string getTitle() const { return setting.title; }
@@ -36,8 +47,10 @@ namespace BC
 		void setVsync(bool enabled);
 		bool getVsync() const { return setting.vSync; }
 
+		// Returns an OpenGL GLFWwindow
 		void* getNativeWindow() const;
-		
+
+		// Sets the eventlistener of the incoming events
 		void setEventListener(EventListener* newListener) { listener = newListener; }
 		EventListener* getEventListener() const { return listener; }
 
