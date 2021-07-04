@@ -169,11 +169,11 @@
     <ClInclude Include="src\byteCat\input\events\Event.h" />
     <ClInclude Include="src\byteCat\input\events\KeyEvent.h" />
     <ClInclude Include="src\byteCat\input\events\MouseEvent.h" />
-    <ClInclude Include="src\byteCat\render\models\Texture.h" />
     <ClInclude Include="src\byteCat\render\RenderAPI.h" />
     <ClInclude Include="src\byteCat\render\Renderer.h" />
-    <ClInclude Include="src\byteCat\render\shaders\Shader.h" />
+    <ClInclude Include="src\byteCat\render\models\Texture.h" />
     <ClInclude Include="src\byteCat\render\shaders\ByteCatShaders.h" />
+    <ClInclude Include="src\byteCat\render\shaders\Shader.h" />
     <ClInclude Include="src\byteCat\render\vertex-object\Buffer.h" />
     <ClInclude Include="src\byteCat\render\vertex-object\VertexArray.h" />
     <ClInclude Include="src\byteCat\utils\Math.h" />
@@ -190,9 +190,9 @@
     <ClCompile Include="src\byteCat\imgui\ImGuiBuild.cpp" />
     <ClCompile Include="src\byteCat\imgui\ImGuiLayer.cpp" />
     <ClCompile Include="src\byteCat\input\Input.cpp" />
-    <ClCompile Include="src\byteCat\render\models\Texture.cpp" />
     <ClCompile Include="src\byteCat\render\RenderAPI.cpp" />
     <ClCompile Include="src\byteCat\render\Renderer.cpp" />
+    <ClCompile Include="src\byteCat\render\models\Texture.cpp" />
     <ClCompile Include="src\byteCat\render\shaders\Shader.cpp" />
     <ClCompile Include="src\byteCat\render\vertex-object\Buffer.cpp" />
     <ClCompile Include="src\byteCat\render\vertex-object\VertexArray.cpp" />
