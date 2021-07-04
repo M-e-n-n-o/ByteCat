@@ -9,7 +9,12 @@
 
 namespace BC
 {
-	// Inherit from this class in the users application
+	/*
+	 * class Application:
+	 *		This class represents the whole ByteCat application itself.
+	 *		When starting this class the application starts.
+	 *		Inherit from this class in the users application to make a ByteCat application.
+	 */
 	class Application : public EventListener
 	{
 	private:
@@ -28,7 +33,9 @@ namespace BC
 		Application();
 		virtual ~Application();
 
+		// Call this function to push a new layer to the LayerStack
 		void pushLayer(Layer* layer);
+		// Call this function to push a new overlay to the LayerStack
 		void pushOverlay(Layer* overlay);
 		
 		Window& getWindow() const { return *window; }

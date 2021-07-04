@@ -26,7 +26,11 @@ namespace BC
 #define EVENT_CLASS_TYPE(type) static EventType getStaticType() { return EventType::type; }\
 								virtual EventType getEventType() const override { return getStaticType(); }\
 								virtual const char* getName() const override { return #type; }
-	
+
+	/*
+	 * Class Event:
+	 *		This class represents an Event (input) for a ByteCat application
+	 */
 	class Event
 	{
 	public:
@@ -44,6 +48,13 @@ namespace BC
 		}
 	};
 
+	/*
+	 * Class EventDispatcher:
+	 *		Use this class to automatic handle events in the correct way.
+	 *
+	 *		Usage:
+	 *		dispatcher.dispatch<<EventType>>(BC_BIND_EVENT_FN(<Function pointer>));
+	 */
 	class EventDispatcher
 	{
 	private:

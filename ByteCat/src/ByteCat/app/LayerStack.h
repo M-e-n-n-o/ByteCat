@@ -2,10 +2,13 @@
 
 #include <vector>
 #include "byteCat/app/Layer.h"
-#include "byteCat/Core.h"
 
 namespace BC
 {
+	/*
+	 * Class LayerStack:
+	 *		This class holds all the layers in the application and updates them every frame.
+	 */
 	class LayerStack
 	{
 	private:
@@ -16,9 +19,13 @@ namespace BC
 		LayerStack() = default;
 		~LayerStack();
 
+		// Add a new layer to the stack
 		void pushLayer(Layer* layer);
+		// Add an overlay to the stack (gets rendered on top of the layers)
 		void pushOverlay(Layer* overlay);
+		// Remove a layer from the stack
 		void popLayer(Layer* layer);
+		// Remove an overlay from the stack
 		void popOverlay(Layer* overlay);
 
 		std::vector<Layer*>::iterator begin() { return layers.begin(); }

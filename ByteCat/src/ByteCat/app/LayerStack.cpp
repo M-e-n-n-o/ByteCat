@@ -4,9 +4,7 @@
 namespace BC
 {
 	LayerStack::~LayerStack()
-	{
-		LOG_INFO("Removing all layers");
-		
+	{		
 		for (Layer* layer : layers)
 		{
 			delete layer;

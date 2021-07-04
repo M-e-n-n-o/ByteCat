@@ -1,22 +1,74 @@
 #include "bcpch.h"
-#include <GL/glew.h>
 #include "byteCat/render/Renderer.h"
-
+#include "byteCat/render/RenderAPI.h"
+#include "byteCat/utils/Math.h"
 
 namespace BC
 {
-	void Renderer::prepare() const
+	void Renderer::Init()
 	{
-		glEnable(GL_DEPTH_TEST);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glClearColor(CLEAR_COLOR.r, CLEAR_COLOR.g, CLEAR_COLOR.b, 1.0f);
+		entities.reserve(ALLOCATE_PER_RESIZE);
+		
+		RenderAPI::Init();
 	}
 
-	void Renderer::renderVAO(VAO& vao, Shader& shader) const
+	void Renderer::Shutdown()
 	{
-		glBindVertexArray(vao.id);
-		shader.bindTextures();
-		glDrawElements(GL_TRIANGLES, vao.vertexCount, GL_UNSIGNED_INT, 0);
-		glBindVertexArray(0);
+		entities.clear();
+		entities.shrink_to_fit();
+		
+		// Alle 2D en 3D renderers afsluiten
+	}
+
+	void Renderer::OnWindowResize(unsigned width, unsigned height)
+	{
+		RenderAPI::SetViewport(0, 0, width, height);
+	}
+
+	void Renderer::BeginScene()
+	{
+		// TODO Scene info meekrijgen (camera, lichten, etc.)
+
+		drawCalls = 0;
+		RenderAPI::Clear();
+		RenderAPI::ClearColor(CLEAR_COLOR);
+	}
+
+	void Renderer::EndScene()
+	{
+		// TODO
+		// Sorteer de entities
+		// Render de entities efficient
+		
+		for (Entity& entity : entities)
+		{
+			entity.shader->bind();
+			entity.shader->loadMatrix4("modelMatrix", entity.modelMatrix);
+			entity.vao->bind();
+			entity.shader->bindTextures();
+			Render(entity.vao);
+			entity.vao->unbind();
+			entity.shader->unbind();
+		}
+
+		entities.clear();
+		entities.shrink_to_fit();
+		entities.reserve(ALLOCATE_PER_RESIZE);
+	}
+
+	void Renderer::Submit(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& vao, const glm::mat4& modelMatrix)
+	{		
+		if (entities.size() >= entities.capacity())
+		{
+			entities.reserve(entities.capacity() + ALLOCATE_PER_RESIZE);
+		}
+
+		entities.push_back({ shader, vao, modelMatrix });
+	}
+
+	void Renderer::Render(const std::shared_ptr<VertexArray>& vao)
+	{
+		++drawCalls;
+		RenderAPI::Draw(vao);
 	}
 }

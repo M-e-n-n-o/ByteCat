@@ -31,7 +31,25 @@ namespace BC
 		}
 
 		glfwMakeContextCurrent(nativeWindow);
+		
+		const int error = glewInit();
+		if (error)
+		{
+			LOG_CRITICAL("Failed to initialize glew");
+			std::exit(-1);
+		}
 
+		LOG_INFO("OpenGL Info:");
+		LOG_INFO("   Vendor:   {0}", glGetString(GL_VENDOR));
+		LOG_INFO("   Renderer: {0}", glGetString(GL_RENDERER));
+		LOG_INFO("   Version:  {0}", glGetString(GL_VERSION));
+
+		if (!GLEW_VERSION_4_5)
+		{
+			LOG_CRITICAL("ByteCat requires at least OpenGL version 4.5");
+			std::exit(-1);
+		}
+		
 		setVsync(windowSetting.vSync);
 
 		glfwSetWindowSizeCallback(nativeWindow, [](GLFWwindow* window, int width, int height)
@@ -109,8 +127,6 @@ namespace BC
 			MouseMovedEvent event((float)xPos, (float)yPos);
 			Application::GetInstance().getWindow().getEventListener()->onEvent(event);
 		});
-
-		glewInit();
 	}
 
 	void Window::update() const
@@ -125,11 +141,10 @@ namespace BC
 		glfwTerminate();
 	}
 
-	void Window::resize(unsigned int x, unsigned int y)
+	void Window::resize(unsigned int width, unsigned int height)
 	{
-		setting.width = x;
-		setting.height = y;
-		glViewport(0, 0, x, y);
+		setting.width = width;
+		setting.height = height;
 	}
 
 	void Window::setVsync(bool enabled)

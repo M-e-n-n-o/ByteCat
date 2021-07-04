@@ -77,30 +77,25 @@
     <ClInclude Include="src\byteCat\input\events\MouseEvent.h">
       <Filter>byteCat\input\events</Filter>
     </ClInclude>
-    <ClInclude Include="src\byteCat\render\Loader.h">
-      <Filter>byteCat\render</Filter>
-    </ClInclude>
-    <ClInclude Include="src\byteCat\render\Renderer.h">
-      <Filter>byteCat\render</Filter>
-    </ClInclude>
-    <ClInclude Include="src\byteCat\render\models\Mesh.h">
-      <Filter>byteCat\render\models</Filter>
-    </ClInclude>
     <ClInclude Include="src\byteCat\render\models\Texture.h">
       <Filter>byteCat\render\models</Filter>
     </ClInclude>
     <ClInclude Include="src\byteCat\render\shaders\Shader.h">
       <Filter>byteCat\render\shaders</Filter>
     </ClInclude>
-    <ClInclude Include="src\byteCat\render\shaders\StandardShader.h">
-      <Filter>byteCat\render\shaders</Filter>
-    </ClInclude>
-    <ClInclude Include="src\byteCat\utils\Maths.h">
-      <Filter>byteCat\utils</Filter>
-    </ClInclude>
     <ClInclude Include="src\byteCat\utils\stb_image.h">
       <Filter>byteCat\utils</Filter>
     </ClInclude>
+    <ClInclude Include="src\byteCat\render\vertex-object\VertexArray.h" />
+    <ClInclude Include="src\byteCat\utils\Math.h">
+      <Filter>byteCat\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\byteCat\render\vertex-object\Buffer.h" />
+    <ClInclude Include="src\byteCat\render\shaders\ByteCatShaders.h">
+      <Filter>byteCat\render\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="src\byteCat\render\RenderAPI.h" />
+    <ClInclude Include="src\byteCat\render\Renderer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\bcpch.cpp" />
@@ -125,29 +120,21 @@
     <ClCompile Include="src\byteCat\input\Input.cpp">
       <Filter>byteCat\input</Filter>
     </ClCompile>
-    <ClCompile Include="src\byteCat\render\Loader.cpp">
-      <Filter>byteCat\render</Filter>
-    </ClCompile>
-    <ClCompile Include="src\byteCat\render\Renderer.cpp">
-      <Filter>byteCat\render</Filter>
-    </ClCompile>
-    <ClCompile Include="src\byteCat\render\models\Mesh.cpp">
-      <Filter>byteCat\render\models</Filter>
-    </ClCompile>
     <ClCompile Include="src\byteCat\render\models\Texture.cpp">
       <Filter>byteCat\render\models</Filter>
     </ClCompile>
     <ClCompile Include="src\byteCat\render\shaders\Shader.cpp">
       <Filter>byteCat\render\shaders</Filter>
     </ClCompile>
-    <ClCompile Include="src\byteCat\render\shaders\StandardShader.cpp">
-      <Filter>byteCat\render\shaders</Filter>
-    </ClCompile>
-    <ClCompile Include="src\byteCat\utils\Maths.cpp">
-      <Filter>byteCat\utils</Filter>
-    </ClCompile>
     <ClCompile Include="src\byteCat\utils\stb_image.cpp">
       <Filter>byteCat\utils</Filter>
     </ClCompile>
+    <ClCompile Include="src\byteCat\utils\Math.cpp">
+      <Filter>byteCat\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\byteCat\render\vertex-object\Buffer.cpp" />
+    <ClCompile Include="src\byteCat\render\vertex-object\VertexArray.cpp" />
+    <ClCompile Include="src\byteCat\render\RenderAPI.cpp" />
+    <ClCompile Include="src\byteCat\render\Renderer.cpp" />
   </ItemGroup>
 </Project>
