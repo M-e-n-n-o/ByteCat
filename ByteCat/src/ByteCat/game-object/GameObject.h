@@ -17,52 +17,64 @@ namespace BC
 
 
 	
-	class GameComponent
+	class ObjectComponent
 	{
 	private:
 		std::string name;
 		
 	public:
-		GameComponent(std::string const& name): name(name) {}
-		virtual ~GameComponent() = default;
+		ObjectComponent(std::string const& name): name(name) {}
+		virtual ~ObjectComponent() = default;
 
 		// Gets called when attached to a GameObject
-		virtual void onStart() {}
+		virtual void onAttach() {}
 		// Gets called every frame
 		virtual void onUpdate() {}
-		// Gets called when the GameObject this component is attached to, gets deleted or the component gets removed from the GameObject
-		virtual void onDestroy() {}
-
-		bool equals(const std::string& otherName) const
+		// Gets called when the component gets removed from the GameObject
+		virtual void onDetach() {}
+		
+		bool equals(const ObjectComponent& other) const
 		{
-			return name == otherName;
+			return name == other.name;
 		}
 	};
-	
+
+
 	
 	class GameObject
 	{
 	protected:
 		Transform transform;
 
-		std::vector<GameComponent*> components;
+		std::vector<ObjectComponent*> components;
 	
 	public:
-		GameObject(Transform const& transform): transform(transform) {}
+		GameObject(Transform const& transform = Transform()): transform(transform) {}
 		virtual ~GameObject();
 
 		void update();
 		
-		//Transform getRelativeTransform() const;
 		Transform& getTransform() { return transform; }
 
-		void addComponent(GameComponent* component);
-		void removeComponent(std::string const& componentName);
-			
-	public:
-		static std::shared_ptr<GameObject> Create(Transform const& transform = Transform())
-		{
-			return std::make_shared<GameObject>(transform);
-		}
+		void addComponent(ObjectComponent* component);
+		void removeComponent(ObjectComponent* toRemove);
+
+		template<class T>
+		ObjectComponent* getComponentOfType();
 	};
+
+	
+	template <class T>
+	ObjectComponent* GameObject::getComponentOfType()
+	{
+		for (int i = 0; i < components.size(); i++)
+		{
+			if (dynamic_cast<T*>(components[i]) != nullptr)
+			{
+				return components[i];
+			}
+		}
+
+		return nullptr;
+	}
 }

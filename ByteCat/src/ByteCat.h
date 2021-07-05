@@ -8,6 +8,8 @@
 #include "byteCat/app/Layer.h"
 #include "byteCat/Log.h"
 
+#include "byteCat/utils/Math.h"
+
 #include "byteCat/input/events/Event.h"
 #include "byteCat/input/events/ApplicationEvent.h"
 #include "byteCat/input/events/KeyEvent.h"
@@ -15,6 +17,11 @@
 #include "byteCat/input/KeyCodes.h"
 #include "byteCat/input/MouseCodes.h"
 #include "byteCat/input/Input.h"
+
+#include "byteCat/render/models/Texture.h"
+#include "byteCat/render/shaders/Shader.h"
+#include "byteCat/render/vertex-object/Buffer.h"
+#include "byteCat/render/vertex-object/VertexArray.h"
 
 // --Start of the engine--
 #include "byteCat/EntryPoint.h"

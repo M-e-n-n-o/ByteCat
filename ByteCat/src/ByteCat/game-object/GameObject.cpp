@@ -5,39 +5,39 @@ namespace BC
 {
 	GameObject::~GameObject()
 	{
-		for (GameComponent* component : components)
+		for (ObjectComponent* component : components)
 		{
-			component->onDestroy();
 			delete component;
 		}
 	}
 
 	void GameObject::update()
 	{
-		for (GameComponent* component : components)
+		for (ObjectComponent* component : components)
 		{
 			component->onUpdate();
 		}
 	}
 
-	void GameObject::addComponent(GameComponent* component)
+	void GameObject::addComponent(ObjectComponent* component)
 	{
 		components.push_back(component);
-		component->onStart();
+		component->onAttach();
 	}
 
-	void GameObject::removeComponent(std::string const& componentName)
+	void GameObject::removeComponent(ObjectComponent* toRemove)
 	{
-		for (GameComponent* component : components)
-		{
-			if (component->equals(componentName))
+		for (auto it = components.begin(); it != components.end(); ++it)
+		{			
+			if ((*it)->equals(*toRemove))
 			{
-				component->onDestroy();
-				delete component;
-				component = nullptr;
+				(*it)->onDetach();
+				components.erase(it);
+				
+				delete toRemove;
+				toRemove = nullptr;
+				return;
 			}
 		}
-
-		components.erase(std::remove(components.begin(), components.end(), nullptr), components.end());
 	}
 }

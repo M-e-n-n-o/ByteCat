@@ -8,7 +8,6 @@
 #include "byteCat/render/vertex-object/VertexArray.h"
 #include "byteCat/render/Renderer.h"
 
-#include "byteCat/game-object/GameObject.h"
 
 namespace BC
 {	
@@ -25,6 +24,9 @@ namespace BC
         window = Window::Create(setting);
         window->setEventListener(this);
 
+        gameObjectLayer = new GameObjectLayer();
+        pushLayer(gameObjectLayer);
+		
         imGuiLayer = new ImGuiLayer();
         pushOverlay(imGuiLayer);
 
@@ -72,9 +74,6 @@ namespace BC
         	1, 1,
         	1, 0
         };
-
-        std::shared_ptr<GameObject> g = GameObject::Create(Transform({0, 0, 0}, {0, 0, 0}, {0, 0, 0}));
-        g->removeComponent();
 		
         std::shared_ptr<Shader> shader = Shader::Create(ByteCatShader::Standard);
 		
@@ -94,12 +93,24 @@ namespace BC
         std::shared_ptr<IndexBuffer> indexBuffer = IndexBuffer::Create(indices, sizeof(indices) / sizeof(unsigned int));
         vao->setIndexBuffer(indexBuffer);
 
+		
+        //std::shared_ptr<GameObject> object = GameObjectLayer::CreateGameObject();
+        //object->addComponent(new TestComponent());
+
+        //object->removeComponent(object->getComponentOfType<TestComponent>());
+		
+        //int i = 0;
 		while (isRunning)
 		{
             window->update();
 			
             if (isMinimized) { continue; }
-			
+
+			// if (i == 150)
+			// {
+            //     GameObjectLayer::RemoveGameObject(object);
+			// }
+
 			
 			// Updating
             for (Layer* layer : layerStack)
@@ -126,6 +137,8 @@ namespace BC
                 }
                 imGuiLayer->end();
             }
+
+            //i++;
 		}
 	}
 
