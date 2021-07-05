@@ -21,11 +21,6 @@ namespace BC
 		const std::shared_ptr<Shader> shader;
 		const std::shared_ptr<VertexArray> vao;
 		const glm::mat4 modelMatrix;
-		
-		bool operator==(const Entity& other) const
-		{
-			return vao->getId() == other.vao->getId();
-		}
 	};
 
 	/*

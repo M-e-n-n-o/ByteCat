@@ -59,7 +59,7 @@ namespace BC
 		}
 
 		// Use this function to create a predefined ByteCat shader
-		static std::shared_ptr<Shader> Create(ByteCatShader shaderType)
+		static std::shared_ptr<Shader> Create(ByteCatShader const& shaderType)
 		{
 			switch (shaderType)
 			{

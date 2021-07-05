@@ -26,10 +26,10 @@ namespace BC
 
 	void LayerStack::popLayer(Layer* layer)
 	{
-		layer->onDetach();
 		auto it = std::find(layers.begin(), layers.end(), layer);
 		if (it != layers.end())
 		{
+			layer->onDetach();
 			layers.erase(it);
 			layerInsertIndex--;
 		}
@@ -37,10 +37,10 @@ namespace BC
 
 	void LayerStack::popOverlay(Layer* overlay)
 	{
-		overlay->onDetach();
 		auto it = std::find(layers.begin(), layers.end(), overlay);
 		if (it != layers.end())
 		{
+			overlay->onDetach();
 			layers.erase(it);
 		}
 	}

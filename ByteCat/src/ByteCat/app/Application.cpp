@@ -8,6 +8,8 @@
 #include "byteCat/render/vertex-object/VertexArray.h"
 #include "byteCat/render/Renderer.h"
 
+#include "byteCat/game-object/GameObject.h"
+
 namespace BC
 {	
     Application* Application::instance = nullptr;
@@ -71,6 +73,9 @@ namespace BC
         	1, 0
         };
 
+        std::shared_ptr<GameObject> g = GameObject::Create(Transform({0, 0, 0}, {0, 0, 0}, {0, 0, 0}));
+        g->removeComponent();
+		
         std::shared_ptr<Shader> shader = Shader::Create(ByteCatShader::Standard);
 		
         std::shared_ptr<Texture2D> texture = Texture2D::Create("blokje.png");
