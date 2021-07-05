@@ -1,5 +1,6 @@
 #include "bcpch.h"
-#include "byteCat/game-object/GameObject.h"
+#include "byteCat/entity-system/GameObject.h"
+#include "byteCat/utils/Math.h"
 
 namespace BC
 {
@@ -27,6 +28,11 @@ namespace BC
 
 	void GameObject::removeComponent(ObjectComponent* toRemove)
 	{
+		if (toRemove == nullptr)
+		{
+			return;
+		}
+		
 		for (auto it = components.begin(); it != components.end(); ++it)
 		{			
 			if ((*it)->equals(*toRemove))
@@ -39,5 +45,10 @@ namespace BC
 				return;
 			}
 		}
+	}
+
+	glm::mat4 GameObject::getModelMatrix()
+	{
+		return Utils::CreateModelMatrix(transform.position, transform.rotation, transform.scale);
 	}
 }

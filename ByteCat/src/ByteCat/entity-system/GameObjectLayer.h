@@ -1,7 +1,7 @@
 #pragma once
 
 #include <memory>
-#include "byteCat/game-object/GameObject.h"
+#include "byteCat/entity-system/GameObject.h"
 #include "byteCat/app/Layer.h"
 
 namespace BC

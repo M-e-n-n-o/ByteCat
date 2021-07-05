@@ -3,7 +3,7 @@
 #include <map>
 #include <unordered_map>
 #include <glm/gtc/matrix_transform.hpp>
-#include "byteCat/render/models/Texture.h"
+#include "byteCat/render/textures/Texture.h"
 #include "byteCat/render/shaders/ByteCatShaders.h"
 
 namespace BC

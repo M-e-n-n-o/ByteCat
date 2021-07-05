@@ -4,7 +4,7 @@
 #include "byteCat/input/events/Event.h"
 #include "byteCat/app/Window.h"
 #include "byteCat/app/Layer.h"
-#include "byteCat/game-object/GameObjectLayer.h"
+#include "byteCat/entity-system/GameObjectLayer.h"
 #include "byteCat/imgui/ImGuiLayer.h"
 #include "byteCat/input/events/ApplicationEvent.h"
 

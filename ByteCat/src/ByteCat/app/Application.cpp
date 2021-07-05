@@ -1,11 +1,9 @@
 #include "bcpch.h"
 #include "byteCat/app/Application.h"
 
-#include "byteCat/utils/Math.h"
-#include "byteCat/render/models/Texture.h"
+#include "byteCat/entity-system/Mesh.h"
+#include "byteCat/render/textures/Texture.h"
 #include "byteCat/render/shaders/Shader.h"
-#include "byteCat/render/vertex-object/Buffer.h"
-#include "byteCat/render/vertex-object/VertexArray.h"
 #include "byteCat/render/Renderer.h"
 
 
@@ -76,40 +74,18 @@ namespace BC
         };
 		
         std::shared_ptr<Shader> shader = Shader::Create(ByteCatShader::Standard);
-		
         std::shared_ptr<Texture2D> texture = Texture2D::Create("blokje.png");
         shader->setTexture(texture);
 		
-        std::shared_ptr<VertexArray> vao = VertexArray::Create();
+        std::shared_ptr<GameObject> object = GameObjectLayer::CreateGameObject();
+        object->addComponent(new Mesh(vertices, sizeof(vertices), indices, sizeof(indices), textureCoords, sizeof(textureCoords)));
 		
-        std::shared_ptr<VertexBuffer> vertexBuffer = VertexBuffer::Create(vertices, sizeof(vertices));
-        vertexBuffer->setBufferType({ ShaderDataType::Float3 });
-        vao->addVertexBuffer(vertexBuffer);
-
-        std::shared_ptr<VertexBuffer> textureBuffer = VertexBuffer::Create(textureCoords, sizeof(textureCoords));
-        textureBuffer->setBufferType({ ShaderDataType::Float2 });
-        vao->addVertexBuffer(textureBuffer);
-
-        std::shared_ptr<IndexBuffer> indexBuffer = IndexBuffer::Create(indices, sizeof(indices) / sizeof(unsigned int));
-        vao->setIndexBuffer(indexBuffer);
-
 		
-        //std::shared_ptr<GameObject> object = GameObjectLayer::CreateGameObject();
-        //object->addComponent(new TestComponent());
-
-        //object->removeComponent(object->getComponentOfType<TestComponent>());
-		
-        //int i = 0;
 		while (isRunning)
 		{
             window->update();
 			
             if (isMinimized) { continue; }
-
-			// if (i == 150)
-			// {
-            //     GameObjectLayer::RemoveGameObject(object);
-			// }
 
 			
 			// Updating
@@ -122,7 +98,7 @@ namespace BC
             // Rendering
             Renderer::BeginScene();
 			
-            Renderer::Submit(shader, vao, Utils::CreateModelMatrix(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)));
+            Renderer::Submit(shader, object->getComponentOfType<Mesh>()->getVao(), object->getModelMatrix());
 			
             Renderer::EndScene();
 			
@@ -137,8 +113,6 @@ namespace BC
                 }
                 imGuiLayer->end();
             }
-
-            //i++;
 		}
 	}
 

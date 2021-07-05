@@ -16,8 +16,6 @@ namespace BC
 	{
 		entities.clear();
 		entities.shrink_to_fit();
-		
-		// Alle 2D en 3D renderers afsluiten
 	}
 
 	void Renderer::OnWindowResize(unsigned width, unsigned height)

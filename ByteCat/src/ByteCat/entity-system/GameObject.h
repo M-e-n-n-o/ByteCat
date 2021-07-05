@@ -1,22 +1,26 @@
 #pragma once
-#include <memory>
+#include <string>
 #include <vector>
+#include <typeinfo>
+#include "glm/mat4x4.hpp"
 #include "glm/vec3.hpp"
 
 namespace BC
 {
+	// This struct holds all the information about an entity
 	struct Transform
 	{
 		glm::vec3 position;
 		glm::vec3 rotation;
 		glm::vec3 scale;
 
-		Transform(): position({0, 0, 0}), rotation({ 0, 0, 0 }), scale({ 0, 0, 0 }) {}
+		Transform(): position({0, 0, 0}), rotation({ 0, 0, 0 }), scale({ 1, 1, 1 }) {}
 		Transform(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale): position(position), rotation(rotation), scale(scale) {}
 	};
 
+	#define OBJ_COMP_RETURN_NAME std::string getName() override { return typeid(*this).name(); }
 
-	
+	// This class is used by the game objects as components of that object
 	class ObjectComponent
 	{
 	private:
@@ -26,6 +30,8 @@ namespace BC
 		ObjectComponent(std::string const& name): name(name) {}
 		virtual ~ObjectComponent() = default;
 
+		virtual std::string getName() = 0;
+		
 		// Gets called when attached to a GameObject
 		virtual void onAttach() {}
 		// Gets called every frame
@@ -38,9 +44,12 @@ namespace BC
 			return name == other.name;
 		}
 	};
-
-
 	
+
+	/*
+	 * Class GameObject:
+	 *		This class represents a 3D/2D object in 3D/2D space.
+	 */
 	class GameObject
 	{
 	protected:
@@ -59,19 +68,22 @@ namespace BC
 		void addComponent(ObjectComponent* component);
 		void removeComponent(ObjectComponent* toRemove);
 
+		glm::mat4 getModelMatrix();
+		
+		// This function returns the ObjectComponent with the given ObjectComponent type
 		template<class T>
-		ObjectComponent* getComponentOfType();
+		T* getComponentOfType();
 	};
 
 	
 	template <class T>
-	ObjectComponent* GameObject::getComponentOfType()
+	T* GameObject::getComponentOfType()
 	{
-		for (int i = 0; i < components.size(); i++)
+		for (ObjectComponent* component : components)
 		{
-			if (dynamic_cast<T*>(components[i]) != nullptr)
+			if (component->getName() == typeid(T).name())
 			{
-				return components[i];
+				return dynamic_cast<T*>(component);
 			}
 		}
 

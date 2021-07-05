@@ -1,5 +1,5 @@
 #include "bcpch.h"
-#include "byteCat/game-object/GameObjectLayer.h"
+#include "byteCat/entity-system/GameObjectLayer.h"
 
 namespace BC
 {
@@ -24,9 +24,7 @@ namespace BC
 		{
 			if (*it == toRemove)
 			{
-				LOG_INFO("Removed a game object");
 				gameObjects.erase(it);
-				
 				return;
 			}
 		}

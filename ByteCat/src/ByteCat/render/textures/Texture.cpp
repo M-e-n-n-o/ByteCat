@@ -1,6 +1,6 @@
 #include "bcpch.h"
 #include <GL/glew.h>
-#include "byteCat/render/models/Texture.h"
+#include "byteCat/render/textures/Texture.h"
 #include "byteCat/utils/stb_image.h"
 
 namespace BC
