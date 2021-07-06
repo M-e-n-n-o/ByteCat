@@ -5,7 +5,7 @@
 
 namespace BC
 {	
-	Shader::Shader(std::string& vertexShader, std::string& fragmentShader)
+	Shader::Shader(const std::string& vertexShader, const std::string& fragmentShader)
 	{
 		hasTextures = (fragmentShader.find("sampler") != std::string::npos);
 		
@@ -131,7 +131,7 @@ namespace BC
 		return location;
 	}
 
-	int Shader::loadShader(std::string& shader, int type) const
+	int Shader::loadShader(const std::string& shader, int type) const
 	{
 		const GLchar* shaderText = shader.c_str();
 		const GLuint shaderID = glCreateShader(type);

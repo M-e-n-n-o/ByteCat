@@ -1,45 +1,43 @@
 #pragma once
 
 #include <string>
+#include "byteCat/render/shaders/Shader.h"
 
 namespace BC
 {
-	namespace shaders
+	// This enum holds all the names of each predefined ByteCat shader
+	enum class ByteCatShader
 	{
-		namespace standard
+		Standard
+	};	
+	
+	class StandardShader: public Shader
+	{
+	private:
+		static const std::string vertexShader;
+		static const std::string fragmentShader;
+
+	public:
+		StandardShader();
+
+		static std::shared_ptr<Shader> Create()
 		{
-			static std::string vertexShader = R"(
-			#version 410
+			return std::static_pointer_cast<Shader>(std::make_shared<StandardShader>());
+		}
+	};
 
-			layout (location = 0) in vec3 position;
-			layout (location = 1) in vec2 textureCoords;
-
-			out vec2 passTextureCoords;
-
-			uniform mat4 modelMatrix;
-			
-			void main(void)
+	namespace Shaders
+	{
+		// Use this function to create a predefined ByteCat shader
+		static std::shared_ptr<Shader> Create(ByteCatShader const& shaderType)
+		{
+			switch (shaderType)
 			{
-				gl_Position = modelMatrix * vec4(position, 1.0);
-				passTextureCoords = textureCoords;
+			case ByteCatShader::Standard: return StandardShader::Create();
 			}
-			)";
 
-			static std::string fragmentShader = R"(
-			#version 410
-
-			in vec2 passTextureCoords;
-
-			out vec4 outColor;
-
-			uniform sampler2D textureSampler;
-
-			
-			void main(void)
-			{
-				outColor = texture(textureSampler, passTextureCoords);
-			}
-			)";
+			LOG_ERROR("ByteCat shadertype \"{0}\" not found", shaderType);
+			return Shader::Create(std::string("ERROR"), std::string("ERROR"));
 		}
 	}
 }

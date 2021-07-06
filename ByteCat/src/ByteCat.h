@@ -19,7 +19,7 @@
 #include "byteCat/utils/Math.h"
 
 #include "byteCat/render/textures/Texture.h"
-#include "byteCat/render/shaders/Shader.h"
+#include "byteCat/render/shaders/ByteCatShaders.h"
 #include "byteCat/render/vertex-object/Buffer.h"
 #include "byteCat/render/vertex-object/VertexArray.h"
 

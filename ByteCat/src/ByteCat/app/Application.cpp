@@ -3,8 +3,8 @@
 
 #include "byteCat/entity-system/Mesh.h"
 #include "byteCat/render/textures/Texture.h"
-#include "byteCat/render/shaders/Shader.h"
 #include "byteCat/render/Renderer.h"
+#include "byteCat/render/shaders/ByteCatShaders.h"
 
 
 namespace BC
@@ -72,14 +72,14 @@ namespace BC
         	1, 1,
         	1, 0
         };
-		
-        std::shared_ptr<Shader> shader = Shader::Create(ByteCatShader::Standard);
+
+
+        std::shared_ptr<Shader> shader = Shaders::Create(ByteCatShader::Standard);
         std::shared_ptr<Texture2D> texture = Texture2D::Create("blokje.png");
         shader->setTexture(texture);
 		
         std::shared_ptr<GameObject> object = GameObjectLayer::CreateGameObject();
         object->addComponent(new Mesh(vertices, sizeof(vertices), indices, sizeof(indices), textureCoords, sizeof(textureCoords)));
-		
 		
 		while (isRunning)
 		{

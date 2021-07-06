@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
+#include <typeindex>
 #include <vector>
-#include <typeinfo>
 #include "glm/mat4x4.hpp"
 #include "glm/vec3.hpp"
 
@@ -18,19 +18,19 @@ namespace BC
 		Transform(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale): position(position), rotation(rotation), scale(scale) {}
 	};
 
-	#define OBJ_COMP_RETURN_NAME std::string getName() override { return typeid(*this).name(); }
 
+	// Place this macro in a derrived class from ObjectComponent
+	#define OBJ_COMP_TYPE std::type_index getType() const override { return typeid(*this); }
+
+	
 	// This class is used by the game objects as components of that object
 	class ObjectComponent
-	{
-	private:
-		std::string name;
-		
+	{		
 	public:
-		ObjectComponent(std::string const& name): name(name) {}
+		ObjectComponent() = default;
 		virtual ~ObjectComponent() = default;
 
-		virtual std::string getName() = 0;
+		virtual std::type_index getType() const = 0;
 		
 		// Gets called when attached to a GameObject
 		virtual void onAttach() {}
@@ -41,7 +41,7 @@ namespace BC
 		
 		bool equals(const ObjectComponent& other) const
 		{
-			return name == other.name;
+			return getType() == other.getType();
 		}
 	};
 	
@@ -81,7 +81,7 @@ namespace BC
 	{
 		for (ObjectComponent* component : components)
 		{
-			if (component->getName() == typeid(T).name())
+			if (component->getType() == typeid(T))
 			{
 				return dynamic_cast<T*>(component);
 			}

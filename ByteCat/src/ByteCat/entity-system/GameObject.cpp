@@ -37,6 +37,7 @@ namespace BC
 		{			
 			if ((*it)->equals(*toRemove))
 			{
+				LOG_INFO("removed");
 				(*it)->onDetach();
 				components.erase(it);
 				

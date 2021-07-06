@@ -4,16 +4,9 @@
 #include <unordered_map>
 #include <glm/gtc/matrix_transform.hpp>
 #include "byteCat/render/textures/Texture.h"
-#include "byteCat/render/shaders/ByteCatShaders.h"
 
 namespace BC
 {
-	// This enum holds all the names of each predefined ByteCat shader
-	enum class ByteCatShader
-	{
-		Standard
-	};
-
 	/*
 	 * Class Shader:
 	 *		This class represents a ByteCat shader which is used to render a VertexArray with.
@@ -31,7 +24,7 @@ namespace BC
 		mutable std::unordered_map<std::string, int> uniformLocationCache;
 	
 	public:
-		Shader(std::string& vertexShader, std::string& fragmentShader);
+		Shader(const std::string& vertexShader, const std::string& fragmentShader);
 		virtual ~Shader();
 
 		// Call this function to bind the shader
@@ -57,22 +50,10 @@ namespace BC
 		{
 			return std::make_shared<Shader>(vertexShader, fragmentShader);
 		}
-
-		// Use this function to create a predefined ByteCat shader
-		static std::shared_ptr<Shader> Create(ByteCatShader const& shaderType)
-		{
-			switch (shaderType)
-			{
-			case ByteCatShader::Standard : return Create(shaders::standard::vertexShader, shaders::standard::fragmentShader);
-			}
-
-			LOG_ERROR("ByteCat shadertype \"{0}\" not found", shaderType);
-			return Create(std::string("ERROR"), std::string("ERROR"));
-		}
 	
 	private:
 		int getUniformLocation(std::string& uniformName) const;
 
-		int loadShader(std::string& shader, int type) const;
+		int loadShader(const std::string& shader, int type) const;
 	};
 }

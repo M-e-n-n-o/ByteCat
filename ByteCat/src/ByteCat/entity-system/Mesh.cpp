@@ -3,12 +3,12 @@
 
 namespace BC
 {
-	Mesh::Mesh(): ObjectComponent("Mesh")
+	Mesh::Mesh(): ObjectComponent()
 	{
 		vao = VertexArray::Create();
 	}
 
-	Mesh::Mesh(float vertices[], unsigned int sizeV, unsigned int indices[], unsigned int sizeI): ObjectComponent("Mesh")
+	Mesh::Mesh(float vertices[], unsigned int sizeV, unsigned int indices[], unsigned int sizeI): ObjectComponent()
 	{
 		vao = VertexArray::Create();
 
@@ -20,7 +20,7 @@ namespace BC
 		vao->setIndexBuffer(indexBuffer);
 	}
 
-	Mesh::Mesh(float vertices[], unsigned int sizeV, unsigned int indices[], unsigned int sizeI, float textureCoords[], unsigned int sizeT): ObjectComponent("Mesh")
+	Mesh::Mesh(float vertices[], unsigned int sizeV, unsigned int indices[], unsigned int sizeI, float textureCoords[], unsigned int sizeT): ObjectComponent()
 	{
 		vao = VertexArray::Create();
 		
