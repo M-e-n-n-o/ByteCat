@@ -39,7 +39,7 @@ namespace BC
 		void pushLayer(Layer* layer);
 		// Call this function to push a new overlay to the LayerStack
 		void pushOverlay(Layer* overlay);
-		
+
 		Window& getWindow() const { return *window; }
 		static Application& GetInstance() { return *instance; }
 

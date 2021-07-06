@@ -8,6 +8,7 @@ namespace BC
 	void Renderer::Init()
 	{
 		entities.reserve(ALLOCATE_PER_RESIZE);
+		sceneData = std::make_unique<SceneData>();
 		
 		RenderAPI::Init();
 	}
@@ -23,10 +24,11 @@ namespace BC
 		RenderAPI::SetViewport(0, 0, width, height);
 	}
 
-	void Renderer::BeginScene()
+	void Renderer::BeginScene(const glm::mat4& viewMatrix, const glm::mat4& projectionMatrix)
 	{
-		// TODO Scene info meekrijgen (camera, lichten, etc.)
-
+		sceneData->viewMatrix = viewMatrix;
+		sceneData->projectionMatrix = projectionMatrix;
+		
 		drawCalls = 0;
 		RenderAPI::Clear();
 		RenderAPI::ClearColor(CLEAR_COLOR);
@@ -42,6 +44,8 @@ namespace BC
 		{
 			entity.shader->bind();
 			entity.shader->loadMatrix4("modelMatrix", entity.modelMatrix);
+			entity.shader->loadMatrix4("projectionMatrix", sceneData->projectionMatrix);
+			entity.shader->loadMatrix4("viewMatrix", sceneData->viewMatrix);
 			entity.vao->bind();
 			entity.shader->bindTextures();
 			Render(entity.vao);

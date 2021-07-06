@@ -35,7 +35,7 @@ namespace BC
 		
 		static inline glm::vec4 CLEAR_COLOR = { 0.5f, 0.5f, 0.5f, 1.0f };
 		
-		static std::unique_ptr<SceneData> sceneData;
+		static inline std::unique_ptr<SceneData> sceneData;
 		static inline std::vector<Entity> entities;
 
 	public:
@@ -46,7 +46,7 @@ namespace BC
 		static void OnWindowResize(unsigned int width, unsigned int height);
 
 		// Call this function before submitting entity's to the renderer
-		static void BeginScene();
+		static void BeginScene(const glm::mat4& viewMatrix, const glm::mat4& projectionMatrix);
 		// This function renders all the submitted entity's in a efficient way
 		static void EndScene();
 

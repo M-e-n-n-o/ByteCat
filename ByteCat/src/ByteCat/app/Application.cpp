@@ -2,6 +2,8 @@
 #include "byteCat/app/Application.h"
 
 #include "byteCat/entity-system/Mesh.h"
+#include "byteCat/entity-system/cameras/OrthographicCamera.h"
+#include "byteCat/entity-system/cameras/PerspectiveCamera.h"
 #include "byteCat/render/textures/Texture.h"
 #include "byteCat/render/Renderer.h"
 #include "byteCat/render/shaders/ByteCatShaders.h"
@@ -78,8 +80,11 @@ namespace BC
         std::shared_ptr<Texture2D> texture = Texture2D::Create("blokje.png");
         shader->setTexture(texture);
 		
-        std::shared_ptr<GameObject> object = GameObjectLayer::CreateGameObject();
+        std::shared_ptr<GameObject> object = GameObjectLayer::CreateGameObject(Transform({0, 0, -1}, {0, 0, 0}, {1, 1, 1}));
         object->addComponent(new Mesh(vertices, sizeof(vertices), indices, sizeof(indices), textureCoords, sizeof(textureCoords)));
+
+        std::shared_ptr<GameObject> camera = GameObjectLayer::CreateGameObject(Transform({ 0, 0, 0 }, { 0, 0, 0 }, { 1, 1, 1 }));
+        camera->addComponent(new PerspectiveCamera(70, 0.01f, 1000));
 		
 		while (isRunning)
 		{
@@ -96,7 +101,7 @@ namespace BC
 
 			
             // Rendering
-            Renderer::BeginScene();
+            Renderer::BeginScene(camera->getComponentOfType<Camera>()->getViewMatrix(), camera->getComponentOfType<Camera>()->getProjectionMatrix());
 			
             Renderer::Submit(shader, object->getComponentOfType<Mesh>()->getVao(), object->getModelMatrix());
 			

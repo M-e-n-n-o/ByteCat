@@ -118,7 +118,7 @@ namespace BC
 		{
 			return uniformLocationCache[uniformName];
 		}
-		
+
 		GLint location = glGetUniformLocation(programID, uniformName.c_str());
 		if (location == -1)
 		{

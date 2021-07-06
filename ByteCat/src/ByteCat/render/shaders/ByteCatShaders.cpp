@@ -12,10 +12,12 @@ namespace BC
 		out vec2 passTextureCoords;
 
 		uniform mat4 modelMatrix;
-		
+		uniform mat4 projectionMatrix;
+		uniform mat4 viewMatrix;
+	
 		void main(void)
 		{
-			gl_Position = modelMatrix * vec4(position, 1.0);
+			gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(position, 1.0);
 			passTextureCoords = textureCoords;
 		}
 	)";
@@ -28,7 +30,6 @@ namespace BC
 		out vec4 outColor;
 
 		uniform sampler2D textureSampler;
-
 		
 		void main(void)
 		{

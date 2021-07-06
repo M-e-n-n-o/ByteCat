@@ -7,6 +7,8 @@
 
 namespace BC
 {
+	class GameObject;
+
 	// This struct holds all the information about an entity
 	struct Transform
 	{
@@ -25,7 +27,13 @@ namespace BC
 	
 	// This class is used by the game objects as components of that object
 	class ObjectComponent
-	{		
+	{
+	private:
+		friend class GameObject;
+	
+	protected:
+		GameObject* gameObject;
+	
 	public:
 		ObjectComponent() = default;
 		virtual ~ObjectComponent() = default;
@@ -68,7 +76,7 @@ namespace BC
 		void addComponent(ObjectComponent* component);
 		void removeComponent(ObjectComponent* toRemove);
 
-		glm::mat4 getModelMatrix();
+		glm::mat4 getModelMatrix() const;
 		
 		// This function returns the ObjectComponent with the given ObjectComponent type
 		template<class T>
