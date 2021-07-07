@@ -38,7 +38,7 @@ namespace BC
 	class Texture2D : public Texture
 	{
 	public:
-		Texture2D(std::string& filePath);
+		Texture2D(std::string& filePath, float mipmapLOD);
 		~Texture2D() override;
 		
 		unsigned int getWidth() const override { return width; }
@@ -47,9 +47,9 @@ namespace BC
 		
 		void bind(unsigned int textureUnit = 0) const override;
 
-		static std::shared_ptr<Texture2D> Create(std::string filePath)
+		static std::shared_ptr<Texture2D> Create(std::string filePath, float mipmapLOD = -0.4f)
 		{
-			return std::make_shared<Texture2D>(filePath);
+			return std::make_shared<Texture2D>(filePath, mipmapLOD);
 		}
 	};
 }

@@ -39,7 +39,7 @@ public:
 		std::shared_ptr<Texture2D> texture = Texture2D::Create("kat.jpg");
 		shader->setTexture(texture);
 		
-		object = GameObjectLayer::CreateGameObject(Transform({ -1, 0, -1 }, { 0, 0, 0 }, { 1, 1, 1 }));
+		object = GameObjectLayer::CreateGameObject(Transform({ 0, 0, -1 }, { 0, 0, 0 }, { 1, 1, 1 }));
 		object->addComponent(new Mesh(vertices, indices, textureCoords));
 		object->addComponent(new Material(shader));
 
@@ -50,7 +50,7 @@ public:
 
 	void onUpdate() override
 	{
-		object->transform.position.x += Application::GetDelta() * 0.1f;
+		object->transform.position.z -= Application::GetDelta() * 0.5f;
 	}
 
 	void onImGuiRender() override
