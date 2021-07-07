@@ -6,7 +6,7 @@ namespace BC
 {
 	void Camera::calculateViewMatrix()
 	{
-		const Transform& t = gameObject->getTransform();
+		const Transform& t = gameObject->transform;
 		
 		viewMatrix = glm::mat4(1.0f);
 		viewMatrix = glm::rotate(viewMatrix, glm::radians(t.rotation.x), glm::vec3(1, 0, 0));

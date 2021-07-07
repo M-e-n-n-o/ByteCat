@@ -8,7 +8,7 @@ namespace BC
 {
 	class GameObjectLayer : public Layer
 	{
-	private:
+		inline static std::shared_ptr<GameObject> camera;
 		inline static std::vector<std::shared_ptr<GameObject>> gameObjects;
 		
 	public:
@@ -20,6 +20,9 @@ namespace BC
 		static std::shared_ptr<GameObject> CreateGameObject(Transform const& transform = Transform());		
 		static void RemoveGameObject(std::shared_ptr<GameObject>& toRemove);
 
+		static void SetCamera(std::shared_ptr<GameObject>& newCamera);
+		std::shared_ptr<GameObject>& GetCamera() { return camera; }
+		
 		std::vector<std::shared_ptr<GameObject>>& getGameObjects() { return gameObjects; }
 	};
 }

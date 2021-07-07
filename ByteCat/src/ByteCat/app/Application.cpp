@@ -4,9 +4,7 @@
 #include "byteCat/entity-system/Material.h"
 #include "byteCat/entity-system/Mesh.h"
 #include "byteCat/entity-system/cameras/PerspectiveCamera.h"
-#include "byteCat/render/textures/Texture.h"
 #include "byteCat/render/Renderer.h"
-#include "byteCat/render/shaders/ByteCatShaders.h"
 
 
 namespace BC
@@ -20,7 +18,7 @@ namespace BC
 		
         LOG_INFO("ByteCat engine is starting...");
 		
-        WindowSetting setting = { "ByteCat Engine", 1280, 720, true };
+        WindowSetting setting = { "ByteCat Engine", 1280, 720, false };
         window = Window::Create(setting);
         window->setEventListener(this);
 
@@ -53,72 +51,48 @@ namespace BC
 	
 	void Application::run()
 	{	
-        std::vector<float> vertices =
-        {
-		  -0.5f, 0.5f, 0,
-		  -0.5f, -0.5f, 0,
-		  0.5f, -0.5f, 0,
-		  0.5f, 0.5f, 0
-        };
-   
-        std::vector<unsigned int> indices =
-        {
-            0,1,3,
-			3,1,2
-        };
-   
-        std::vector<float> textureCoords =
-        {
-        	0, 0,
-        	0, 1,
-        	1, 1,
-        	1, 0
-        };
-
-
-        std::shared_ptr<Shader> shader = Shaders::Create(ByteCatShader::Standard);
-        std::shared_ptr<Texture2D> texture = Texture2D::Create("blokje.png");
-        shader->setTexture(texture);
-		
-        std::shared_ptr<GameObject> object = GameObjectLayer::CreateGameObject(Transform({0, 0, -1}, {0, 0, 0}, {1, 1, 1}));
-        object->addComponent(new Mesh(vertices, indices, textureCoords));
-        object->addComponent(new Material(shader));
-		
-        std::shared_ptr<GameObject> camera = GameObjectLayer::CreateGameObject(Transform({ 0, 0, 0 }, { 0, 0, 0 }, { 1, 1, 1 }));
-        camera->addComponent(new PerspectiveCamera(70, 0.01f, 1000));
-
-		
 		while (isRunning)
 		{
-             Delta = window->update();
-		 	
-             if (isMinimized) { continue; }
-  
+            delta = window->update();
+			
+            if (isMinimized) { continue; }
 		 	
 		 	// Updating
-             for (Layer* layer : layerStack)
-             {
-                 if (layer->isEnabled()) { layer->onUpdate(); }
-             }
+	        for (Layer* layer : layerStack)
+	        {
+				if (layer->enabled) { layer->onUpdate(); }
+	        }
 		 	
-             // Rendering
-             Renderer::BeginScene(camera->getComponentOfType<Camera>()->getViewMatrix(), camera->getComponentOfType<Camera>()->getProjectionMatrix());
-  
-             Renderer::Submit(object->getComponentOfType<Material>()->getShader(), object->getComponentOfType<Mesh>()->getVao(), object->getModelMatrix());
-		 	
-             Renderer::EndScene();
+            // Rendering
+            if (std::shared_ptr<GameObject> camera = gameObjectLayer->GetCamera())
+            {
+                Renderer::BeginScene(camera->getComponentOfType<Camera>()->getViewMatrix(), camera->getComponentOfType<Camera>()->getProjectionMatrix());
+
+                for (std::shared_ptr<GameObject>& gameObject : gameObjectLayer->getGameObjects())
+                {
+                    if (gameObject->isEnabled)
+                        if (auto mat = gameObject->getComponentOfType<Material>())
+                            if (auto mesh = gameObject->getComponentOfType<Mesh>())
+                                Renderer::Submit(mat->getShader(), mesh->getVao(), gameObject->getModelMatrix());
+                }
+
+                Renderer::EndScene();
+            } else
+            {
+                LOG_WARN("No camera has been set");
+            }
 		 	
 		 	
 		 	// ImGui Rendering
-             if (imGuiLayer->isEnabled())
-             {
-                 imGuiLayer->begin();
-                 for (Layer* layer : layerStack)
-                 {
-                     if (layer->isEnabled()) { layer->onImGuiRender(); }
-                 }
-                 imGuiLayer->end();
-             }
+            if (imGuiLayer->enabled)
+            {
+                imGuiLayer->begin();
+                for (Layer* layer : layerStack)
+				{
+					if (layer->enabled) { layer->onImGuiRender(); }
+                }
+				imGuiLayer->end();
+            }
 		}
 	}
 
@@ -132,7 +106,7 @@ namespace BC
         {
             --it;
         	
-            if ((*it)->isEnabled())
+            if ((*it)->enabled)
             {
                 (*it)->onEvent(event);
                 if (event.handled)

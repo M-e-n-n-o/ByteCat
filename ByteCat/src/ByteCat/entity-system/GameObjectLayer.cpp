@@ -1,5 +1,6 @@
 #include "bcpch.h"
 #include "byteCat/entity-system/GameObjectLayer.h"
+#include "byteCat/entity-system/cameras/Camera.h"
 
 namespace BC
 {
@@ -30,6 +31,18 @@ namespace BC
 				gameObjects.erase(it);
 				return;
 			}
+		}
+	}
+
+	void GameObjectLayer::SetCamera(std::shared_ptr<GameObject>& newCamera)
+	{
+		if (newCamera->getComponentOfType<Camera>())
+		{
+			camera = newCamera;
+		} else
+		{
+			camera = nullptr;
+			LOG_ERROR("Failed to set the camera object due to a missing camera component");
 		}
 	}
 }

@@ -6,15 +6,51 @@ using namespace BC;
 
 class ExampleLayer : public Layer
 {
+private:
+	std::shared_ptr<GameObject> object;
+	std::shared_ptr<GameObject> camera;
+
 public:
 	ExampleLayer() : Layer("ExampleLayer")
 	{
+		std::vector<float> vertices =
+		{
+		  -0.5f, 0.5f, 0,
+		  -0.5f, -0.5f, 0,
+		  0.5f, -0.5f, 0,
+		  0.5f, 0.5f, 0
+		};
+
+		std::vector<unsigned int> indices =
+		{
+			0,1,3,
+			3,1,2
+		};
+
+		std::vector<float> textureCoords =
+		{
+			0, 0,
+			0, 1,
+			1, 1,
+			1, 0
+		};
+
+		std::shared_ptr<Shader> shader = Shaders::Create(ByteCatShader::Standard);
+		std::shared_ptr<Texture2D> texture = Texture2D::Create("kat.jpg");
+		shader->setTexture(texture);
 		
+		object = GameObjectLayer::CreateGameObject(Transform({ -1, 0, -1 }, { 0, 0, 0 }, { 1, 1, 1 }));
+		object->addComponent(new Mesh(vertices, indices, textureCoords));
+		object->addComponent(new Material(shader));
+
+		camera = GameObjectLayer::CreateGameObject(Transform({ 0, 0, 0 }, { 0, 0, 0 }, { 1, 1, 1 }));
+		camera->addComponent(new PerspectiveCamera(70, 0.01f, 1000));
+		GameObjectLayer::SetCamera(camera);
 	}
 
 	void onUpdate() override
 	{
-		
+		object->transform.position.x += Application::GetDelta() * 0.1f;
 	}
 
 	void onImGuiRender() override

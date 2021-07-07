@@ -142,11 +142,11 @@ namespace BC
 		// Calculate and print fps
 		static long lastFps = 0;
 		static long fps = 0;
-		if (glfwGetTime() - lastFps > 10)
+		if (glfwGetTime() - lastFps > printFpsAfterSec)
 		{
-			LOG_INFO("Fps {0}", fps);
+			LOG_INFO("Fps {0}", fps / printFpsAfterSec);
 			fps = 0;
-			lastFps += 10;
+			lastFps += printFpsAfterSec;
 		}
 
 		fps++;

@@ -50,9 +50,9 @@ namespace BC
 	public:
 		bool isEnabled = true;
 
-	protected:
 		Transform transform;
 
+	protected:
 		std::vector<ObjectComponent*> components;
 	
 	public:
@@ -60,8 +60,6 @@ namespace BC
 		virtual ~GameObject();
 
 		void update();
-		
-		Transform& getTransform() { return transform; }
 
 		void addComponent(ObjectComponent* component);
 		void removeComponent(ObjectComponent* toRemove);

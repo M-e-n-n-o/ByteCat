@@ -27,6 +27,8 @@ namespace BC
 	private:
 		EventListener* listener;
 		WindowSetting setting;
+
+		const int printFpsAfterSec = 5;
 	
 	public:
 		Window(WindowSetting& windowSetting);

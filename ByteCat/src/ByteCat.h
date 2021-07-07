@@ -26,6 +26,7 @@
 #include "byteCat/entity-system/GameObjectLayer.h"
 #include "byteCat/entity-system/GameObject.h"
 #include "byteCat/entity-system/Mesh.h"
+#include "byteCat/entity-system/Material.h"
 #include "byteCat/entity-system/cameras/OrthographicCamera.h"
 #include "byteCat/entity-system/cameras/PerspectiveCamera.h"
 

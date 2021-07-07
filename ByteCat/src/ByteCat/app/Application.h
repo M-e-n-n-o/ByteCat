@@ -18,11 +18,11 @@ namespace BC
 	 */
 	class Application : public EventListener
 	{
-	public:
-		static inline double Delta;
 	private:
 		static Application* instance;
 
+		static inline double delta;
+		
 		LayerStack layerStack;
 		ImGuiLayer* imGuiLayer;
 		GameObjectLayer* gameObjectLayer;
@@ -45,6 +45,8 @@ namespace BC
 		Window& getWindow() const { return *window; }
 		static Application& GetInstance() { return *instance; }
 
+		static double GetDelta() { return delta; }
+	
 	private:
 		void start();
 		void run();

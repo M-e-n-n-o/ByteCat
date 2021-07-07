@@ -13,6 +13,8 @@ namespace BC
 	{
 	private:
 		std::string name;
+
+	public:
 		bool enabled = true;
 	
 	public:
@@ -30,8 +32,6 @@ namespace BC
 		// Gets called every time an event occurs in the application
 		virtual void onEvent(Event& event) {}
 
-		void enable(bool enabled) { this->enabled = enabled; }
-		bool isEnabled() const { return enabled; }
 		std::string getName() const { return name; }
 	};
 }
