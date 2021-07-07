@@ -19,5 +19,7 @@ namespace BC
 
 		static std::shared_ptr<GameObject> CreateGameObject(Transform const& transform = Transform());		
 		static void RemoveGameObject(std::shared_ptr<GameObject>& toRemove);
+
+		std::vector<std::shared_ptr<GameObject>>& getGameObjects() { return gameObjects; }
 	};
 }

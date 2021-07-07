@@ -7,7 +7,10 @@ namespace BC
 	{
 		for (std::shared_ptr<GameObject>& object : gameObjects)
 		{
-			object->update();
+			if (object->isEnabled)
+			{
+				object->update();
+			}
 		}
 	}
 

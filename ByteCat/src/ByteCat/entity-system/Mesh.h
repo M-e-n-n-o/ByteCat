@@ -16,10 +16,8 @@ namespace BC
 		
 	public:
 		Mesh();
-		Mesh(float vertices[], unsigned int sizeV, unsigned int indices[], unsigned int sizeI);
-		Mesh(float vertices[], unsigned int sizeV, unsigned int indices[], unsigned int sizeI, float textureCoords[], unsigned int sizeT);
-
-		OBJ_COMP_TYPE
+		Mesh(std::vector<float>& vertices, std::vector<unsigned int>& indices);
+		Mesh(std::vector<float>& vertices, std::vector<unsigned int>& indices, std::vector<float>& textureCoords);
 		
 		std::shared_ptr<VertexArray>& getVao() { return vao; }
 	};

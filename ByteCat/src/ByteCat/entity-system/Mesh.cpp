@@ -8,31 +8,31 @@ namespace BC
 		vao = VertexArray::Create();
 	}
 
-	Mesh::Mesh(float vertices[], unsigned int sizeV, unsigned int indices[], unsigned int sizeI): ObjectComponent()
+	Mesh::Mesh(std::vector<float>& vertices, std::vector<unsigned int>& indices) : ObjectComponent()
 	{
 		vao = VertexArray::Create();
 
-		std::shared_ptr<VertexBuffer> vertexBuffer = VertexBuffer::Create(vertices, sizeV);
+		std::shared_ptr<VertexBuffer> vertexBuffer = VertexBuffer::Create(vertices.data(), (unsigned)(sizeof(float) * vertices.size()));
 		vertexBuffer->setBufferType({ ShaderDataType::Float3 });
 		vao->addVertexBuffer(vertexBuffer);
 
-		std::shared_ptr<IndexBuffer> indexBuffer = IndexBuffer::Create(indices, sizeI / sizeof(unsigned int));
+		std::shared_ptr<IndexBuffer> indexBuffer = IndexBuffer::Create(indices.data(), (unsigned)indices.size());
 		vao->setIndexBuffer(indexBuffer);
 	}
 
-	Mesh::Mesh(float vertices[], unsigned int sizeV, unsigned int indices[], unsigned int sizeI, float textureCoords[], unsigned int sizeT): ObjectComponent()
+	Mesh::Mesh(std::vector<float>& vertices, std::vector<unsigned>& indices, std::vector<float>& textureCoords)
 	{
 		vao = VertexArray::Create();
-		
-		std::shared_ptr<VertexBuffer> vertexBuffer = VertexBuffer::Create(vertices, sizeV);
+
+		std::shared_ptr<VertexBuffer> vertexBuffer = VertexBuffer::Create(vertices.data(), (unsigned)(sizeof(float) * vertices.size()));
 		vertexBuffer->setBufferType({ ShaderDataType::Float3 });
 		vao->addVertexBuffer(vertexBuffer);
 
-		std::shared_ptr<VertexBuffer> textureBuffer = VertexBuffer::Create(textureCoords, sizeT);
+		std::shared_ptr<VertexBuffer> textureBuffer = VertexBuffer::Create(textureCoords.data(), (unsigned)(sizeof(float) * textureCoords.size()));
 		textureBuffer->setBufferType({ ShaderDataType::Float2 });
 		vao->addVertexBuffer(textureBuffer);
 
-		std::shared_ptr<IndexBuffer> indexBuffer = IndexBuffer::Create(indices, sizeI / sizeof(unsigned int));
+		std::shared_ptr<IndexBuffer> indexBuffer = IndexBuffer::Create(indices.data(), (unsigned)indices.size());
 		vao->setIndexBuffer(indexBuffer);
 	}
 }

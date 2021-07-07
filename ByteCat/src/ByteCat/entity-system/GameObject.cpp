@@ -1,4 +1,5 @@
 #include "bcpch.h"
+#include <typeindex>
 #include "byteCat/entity-system/GameObject.h"
 #include "byteCat/utils/Math.h"
 
@@ -33,20 +34,22 @@ namespace BC
 		{
 			return;
 		}
-		
-		for (auto it = components.begin(); it != components.end(); ++it)
-		{			
-			if ((*it)->equals(*toRemove))
+
+		int iterator = 0;
+		for (ObjectComponent* component : components)
+		{
+			if (typeid(*component) == typeid(*toRemove))
 			{
-				LOG_INFO("removed");
-				(*it)->onDetach();
-				components.erase(it);
-				
-				delete toRemove;
-				toRemove->gameObject = nullptr;
+				LOG_INFO("Removed object component {0}", typeid(*toRemove).name());
+				component->onDetach();
+				components.erase(components.begin() + iterator);
+		
+				delete component;
 				toRemove = nullptr;
 				return;
 			}
+		
+			iterator++;
 		}
 	}
 
@@ -59,7 +62,5 @@ namespace BC
 		matrix = glm::rotate(matrix, glm::radians(transform.rotation.z), glm::vec3(0, 0, 1));
 		matrix = glm::scale(matrix, transform.scale);
 		return matrix;
-		//
-		// return Utils::CreateModelMatrix(transform.position, transform.rotation, transform.scale);
 	}
 }

@@ -1,6 +1,4 @@
 #pragma once
-#include <string>
-#include <typeindex>
 #include <vector>
 #include "glm/mat4x4.hpp"
 #include "glm/vec3.hpp"
@@ -20,15 +18,11 @@ namespace BC
 		Transform(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale): position(position), rotation(rotation), scale(scale) {}
 	};
 
-
-	// Place this macro in a derrived class from ObjectComponent
-	#define OBJ_COMP_TYPE std::type_index getType() const override { return typeid(*this); }
-
 	
 	// This class is used by the game objects as components of that object
 	class ObjectComponent
 	{
-	private:
+	private:		
 		friend class GameObject;
 	
 	protected:
@@ -37,8 +31,6 @@ namespace BC
 	public:
 		ObjectComponent() = default;
 		virtual ~ObjectComponent() = default;
-
-		virtual std::type_index getType() const = 0;
 		
 		// Gets called when attached to a GameObject
 		virtual void onAttach() {}
@@ -46,11 +38,6 @@ namespace BC
 		virtual void onUpdate() {}
 		// Gets called when the component gets removed from the GameObject
 		virtual void onDetach() {}
-		
-		bool equals(const ObjectComponent& other) const
-		{
-			return getType() == other.getType();
-		}
 	};
 	
 
@@ -60,6 +47,9 @@ namespace BC
 	 */
 	class GameObject
 	{
+	public:
+		bool isEnabled = true;
+
 	protected:
 		Transform transform;
 
@@ -76,25 +66,34 @@ namespace BC
 		void addComponent(ObjectComponent* component);
 		void removeComponent(ObjectComponent* toRemove);
 
-		glm::mat4 getModelMatrix() const;
-		
 		// This function returns the ObjectComponent with the given ObjectComponent type
 		template<class T>
 		T* getComponentOfType();
+
+		// This function removes the ObjectComponent with the given ObjectComponent type
+		template<class T>
+		void removeComponent() { removeComponent(getComponentOfType<T>()); }
+
+		glm::mat4 getModelMatrix() const;
 	};
 
 	
+	// ---------------------------------------------------------------------------
+	// ---------- Template elaborations of GameObject ----------------------------
+
 	template <class T>
 	T* GameObject::getComponentOfType()
 	{
 		for (ObjectComponent* component : components)
 		{
-			if (component->getType() == typeid(T))
+			if (T* x = dynamic_cast<T*>(component))
 			{
-				return dynamic_cast<T*>(component);
+				return x;
 			}
 		}
 
 		return nullptr;
 	}
+
+	
 }

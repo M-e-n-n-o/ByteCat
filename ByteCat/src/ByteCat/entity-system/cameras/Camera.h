@@ -17,8 +17,6 @@ namespace BC
 
 		glm::mat4& getProjectionMatrix() { return projectionMatrix; }
 		glm::mat4& getViewMatrix() { calculateViewMatrix(); return viewMatrix; }
-		
-		std::type_index getType() const override { return typeid(Camera); }
 
 	protected:
 		void calculateViewMatrix();

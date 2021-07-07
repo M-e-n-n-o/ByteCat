@@ -28,6 +28,7 @@ public:
 	{
 		if (event.getEventType() == EventType::KeyPressed)
 		{
+			event.handled = true;
 			KeyPressedEvent& e = (KeyPressedEvent&) event;
 			if (e.getKeyCode() == KeyCode::Backspace)
 			{

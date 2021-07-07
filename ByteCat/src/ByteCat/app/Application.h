@@ -18,6 +18,8 @@ namespace BC
 	 */
 	class Application : public EventListener
 	{
+	public:
+		static inline double Delta;
 	private:
 		static Application* instance;
 

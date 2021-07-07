@@ -39,7 +39,8 @@ namespace BC
 		glBufferSubData(GL_ARRAY_BUFFER, 0, size, data);
 	}
 
-	// IndexBuffer /////////////////////////////////////////////////////
+	// -----------------------------------------------------------------------
+	// --- IndexBuffer -------------------------------------------------------
 
 	IndexBuffer::IndexBuffer(unsigned* indices, unsigned count) : count(count)
 	{

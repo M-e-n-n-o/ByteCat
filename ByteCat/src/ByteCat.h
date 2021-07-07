@@ -23,8 +23,11 @@
 #include "byteCat/render/vertex-object/Buffer.h"
 #include "byteCat/render/vertex-object/VertexArray.h"
 
+#include "byteCat/entity-system/GameObjectLayer.h"
 #include "byteCat/entity-system/GameObject.h"
 #include "byteCat/entity-system/Mesh.h"
+#include "byteCat/entity-system/cameras/OrthographicCamera.h"
+#include "byteCat/entity-system/cameras/PerspectiveCamera.h"
 
 // --Start of the engine--
 #include "byteCat/EntryPoint.h"

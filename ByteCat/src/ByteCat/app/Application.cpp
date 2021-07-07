@@ -1,8 +1,8 @@
 #include "bcpch.h"
 #include "byteCat/app/Application.h"
 
+#include "byteCat/entity-system/Material.h"
 #include "byteCat/entity-system/Mesh.h"
-#include "byteCat/entity-system/cameras/OrthographicCamera.h"
 #include "byteCat/entity-system/cameras/PerspectiveCamera.h"
 #include "byteCat/render/textures/Texture.h"
 #include "byteCat/render/Renderer.h"
@@ -53,7 +53,7 @@ namespace BC
 	
 	void Application::run()
 	{	
-        float vertices[] =
+        std::vector<float> vertices =
         {
 		  -0.5f, 0.5f, 0,
 		  -0.5f, -0.5f, 0,
@@ -61,13 +61,13 @@ namespace BC
 		  0.5f, 0.5f, 0
         };
    
-        unsigned int indices[] =
+        std::vector<unsigned int> indices =
         {
             0,1,3,
 			3,1,2
         };
    
-        float textureCoords[] =
+        std::vector<float> textureCoords =
         {
         	0, 0,
         	0, 1,
@@ -81,43 +81,44 @@ namespace BC
         shader->setTexture(texture);
 		
         std::shared_ptr<GameObject> object = GameObjectLayer::CreateGameObject(Transform({0, 0, -1}, {0, 0, 0}, {1, 1, 1}));
-        object->addComponent(new Mesh(vertices, sizeof(vertices), indices, sizeof(indices), textureCoords, sizeof(textureCoords)));
-
+        object->addComponent(new Mesh(vertices, indices, textureCoords));
+        object->addComponent(new Material(shader));
+		
         std::shared_ptr<GameObject> camera = GameObjectLayer::CreateGameObject(Transform({ 0, 0, 0 }, { 0, 0, 0 }, { 1, 1, 1 }));
         camera->addComponent(new PerspectiveCamera(70, 0.01f, 1000));
+
 		
 		while (isRunning)
 		{
-            window->update();
-			
-            if (isMinimized) { continue; }
-
-			
-			// Updating
-            for (Layer* layer : layerStack)
-            {
-                if (layer->isEnabled()) { layer->onUpdate(); }
-            }
-
-			
-            // Rendering
-            Renderer::BeginScene(camera->getComponentOfType<Camera>()->getViewMatrix(), camera->getComponentOfType<Camera>()->getProjectionMatrix());
-			
-            Renderer::Submit(shader, object->getComponentOfType<Mesh>()->getVao(), object->getModelMatrix());
-			
-            Renderer::EndScene();
-			
-			
-			// ImGui Rendering
-            if (imGuiLayer->isEnabled())
-            {
-                imGuiLayer->begin();
-                for (Layer* layer : layerStack)
-                {
-                    if (layer->isEnabled()) { layer->onImGuiRender(); }
-                }
-                imGuiLayer->end();
-            }
+             Delta = window->update();
+		 	
+             if (isMinimized) { continue; }
+  
+		 	
+		 	// Updating
+             for (Layer* layer : layerStack)
+             {
+                 if (layer->isEnabled()) { layer->onUpdate(); }
+             }
+		 	
+             // Rendering
+             Renderer::BeginScene(camera->getComponentOfType<Camera>()->getViewMatrix(), camera->getComponentOfType<Camera>()->getProjectionMatrix());
+  
+             Renderer::Submit(object->getComponentOfType<Material>()->getShader(), object->getComponentOfType<Mesh>()->getVao(), object->getModelMatrix());
+		 	
+             Renderer::EndScene();
+		 	
+		 	
+		 	// ImGui Rendering
+             if (imGuiLayer->isEnabled())
+             {
+                 imGuiLayer->begin();
+                 for (Layer* layer : layerStack)
+                 {
+                     if (layer->isEnabled()) { layer->onImGuiRender(); }
+                 }
+                 imGuiLayer->end();
+             }
 		}
 	}
 
@@ -161,7 +162,7 @@ namespace BC
         window->resize(event.getWidth(), event.getHeight());
         Renderer::OnWindowResize(event.getWidth(), event.getHeight());
 
-        return false;
+        return true;
     }
 
     void Application::pushLayer(Layer* layer)
