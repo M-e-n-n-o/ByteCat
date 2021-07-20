@@ -4,7 +4,7 @@
 #include "byteCat/input/events/Event.h"
 #include "byteCat/app/Window.h"
 #include "byteCat/app/Layer.h"
-#include "byteCat/entity-system/GameObjectLayer.h"
+#include "byteCat/entity-system/GameLayer.h"
 #include "byteCat/imgui/ImGuiLayer.h"
 #include "byteCat/input/events/ApplicationEvent.h"
 
@@ -25,7 +25,7 @@ namespace BC
 		
 		LayerStack layerStack;
 		ImGuiLayer* imGuiLayer;
-		GameObjectLayer* gameObjectLayer;
+		GameLayer* gameLayer;
 
 		std::unique_ptr<Window> window;
 		bool isRunning;

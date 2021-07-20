@@ -2,6 +2,8 @@
 
 /*
 	Import this header file to make use of the BC engine.
+
+	Every code from the ByteCat Engine is inside the BC namespace.
 */
 
 #include "byteCat/app/Application.h"
@@ -23,7 +25,7 @@
 #include "byteCat/render/vertex-object/Buffer.h"
 #include "byteCat/render/vertex-object/VertexArray.h"
 
-#include "byteCat/entity-system/GameObjectLayer.h"
+#include "byteCat/entity-system/GameLayer.h"
 #include "byteCat/entity-system/GameObject.h"
 #include "byteCat/entity-system/Mesh.h"
 #include "byteCat/entity-system/Material.h"

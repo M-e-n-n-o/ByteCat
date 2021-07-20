@@ -75,10 +75,7 @@ namespace BC
 		glm::mat4 getModelMatrix() const;
 	};
 
-	
-	// ---------------------------------------------------------------------------
-	// ---------- Template elaborations of GameObject ----------------------------
-
+	// Template elaboration of GameObject
 	template <class T>
 	T* GameObject::getComponentOfType()
 	{

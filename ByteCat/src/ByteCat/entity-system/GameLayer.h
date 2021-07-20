@@ -6,14 +6,14 @@
 
 namespace BC
 {
-	class GameObjectLayer : public Layer
+	class GameLayer : public Layer
 	{
 		inline static std::shared_ptr<GameObject> camera;
 		inline static std::vector<std::shared_ptr<GameObject>> gameObjects;
 		
 	public:
-		GameObjectLayer(): Layer("GameObjectLayer") {}
-		~GameObjectLayer() = default;
+		GameLayer(): Layer("GameLayer") {}
+		~GameLayer() = default;
 		
 		void onUpdate() override;
 

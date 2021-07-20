@@ -1,10 +1,10 @@
 #include "bcpch.h"
-#include "byteCat/entity-system/GameObjectLayer.h"
+#include "byteCat/entity-system/GameLayer.h"
 #include "byteCat/entity-system/cameras/Camera.h"
 
 namespace BC
 {
-	void GameObjectLayer::onUpdate()
+	void GameLayer::onUpdate()
 	{
 		for (std::shared_ptr<GameObject>& object : gameObjects)
 		{
@@ -15,14 +15,14 @@ namespace BC
 		}
 	}
 
-	std::shared_ptr<GameObject> GameObjectLayer::CreateGameObject(Transform const& transform)
+	std::shared_ptr<GameObject> GameLayer::CreateGameObject(Transform const& transform)
 	{
 		std::shared_ptr<GameObject> gameObject = std::make_shared<GameObject>(transform);
 		gameObjects.push_back(gameObject);
 		return gameObject;
 	}
 
-	void GameObjectLayer::RemoveGameObject(std::shared_ptr<GameObject>& toRemove)
+	void GameLayer::RemoveGameObject(std::shared_ptr<GameObject>& toRemove)
 	{
 		for (auto it = gameObjects.begin(); it != gameObjects.end(); ++it)
 		{
@@ -34,7 +34,7 @@ namespace BC
 		}
 	}
 
-	void GameObjectLayer::SetCamera(std::shared_ptr<GameObject>& newCamera)
+	void GameLayer::SetCamera(std::shared_ptr<GameObject>& newCamera)
 	{
 		if (newCamera->getComponentOfType<Camera>())
 		{

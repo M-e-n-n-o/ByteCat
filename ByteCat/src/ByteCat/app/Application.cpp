@@ -22,8 +22,8 @@ namespace BC
         window = Window::Create(setting);
         window->setEventListener(this);
 
-        gameObjectLayer = new GameObjectLayer();
-        pushLayer(gameObjectLayer);
+        gameLayer = new GameLayer();
+        pushLayer(gameLayer);
 		
         imGuiLayer = new ImGuiLayer();
         pushOverlay(imGuiLayer);
@@ -64,11 +64,11 @@ namespace BC
 	        }
 		 	
             // Rendering
-            if (std::shared_ptr<GameObject> camera = gameObjectLayer->GetCamera())
+            if (std::shared_ptr<GameObject> camera = gameLayer->GetCamera())
             {
                 Renderer::BeginScene(camera->getComponentOfType<Camera>()->getViewMatrix(), camera->getComponentOfType<Camera>()->getProjectionMatrix());
 
-                for (std::shared_ptr<GameObject>& gameObject : gameObjectLayer->getGameObjects())
+                for (std::shared_ptr<GameObject>& gameObject : gameLayer->getGameObjects())
                 {
                     if (gameObject->isEnabled)
                         if (auto mat = gameObject->getComponentOfType<Material>())

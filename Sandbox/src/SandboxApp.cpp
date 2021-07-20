@@ -39,13 +39,13 @@ public:
 		std::shared_ptr<Texture2D> texture = Texture2D::Create("kat.jpg");
 		shader->setTexture(texture);
 		
-		object = GameObjectLayer::CreateGameObject(Transform({ 0, 0, -1 }, { 0, 0, 0 }, { 1, 1, 1 }));
+		object = GameLayer::CreateGameObject(Transform({ 0, 0, -1 }, { 0, 0, 0 }, { 1, 1, 1 }));
 		object->addComponent(new Mesh(vertices, indices, textureCoords));
 		object->addComponent(new Material(shader));
 
-		camera = GameObjectLayer::CreateGameObject(Transform({ 0, 0, 0 }, { 0, 0, 0 }, { 1, 1, 1 }));
+		camera = GameLayer::CreateGameObject(Transform({ 0, 0, 0 }, { 0, 0, 0 }, { 1, 1, 1 }));
 		camera->addComponent(new PerspectiveCamera(70, 0.01f, 1000));
-		GameObjectLayer::SetCamera(camera);
+		GameLayer::SetCamera(camera);
 	}
 
 	void onUpdate() override
