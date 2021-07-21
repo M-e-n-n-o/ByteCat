@@ -34,7 +34,7 @@ public:
 			1, 1,
 			1, 0
 		};
-
+		
 		std::shared_ptr<Shader> shader = Shaders::Create(ByteCatShader::Standard);
 		std::shared_ptr<Texture2D> texture = Texture2D::Create("kat.jpg");
 		shader->setTexture(texture);

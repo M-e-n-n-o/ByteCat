@@ -21,4 +21,14 @@ namespace BC
 		
 		std::shared_ptr<VertexArray>& getVao() { return vao; }
 	};
+
+
+	/*
+	 * Class MeshRenderer:
+	 *		This class renders the Mesh.
+	 */
+	class MeshRenderer: public RenderComponent
+	{
+		void onRender() override;
+	};
 }

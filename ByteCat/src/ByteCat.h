@@ -19,6 +19,7 @@
 #include "byteCat/input/Input.h"
 
 #include "byteCat/utils/Math.h"
+#include "byteCat/utils/ModelLoader.h"
 
 #include "byteCat/render/textures/Texture.h"
 #include "byteCat/render/shaders/ByteCatShaders.h"

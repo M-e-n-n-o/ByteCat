@@ -39,6 +39,20 @@ namespace BC
 		// Gets called when the component gets removed from the GameObject
 		virtual void onDetach() {}
 	};
+
+	// Use this class to make custom render components for the gameobject
+	class RenderComponent: public ObjectComponent
+	{
+	private:
+		friend class Renderer;
+
+	public:
+		virtual ~RenderComponent() = default;
+	
+	private:
+		// Gets called when rendering the GameObject
+		virtual void onRender() {}
+	};
 	
 
 	/*

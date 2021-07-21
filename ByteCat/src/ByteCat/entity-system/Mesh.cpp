@@ -35,4 +35,14 @@ namespace BC
 		std::shared_ptr<IndexBuffer> indexBuffer = IndexBuffer::Create(indices.data(), (unsigned)indices.size());
 		vao->setIndexBuffer(indexBuffer);
 	}
+
+
+	// ------------------------------------------------------------------------------------------------------------
+	// ------------------------------------- Mesh Renderer --------------------------------------------------------
+
+	
+	void MeshRenderer::onRender()
+	{
+		
+	}
 }
