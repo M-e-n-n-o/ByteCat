@@ -38,12 +38,12 @@ public:
 		std::shared_ptr<Shader> shader = Shaders::Create(ByteCatShader::Standard);
 		std::shared_ptr<Texture2D> texture = Texture2D::Create("kat.jpg");
 		shader->setTexture(texture);
-		
+
 		object = GameLayer::CreateGameObject("TestObject", Transform({ 0, 0, -1 }, { 0, 0, 0 }, { 1, 1, 1 }));
 		object->addComponent(new Mesh(vertices, indices, textureCoords));
 		object->addComponent(new MeshRenderer());
 		object->addComponent(new Material(shader));
-
+		
 		camera = GameLayer::CreateGameObject("Camera", Transform({ 0, 0, 0 }, { 0, 0, 0 }, { 1, 1, 1 }));
 		camera->addComponent(new PerspectiveCamera(70, 0.01f, 1000));
 		GameLayer::SetCamera(camera);
