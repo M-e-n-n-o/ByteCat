@@ -2,6 +2,7 @@
 #include <vector>
 #include "glm/mat4x4.hpp"
 #include "glm/vec3.hpp"
+#include "byteCat/render/vertex-object/VertexArray.h"
 
 namespace BC
 {
@@ -50,8 +51,13 @@ namespace BC
 		virtual ~RenderComponent() = default;
 	
 	private:
-		// Gets called when rendering the GameObject
-		virtual void onRender() {}
+		// TODO Toevoegen van equality checks bv: Zelfde shader als andere gameobject? (voor optimalizatie) 
+		
+		// Gets called before rendering the GameObject, returns the VertexArray the renderer needs to render (nullptr if failed)
+		virtual VertexArray* prepareRender(glm::mat4& viewMatrix, glm::mat4& projectionMatrix) = 0;
+
+		// Gets callend after rendering the GameObject
+		virtual void finishRender() = 0;
 	};
 	
 
@@ -62,6 +68,8 @@ namespace BC
 	class GameObject
 	{
 	public:
+		std::string name;
+		
 		bool isEnabled = true;
 
 		Transform transform;
@@ -70,7 +78,7 @@ namespace BC
 		std::vector<ObjectComponent*> components;
 	
 	public:
-		GameObject(Transform const& transform = Transform()): transform(transform) {}
+		GameObject(std::string& name, Transform const& transform = Transform()): name(name), transform(transform) {}
 		virtual ~GameObject();
 
 		void update();
@@ -104,5 +112,4 @@ namespace BC
 		return nullptr;
 	}
 
-	
 }

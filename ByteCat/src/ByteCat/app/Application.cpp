@@ -62,7 +62,8 @@ namespace BC
 	        {
 				if (layer->enabled) { layer->onUpdate(); }
 	        }
-		 	
+
+			
             // Rendering
             if (std::shared_ptr<GameObject> camera = gameLayer->GetCamera())
             {
@@ -71,9 +72,9 @@ namespace BC
                 for (std::shared_ptr<GameObject>& gameObject : gameLayer->getGameObjects())
                 {
                     if (gameObject->isEnabled)
-                        if (auto mat = gameObject->getComponentOfType<Material>())
-                            if (auto mesh = gameObject->getComponentOfType<Mesh>())
-                                Renderer::Submit(mat->getShader(), mesh->getVao(), gameObject->getModelMatrix());
+                    {
+                        Renderer::Submit(gameObject);
+                    }
                 }
 
                 Renderer::EndScene();

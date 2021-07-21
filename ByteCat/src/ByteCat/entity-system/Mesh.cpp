@@ -1,5 +1,6 @@
 #include "bcpch.h"
 #include "byteCat/entity-system/Mesh.h"
+#include "byteCat/entity-system/Material.h"
 
 namespace BC
 {
@@ -40,9 +41,41 @@ namespace BC
 	// ------------------------------------------------------------------------------------------------------------
 	// ------------------------------------- Mesh Renderer --------------------------------------------------------
 
-	
-	void MeshRenderer::onRender()
+
+	VertexArray* MeshRenderer::prepareRender(glm::mat4& viewMatrix, glm::mat4& projectionMatrix)
 	{
+		auto mat = gameObject->getComponentOfType<Material>();
+		if (mat == nullptr)
+		{
+			LOG_ERROR("{0} cannot be rendered because it does not have a material", gameObject->name);
+			return nullptr;
+		}
+
+		auto mesh = gameObject->getComponentOfType<Mesh>();
+		if (mesh == nullptr)
+		{
+			LOG_ERROR("{0} cannot be rendered because it does not have a mesh", gameObject->name);
+			return nullptr;
+		}
 		
+		std::shared_ptr<Shader> shader = mat->getShader();
+		
+		shader->bind();
+		shader->loadMatrix4("modelMatrix", gameObject->getModelMatrix());
+		shader->loadMatrix4("projectionMatrix", projectionMatrix);
+		shader->loadMatrix4("viewMatrix", viewMatrix);
+		mesh->getVao()->bind();
+		shader->bindTextures();
+		
+		return mesh->getVao().get();
+	}
+
+	void MeshRenderer::finishRender()
+	{
+		auto mat = gameObject->getComponentOfType<Material>();
+		auto mesh = gameObject->getComponentOfType<Mesh>();
+		
+		mesh->getVao()->unbind();
+		mat->getShader()->unbind();
 	}
 }

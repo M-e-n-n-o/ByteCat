@@ -57,7 +57,7 @@ namespace BC
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		}
 
-		void Draw(const std::shared_ptr<VertexArray>& vao, unsigned indexCount)
+		void Draw(const VertexArray* vao, unsigned indexCount)
 		{
 			unsigned int count = indexCount ? indexCount : vao->getIndexBuffer()->getCount();
 			glDrawElements(GL_TRIANGLES, vao->getIndexBuffer()->getCount(), GL_UNSIGNED_INT, 0);

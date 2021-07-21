@@ -29,6 +29,8 @@ namespace BC
 	 */
 	class MeshRenderer: public RenderComponent
 	{
-		void onRender() override;
+		VertexArray* prepareRender(glm::mat4& viewMatrix, glm::mat4& projectionMatrix) override;
+		
+		void finishRender() override;
 	};
 }

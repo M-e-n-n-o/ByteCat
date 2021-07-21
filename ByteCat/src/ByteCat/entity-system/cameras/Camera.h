@@ -4,7 +4,7 @@
 #include "glm/mat4x4.hpp"
 
 namespace BC
-{
+{	
 	class Camera : public ObjectComponent
 	{
 	protected:

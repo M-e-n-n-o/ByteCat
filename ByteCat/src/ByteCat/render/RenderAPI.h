@@ -20,6 +20,6 @@ namespace BC
 		void Clear();
 
 		// Call this function to render a VertexArray
-		void Draw(const std::shared_ptr<VertexArray>& vao, unsigned int indexCount = 0);
+		void Draw(const VertexArray* vao, unsigned int indexCount = 0);
 	};
 }

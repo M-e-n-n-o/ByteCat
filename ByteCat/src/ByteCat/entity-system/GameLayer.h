@@ -17,7 +17,7 @@ namespace BC
 		
 		void onUpdate() override;
 
-		static std::shared_ptr<GameObject> CreateGameObject(Transform const& transform = Transform());		
+		static std::shared_ptr<GameObject> CreateGameObject(std::string name, Transform const& transform = Transform());		
 		static void RemoveGameObject(std::shared_ptr<GameObject>& toRemove);
 
 		static void SetCamera(std::shared_ptr<GameObject>& newCamera);

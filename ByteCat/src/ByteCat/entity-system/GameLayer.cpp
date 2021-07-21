@@ -15,9 +15,9 @@ namespace BC
 		}
 	}
 
-	std::shared_ptr<GameObject> GameLayer::CreateGameObject(Transform const& transform)
+	std::shared_ptr<GameObject> GameLayer::CreateGameObject(std::string name, Transform const& transform)
 	{
-		std::shared_ptr<GameObject> gameObject = std::make_shared<GameObject>(transform);
+		std::shared_ptr<GameObject> gameObject = std::make_shared<GameObject>(name, transform);
 		gameObjects.push_back(gameObject);
 		return gameObject;
 	}

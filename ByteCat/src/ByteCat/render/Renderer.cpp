@@ -7,7 +7,8 @@ namespace BC
 {
 	void Renderer::Init()
 	{
-		entities.reserve(ALLOCATE_PER_RESIZE);
+		gameObjects.reserve(ALLOCATE_PER_RESIZE);
+		
 		sceneData = std::make_unique<SceneData>();
 		
 		RenderAPI::Init();
@@ -15,8 +16,8 @@ namespace BC
 
 	void Renderer::Shutdown()
 	{
-		entities.clear();
-		entities.shrink_to_fit();
+		gameObjects.clear();
+		gameObjects.shrink_to_fit();
 	}
 
 	void Renderer::OnWindowResize(unsigned width, unsigned height)
@@ -39,36 +40,39 @@ namespace BC
 		// TODO
 		// Sorteer de entities
 		// Render de entities efficient
+
+		for (std::shared_ptr<GameObject>& gameObject : gameObjects)
+		{
+			auto comp = gameObject->getComponentOfType<RenderComponent>();
+			if (comp == nullptr)
+			{
+				continue;
+			}
+			
+			VertexArray* vao = comp->prepareRender(sceneData->viewMatrix, sceneData->projectionMatrix);
+			if (vao != nullptr)
+			{
+				Render(vao);
+				comp->finishRender();
+			}
+		}
+
+		gameObjects.clear();
+		gameObjects.shrink_to_fit();
+		gameObjects.reserve(ALLOCATE_PER_RESIZE);
+	}
+
+	void Renderer::Submit(std::shared_ptr<GameObject>& gameObject)
+	{
+		if (gameObjects.size() >= gameObjects.capacity())
+		{
+			gameObjects.reserve(gameObjects.capacity() + ALLOCATE_PER_RESIZE);
+		}
 		
-		for (Entity& entity : entities)
-		{
-			entity.shader->bind();
-			entity.shader->loadMatrix4("modelMatrix", entity.modelMatrix);
-			entity.shader->loadMatrix4("projectionMatrix", sceneData->projectionMatrix);
-			entity.shader->loadMatrix4("viewMatrix", sceneData->viewMatrix);
-			entity.vao->bind();
-			entity.shader->bindTextures();
-			Render(entity.vao);
-			entity.vao->unbind();
-			entity.shader->unbind();
-		}
-
-		entities.clear();
-		entities.shrink_to_fit();
-		entities.reserve(ALLOCATE_PER_RESIZE);
+		gameObjects.push_back(gameObject);
 	}
 
-	void Renderer::Submit(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& vao, const glm::mat4& modelMatrix)
-	{		
-		if (entities.size() >= entities.capacity())
-		{
-			entities.reserve(entities.capacity() + ALLOCATE_PER_RESIZE);
-		}
-
-		entities.push_back({ shader, vao, modelMatrix });
-	}
-
-	void Renderer::Render(const std::shared_ptr<VertexArray>& vao)
+	void Renderer::Render(const VertexArray* vao)
 	{
 		++drawCalls;
 		RenderAPI::Draw(vao);
