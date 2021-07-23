@@ -69,6 +69,12 @@ namespace BC
             {
                 Renderer::BeginScene(camera->getComponentOfType<Camera>()->getViewMatrix(), camera->getComponentOfType<Camera>()->getProjectionMatrix());
 
+            	// OnRender
+                for (Layer* layer : layerStack)
+                {
+                    if (layer->enabled) { layer->onRender(); }
+                }
+            	
                 for (std::shared_ptr<GameObject>& gameObject : gameLayer->getGameObjects())
                 {
                     if (gameObject->isEnabled)

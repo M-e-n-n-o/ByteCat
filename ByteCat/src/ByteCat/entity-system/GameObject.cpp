@@ -25,7 +25,7 @@ namespace BC
 	{
 		if (RenderComponent* x = dynamic_cast<RenderComponent*>(component))
 		{
-			if (getComponentOfType<RenderComponent>() != nullptr)
+			if (hasComponent<RenderComponent>())
 			{
 				LOG_WARN("A gameobject, {0}, can only have 1 RenderComponent", name);
 				delete component;

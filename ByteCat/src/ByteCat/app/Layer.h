@@ -27,6 +27,8 @@ namespace BC
 		virtual void onDetach() {}
 		// Gets called every game loop before the rendering
 		virtual void onUpdate() {}
+		// Gets called right before the rendering takes place
+		virtual void onRender() {}
 		// Gets called every game loop after rendering the main game. Use this to render imGui windows
 		virtual void onImGuiRender() {}
 		// Gets called every time an event occurs in the application

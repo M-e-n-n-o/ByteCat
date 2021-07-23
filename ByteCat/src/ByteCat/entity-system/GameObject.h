@@ -85,10 +85,14 @@ namespace BC
 
 		void addComponent(ObjectComponent* component);
 		void removeComponent(ObjectComponent* toRemove);
-
+		
 		// This function returns the ObjectComponent with the given ObjectComponent type
 		template<class T>
 		T* getComponentOfType();
+
+		// This function checks if the gameobject already has this component
+		template<class T>
+		bool hasComponent();
 
 		// This function removes the ObjectComponent with the given ObjectComponent type
 		template<class T>
@@ -97,7 +101,9 @@ namespace BC
 		glm::mat4 getModelMatrix() const;
 	};
 
-	// Template elaboration of GameObject
+	// --------------------------------------------------------------------------------------
+	// --------------------- Template elaborations of GameObject ----------------------------
+	
 	template <class T>
 	T* GameObject::getComponentOfType()
 	{
@@ -112,4 +118,17 @@ namespace BC
 		return nullptr;
 	}
 
+	template <class T>
+	bool GameObject::hasComponent()
+	{
+		for (ObjectComponent* component : components)
+		{
+			if (T* x = dynamic_cast<T*>(component))
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
 }

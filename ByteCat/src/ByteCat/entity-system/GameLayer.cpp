@@ -36,7 +36,7 @@ namespace BC
 
 	void GameLayer::SetCamera(std::shared_ptr<GameObject>& newCamera)
 	{
-		if (newCamera->getComponentOfType<Camera>())
+		if (newCamera->hasComponent<Camera>())
 		{
 			camera = newCamera;
 		} else
