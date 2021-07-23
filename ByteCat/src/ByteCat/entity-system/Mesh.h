@@ -16,10 +16,14 @@ namespace BC
 		
 	public:
 		Mesh();
+		Mesh(std::string const& fileName);
 		Mesh(std::vector<float>& vertices, std::vector<unsigned int>& indices);
 		Mesh(std::vector<float>& vertices, std::vector<unsigned int>& indices, std::vector<float>& textureCoords);
 		
 		std::shared_ptr<VertexArray>& getVao() { return vao; }
+
+	private:
+		void init(std::vector<float>& vertices, std::vector<unsigned int>& indices, std::vector<float>& textureCoords);
 	};
 
 

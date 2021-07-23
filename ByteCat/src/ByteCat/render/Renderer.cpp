@@ -43,7 +43,7 @@ namespace BC
 
 		for (std::shared_ptr<GameObject>& gameObject : gameObjects)
 		{
-			auto comp = gameObject->getComponentOfType<RenderComponent>();
+			auto comp = gameObject->getComponent<RenderComponent>();
 			if (comp == nullptr)
 			{
 				continue;

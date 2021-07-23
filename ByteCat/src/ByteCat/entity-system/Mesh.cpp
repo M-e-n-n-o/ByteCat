@@ -1,12 +1,24 @@
 #include "bcpch.h"
 #include "byteCat/entity-system/Mesh.h"
 #include "byteCat/entity-system/Material.h"
+#include "byteCat/utils/ModelLoader.h"
 
 namespace BC
 {
 	Mesh::Mesh(): ObjectComponent()
 	{
 		vao = VertexArray::Create();
+	}
+
+	Mesh::Mesh(std::string const& fileName)
+	{
+		std::vector<float> vertices;
+		std::vector<unsigned int> indices;
+		std::vector<float> normals;
+		std::vector<float> textureCoords;
+		ModelLoader::LoadModel(fileName, vertices, indices, normals, textureCoords);
+
+		init(vertices, indices, textureCoords);
 	}
 
 	Mesh::Mesh(std::vector<float>& vertices, std::vector<unsigned int>& indices) : ObjectComponent()
@@ -23,6 +35,11 @@ namespace BC
 
 	Mesh::Mesh(std::vector<float>& vertices, std::vector<unsigned>& indices, std::vector<float>& textureCoords)
 	{
+		init(vertices, indices, textureCoords);
+	}
+
+	void Mesh::init(std::vector<float>& vertices, std::vector<unsigned>& indices, std::vector<float>& textureCoords)
+	{
 		vao = VertexArray::Create();
 
 		std::shared_ptr<VertexBuffer> vertexBuffer = VertexBuffer::Create(vertices.data(), (unsigned)(sizeof(float) * vertices.size()));
@@ -37,21 +54,21 @@ namespace BC
 		vao->setIndexBuffer(indexBuffer);
 	}
 
-
+	
 	// ------------------------------------------------------------------------------------------------------------
 	// ------------------------------------- Mesh Renderer --------------------------------------------------------
 
 
 	VertexArray* MeshRenderer::prepareRender(glm::mat4& viewMatrix, glm::mat4& projectionMatrix)
 	{
-		auto mat = gameObject->getComponentOfType<Material>();
+		auto mat = gameObject->getComponent<Material>();
 		if (mat == nullptr)
 		{
 			LOG_ERROR("{0} cannot be rendered because it does not have a material", gameObject->name);
 			return nullptr;
 		}
 
-		auto mesh = gameObject->getComponentOfType<Mesh>();
+		auto mesh = gameObject->getComponent<Mesh>();
 		if (mesh == nullptr)
 		{
 			LOG_ERROR("{0} cannot be rendered because it does not have a mesh", gameObject->name);
@@ -72,8 +89,8 @@ namespace BC
 
 	void MeshRenderer::finishRender()
 	{
-		auto mat = gameObject->getComponentOfType<Material>();
-		auto mesh = gameObject->getComponentOfType<Mesh>();
+		auto mat = gameObject->getComponent<Material>();
+		auto mesh = gameObject->getComponent<Mesh>();
 		
 		mesh->getVao()->unbind();
 		mat->getShader()->unbind();

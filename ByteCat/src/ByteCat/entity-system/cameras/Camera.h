@@ -15,6 +15,8 @@ namespace BC
 	public:
 		virtual ~Camera() = default;
 
+		virtual void onWindowResize(unsigned int width, unsigned int height) = 0;
+		
 		glm::mat4& getProjectionMatrix() { return projectionMatrix; }
 		glm::mat4& getViewMatrix() { calculateViewMatrix(); return viewMatrix; }
 

@@ -67,7 +67,7 @@ namespace BC
             // Rendering
             if (std::shared_ptr<GameObject> camera = gameLayer->GetCamera())
             {
-                Renderer::BeginScene(camera->getComponentOfType<Camera>()->getViewMatrix(), camera->getComponentOfType<Camera>()->getProjectionMatrix());
+                Renderer::BeginScene(camera->getComponent<Camera>()->getViewMatrix(), camera->getComponent<Camera>()->getProjectionMatrix());
 
             	// OnRender
                 for (Layer* layer : layerStack)
@@ -142,6 +142,7 @@ namespace BC
 
         window->resize(event.getWidth(), event.getHeight());
         Renderer::OnWindowResize(event.getWidth(), event.getHeight());
+        gameLayer->onWindowResize(event.getWidth(), event.getHeight());
 
         return true;
     }

@@ -16,6 +16,7 @@ namespace BC
 		~GameLayer() = default;
 		
 		void onUpdate() override;
+		void onWindowResize(unsigned int width, unsigned int height);
 
 		static std::shared_ptr<GameObject> CreateGameObject(std::string name, Transform const& transform = Transform());		
 		static void RemoveGameObject(std::shared_ptr<GameObject>& toRemove);

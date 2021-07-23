@@ -26,6 +26,26 @@ namespace BC
 			split(s, delim, elems);
 			return elems;
 		}
+
+		static void processVertex(const std::vector<std::string>& vertexData,
+			const std::vector<glm::vec3>& normals,
+			const std::vector<glm::vec2>& textures,
+			std::vector<unsigned int>& indices,
+			std::vector<float>& textureArray,
+			std::vector<float>& normalArray)
+		{
+			unsigned int currentVertexPointer = std::stoi(vertexData.at(0)) - 1;
+			indices.push_back(currentVertexPointer);
+
+			glm::vec2 currentTexture = textures.at(std::stoi(vertexData.at(1)) - 1);
+			textureArray[(currentVertexPointer * 2) % textureArray.size()] = currentTexture.x;
+			textureArray[(currentVertexPointer * 2 + 1) % textureArray.size()] = 1 - currentTexture.y;
+
+			glm::vec3 currentNorm = normals.at(std::stoi(vertexData.at(2)) - 1);
+			normalArray[currentVertexPointer * 3] = currentNorm.x;
+			normalArray[currentVertexPointer * 3 + 1] = currentNorm.y;
+			normalArray[currentVertexPointer * 3 + 2] = currentNorm.z;
+		}
 		
 		static bool LoadObjModel(std::string filePath, std::vector<float>& vertices, std::vector<unsigned>& indices, std::vector<float>& normals, std::vector<float>& textureCoords)
 		{
@@ -37,6 +57,9 @@ namespace BC
 				return false;
 			}
 
+			std::vector<glm::vec3> verticesT;
+			std::vector<glm::vec3> normalsT;
+			std::vector<glm::vec2> texturesT;
 			std::string line;
 
 			try
@@ -44,40 +67,49 @@ namespace BC
 				while (true)
 				{
 					std::getline(ifs, line);
-					std::vector<std::string> split_line = split(line, ' ');
+					std::vector<std::string> splitline = split(line, ' ');
 					
-					if (split_line.at(0) == "v")
+					if (splitline.at(0) == "v")
 					{
-						vertices.push_back(std::stof(split_line.at(1)));
-						vertices.push_back(std::stof(split_line.at(2)));
-						vertices.push_back(std::stof(split_line.at(3)));
-					} else if (split_line.at(0) == "vt")
+						glm::vec3 vertex;
+						vertex.x = std::stof(splitline.at(1));
+						vertex.y = std::stof(splitline.at(2));
+						vertex.z = std::stof(splitline.at(3));
+						verticesT.push_back(vertex);
+					}
+					else if (splitline.at(0) == "vt")
 					{
-						textureCoords.push_back(std::stof(split_line.at(1)));
-						textureCoords.push_back(std::stof(split_line.at(2)));
-					} else if (split_line.at(0) == "vn")
+						glm::vec2 texture;
+						texture.x = std::stof(splitline.at(1));
+						texture.y = std::stof(splitline.at(2));
+						texturesT.push_back(texture);
+					}
+					else if (splitline.at(0) == "vn")
 					{
-						normals.push_back(std::stof(split_line.at(1)));
-						normals.push_back(std::stof(split_line.at(2)));
-						normals.push_back(std::stof(split_line.at(3)));
-					} else if (split_line.at(0) == "f")
+						glm::vec3 normal;
+						normal.x = std::stof(splitline.at(1));
+						normal.y = std::stof(splitline.at(2));
+						normal.z = std::stof(splitline.at(3));
+						normalsT.push_back(normal);
+					}
+					else if (splitline.at(0) == "f")
 					{
+						normals = std::vector<float>(verticesT.size() * 3);
+						textureCoords = std::vector<float>(texturesT.size() * 2);
 						break;
 					}
 				}
 
 				while (line.at(0) == 'f')
 				{
-					std::vector<std::string> currentLine = split(line, ' ');
+					std::vector<std::string> splitline = split(line, ' ');
+					std::vector<std::string> vertex1 = split(splitline.at(1), '/');
+					std::vector<std::string> vertex2 = split(splitline.at(2), '/');
+					std::vector<std::string> vertex3 = split(splitline.at(3), '/');
 					
-					std::vector<std::string> vertex1;
-					split(currentLine.at(1), '/', vertex1);
-					std::vector<std::string> vertex2;
-					split(currentLine.at(2), '/', vertex2);
-					std::vector<std::string> vertex3;
-					split(currentLine.at(3), '/', vertex3);
-
-					// Hier verder gaan
+					processVertex(vertex1, normalsT, texturesT, indices, textureCoords, normals);
+					processVertex(vertex2, normalsT, texturesT, indices, textureCoords, normals);
+					processVertex(vertex3, normalsT, texturesT, indices, textureCoords, normals);
 					
 					if (!std::getline(ifs, line))
 					{
@@ -91,9 +123,19 @@ namespace BC
 				LOG_ERROR("An error occured while loading the model: {0}", filePath);
 				return false;
 			}
-
 			
 			ifs.close();
+
+			vertices = std::vector<float>(verticesT.size() * 3);
+			int p = 0;
+			for (auto& vertex : verticesT)
+			{
+				vertices[p++] = vertex.x;
+				vertices[p++] = vertex.y;
+				vertices[p++] = vertex.z;
+			}
+			
+			
 			return true;
 		}
 
@@ -103,7 +145,7 @@ namespace BC
 		// ------------------------- Generic Loader -----------------------------
 		// ----------------------------------------------------------------------
 		
-		bool LoadModel(std::string filePath, std::vector<float>& vertices, std::vector<unsigned>& indices, std::vector<float>& normals, std::vector<float>& textureCoords)
+		bool LoadModel(std::string const& filePath, std::vector<float>& vertices, std::vector<unsigned>& indices, std::vector<float>& normals, std::vector<float>& textureCoords)
 		{
 			if (filePath.find(".obj") != std::string::npos)
 			{

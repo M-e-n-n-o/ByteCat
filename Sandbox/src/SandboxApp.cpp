@@ -12,35 +12,13 @@ private:
 
 public:
 	ExampleLayer() : Layer("ExampleLayer")
-	{
-		std::vector<float> vertices =
-		{
-		  -0.5f, 0.5f, 0,
-		  -0.5f, -0.5f, 0,
-		  0.5f, -0.5f, 0,
-		  0.5f, 0.5f, 0
-		};
-
-		std::vector<unsigned int> indices =
-		{
-			0,1,3,
-			3,1,2
-		};
-
-		std::vector<float> textureCoords =
-		{
-			0, 0,
-			0, 1,
-			1, 1,
-			1, 0
-		};
-		
+	{		
 		std::shared_ptr<Shader> shader = Shaders::Create(ByteCatShader::Standard);
-		std::shared_ptr<Texture2D> texture = Texture2D::Create("kat.jpg");
+		std::shared_ptr<Texture2D> texture = Texture2D::Create("TreeTexture.png");
 		shader->setTexture(texture);
 
-		object = GameLayer::CreateGameObject("TestObject", Transform({ 0, 0, -1 }, { 0, 0, 0 }, { 1, 1, 1 }));
-		object->addComponent(new Mesh(vertices, indices, textureCoords));
+		object = GameLayer::CreateGameObject("TestObject", Transform({ 0, -5, -40 }, { 0, 0, 0 }, { 0.1, 0.1, 0.1 }));
+		object->addComponent(new Mesh("Tree.obj"));
 		object->addComponent(new MeshRenderer());
 		object->addComponent(new Material(shader));
 		
@@ -51,7 +29,7 @@ public:
 
 	void onUpdate() override
 	{
-		object->transform.position.z -= Application::GetDelta() * 0.5f;
+		object->transform.rotation.y += Application::GetDelta() * 10;
 	}
 
 	void onImGuiRender() override

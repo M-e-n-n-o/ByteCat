@@ -15,6 +15,14 @@ namespace BC
 		}
 	}
 
+	void GameLayer::onWindowResize(unsigned width, unsigned height)
+	{
+		if (camera != nullptr)
+		{
+			camera->getComponent<Camera>()->onWindowResize(width, height);
+		}
+	}
+
 	std::shared_ptr<GameObject> GameLayer::CreateGameObject(std::string name, Transform const& transform)
 	{
 		std::shared_ptr<GameObject> gameObject = std::make_shared<GameObject>(name, transform);
