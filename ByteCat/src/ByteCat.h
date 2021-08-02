@@ -21,6 +21,8 @@
 #include "byteCat/utils/Math.h"
 #include "byteCat/utils/ModelLoader.h"
 
+#include "byteCat/render/RenderSettings.h"
+#include "byteCat/render/Renderer.h"
 #include "byteCat/render/textures/Texture.h"
 #include "byteCat/render/shaders/ByteCatShaders.h"
 #include "byteCat/render/vertex-object/Buffer.h"

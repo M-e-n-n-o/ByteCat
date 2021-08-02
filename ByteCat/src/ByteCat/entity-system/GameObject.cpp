@@ -1,6 +1,7 @@
 #include "bcpch.h"
 #include <typeindex>
 #include "byteCat/entity-system/GameObject.h"
+#include "byteCat/entity-system/Material.h"
 #include "byteCat/utils/Math.h"
 
 namespace BC
@@ -23,7 +24,7 @@ namespace BC
 
 	void GameObject::addComponent(ObjectComponent* component)
 	{
-		if (RenderComponent* x = dynamic_cast<RenderComponent*>(component))
+		if (auto x = dynamic_cast<RenderComponent*>(component))
 		{
 			if (hasComponent<RenderComponent>())
 			{

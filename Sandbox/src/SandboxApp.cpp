@@ -1,8 +1,11 @@
 #include <ByteCat.h>
+
+#include "byteCat/render/Renderer.h"
 #include "imgui/imgui.h"
 
-using namespace BC;
+#include "CameraControls.h"
 
+using namespace BC;
 
 class ExampleLayer : public Layer
 {
@@ -17,13 +20,24 @@ public:
 		std::shared_ptr<Texture2D> texture = Texture2D::Create("TreeTexture.png");
 		shader->setTexture(texture);
 
-		object = GameLayer::CreateGameObject("TestObject", Transform({ 0, -5, -40 }, { 0, 0, 0 }, { 0.1, 0.1, 0.1 }));
-		object->addComponent(new Mesh("Tree.obj"));
-		object->addComponent(new MeshRenderer());
-		object->addComponent(new Material(shader));
+		std::vector<float> vertices;
+		std::vector<unsigned int> indices;
+		std::vector<float> normals;
+		std::vector<float> textureCoords;
+		ModelLoader::LoadModel("Tree.obj", vertices, indices, normals, textureCoords);
+		
+		for (int i = -100; i < 100; i += 5)
+		{
+			object = GameLayer::CreateGameObject(std::to_string(i), Transform({ i, -5, -100 }, { 0, 0, 0 }, { 0.5, 0.5, 0.5 }));
+			object->addComponent(new Mesh(vertices, indices, textureCoords));
+			object->addComponent(new MeshRenderer());
+			object->addComponent(new Material(shader));
+		}
 		
 		camera = GameLayer::CreateGameObject("Camera", Transform({ 0, 0, 0 }, { 0, 0, 0 }, { 1, 1, 1 }));
 		camera->addComponent(new PerspectiveCamera(70, 0.01f, 1000));
+		camera->addComponent(new CameraControls);
+
 		GameLayer::SetCamera(camera);
 	}
 
@@ -34,24 +48,16 @@ public:
 
 	void onImGuiRender() override
 	{
-		ImGui::Begin("Test");
+		ImGui::Begin("Test Window");
 		ImGui::Text("Hello World");
+		float v[2] = {0, 1};
+		ImGui::SliderFloat2("Prachtige sliders", v, -10, 10);
 		ImGui::End();
 	}
 
 	void onEvent(Event& event) override
 	{
-		if (event.getEventType() == EventType::KeyPressed)
-		{
-			event.handled = true;
-			KeyPressedEvent& e = (KeyPressedEvent&) event;
-			if (e.getKeyCode() == KeyCode::Backspace)
-			{
-				LOG_INFO("Backspace is pressed");
-				
-			}
-			LOG_INFO("{0}", (char)e.getKeyCode());
-		}
+		
 	}
 };
 

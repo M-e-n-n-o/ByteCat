@@ -147,6 +147,8 @@ namespace BC
 		
 		bool LoadModel(std::string const& filePath, std::vector<float>& vertices, std::vector<unsigned>& indices, std::vector<float>& normals, std::vector<float>& textureCoords)
 		{
+			LOG_INFO("Loading model: res/{0}", filePath);
+			
 			if (filePath.find(".obj") != std::string::npos)
 			{
 				return LoadObjModel(filePath, vertices, indices, normals, textureCoords);

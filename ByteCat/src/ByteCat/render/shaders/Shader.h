@@ -50,6 +50,11 @@ namespace BC
 		{
 			return std::make_shared<Shader>(vertexShader, fragmentShader);
 		}
+
+		bool operator==(const Shader& other)
+		{
+			return programID == other.programID;
+		}
 	
 	private:
 		int getUniformLocation(std::string& uniformName) const;

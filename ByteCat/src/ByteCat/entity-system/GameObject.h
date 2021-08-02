@@ -3,6 +3,7 @@
 #include "glm/mat4x4.hpp"
 #include "glm/vec3.hpp"
 #include "byteCat/render/vertex-object/VertexArray.h"
+#include "byteCat/render/shaders/Shader.h"
 
 namespace BC
 {
@@ -50,14 +51,12 @@ namespace BC
 	public:
 		virtual ~RenderComponent() = default;
 	
-	private:
-		// TODO Toevoegen van equality checks bv: Zelfde shader als andere gameobject? (voor optimalizatie) 
-		
-		// Gets called before rendering the GameObject, returns the VertexArray the renderer needs to render (nullptr if failed)
-		virtual VertexArray* prepareRender(glm::mat4& viewMatrix, glm::mat4& projectionMatrix) = 0;
+	private:		
+		// Gets called before rendering the GameObject (load the modelMatrix and bind the textures to the shader)
+		virtual void prepareRender(glm::mat4& viewMatrix, glm::mat4& projectionMatrix) = 0;
 
 		// Gets callend after rendering the GameObject
-		virtual void finishRender() = 0;
+		virtual void finishRender() {}
 	};
 	
 

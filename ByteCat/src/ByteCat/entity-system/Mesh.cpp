@@ -1,6 +1,7 @@
 #include "bcpch.h"
 #include "byteCat/entity-system/Mesh.h"
 #include "byteCat/entity-system/Material.h"
+#include "byteCat/render/Renderer.h"
 #include "byteCat/utils/ModelLoader.h"
 
 namespace BC
@@ -59,40 +60,16 @@ namespace BC
 	// ------------------------------------- Mesh Renderer --------------------------------------------------------
 
 
-	VertexArray* MeshRenderer::prepareRender(glm::mat4& viewMatrix, glm::mat4& projectionMatrix)
-	{
-		auto mat = gameObject->getComponent<Material>();
-		if (mat == nullptr)
-		{
-			LOG_ERROR("{0} cannot be rendered because it does not have a material", gameObject->name);
-			return nullptr;
-		}
-
-		auto mesh = gameObject->getComponent<Mesh>();
-		if (mesh == nullptr)
-		{
-			LOG_ERROR("{0} cannot be rendered because it does not have a mesh", gameObject->name);
-			return nullptr;
-		}
+	void MeshRenderer::prepareRender(glm::mat4& viewMatrix, glm::mat4& projectionMatrix)
+	{	
+		std::shared_ptr<Shader> shader = gameObject->getComponent<Material>()->getShader();
 		
-		std::shared_ptr<Shader> shader = mat->getShader();
-		
-		shader->bind();
 		shader->loadMatrix4("modelMatrix", gameObject->getModelMatrix());
-		shader->loadMatrix4("projectionMatrix", projectionMatrix);
-		shader->loadMatrix4("viewMatrix", viewMatrix);
-		mesh->getVao()->bind();
 		shader->bindTextures();
-		
-		return mesh->getVao().get();
 	}
 
 	void MeshRenderer::finishRender()
 	{
-		auto mat = gameObject->getComponent<Material>();
-		auto mesh = gameObject->getComponent<Mesh>();
-		
-		mesh->getVao()->unbind();
-		mat->getShader()->unbind();
+
 	}
 }

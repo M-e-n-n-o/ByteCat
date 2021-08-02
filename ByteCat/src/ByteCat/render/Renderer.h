@@ -3,6 +3,7 @@
 #include <memory>
 #include <vector>
 
+#include "byteCat/render/RenderSettings.h"
 #include "glm/mat4x4.hpp"
 #include "byteCat/render/shaders/Shader.h"
 #include "byteCat/render/vertex-object/VertexArray.h"
@@ -38,6 +39,12 @@ namespace BC
 		static void Init();
 		static void Shutdown();
 
+		// Sets the render mode to the chosen render mode
+		static void SetRenderMode(RenderMode const& mode);
+
+		// Sets the render culling to the chosen culling mode
+		static void SetCullingMode(RenderCulling const& mode);
+		
 		// Call this function to change the size of the window
 		static void OnWindowResize(unsigned int width, unsigned int height);
 

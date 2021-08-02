@@ -77,10 +77,7 @@ namespace BC
             	
                 for (std::shared_ptr<GameObject>& gameObject : gameLayer->getGameObjects())
                 {
-                    if (gameObject->isEnabled)
-                    {
-                        Renderer::Submit(gameObject);
-                    }
+                    if (gameObject->isEnabled) { Renderer::Submit(gameObject); }
                 }
 
                 Renderer::EndScene();
