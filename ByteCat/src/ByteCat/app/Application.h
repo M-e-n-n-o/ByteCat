@@ -4,6 +4,7 @@
 #include "byteCat/input/events/Event.h"
 #include "byteCat/app/Window.h"
 #include "byteCat/app/Layer.h"
+#include "byteCat/entity-system/GameLayer.h"
 #include "byteCat/imgui/ImGuiLayer.h"
 #include "byteCat/input/events/ApplicationEvent.h"
 
@@ -20,8 +21,11 @@ namespace BC
 	private:
 		static Application* instance;
 
+		static inline double delta;
+		
 		LayerStack layerStack;
 		ImGuiLayer* imGuiLayer;
+		GameLayer* gameLayer;
 
 		std::unique_ptr<Window> window;
 		bool isRunning;
@@ -37,10 +41,12 @@ namespace BC
 		void pushLayer(Layer* layer);
 		// Call this function to push a new overlay to the LayerStack
 		void pushOverlay(Layer* overlay);
-		
+
 		Window& getWindow() const { return *window; }
 		static Application& GetInstance() { return *instance; }
 
+		static double GetDelta() { return delta; }
+	
 	private:
 		void start();
 		void run();

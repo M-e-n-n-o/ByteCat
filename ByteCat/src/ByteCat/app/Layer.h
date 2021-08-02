@@ -1,6 +1,5 @@
 #pragma once
 
-#include "byteCat/Core.h"
 #include "byteCat/input/events/Event.h"
 
 namespace BC
@@ -14,6 +13,8 @@ namespace BC
 	{
 	private:
 		std::string name;
+
+	public:
 		bool enabled = true;
 	
 	public:
@@ -26,13 +27,13 @@ namespace BC
 		virtual void onDetach() {}
 		// Gets called every game loop before the rendering
 		virtual void onUpdate() {}
+		// Gets called right before the rendering takes place
+		virtual void onRender() {}
 		// Gets called every game loop after rendering the main game. Use this to render imGui windows
 		virtual void onImGuiRender() {}
 		// Gets called every time an event occurs in the application
 		virtual void onEvent(Event& event) {}
 
-		void enable(bool enabled) { this->enabled = enabled; }
-		bool isEnabled() const { return enabled; }
 		std::string getName() const { return name; }
 	};
 }

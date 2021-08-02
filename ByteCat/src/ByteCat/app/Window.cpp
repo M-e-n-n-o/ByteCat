@@ -129,10 +129,29 @@ namespace BC
 		});
 	}
 
-	void Window::update() const
-	{
+	double Window::update() const
+	{	
 		glfwSwapBuffers(nativeWindow);
 		glfwPollEvents();
+
+		const double currentTime = glfwGetTime();
+		static double lastFrameTime = 0;
+		const double deltaTime = (currentTime - lastFrameTime);
+		lastFrameTime = currentTime;
+
+		// Calculate and print fps
+		static long lastFps = 0;
+		static long fps = 0;
+		if (glfwGetTime() - lastFps > printFpsAfterSec)
+		{
+			LOG_INFO("Fps {0}", fps / printFpsAfterSec);
+			fps = 0;
+			lastFps += printFpsAfterSec;
+		}
+
+		fps++;
+		
+		return deltaTime;
 	}
 
 	void Window::shutdown() const

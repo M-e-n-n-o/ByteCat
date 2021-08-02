@@ -64,7 +64,7 @@ namespace BC
 		EventDispatcher(Event& event): event(event){}
 
 		// F will be deduced by the compiler
-		template<typename T, typename F>
+		template<class T, typename F>
 		bool dispatch(const F& func)
 		{
 			if (event.getEventType() == T::getStaticType())

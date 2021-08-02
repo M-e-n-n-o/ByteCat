@@ -24,24 +24,24 @@ namespace BC
 		overlay->onAttach();
 	}
 
-	void LayerStack::popLayer(Layer* layer)
-	{
-		layer->onDetach();
-		auto it = std::find(layers.begin(), layers.end(), layer);
-		if (it != layers.end())
-		{
-			layers.erase(it);
-			layerInsertIndex--;
-		}
-	}
-
-	void LayerStack::popOverlay(Layer* overlay)
-	{
-		overlay->onDetach();
-		auto it = std::find(layers.begin(), layers.end(), overlay);
-		if (it != layers.end())
-		{
-			layers.erase(it);
-		}
-	}
+	// void LayerStack::popLayer(Layer* layer)
+	// {
+	// 	auto it = std::find(layers.begin(), layers.end(), layer);
+	// 	if (it != layers.end())
+	// 	{
+	// 		layer->onDetach();
+	// 		layers.erase(it);
+	// 		layerInsertIndex--;
+	// 	}
+	// }
+	//
+	// void LayerStack::popOverlay(Layer* overlay)
+	// {
+	// 	auto it = std::find(layers.begin(), layers.end(), overlay);
+	// 	if (it != layers.end())
+	// 	{
+	// 		overlay->onDetach();
+	// 		layers.erase(it);
+	// 	}
+	// }
 }

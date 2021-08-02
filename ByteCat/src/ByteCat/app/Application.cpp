@@ -1,12 +1,11 @@
 #include "bcpch.h"
 #include "byteCat/app/Application.h"
 
-#include "byteCat/utils/Math.h"
-#include "byteCat/render/models/Texture.h"
-#include "byteCat/render/shaders/Shader.h"
-#include "byteCat/render/vertex-object/Buffer.h"
-#include "byteCat/render/vertex-object/VertexArray.h"
+#include "byteCat/entity-system/Material.h"
+#include "byteCat/entity-system/Mesh.h"
+#include "byteCat/entity-system/cameras/PerspectiveCamera.h"
 #include "byteCat/render/Renderer.h"
+
 
 namespace BC
 {	
@@ -19,10 +18,13 @@ namespace BC
 		
         LOG_INFO("ByteCat engine is starting...");
 		
-        WindowSetting setting = { "ByteCat Engine", 1280, 720, true };
+        WindowSetting setting = { "ByteCat Engine", 1280, 720, false };
         window = Window::Create(setting);
         window->setEventListener(this);
 
+        gameLayer = new GameLayer();
+        pushLayer(gameLayer);
+		
         imGuiLayer = new ImGuiLayer();
         pushOverlay(imGuiLayer);
 
@@ -49,77 +51,51 @@ namespace BC
 	
 	void Application::run()
 	{	
-        float vertices[] =
-        {
-		  -0.5f, 0.5f, 0,
-		  -0.5f, -0.5f, 0,
-		  0.5f, -0.5f, 0,
-		  0.5f, 0.5f, 0
-        };
-   
-        unsigned int indices[] =
-        {
-            0,1,3,
-			3,1,2
-        };
-   
-        float textureCoords[] =
-        {
-        	0, 0,
-        	0, 1,
-        	1, 1,
-        	1, 0
-        };
-
-        std::shared_ptr<Shader> shader = Shader::Create(ByteCatShader::Standard);
-		
-        std::shared_ptr<Texture2D> texture = Texture2D::Create("blokje.png");
-        shader->setTexture(texture);
-		
-        std::shared_ptr<VertexArray> vao = VertexArray::Create();
-		
-        std::shared_ptr<VertexBuffer> vertexBuffer = VertexBuffer::Create(vertices, sizeof(vertices));
-        vertexBuffer->setBufferType({ ShaderDataType::Float3 });
-        vao->addVertexBuffer(vertexBuffer);
-
-        std::shared_ptr<VertexBuffer> textureBuffer = VertexBuffer::Create(textureCoords, sizeof(textureCoords));
-        textureBuffer->setBufferType({ ShaderDataType::Float2 });
-        vao->addVertexBuffer(textureBuffer);
-
-        std::shared_ptr<IndexBuffer> indexBuffer = IndexBuffer::Create(indices, sizeof(indices) / sizeof(unsigned int));
-        vao->setIndexBuffer(indexBuffer);
-
 		while (isRunning)
 		{
-            window->update();
+            delta = window->update();
 			
             if (isMinimized) { continue; }
-			
-			
-			// Updating
-            for (Layer* layer : layerStack)
-            {
-                if (layer->isEnabled()) { layer->onUpdate(); }
-            }
+		 	
+		 	// Updating
+	        for (Layer* layer : layerStack)
+	        {
+				if (layer->enabled) { layer->onUpdate(); }
+	        }
 
 			
             // Rendering
-            Renderer::BeginScene();
-			
-            Renderer::Submit(shader, vao, Utils::CreateModelMatrix(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)));
-			
-            Renderer::EndScene();
-			
-			
-			// ImGui Rendering
-            if (imGuiLayer->isEnabled())
+            if (std::shared_ptr<GameObject> camera = gameLayer->GetCamera())
+            {
+                Renderer::BeginScene(camera->getComponent<Camera>()->getViewMatrix(), camera->getComponent<Camera>()->getProjectionMatrix());
+
+            	// OnRender
+                for (Layer* layer : layerStack)
+                {
+                    if (layer->enabled) { layer->onRender(); }
+                }
+            	
+                for (std::shared_ptr<GameObject>& gameObject : gameLayer->getGameObjects())
+                {
+                    if (gameObject->isEnabled) { Renderer::Submit(gameObject); }
+                }
+
+                Renderer::EndScene();
+            } else
+            {
+                LOG_WARN("No camera has been set");
+            }
+		 	
+		 	
+		 	// ImGui Rendering
+            if (imGuiLayer->enabled)
             {
                 imGuiLayer->begin();
                 for (Layer* layer : layerStack)
-                {
-                    if (layer->isEnabled()) { layer->onImGuiRender(); }
+				{
+					if (layer->enabled) { layer->onImGuiRender(); }
                 }
-                imGuiLayer->end();
+				imGuiLayer->end();
             }
 		}
 	}
@@ -134,7 +110,7 @@ namespace BC
         {
             --it;
         	
-            if ((*it)->isEnabled())
+            if ((*it)->enabled)
             {
                 (*it)->onEvent(event);
                 if (event.handled)
@@ -163,8 +139,9 @@ namespace BC
 
         window->resize(event.getWidth(), event.getHeight());
         Renderer::OnWindowResize(event.getWidth(), event.getHeight());
+        gameLayer->onWindowResize(event.getWidth(), event.getHeight());
 
-        return false;
+        return true;
     }
 
     void Application::pushLayer(Layer* layer)

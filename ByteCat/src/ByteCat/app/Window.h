@@ -27,13 +27,15 @@ namespace BC
 	private:
 		EventListener* listener;
 		WindowSetting setting;
+
+		const int printFpsAfterSec = 5;
 	
 	public:
 		Window(WindowSetting& windowSetting);
 		~Window() { shutdown(); }
 
-		// Swap the buffers and poll the events
-		void update() const;
+		// Swap the buffers, poll the events and update delta
+		double update() const;
 		// Shutdown the window
 		void shutdown() const;
 

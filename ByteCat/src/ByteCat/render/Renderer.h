@@ -2,9 +2,12 @@
 
 #include <memory>
 #include <vector>
+
+#include "byteCat/render/RenderSettings.h"
 #include "glm/mat4x4.hpp"
 #include "byteCat/render/shaders/Shader.h"
 #include "byteCat/render/vertex-object/VertexArray.h"
+#include "byteCat/entity-system/GameObject.h"
 
 namespace BC
 {
@@ -15,18 +18,6 @@ namespace BC
 		glm::mat4 projectionMatrix;
 	};
 
-	// This struct represents a VertexArray with a transformation and shader to render itself with.
-	struct Entity
-	{
-		const std::shared_ptr<Shader> shader;
-		const std::shared_ptr<VertexArray> vao;
-		const glm::mat4 modelMatrix;
-		
-		bool operator==(const Entity& other) const
-		{
-			return vao->getId() == other.vao->getId();
-		}
-	};
 
 	/*
 	 * Class Renderer:
@@ -37,32 +28,43 @@ namespace BC
 	private:
 		static const int ALLOCATE_PER_RESIZE = 20;
 		static inline int drawCalls = 0;
+		static inline int renderedEntities = 0;
 		
 		static inline glm::vec4 CLEAR_COLOR = { 0.5f, 0.5f, 0.5f, 1.0f };
 		
-		static std::unique_ptr<SceneData> sceneData;
-		static inline std::vector<Entity> entities;
+		static inline std::unique_ptr<SceneData> sceneData;
+
+		static inline std::vector<std::shared_ptr<GameObject>> gameObjects;
 
 	public:
 		static void Init();
 		static void Shutdown();
 
+		// Sets the render mode to the chosen render mode
+		static void SetRenderMode(RenderMode const& mode);
+
+		// Sets the render culling to the chosen culling mode
+		static void SetCullingMode(RenderCulling const& mode);
+		
 		// Call this function to change the size of the window
 		static void OnWindowResize(unsigned int width, unsigned int height);
 
 		// Call this function before submitting entity's to the renderer
-		static void BeginScene();
+		static void BeginScene(const glm::mat4& viewMatrix, const glm::mat4& projectionMatrix);
+		
 		// This function renders all the submitted entity's in a efficient way
 		static void EndScene();
 
-		// Call this function to submit an entity to render on the window
-		static void Submit(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& vao, const glm::mat4& modelMatrix = glm::mat4(1.0f));
+		// Call this function to submit a GameObject to render on the window
+		static void Submit(std::shared_ptr<GameObject>& gameObject);
 
 		static void SetClearColor(glm::vec4& color) { CLEAR_COLOR = color; }
 
 		static int GetNumberOfDrawCalls() { return drawCalls; }
+
+		static int GetNumberRenderedEntities() { return renderedEntities; }
 	
 	private:
-		static void Render(const std::shared_ptr<VertexArray>& vao);
+		static void Render(const VertexArray* vao);
 	};
 }

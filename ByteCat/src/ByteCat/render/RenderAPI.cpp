@@ -39,7 +39,29 @@ namespace BC
 			glEnable(GL_BLEND);
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+			glEnable(GL_CULL_FACE);
+			glCullFace(GL_BACK);
+			
 			glEnable(GL_DEPTH_TEST);
+		}
+
+		void SetRenderMode(RenderMode const& mode)
+		{			
+			switch (mode)
+			{
+			case RenderMode::Filled: glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); break;
+			case RenderMode::Wireframe: glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); break;
+			}
+		}
+
+		void SetRenderCulling(RenderCulling const& mode)
+		{
+			switch (mode)
+			{
+			case RenderCulling::None: glDisable(GL_CULL_FACE); break;
+			case RenderCulling::Back: glEnable(GL_CULL_FACE); glCullFace(GL_BACK); break;
+			case RenderCulling::Front: glEnable(GL_CULL_FACE); glCullFace(GL_FRONT); break;
+			}
 		}
 
 		void SetViewport(unsigned x, unsigned y, unsigned width, unsigned height)
@@ -57,7 +79,7 @@ namespace BC
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		}
 
-		void Draw(const std::shared_ptr<VertexArray>& vao, unsigned indexCount)
+		void Draw(const VertexArray* vao, unsigned indexCount)
 		{
 			unsigned int count = indexCount ? indexCount : vao->getIndexBuffer()->getCount();
 			glDrawElements(GL_TRIANGLES, vao->getIndexBuffer()->getCount(), GL_UNSIGNED_INT, 0);

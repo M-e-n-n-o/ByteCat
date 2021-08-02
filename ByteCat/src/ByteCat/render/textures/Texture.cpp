@@ -1,11 +1,11 @@
 #include "bcpch.h"
 #include <GL/glew.h>
-#include "byteCat/render/models/Texture.h"
+#include "byteCat/render/textures/Texture.h"
 #include "byteCat/utils/stb_image.h"
 
 namespace BC
 {
-	Texture2D::Texture2D(std::string& filePath)
+	Texture2D::Texture2D(std::string& filePath, float mipmapLOD)
 	{
 		filePath.insert(0, "res/");
 
@@ -23,7 +23,12 @@ namespace BC
 		glEnable(GL_TEXTURE_2D);
 		glBindTexture(GL_TEXTURE_2D, textureID);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, imgData);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+		// Set mipmapping
+		glGenerateMipmap(GL_TEXTURE_2D);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_LOD_BIAS, mipmapLOD);
+		
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glBindTexture(GL_TEXTURE_2D, 0);
 

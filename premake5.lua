@@ -1,4 +1,4 @@
-include "dependencyList.lua"
+include "dependencies.lua"
 
 workspace "ByteCat"
 	architecture "x64"
