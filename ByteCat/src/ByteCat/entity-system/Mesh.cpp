@@ -11,6 +11,11 @@ namespace BC
 		vao = VertexArray::Create();
 	}
 
+	Mesh::Mesh(std::shared_ptr<VertexArray>& vao)
+	{
+		this->vao = vao;
+	}
+
 	Mesh::Mesh(std::string const& fileName)
 	{
 		std::vector<float> vertices;

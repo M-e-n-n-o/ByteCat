@@ -28,6 +28,7 @@ namespace BC
 	private:
 		static const int ALLOCATE_PER_RESIZE = 20;
 		static inline int drawCalls = 0;
+		static inline int renderedEntities = 0;
 		
 		static inline glm::vec4 CLEAR_COLOR = { 0.5f, 0.5f, 0.5f, 1.0f };
 		
@@ -60,6 +61,8 @@ namespace BC
 		static void SetClearColor(glm::vec4& color) { CLEAR_COLOR = color; }
 
 		static int GetNumberOfDrawCalls() { return drawCalls; }
+
+		static int GetNumberRenderedEntities() { return renderedEntities; }
 	
 	private:
 		static void Render(const VertexArray* vao);

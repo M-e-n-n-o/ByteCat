@@ -44,14 +44,15 @@ namespace BC
 		sceneData->projectionMatrix = projectionMatrix;
 		
 		drawCalls = 0;
+		renderedEntities = 0;
 		RenderAPI::Clear();
 		RenderAPI::ClearColor(CLEAR_COLOR);
 	}
 
 	void Renderer::EndScene()
-	{
-		// Sort the entities by their shader
-		std::map<std::shared_ptr<Shader>, std::map<VertexArray*, RenderComponent*>> sortedEntities;
+	{		
+		// Sort the entities by their shader and vao
+		std::map<std::shared_ptr<Shader>, std::map<VertexArray*, std::vector<RenderComponent*>>> sortedEntities;
 		for (std::shared_ptr<GameObject>& gameObject : gameObjects)
 		{
 			auto renderComp = gameObject->getComponent<RenderComponent>();
@@ -75,39 +76,66 @@ namespace BC
 			}
 
 			std::shared_ptr<Shader> shader = mat->getShader();
+			VertexArray* vao = mesh->getVao().get();
 
 			// Insert an entity which can be rendered into the sorted entities map
-			auto it = sortedEntities.find(shader);
-			if (it == sortedEntities.end())
+			auto shaderIterator = sortedEntities.find(shader);
+			if (shaderIterator == sortedEntities.end())
 			{
-				std::map<VertexArray*, RenderComponent*> vaos;
-				vaos.insert(std::pair<VertexArray*, RenderComponent*>(mesh->getVao().get(), renderComp));
-				sortedEntities.insert(std::pair<std::shared_ptr<Shader>, std::map<VertexArray*, RenderComponent*>>(shader, vaos));
+				// Not existing shader, not existing vao
+				std::vector<RenderComponent*> renderComps;
+				renderComps.push_back(renderComp);
+				std::map<VertexArray*, std::vector<RenderComponent*>> vaoMap;
+				vaoMap.insert({ vao, renderComps });
+				sortedEntities.insert({ shader,  vaoMap});
+				
 			} else
-			{
-				it->second.insert(std::pair<VertexArray*, RenderComponent*>(mesh->getVao().get(), renderComp));
+			{				
+				auto vertexIterator = shaderIterator->second.find(vao);
+				if (vertexIterator == shaderIterator->second.end())
+				{
+					// Existing shader, not existing vao
+					std::vector<RenderComponent*> renderComps;
+					renderComps.push_back(renderComp);
+					shaderIterator->second.insert({ vao, renderComps });
+				} else
+				{
+					// Existing shader, existing vao
+					vertexIterator->second.push_back(renderComp);
+				}
 			}		
 		}
 
 		// Render the sorted entities
 		for (const auto& shaderPair : sortedEntities)
 		{
+			// Bind the shader
 			shaderPair.first->bind();
 
 			// Load the standard projection- and viewMatrix into the shader
 			shaderPair.first->loadMatrix4("projectionMatrix", sceneData->projectionMatrix);
 			shaderPair.first->loadMatrix4("viewMatrix", sceneData->viewMatrix);
-			
-			for (const auto& renderPair : shaderPair.second)
+
+			for (const auto& vaoPair : shaderPair.second)
 			{
-				// Render the entity
-				renderPair.second->prepareRender(sceneData->viewMatrix, sceneData->projectionMatrix);
-				renderPair.first->bind();
-				Render(renderPair.first);
-				renderPair.first->unbind();
-				renderPair.second->finishRender();
+				// Bind the vao
+				vaoPair.first->bind();
+
+				for (const auto& renderComp : vaoPair.second)
+				{
+					// Render the entity
+					renderComp->prepareRender(sceneData->viewMatrix, sceneData->projectionMatrix);
+					Render(vaoPair.first);
+					renderComp->finishRender();
+
+					++renderedEntities;
+				}
+
+				// Unbind the vao
+				vaoPair.first->unbind();
 			}
 
+			// Unbind the shader
 			shaderPair.first->unbind();
 		}
 		
