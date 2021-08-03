@@ -37,9 +37,27 @@ namespace BC
 		const std::vector<std::shared_ptr<VertexBuffer>>& getVertexBuffers() const { return vertexBuffers; }
 		const std::shared_ptr<IndexBuffer>& getIndexBuffer() const { return indexBuffer; }
 
+		bool operator<(const VertexArray& other) const
+		{
+			return id < other.id;
+		}
+		
 		static std::shared_ptr<VertexArray> Create()
 		{
 			return std::make_shared<VertexArray>();
+		}
+	};
+}
+
+
+namespace std
+{
+	template<>
+	struct less<BC::VertexArray*>
+	{
+		volatile bool operator() (const BC::VertexArray* lhs, const BC::VertexArray* rhs) const
+		{
+			return *lhs < *rhs;
 		}
 	};
 }

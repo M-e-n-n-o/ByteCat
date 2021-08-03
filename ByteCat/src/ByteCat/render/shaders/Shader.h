@@ -18,7 +18,6 @@ namespace BC
 		int vertexShaderID;
 		int fragmentShaderID;
 
-		bool hasTextures;
 		std::map<unsigned int, std::shared_ptr<Texture>> textures;
 
 		mutable std::unordered_map<std::string, int> uniformLocationCache;
@@ -45,20 +44,33 @@ namespace BC
 		// This function gets called when a VAO, which uses this shader, gets rendered
 		void bindTextures() const;
 
+		bool operator<(const Shader& other) const
+		{
+			return programID < other.programID;
+		}
+		
 		// Use this function to create a custom shader
 		static std::shared_ptr<Shader> Create(std::string& vertexShader, std::string& fragmentShader)
 		{
 			return std::make_shared<Shader>(vertexShader, fragmentShader);
-		}
-
-		bool operator==(const Shader& other)
-		{
-			return programID == other.programID;
 		}
 	
 	private:
 		int getUniformLocation(std::string& uniformName) const;
 
 		int loadShader(const std::string& shader, int type) const;
+	};
+}
+
+
+namespace std
+{
+	template<>
+	struct less<shared_ptr<BC::Shader>>
+	{
+		volatile bool operator() (const shared_ptr<BC::Shader>& lhs, const shared_ptr<BC::Shader>& rhs) const
+		{
+			return *lhs < *rhs;
+		}
 	};
 }

@@ -6,9 +6,7 @@
 namespace BC
 {	
 	Shader::Shader(const std::string& vertexShader, const std::string& fragmentShader)
-	{
-		hasTextures = (fragmentShader.find("sampler") != std::string::npos);
-		
+	{	
 		vertexShaderID = loadShader(vertexShader, GL_VERTEX_SHADER);
 		fragmentShaderID = loadShader(fragmentShader, GL_FRAGMENT_SHADER);
 

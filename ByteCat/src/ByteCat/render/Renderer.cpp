@@ -90,7 +90,7 @@ namespace BC
 				sortedEntities.insert({ shader,  vaoMap});
 				
 			} else
-			{				
+			{
 				auto vertexIterator = shaderIterator->second.find(vao);
 				if (vertexIterator == shaderIterator->second.end())
 				{
@@ -111,7 +111,7 @@ namespace BC
 		{
 			// Bind the shader
 			shaderPair.first->bind();
-
+			
 			// Load the standard projection- and viewMatrix into the shader
 			shaderPair.first->loadMatrix4("projectionMatrix", sceneData->projectionMatrix);
 			shaderPair.first->loadMatrix4("viewMatrix", sceneData->viewMatrix);
@@ -120,7 +120,7 @@ namespace BC
 			{
 				// Bind the vao
 				vaoPair.first->bind();
-
+				
 				for (const auto& renderComp : vaoPair.second)
 				{
 					// Render the entity
