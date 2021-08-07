@@ -56,7 +56,7 @@ namespace BC
             delta = window->update();
 			
             if (isMinimized) { continue; }
-		 	
+			
 		 	// Updating
 	        for (Layer* layer : layerStack)
 	        {

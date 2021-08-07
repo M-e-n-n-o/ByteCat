@@ -20,29 +20,36 @@ public:
 		std::shared_ptr<Texture2D> texture = Texture2D::Create("TreeTexture.png");
 		shader->setTexture(texture);
 
-		std::vector<float> vertices;
-		std::vector<unsigned int> indices;
-		std::vector<float> normals;
-		std::vector<float> textureCoords;
-		ModelLoader::LoadModel("Tree.obj", vertices, indices, normals, textureCoords);
+
+		// Dit moet straks maar 1 keer gebeuren als je bijvoorbeeld 10x zegt dat ik het Tree.obj model wil gebruiken als de mesh.
+		// 
+		// Hiervoor moet dus een soort van object storage komen waar alle vao's en model data worden opgeslagen. Wel moet het een mogelijkheid
+		// zijn om een nieuwe vao te maken voor een model wat al eerder is gemaakt zodat er een mogelijkheid blijft om de data van het
+		// model aan te passen zonder dat de rest ook aangepast wordt.
+			std::vector<float> vertices;
+			std::vector<unsigned int> indices;
+			std::vector<float> normals;
+			std::vector<float> textureCoords;
+			ModelLoader::LoadModel("Tree.obj", vertices, indices, normals, textureCoords);
 
 
-		auto vao = VertexArray::Create();
+			auto vao = VertexArray::Create();
 
-		std::shared_ptr<VertexBuffer> vertexBuffer = VertexBuffer::Create(vertices.data(), (unsigned)(sizeof(float) * vertices.size()));
-		vertexBuffer->setBufferType({ ShaderDataType::Float3 });
-		vao->addVertexBuffer(vertexBuffer);
+			std::shared_ptr<VertexBuffer> vertexBuffer = VertexBuffer::Create(vertices.data(), (unsigned)(sizeof(float) * vertices.size()));
+			vertexBuffer->setBufferType({ ShaderDataType::Float3 });
+			vao->addVertexBuffer(vertexBuffer);
 
-		std::shared_ptr<VertexBuffer> textureBuffer = VertexBuffer::Create(textureCoords.data(), (unsigned)(sizeof(float) * textureCoords.size()));
-		textureBuffer->setBufferType({ ShaderDataType::Float2 });
-		vao->addVertexBuffer(textureBuffer);
+			std::shared_ptr<VertexBuffer> textureBuffer = VertexBuffer::Create(textureCoords.data(), (unsigned)(sizeof(float) * textureCoords.size()));
+			textureBuffer->setBufferType({ ShaderDataType::Float2 });
+			vao->addVertexBuffer(textureBuffer);
 
-		std::shared_ptr<IndexBuffer> indexBuffer = IndexBuffer::Create(indices.data(), (unsigned)indices.size());
-		vao->setIndexBuffer(indexBuffer);
+			std::shared_ptr<IndexBuffer> indexBuffer = IndexBuffer::Create(indices.data(), (unsigned)indices.size());
+			vao->setIndexBuffer(indexBuffer);
+		//
 		
 
 		
-		for (int i = -20; i < 20; i += 5)
+		for (int i = -100; i < 100; i += 1)
 		{
 			object = GameLayer::CreateGameObject("Tree", Transform({ i, -5, -100 }, { 0, 0, 0 }, { 0.5, 0.5, 0.5 }));
 			object->addComponent(new Mesh(vao));
