@@ -17,14 +17,12 @@ namespace BC
 	public:
 		Mesh();
 		Mesh(std::shared_ptr<VertexArray>& vao);
-		Mesh(std::string const& fileName);
+		Mesh(std::string const& fileName, bool useStaticModel = true);
 		Mesh(std::vector<float>& vertices, std::vector<unsigned int>& indices);
 		Mesh(std::vector<float>& vertices, std::vector<unsigned int>& indices, std::vector<float>& textureCoords);
+		Mesh(std::vector<float>& vertices, std::vector<unsigned int>& indices, std::vector<float>& textureCoords, std::vector<float>& normals);
 		
 		std::shared_ptr<VertexArray>& getVao() { return vao; }
-
-	private:
-		void init(std::vector<float>& vertices, std::vector<unsigned int>& indices, std::vector<float>& textureCoords);
 	};
 
 

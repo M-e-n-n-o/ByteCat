@@ -8,6 +8,7 @@
 
 #include "byteCat/app/Application.h"
 #include "byteCat/app/Layer.h"
+
 #include "byteCat/Log.h"
 
 #include "byteCat/input/events/Event.h"
@@ -34,6 +35,7 @@
 #include "byteCat/entity-system/Material.h"
 #include "byteCat/entity-system/cameras/OrthographicCamera.h"
 #include "byteCat/entity-system/cameras/PerspectiveCamera.h"
+#include "byteCat/entity-system/ModelStorage.h"
 
 // --Start of the engine--
 #include "byteCat/EntryPoint.h"
