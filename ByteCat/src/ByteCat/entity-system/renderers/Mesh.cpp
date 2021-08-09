@@ -1,5 +1,5 @@
 #include "bcpch.h"
-#include "byteCat/entity-system/Mesh.h"
+#include "byteCat/entity-system/renderers/Mesh.h"
 #include "byteCat/entity-system/Material.h"
 #include "byteCat/render/Renderer.h"
 #include "byteCat/entity-system/ModelStorage.h"
@@ -7,7 +7,7 @@
 
 namespace BC
 {
-	Mesh::Mesh(): ObjectComponent()
+	Mesh::Mesh()
 	{
 		vao = VertexArray::Create();
 	}
@@ -22,7 +22,7 @@ namespace BC
 		this->vao = ModelStorage::GetModel(fileName, useStaticModel);
 	}
 
-	Mesh::Mesh(std::vector<float>& vertices, std::vector<unsigned int>& indices) : ObjectComponent()
+	Mesh::Mesh(std::vector<float>& vertices, std::vector<unsigned int>& indices)
 	{
 		vao = VertexArray::Create();
 
@@ -72,19 +72,14 @@ namespace BC
 
 
 	// ------------------------------------------------------------------------------------------------------------
-	// ------------------------------------- Mesh Renderer --------------------------------------------------------
+	// ------------------------------------ Rendering stuff -------------------------------------------------------
 
 
-	void MeshRenderer::prepareRender(glm::mat4& viewMatrix, glm::mat4& projectionMatrix)
+	void Mesh::prepareRender(glm::mat4& viewMatrix, glm::mat4& projectionMatrix)
 	{	
 		std::shared_ptr<Shader> shader = gameObject->getComponent<Material>()->getShader();
 		
 		shader->loadMatrix4("modelMatrix", gameObject->getModelMatrix());
 		shader->bindTextures();
-	}
-
-	void MeshRenderer::finishRender()
-	{
-
 	}
 }

@@ -1,7 +1,6 @@
 #include "bcpch.h"
 #include <typeindex>
 #include "byteCat/entity-system/GameObject.h"
-#include "byteCat/entity-system/Material.h"
 #include "byteCat/utils/Math.h"
 
 namespace BC

@@ -9,7 +9,7 @@ namespace BC
 	 * Class Mesh:
 	 *		This class can be added to a GameObject to give it a 2D/3D object
 	 */
-	class Mesh: public ObjectComponent
+	class Mesh: public RenderComponent
 	{
 	private:
 		std::shared_ptr<VertexArray> vao;
@@ -21,19 +21,9 @@ namespace BC
 		Mesh(std::vector<float>& vertices, std::vector<unsigned int>& indices);
 		Mesh(std::vector<float>& vertices, std::vector<unsigned int>& indices, std::vector<float>& textureCoords);
 		Mesh(std::vector<float>& vertices, std::vector<unsigned int>& indices, std::vector<float>& textureCoords, std::vector<float>& normals);
-		
-		std::shared_ptr<VertexArray>& getVao() { return vao; }
-	};
 
-
-	/*
-	 * Class MeshRenderer:
-	 *		This class renders the Mesh.
-	 */
-	class MeshRenderer: public RenderComponent
-	{
 		void prepareRender(glm::mat4& viewMatrix, glm::mat4& projectionMatrix) override;
 		
-		void finishRender() override;
+		std::shared_ptr<VertexArray>& getVao() override { return vao; }
 	};
 }

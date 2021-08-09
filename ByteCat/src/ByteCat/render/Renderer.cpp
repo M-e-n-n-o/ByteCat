@@ -2,7 +2,7 @@
 #include "byteCat/render/Renderer.h"
 
 #include "byteCat/entity-system/Material.h"
-#include "byteCat/entity-system/Mesh.h"
+#include "byteCat/entity-system/renderers/Mesh.h"
 #include "byteCat/render/RenderAPI.h"
 #include "byteCat/utils/Math.h"
 
@@ -68,15 +68,8 @@ namespace BC
 				continue;
 			}
 
-			auto mesh = gameObject->getComponent<Mesh>();
-			if (mesh == nullptr)
-			{
-				LOG_ERROR("{0} cannot be rendered because it does not have a mesh", gameObject->name);
-				continue;
-			}
-
 			std::shared_ptr<Shader> shader = mat->getShader();
-			VertexArray* vao = mesh->getVao().get();
+			VertexArray* vao = renderComp->getVao().get();
 
 			// Insert an entity which can be rendered into the sorted entities map
 			auto vertexIterator = sortedEntities.find(vao);
