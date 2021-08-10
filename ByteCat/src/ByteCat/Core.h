@@ -15,7 +15,6 @@
 	#else
 		#define BC_CLIENT_ACCESS
 	#endif
-	#error ByteCat does not support Linux right now :(
 #else
 	#define BC_PLATFORM_NONE
 	#error ByteCat does not support your platform right now :(
