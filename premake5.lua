@@ -15,7 +15,6 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 -- Dependencies
 include "ByteCat/vendor/GLFW"
-include "ByteCat/vendor/glm"
 include "ByteCat/vendor/imgui"
 
 -- ByteCat projects
