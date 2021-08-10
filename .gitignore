@@ -4,6 +4,7 @@ bin-int/
 
 # Files
 *.user
+*.bat
 
 # Visual studio files and folders
 .vs/

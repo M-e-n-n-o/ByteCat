@@ -37,7 +37,9 @@ namespace BC
 			}
 
 			LOG_ERROR("ByteCat shadertype \"{0}\" not found", shaderType);
-			return Shader::Create(std::string("ERROR"), std::string("ERROR"));
+			
+			std::string errorString = "ERROR";
+			return Shader::Create(errorString, errorString);
 		}
 	}
 }
