@@ -10,7 +10,6 @@
 	#endif
 #elif BC_PLATFORM_LINUX
 	#ifdef BC_CORE
-		#define  __attribute__((visibility("default")))
 		#define BC_CORE_ACCESS
 	#else
 		#define BC_CLIENT_ACCESS
