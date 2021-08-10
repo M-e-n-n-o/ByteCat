@@ -14,6 +14,10 @@ project "ByteCat"
 	{
 		"src/**.h",
 		"src/**.cpp",
+		"vendor/stb_image/**.h",
+		"vendor/stb_image/**.cpp",
+		"vendor/glm/glm/**.hpp",
+		"vendor/glm/glm/**.inl"
 	}
 
 	defines
@@ -26,24 +30,19 @@ project "ByteCat"
 	{
 		"src",
 		"vendor/spdlog/include",
-		"%{Libs.GLEW}/include",
+		"%{Libs.GLAD}/include",
 		"%{Libs.GLFW}/include",
 		"%{Libs.ImGui}",
-		"%{Libs.GLM}"
+		"%{Libs.GLM}",
+		"%{Libs.StbImage}"
 	}
 
 	links
 	{
-		"glew32",
+		"Glad",
 		"GLFW",
 		"ImGui",
-		"GLM",
 		"opengl32.lib"
-	}
-
-	libdirs
-	{
-		"%{Libs.GLEW}/x64/lib"
 	}
 
 	filter "system:windows"
@@ -54,22 +53,12 @@ project "ByteCat"
 			"BC_PLATFORM_WINDOWS"
 		}
 
-		prebuildcommands
-		{
-			("{COPY} vendor/glew-2.0.0/x64/glew32.dll ../bin/" .. outputdir .. "/Sandbox")
-		}
-
 	filter "system:linux"
 		systemversion "latest"
 
 		defines
 		{
 			"BC_PLATFORM_LINUX"
-		}
-
-		prebuildcommands
-		{
-			("{COPY} vendor/glew-2.0.0/x64/glew32.dll ../bin/" .. outputdir .. "/Sandbox")
 		}
 
 	filter "configurations:Debug"

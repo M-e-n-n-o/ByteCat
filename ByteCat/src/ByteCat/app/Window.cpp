@@ -1,5 +1,5 @@
 #include "bcpch.h"
-#include <GL/glew.h>
+#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include "byteCat/app/Window.h"
 #include "byteCat/app/Application.h"
@@ -19,7 +19,8 @@ namespace BC
 
 		if (!glfwInit())
 		{
-			return;
+			LOG_CRITICAL("Could not initialize GLFW");
+			std::exit(-1);
 		}
 
 		nativeWindow = glfwCreateWindow(setting.width, setting.height, setting.title.c_str(), NULL, NULL);
@@ -27,15 +28,14 @@ namespace BC
 		{
 			LOG_CRITICAL("Failed to create a window with OpenGL context");
 			glfwTerminate();
-			return;
+			std::exit(-1);
 		}
 
 		glfwMakeContextCurrent(nativeWindow);
-		
-		const int error = glewInit();
-		if (error)
+
+		if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress))
 		{
-			LOG_CRITICAL("Failed to initialize glew");
+			LOG_CRITICAL("Failed to initialize glad");
 			std::exit(-1);
 		}
 
@@ -44,7 +44,7 @@ namespace BC
 		LOG_INFO("   Renderer: {0}", glGetString(GL_RENDERER));
 		LOG_INFO("   Version:  {0}", glGetString(GL_VERSION));
 
-		if (!GLEW_VERSION_4_5)
+		if (GLVersion.major < 4 || (GLVersion.major == 4 && GLVersion.minor < 5))
 		{
 			LOG_CRITICAL("ByteCat requires at least OpenGL version 4.5");
 			std::exit(-1);

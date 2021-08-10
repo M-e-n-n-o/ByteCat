@@ -1,14 +1,12 @@
 #include "bcpch.h"
-#include <GL/glew.h>
+#include <glad/glad.h>
 #include <glm/gtc/type_ptr.hpp>
 #include "byteCat/render/shaders/Shader.h"
 
 namespace BC
 {	
 	Shader::Shader(const std::string& vertexShader, const std::string& fragmentShader)
-	{
-		hasTextures = (fragmentShader.find("sampler") != std::string::npos);
-		
+	{	
 		vertexShaderID = loadShader(vertexShader, GL_VERTEX_SHADER);
 		fragmentShaderID = loadShader(fragmentShader, GL_FRAGMENT_SHADER);
 

@@ -1,5 +1,5 @@
 #include "bcpch.h"
-#include <GL/glew.h>
+#include <glad/glad.h>
 #include "byteCat/render/vertex-object/VertexArray.h"
 
 namespace BC

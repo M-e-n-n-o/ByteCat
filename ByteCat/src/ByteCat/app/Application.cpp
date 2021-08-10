@@ -2,7 +2,7 @@
 #include "byteCat/app/Application.h"
 
 #include "byteCat/entity-system/Material.h"
-#include "byteCat/entity-system/Mesh.h"
+#include "byteCat/entity-system/renderers/Mesh.h"
 #include "byteCat/entity-system/cameras/PerspectiveCamera.h"
 #include "byteCat/render/Renderer.h"
 
@@ -56,7 +56,7 @@ namespace BC
             delta = window->update();
 			
             if (isMinimized) { continue; }
-		 	
+			
 		 	// Updating
 	        for (Layer* layer : layerStack)
 	        {

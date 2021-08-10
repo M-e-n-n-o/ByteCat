@@ -8,6 +8,7 @@
 
 #include "byteCat/app/Application.h"
 #include "byteCat/app/Layer.h"
+
 #include "byteCat/Log.h"
 
 #include "byteCat/input/events/Event.h"
@@ -30,10 +31,12 @@
 
 #include "byteCat/entity-system/GameLayer.h"
 #include "byteCat/entity-system/GameObject.h"
-#include "byteCat/entity-system/Mesh.h"
+#include "byteCat/entity-system/renderers/Mesh.h"
+#include "byteCat/entity-system/renderers/Sprite.h"
 #include "byteCat/entity-system/Material.h"
 #include "byteCat/entity-system/cameras/OrthographicCamera.h"
 #include "byteCat/entity-system/cameras/PerspectiveCamera.h"
+#include "byteCat/entity-system/ModelStorage.h"
 
 // --Start of the engine--
 #include "byteCat/EntryPoint.h"

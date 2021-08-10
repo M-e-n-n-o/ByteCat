@@ -2,7 +2,7 @@
 #include "byteCat/render/Renderer.h"
 
 #include "byteCat/entity-system/Material.h"
-#include "byteCat/entity-system/Mesh.h"
+#include "byteCat/entity-system/renderers/Mesh.h"
 #include "byteCat/render/RenderAPI.h"
 #include "byteCat/utils/Math.h"
 
@@ -52,7 +52,7 @@ namespace BC
 	void Renderer::EndScene()
 	{		
 		// Sort the entities by their shader and vao
-		std::map<std::shared_ptr<Shader>, std::map<VertexArray*, std::vector<RenderComponent*>>> sortedEntities;
+		std::map<VertexArray*, std::map<std::shared_ptr<Shader>, std::vector<RenderComponent*>>> sortedEntities;
 		for (std::shared_ptr<GameObject>& gameObject : gameObjects)
 		{
 			auto renderComp = gameObject->getComponent<RenderComponent>();
@@ -68,75 +68,68 @@ namespace BC
 				continue;
 			}
 
-			auto mesh = gameObject->getComponent<Mesh>();
-			if (mesh == nullptr)
-			{
-				LOG_ERROR("{0} cannot be rendered because it does not have a mesh", gameObject->name);
-				continue;
-			}
-
 			std::shared_ptr<Shader> shader = mat->getShader();
-			VertexArray* vao = mesh->getVao().get();
+			VertexArray* vao = renderComp->getVao().get();
 
 			// Insert an entity which can be rendered into the sorted entities map
-			auto shaderIterator = sortedEntities.find(shader);
-			if (shaderIterator == sortedEntities.end())
+			auto vertexIterator = sortedEntities.find(vao);
+			if (vertexIterator == sortedEntities.end())
 			{
-				// Not existing shader, not existing vao
+				// Not existing vao, not existing shader
 				std::vector<RenderComponent*> renderComps;
 				renderComps.push_back(renderComp);
-				std::map<VertexArray*, std::vector<RenderComponent*>> vaoMap;
-				vaoMap.insert({ vao, renderComps });
-				sortedEntities.insert({ shader,  vaoMap});
+				std::map<std::shared_ptr<Shader>, std::vector<RenderComponent*>> shaderMap;
+				shaderMap.insert({ shader, renderComps });
+				sortedEntities.insert({ vao,  shaderMap});
 				
 			} else
-			{				
-				auto vertexIterator = shaderIterator->second.find(vao);
-				if (vertexIterator == shaderIterator->second.end())
+			{
+				auto shaderIterator = vertexIterator->second.find(shader);
+				if (shaderIterator == vertexIterator->second.end())
 				{
-					// Existing shader, not existing vao
+					// Existing vao, not existing shader
 					std::vector<RenderComponent*> renderComps;
 					renderComps.push_back(renderComp);
-					shaderIterator->second.insert({ vao, renderComps });
+					vertexIterator->second.insert({ shader, renderComps });
 				} else
 				{
-					// Existing shader, existing vao
-					vertexIterator->second.push_back(renderComp);
+					// Existing vao, existing shader
+					shaderIterator->second.push_back(renderComp);
 				}
 			}		
 		}
 
 		// Render the sorted entities
-		for (const auto& shaderPair : sortedEntities)
+		for (const auto& vertexPair : sortedEntities)
 		{
-			// Bind the shader
-			shaderPair.first->bind();
-
-			// Load the standard projection- and viewMatrix into the shader
-			shaderPair.first->loadMatrix4("projectionMatrix", sceneData->projectionMatrix);
-			shaderPair.first->loadMatrix4("viewMatrix", sceneData->viewMatrix);
-
-			for (const auto& vaoPair : shaderPair.second)
+			// Bind the vao
+			vertexPair.first->bind();
+			
+			for (const auto& shaderPair : vertexPair.second)
 			{
-				// Bind the vao
-				vaoPair.first->bind();
-
-				for (const auto& renderComp : vaoPair.second)
+				// Bind the shader
+				shaderPair.first->bind();
+				
+				// Load the standard projection- and viewMatrix into the shader
+				shaderPair.first->loadMatrix4("projectionMatrix", sceneData->projectionMatrix);
+				shaderPair.first->loadMatrix4("viewMatrix", sceneData->viewMatrix);
+				
+				for (const auto& renderComp : shaderPair.second)
 				{
 					// Render the entity
 					renderComp->prepareRender(sceneData->viewMatrix, sceneData->projectionMatrix);
-					Render(vaoPair.first);
+					Render(vertexPair.first);
 					renderComp->finishRender();
 
 					++renderedEntities;
 				}
 
-				// Unbind the vao
-				vaoPair.first->unbind();
+				// Unbind the shader
+				shaderPair.first->unbind();
 			}
 
-			// Unbind the shader
-			shaderPair.first->unbind();
+			// Unbind the vao
+			vertexPair.first->unbind();
 		}
 		
 		gameObjects.clear();

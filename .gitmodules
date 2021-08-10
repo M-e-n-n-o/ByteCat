@@ -7,3 +7,6 @@
 [submodule "ByteCat/vendor/imgui"]
 	path = ByteCat/vendor/imgui
 	url = https://github.com/TheCherno/imgui
+[submodule "ByteCat/vendor/glm"]
+	path = ByteCat/vendor/glm
+	url = https://github.com/g-truc/glm

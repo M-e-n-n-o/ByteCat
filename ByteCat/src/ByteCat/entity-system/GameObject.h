@@ -57,6 +57,9 @@ namespace BC
 
 		// Gets callend after rendering the GameObject
 		virtual void finishRender() {}
+
+		// Returns a VertexArray
+		virtual std::shared_ptr<VertexArray>& getVao() = 0;
 	};
 	
 

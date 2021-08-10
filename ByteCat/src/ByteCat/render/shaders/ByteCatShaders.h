@@ -13,7 +13,7 @@ namespace BC
 	
 	class StandardShader: public Shader
 	{
-	private:
+	private:		
 		static const std::string vertexShader;
 		static const std::string fragmentShader;
 
@@ -21,7 +21,7 @@ namespace BC
 		StandardShader();
 
 		static std::shared_ptr<Shader> Create()
-		{
+		{		
 			return std::static_pointer_cast<Shader>(std::make_shared<StandardShader>());
 		}
 	};

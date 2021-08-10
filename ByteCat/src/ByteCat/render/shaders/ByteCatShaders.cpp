@@ -39,7 +39,7 @@ namespace BC
 
 
 	StandardShader::StandardShader(): Shader(vertexShader, fragmentShader)
-	{
+	{		
 		// Load in optional uniform variables that will always stay the same
 	}
 }
