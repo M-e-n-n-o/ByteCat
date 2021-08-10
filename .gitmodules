@@ -1,12 +1,12 @@
 [submodule "ByteCat/vendor/spdlog"]
 	path = ByteCat/vendor/spdlog
 	url = https://github.com/gabime/spdlog
-[submodule "ByteCat/vendor/GLFW"]
-	path = ByteCat/vendor/GLFW
-	url = https://github.com/TheCherno/glfw
-[submodule "ByteCat/vendor/imgui"]
-	path = ByteCat/vendor/imgui
-	url = https://github.com/TheCherno/imgui
 [submodule "ByteCat/vendor/glm"]
 	path = ByteCat/vendor/glm
 	url = https://github.com/g-truc/glm
+[submodule "ByteCat/vendor/GLFW"]
+	path = ByteCat/vendor/GLFW
+	url = https://github.com/CodingWithMenno/glfw
+[submodule "ByteCat/vendor/imgui"]
+	path = ByteCat/vendor/imgui
+	url = https://github.com/CodingWithMenno/imgui
