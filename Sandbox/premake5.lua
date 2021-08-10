@@ -23,8 +23,7 @@ project "Sandbox"
 
 	links
 	{
-		"ByteCat",
-		"GLM"
+		"ByteCat"
 	}
 
 	postbuildcommands

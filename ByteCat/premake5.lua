@@ -14,6 +14,10 @@ project "ByteCat"
 	{
 		"src/**.h",
 		"src/**.cpp",
+		"vendor/stb_image/**.h",
+		"vendor/stb_image/**.cpp",
+		"vendor/glm/glm/**.hpp",
+		"vendor/glm/glm/**.inl"
 	}
 
 	defines
@@ -29,7 +33,8 @@ project "ByteCat"
 		"%{Libs.GLEW}/include",
 		"%{Libs.GLFW}/include",
 		"%{Libs.ImGui}",
-		"%{Libs.GLM}"
+		"%{Libs.GLM}",
+		"%{Libs.StbImage}"
 	}
 
 	links
@@ -37,7 +42,6 @@ project "ByteCat"
 		"glew32",
 		"GLFW",
 		"ImGui",
-		"GLM",
 		"opengl32.lib"
 	}
 
