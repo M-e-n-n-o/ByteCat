@@ -7,3 +7,6 @@
 [submodule "ByteCat/vendor/GLFW"]
 	path = ByteCat/vendor/GLFW
 	url = https://github.com/CodingWithMenno/glfw
+[submodule "ByteCat/vendor/imgui"]
+	path = ByteCat/vendor/imgui
+	url = https://github.com/CodingWithMenno/imgui
