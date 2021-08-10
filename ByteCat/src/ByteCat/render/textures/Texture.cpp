@@ -1,5 +1,5 @@
 #include "bcpch.h"
-#include <GL/glew.h>
+#include <glad/glad.h>
 #include <stb_image.h>
 #include "byteCat/render/textures/Texture.h"
 
