@@ -39,8 +39,8 @@ project "ByteCat"
 
 	links
 	{
-		"Glad",
 		"GLFW",
+		"Glad",
 		"ImGui"
 	}
 

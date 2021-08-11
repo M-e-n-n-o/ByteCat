@@ -1,7 +1,7 @@
 include "dependencies.lua"
 
 workspace "ByteCat"
-	architecture "x64"
+	architecture "x86_64"
 	startproject "Sandbox"
 
 	configurations
