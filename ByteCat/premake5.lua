@@ -41,12 +41,16 @@ project "ByteCat"
 	{
 		"Glad",
 		"GLFW",
-		"ImGui",
-		"opengl32.lib"
+		"ImGui"
 	}
 
 	filter "system:windows"
 		systemversion "latest"
+
+		links
+		{
+			"opengl32.lib"
+		}
 
 		defines
 		{
@@ -55,6 +59,11 @@ project "ByteCat"
 
 	filter "system:linux"
 		systemversion "latest"
+
+		links
+		{
+			"libGL.so"
+		}
 
 		defines
 		{
