@@ -21,9 +21,22 @@ project "Sandbox"
 		"%{Libs.GLM}"
 	}
 
+	--linkgroups ("on")
+
 	links
 	{
-		"ByteCat"
+		"dl",
+		"GL",
+		"GLU",
+		"X11",
+		"Xxf86vm",
+		"Xrandr",
+		"pthread",
+		"Xi",
+		"GLFW",
+		"GLAD",
+		"ImGui",
+		"ByteCat",
 	}
 
 	postbuildcommands
@@ -40,6 +53,7 @@ project "Sandbox"
 		}
 
 	filter "system:linux"
+		pic "on"
 		systemversion "latest"
 
 		defines

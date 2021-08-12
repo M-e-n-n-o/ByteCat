@@ -38,11 +38,16 @@ project "ByteCat"
 		"%{Libs.StbImage}"
 	}
 
+	linkgroups ("on")
+
 	links
 	{
 		"GLFW",
 		"Glad",
-		"ImGui"
+		"ImGui",
+		"GL",
+		"X11",
+		"phthread"
 	}
 
 	filter "system:windows"
@@ -61,10 +66,10 @@ project "ByteCat"
 	filter "system:linux"
 		systemversion "latest"
 
-		links
-		{
-			"libGL.so"
-		}
+		--links
+		--{
+			--"libGL.so"
+		--}
 
 		defines
 		{
