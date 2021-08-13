@@ -5,6 +5,7 @@ bin-int/
 # Files
 *.user
 *.bat
+Makefile
 
 # Visual studio files and folders
 .vs/
