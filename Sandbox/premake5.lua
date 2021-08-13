@@ -39,13 +39,13 @@ project "Sandbox"
 		"ByteCat",
 	}
 
-	postbuildcommands
-	{
-		("{COPY} res/* ../bin/" .. outputdir .. "/Sandbox/res")
-	}
-
 	filter "system:windows"
 		systemversion "latest"
+
+		postbuildcommands
+		{
+			("{COPY} res/* ../bin/" .. outputdir .. "/Sandbox/res")
+		}
 
 		defines
 		{
@@ -55,6 +55,11 @@ project "Sandbox"
 	filter "system:linux"
 		pic "on"
 		systemversion "latest"
+
+		postbuildcommands
+		{
+			("cp -R ./res ../bin/" .. outputdir .. "/Sandbox")
+		}
 
 		defines
 		{
