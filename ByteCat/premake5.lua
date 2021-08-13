@@ -44,10 +44,7 @@ project "ByteCat"
 	{
 		"GLFW",
 		"Glad",
-		"ImGui",
-		"GL",
-		"X11",
-		"phthread"
+		"ImGui"
 	}
 
 	filter "system:windows"
@@ -66,10 +63,12 @@ project "ByteCat"
 	filter "system:linux"
 		systemversion "latest"
 
-		--links
-		--{
-			--"libGL.so"
-		--}
+		links
+		{
+			"GL",
+			"X11",
+			"phthread"
+		}
 
 		defines
 		{
