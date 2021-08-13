@@ -2,7 +2,7 @@ project "Sandbox"
 	kind "ConsoleApp"
 	language "C++"
 	cppdialect "C++17"
-	staticruntime "on"
+	staticruntime "on"	
 
 	targetdir ("../bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("../bin-int/" .. outputdir .. "/%{prj.name}")
@@ -21,18 +21,20 @@ project "Sandbox"
 		"%{Libs.GLM}"
 	}
 
+	linkgroups "on"
+
 	links
 	{
 		"ByteCat"
 	}
 
-	postbuildcommands
-	{
-		("{COPY} res/* ../bin/" .. outputdir .. "/Sandbox/res")
-	}
-
 	filter "system:windows"
 		systemversion "latest"
+
+		postbuildcommands
+		{
+			("{COPY} res/* ../bin/" .. outputdir .. "/Sandbox/res")
+		}
 
 		defines
 		{
@@ -40,7 +42,22 @@ project "Sandbox"
 		}
 
 	filter "system:linux"
+		pic "on"
 		systemversion "latest"
+
+		links
+		{
+			"dl",
+			"pthread",
+			"GLFW",
+			"GLAD",
+			"ImGui"
+		}
+
+		postbuildcommands
+		{
+			("cp -R ./res ../bin/" .. outputdir .. "/Sandbox")
+		}
 
 		defines
 		{
