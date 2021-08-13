@@ -48,7 +48,6 @@ project "Sandbox"
 		links
 		{
 			"dl",
-			"GL",
 			"pthread",
 			"GLFW",
 			"GLAD",
