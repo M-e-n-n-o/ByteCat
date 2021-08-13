@@ -49,12 +49,7 @@ project "Sandbox"
 		{
 			"dl",
 			"GL",
-			"GLU",
-			"X11",
-			"Xxf86vm",
-			"Xrandr",
 			"pthread",
-			"Xi",
 			"GLFW",
 			"GLAD",
 			"ImGui"
