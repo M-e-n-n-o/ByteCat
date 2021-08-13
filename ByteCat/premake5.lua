@@ -23,6 +23,7 @@ project "ByteCat"
 	defines
 	{
 		"_CRT_SECURE_NO_WARNINGS",
+		"GLFW_INCLUDE_NONE",
 		"BC_CORE"
 	}
 
@@ -37,16 +38,16 @@ project "ByteCat"
 		"%{Libs.StbImage}"
 	}
 
-	links
-	{
-		"Glad",
-		"GLFW",
-		"ImGui",
-		"opengl32.lib"
-	}
-
 	filter "system:windows"
 		systemversion "latest"
+
+		links
+		{
+			"GLFW",
+			"Glad",
+			"ImGui",
+			"opengl32.lib"
+		}
 
 		defines
 		{
