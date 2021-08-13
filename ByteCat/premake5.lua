@@ -38,7 +38,7 @@ project "ByteCat"
 		"%{Libs.StbImage}"
 	}
 
-	linkgroups ("on")
+	linkgroups "on"
 
 	links
 	{

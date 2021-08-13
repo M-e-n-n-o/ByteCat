@@ -21,22 +21,11 @@ project "Sandbox"
 		"%{Libs.GLM}"
 	}
 
-	linkgroups ("on")
+	linkgroups "on"
 
 	links
 	{
-		"dl",
-		"GL",
-		"GLU",
-		"X11",
-		"Xxf86vm",
-		"Xrandr",
-		"pthread",
-		"Xi",
-		"GLFW",
-		"GLAD",
-		"ImGui",
-		"ByteCat",
+		"ByteCat"
 	}
 
 	filter "system:windows"
@@ -55,6 +44,21 @@ project "Sandbox"
 	filter "system:linux"
 		pic "on"
 		systemversion "latest"
+
+		links
+		{
+			"dl",
+			"GL",
+			"GLU",
+			"X11",
+			"Xxf86vm",
+			"Xrandr",
+			"pthread",
+			"Xi",
+			"GLFW",
+			"GLAD",
+			"ImGui"
+		}
 
 		postbuildcommands
 		{
