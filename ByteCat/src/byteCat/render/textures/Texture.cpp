@@ -13,7 +13,7 @@ namespace BC
 		
 		int width, height, bpp;
 		unsigned char* imgData = stbi_load(filePath.c_str(), &width, &height, &bpp, 4);
-		LOG_ASSERT(imgData, "Failed to load the texture");
+		LOG_ASSERT(imgData, "Failed to load the texture: {0}", filePath);
 
 		this->width = width;
 		this->height = height;
