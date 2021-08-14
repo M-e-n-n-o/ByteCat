@@ -23,6 +23,8 @@ namespace BC
 
 	void GameObject::addComponent(ObjectComponent* component)
 	{
+		LOG_INFO("Trying to add {0} component to {1}", component->toString(), name);
+
 		if (auto x = dynamic_cast<RenderComponent*>(component))
 		{
 			if (hasComponent<RenderComponent>())
@@ -44,6 +46,8 @@ namespace BC
 		{
 			return;
 		}
+
+		LOG_INFO("Trying to remove {0} component from {1}", toRemove->toString(), name);
 
 		int iterator = 0;
 		for (ObjectComponent* component : components)
