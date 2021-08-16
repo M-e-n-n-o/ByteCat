@@ -48,10 +48,12 @@ project "Sandbox"
 		links
 		{
 			"dl",
+			"readline",
 			"pthread",
 			"GLFW",
 			"GLAD",
-			"ImGui"
+			"ImGui",
+			"Lua"
 		}
 
 		postbuildcommands

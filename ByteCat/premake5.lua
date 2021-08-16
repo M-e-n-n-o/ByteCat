@@ -36,7 +36,7 @@ project "ByteCat"
 		"%{Libs.ImGui}",
 		"%{Libs.GLM}",
 		"%{Libs.StbImage}",
-		""
+		"%{Libs.Lua}/src"
 	}
 
 	filter "system:windows"
@@ -47,6 +47,7 @@ project "ByteCat"
 			"GLFW",
 			"Glad",
 			"ImGui",
+			"Lua",
 			"opengl32.lib"
 		}
 
