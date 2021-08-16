@@ -10,6 +10,3 @@
 [submodule "ByteCat/vendor/imgui"]
 	path = ByteCat/vendor/imgui
 	url = https://github.com/CodingWithMenno/imgui
-[submodule "ByteCat/vendor/lua"]
-	path = ByteCat/vendor/lua
-	url = https://github.com/CodingWithMenno/lua
