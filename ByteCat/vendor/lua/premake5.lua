@@ -26,7 +26,6 @@ project "Lua"
 
 		defines
 		{
-            "LUA_COMPAT_MODULE_5_2",
             "LUA_USE_LINUX"
 		}
 
