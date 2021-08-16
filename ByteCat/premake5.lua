@@ -35,7 +35,8 @@ project "ByteCat"
 		"%{Libs.GLFW}/include",
 		"%{Libs.ImGui}",
 		"%{Libs.GLM}",
-		"%{Libs.StbImage}"
+		"%{Libs.StbImage}",
+		""
 	}
 
 	filter "system:windows"
