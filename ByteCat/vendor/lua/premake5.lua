@@ -1,7 +1,7 @@
 project "Lua"
 	kind "StaticLib"
 	language "C++"
-    cppdialect "C++17"
+    	cppdialect "C++17"
 	staticruntime "on"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
@@ -9,19 +9,19 @@ project "Lua"
 
 	files
 	{
-        "src/**.h",
-        "src/**.hpp",
-        "src/**.c"
+		"src/**.h",
+		"src/**.hpp",
+		"src/**.c"
 	}
 
 	filter "system:linux"
-        pic "on"
+        	pic "on"
 		systemversion "latest"
 
 		defines
 		{
-            "LUA_COMPAT_MODULE_5_2",
-            "LUA_USE_LINUX"
+            		"LUA_COMPAT_MODULE_5_2",
+            		"LUA_USE_LINUX"
 		}
 
 	filter "system:windows"
@@ -29,7 +29,7 @@ project "Lua"
 
 		defines 
 		{ 
-            "WIN32"
+            		"WIN32"
 		}
 
 	filter "configurations:Debug"
