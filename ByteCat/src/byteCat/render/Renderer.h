@@ -58,10 +58,13 @@ namespace BC
 		// Call this function to submit a GameObject to render on the window
 		static void Submit(std::shared_ptr<GameObject>& gameObject);
 
+		// Sets the background color of the Application
 		static void SetClearColor(glm::vec4& color) { CLEAR_COLOR = color; }
 
+		// Returns the number of render calls that were made in one render iteration
 		static int GetNumberOfDrawCalls() { return drawCalls; }
 
+		// Returns the number of entities which were rendered in one render iteration
 		static int GetNumberRenderedEntities() { return renderedEntities; }
 	
 	private:

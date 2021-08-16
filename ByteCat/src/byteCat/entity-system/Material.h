@@ -5,6 +5,10 @@
 
 namespace BC
 {
+	/*
+	 * Class Material:
+	 *		This class holds a shader which is needed to render a VertexArray (object on the screen)
+	 */
 	class Material : public ObjectComponent
 	{
 	private:
