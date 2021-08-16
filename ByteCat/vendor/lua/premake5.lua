@@ -14,6 +14,12 @@ project "Lua"
 		"src/**.c"
 	}
 
+	excludes
+	{
+		"src/lua.c",
+		"src/luac.c"
+	}
+
 	filter "system:linux"
         pic "on"
         systemversion "latest"
