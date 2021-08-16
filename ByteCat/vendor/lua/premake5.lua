@@ -1,6 +1,7 @@
 project "Lua"
 	kind "StaticLib"
-	language "C"
+	language "C++"
+    cppdialect "C++17"
 	staticruntime "on"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
@@ -13,14 +14,8 @@ project "Lua"
         "src/**.c"
 	}
 
-    excludes
-    {
-        "src/lua.c",
-        "src/luac.c"
-    }
-	
 	filter "system:linux"
-		pic "on"
+        pic "on"
 		systemversion "latest"
 
 		defines
@@ -34,7 +29,7 @@ project "Lua"
 
 		defines 
 		{ 
-            "WIN32"   
+            "WIN32"
 		}
 
 	filter "configurations:Debug"
