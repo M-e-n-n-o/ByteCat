@@ -23,7 +23,7 @@ int main(int argc, char** argv)
 	std::string cmd = "a = 5 + 5";
 
 	lua_State* l = luaL_newstate();
-
+	
 	int r = luaL_dostring(l, cmd.c_str());
 
 	if (r == LUA_OK)
@@ -40,4 +40,6 @@ int main(int argc, char** argv)
 		std::string errormsg = lua_tostring(l, -1);
 		std::cout << errormsg << std::endl;
 	}
+
+	lua_close(l);
 }
