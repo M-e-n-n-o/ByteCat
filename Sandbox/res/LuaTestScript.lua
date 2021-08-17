@@ -1,3 +1,3 @@
-function onUpdate ()
+function onUpdate()
 	print("test")
 end

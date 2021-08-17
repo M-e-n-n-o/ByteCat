@@ -60,8 +60,10 @@ public:
 	{
 		//pushLayer(new ExampleLayer());
 		
-		BC::LuaScript l("LuaTestScript.lua");
-		l.callFunction("onUpdate");
+
+		LuaScript s("LuaTestScript.lua");
+		auto update = s.addFunction<void>("onUpdate");
+		update();
 		
 		LOG_ASSERT(false, "stop")
 	}
