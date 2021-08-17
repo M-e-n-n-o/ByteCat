@@ -51,13 +51,19 @@ public:
 };
 
 
+
 class Sandbox : public Application
 {
 public:
 	// The init of your application
 	Sandbox()
 	{
-		pushLayer(new ExampleLayer());
+		//pushLayer(new ExampleLayer());
+		
+		BC::LuaScript l("LuaTestScript.lua");
+		l.callFunction("onUpdate");
+		
+		LOG_ASSERT(false, "stop")
 	}
 
 	// The end of your application

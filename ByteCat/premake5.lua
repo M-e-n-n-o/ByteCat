@@ -36,7 +36,7 @@ project "ByteCat"
 		"%{Libs.ImGui}",
 		"%{Libs.GLM}",
 		"%{Libs.StbImage}",
-		"%{Libs.Lua}"
+		"%{Libs.Lua}/src"
 	}
 
 	filter "system:windows"
