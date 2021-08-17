@@ -23,6 +23,7 @@ public:
 		object = GameLayer::CreateGameObject("Tree", Transform({ 0, -5, -100 }, { 0, 0, 0 }, { 0.5, 0.5, 0.5 }));
 		object->addComponent(new Material(Shaders::Create(ByteCatShader::Standard)));
 		object->addComponent(new Sprite("kat.jpg"));
+		object->addComponent(new LuaComponent("LuaTestScript.lua"));
 		
 		camera = GameLayer::CreateGameObject("Camera", Transform({ 0, 0, 0 }, { 0, 0, 0 }, { 1, 1, 1 }));
 		camera->addComponent(new PerspectiveCamera(70, 0.01f, 1000));
@@ -58,14 +59,7 @@ public:
 	// The init of your application
 	Sandbox()
 	{
-		//pushLayer(new ExampleLayer());
-		
-
-		LuaScript s("LuaTestScript.lua");
-		auto update = s.addFunction<void>("onUpdate");
-		update();
-		
-		LOG_ASSERT(false, "stop")
+		pushLayer(new ExampleLayer());
 	}
 
 	// The end of your application
