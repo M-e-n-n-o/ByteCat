@@ -1,10 +1,9 @@
 #include "bcpch.h"
 #include "byteCat/lua/LuaComponent.h"
-#include "byteCat/lua/LuaScript.h"
 #include "byteCat/app/Application.h"
 
 namespace BC
-{
+{	
 	LuaComponent::LuaComponent(std::string const& fileName)
 	{	
 		if (totalScripts == 0)
@@ -22,7 +21,11 @@ namespace BC
 	}
 
 	LuaComponent::~LuaComponent()
-	{		
+	{
+		attachFunc->cleanUp();
+		updateFunc->cleanUp();
+		detachFunc->cleanUp();
+		
 		totalScripts--;
 
 		if (totalScripts == 0)
@@ -33,17 +36,17 @@ namespace BC
 
 	void LuaComponent::onAttach()
 	{
-		attachFunc();
+		attachCallback();
 	}
 
 	void LuaComponent::onUpdate()
 	{
-		updateFunc(Application::GetDelta());
+		updateCallback(scriptName);
 	}
 
 	void LuaComponent::onDetach()
 	{
-		detachFunc();
+		detachCallback();
 	}
 
 	bool LuaComponent::checkLua(int error) const
@@ -60,15 +63,15 @@ namespace BC
 	void LuaComponent::addFunctions()
 	{
 		checkLua(luaL_dofile(vm, scriptName.c_str()));
-		LuaHelper::lua_function<void> attach(vm, "onAttach");
-		attachFunc = attach;
+		attachFunc = std::make_unique<LuaHelper::lua_function<void>>(vm, "onAttach");
+		attachCallback = *attachFunc;
 
 		checkLua(luaL_dofile(vm, scriptName.c_str()));
-		LuaHelper::lua_function<void> update(vm, "onUpdate");
-		updateFunc = update;
+		updateFunc = std::make_unique<LuaHelper::lua_function<void>>(vm, "onUpdate");
+		updateCallback = *updateFunc;
 
 		checkLua(luaL_dofile(vm, scriptName.c_str()));
-		LuaHelper::lua_function<void> detach(vm, "onDetach");
-		detachFunc = detach;
+		detachFunc = std::make_unique<LuaHelper::lua_function<void>>(vm, "onDetach");
+		detachCallback = *detachFunc;
 	}
 }

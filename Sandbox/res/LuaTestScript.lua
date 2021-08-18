@@ -1,12 +1,5 @@
-function onAttach()
-	print("attach")
+function test()
+	local c = testFunc(5, 5)
+	print(c)
 end
 
-
-function onUpdate(a)
-	print("delta is " .. a)
-end
-
-function onDetach()
-	print("detach")
-end

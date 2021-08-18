@@ -1,6 +1,6 @@
 #pragma once
 
-#include <lua.hpp>
+#include "byteCat/lua/LuaHelper.h"
 #include "byteCat/entity-system/GameObject.h"
 
 namespace BC
@@ -13,9 +13,14 @@ namespace BC
 
 		std::string scriptName;
 
-		std::function<void()> attachFunc;
-		std::function<void(double)> updateFunc;
-		std::function<void()> detachFunc;
+		std::function<void()> attachCallback;
+		std::unique_ptr<LuaHelper::lua_function<void>> attachFunc;
+		
+		std::function<void(std::string)> updateCallback;
+		std::unique_ptr<LuaHelper::lua_function<void>> updateFunc;
+		
+		std::function<void()> detachCallback;
+		std::unique_ptr<LuaHelper::lua_function<void>> detachFunc;
 	
 	public:
 		LuaComponent(std::string const& fileName);
