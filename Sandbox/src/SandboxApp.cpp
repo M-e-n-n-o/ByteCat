@@ -5,12 +5,6 @@
 
 #include "CameraControls.h"
 
-
-
-#include "byteCat/lua/LuaScript.h"
-
-
-
 using namespace BC;
 
 class ExampleLayer : public Layer
@@ -29,7 +23,6 @@ public:
 		object = GameLayer::CreateGameObject("Tree", Transform({ 0, -5, -100 }, { 0, 0, 0 }, { 0.5, 0.5, 0.5 }));
 		object->addComponent(new Material(Shaders::Create(ByteCatShader::Standard)));
 		object->addComponent(new Sprite("kat.jpg"));
-		//object->addComponent(new LuaComponent("LuaTestScript.lua"));
 		
 		camera = GameLayer::CreateGameObject("Camera", Transform({ 0, 0, 0 }, { 0, 0, 0 }, { 1, 1, 1 }));
 		camera->addComponent(new PerspectiveCamera(70, 0.01f, 1000));
@@ -58,39 +51,28 @@ public:
 };
 
 
-int lua_testFunc(lua_State* vm)
-{
-	float a = (float)lua_tonumber(vm, 1);
-	float b = (float)lua_tonumber(vm, 2);
-	LOG_INFO("a: {0}, b: {1}", a, b);
-	
-	float c = a * b;
-	lua_pushnumber(vm, c);
-	return 1;
-}
-
-
 class Sandbox : public Application
 {
 public:
 	// The init of your application
 	Sandbox()
 	{
-		//pushLayer(new ExampleLayer());
+		pushLayer(new ExampleLayer());
 
+		
 		lua_State* vm = luaL_newstate();
 		luaL_openlibs(vm);
 		
 		LuaScript script(vm, "res/LuaTestScript.lua");
+		script.linkStandardFunctions();
+		
+		{
+			auto func = script.getFunction<void>("test");
+			std::function<void()> callback = func;
+			callback();
+		}
 
-		script.linkFunction("testFunc", lua_testFunc);
-		
-		auto func = script.getFunction<void>("test");
-		std::function<void()> callback = func;
-		callback();
-		
-		
-		BC_DEBUG_BREAK;
+		lua_close(vm);
 	}
 
 	// The end of your application

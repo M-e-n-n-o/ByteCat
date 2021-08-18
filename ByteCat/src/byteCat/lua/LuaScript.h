@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include "LuaHelper.h"
+#include "byteCat/lua/LuaFunction.h"
 
 namespace BC
 {
@@ -15,9 +15,11 @@ namespace BC
 		LuaScript(lua_State* luaState, std::string const& fileName);
 
 		template<typename Ret>
-		LuaHelper::lua_function<Ret> getFunction(std::string const& funcName);
+		LuaAPI::lua_function<Ret> getFunction(std::string const& funcName);
 
 		void linkFunction(std::string const& funcName, int (*func)(lua_State*));
+
+		void linkStandardFunctions();
 
 	private:
 		bool checkLua(int error) const;
@@ -25,9 +27,9 @@ namespace BC
 
 	
 	template <typename Ret>
-	LuaHelper::lua_function<Ret> LuaScript::getFunction(std::string const& funcName)
+	LuaAPI::lua_function<Ret> LuaScript::getFunction(std::string const& funcName)
 	{
 		checkLua(luaL_dofile(vm, scriptName.c_str()));
-		return LuaHelper::lua_function<Ret>(vm, funcName);
+		return LuaAPI::lua_function<Ret>(vm, funcName);
 	}
 }

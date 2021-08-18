@@ -1,5 +1,6 @@
 #include "bcpch.h"
 #include "byteCat/lua/LuaScript.h"
+#include "byteCat/lua/LuaInterface.h"
 
 namespace BC
 {
@@ -11,6 +12,12 @@ namespace BC
 	void LuaScript::linkFunction(std::string const& funcName, int (*func)(lua_State*))
 	{
 		lua_register(vm, funcName.c_str(), func);
+	}
+
+	void LuaScript::linkStandardFunctions()
+	{
+		linkFunction("LogInfo", LuaAPI::LogInfo);
+		linkFunction("LogError", LuaAPI::LogError);
 	}
 
 	bool LuaScript::checkLua(int error) const

@@ -6,7 +6,7 @@ namespace BC
 {
 	// Thanks for the inspiration for this code: reko_t
 	
-	namespace LuaHelper
+	namespace LuaAPI
 	{
 		void LOG(std::string string);
 		
@@ -122,7 +122,7 @@ namespace BC
 
 			~lua_function_base()
 			{
-				//cleanUp();
+				cleanUp();
 			}
 
 			void cleanUp()
