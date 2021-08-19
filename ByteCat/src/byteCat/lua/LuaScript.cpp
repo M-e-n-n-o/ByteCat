@@ -16,8 +16,28 @@ namespace BC
 
 	void LuaScript::linkStandardFunctions()
 	{
-		linkFunction("LogInfo", LuaAPI::LogInfo);
-		linkFunction("LogError", LuaAPI::LogError);
+		// Link lua libraries
+		luaL_requiref(vm, LUA_TABLIBNAME, luaopen_table, 1);
+		lua_pop(vm, 1);
+		luaL_requiref(vm, LUA_STRLIBNAME, luaopen_string, 1);
+		lua_pop(vm, 1);
+		luaL_requiref(vm, LUA_MATHLIBNAME, luaopen_math, 1);
+		lua_pop(vm, 1);
+
+		// Link ByteCat functions
+		linkFunction("LOG_INFO", LuaAPI::LogInfo);
+		linkFunction("LOG_ERROR", LuaAPI::LogError);
+		linkFunction("Get", LuaAPI::Get);
+	}
+
+	void LuaScript::addGetFunction(const char* getName, const std::function<void()>& func)
+	{
+		LuaAPI::AddGet(getName, func);
+	}
+
+	void LuaScript::addSetFunction(const char* setName, const std::function<void()>& func)
+	{
+		LuaAPI::AddSet(setName, func);
 	}
 
 	bool LuaScript::checkLua(int error) const

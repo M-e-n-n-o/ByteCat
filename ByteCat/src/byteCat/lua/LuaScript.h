@@ -21,6 +21,10 @@ namespace BC
 
 		void linkStandardFunctions();
 
+		void addGetFunction(const char* getName, const std::function<void()>& func);
+
+		void addSetFunction(const char* setName, const std::function<void()>& func);
+
 	private:
 		bool checkLua(int error) const;
 	};

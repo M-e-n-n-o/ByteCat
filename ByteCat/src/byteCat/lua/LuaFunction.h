@@ -122,7 +122,7 @@ namespace BC
 
 			~lua_function_base()
 			{
-				cleanUp();
+				//cleanUp();
 			}
 
 			void cleanUp()

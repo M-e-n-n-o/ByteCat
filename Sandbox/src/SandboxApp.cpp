@@ -23,6 +23,7 @@ public:
 		object = GameLayer::CreateGameObject("Tree", Transform({ 0, -5, -100 }, { 0, 0, 0 }, { 0.5, 0.5, 0.5 }));
 		object->addComponent(new Material(Shaders::Create(ByteCatShader::Standard)));
 		object->addComponent(new Sprite("kat.jpg"));
+		object->addComponent(new LuaComponent("res/LuaTestScript.lua"));
 		
 		camera = GameLayer::CreateGameObject("Camera", Transform({ 0, 0, 0 }, { 0, 0, 0 }, { 1, 1, 1 }));
 		camera->addComponent(new PerspectiveCamera(70, 0.01f, 1000));
@@ -59,20 +60,20 @@ public:
 	{
 		pushLayer(new ExampleLayer());
 
-		
-		lua_State* vm = luaL_newstate();
-		luaL_openlibs(vm);
-		
-		LuaScript script(vm, "res/LuaTestScript.lua");
-		script.linkStandardFunctions();
-		
-		{
-			auto func = script.getFunction<void>("test");
-			std::function<void()> callback = func;
-			callback();
-		}
-
-		lua_close(vm);
+		// lua_State* vm = luaL_newstate();
+		//
+		// LuaScript script(vm, "res/LuaTestScript.lua");
+		// script.linkStandardFunctions();
+		//
+		// script.addGetFunction("position", [vm]() { lua_pushnumber(vm, 100); });
+		//
+		// {
+		// 	auto func = script.getFunction<void>("test");
+		// 	std::function<void(double)> callback = func;
+		// 	callback(5);
+		// }
+		//
+		// lua_close(vm);
 	}
 
 	// The end of your application
