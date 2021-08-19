@@ -21,7 +21,7 @@ namespace BC
 	}
 
 	LuaComponent::~LuaComponent()
-	{
+	{		
 		attachFunc->cleanUp();
 		updateFunc->cleanUp();
 		detachFunc->cleanUp();

@@ -16,10 +16,6 @@ private:
 public:
 	ExampleLayer() : Layer("ExampleLayer")
 	{		
-		// std::shared_ptr<Shader> shader = Shaders::Create(ByteCatShader::Standard);
-		// std::shared_ptr<Texture2D> texture = Texture2D::Create("TreeTexture.png");
-		// shader->setTexture(texture);
-		
 		object = GameLayer::CreateGameObject("Tree", Transform({ 0, -5, -100 }, { 0, 0, 0 }, { 0.5, 0.5, 0.5 }));
 		object->addComponent(new Material(Shaders::Create(ByteCatShader::Standard)));
 		object->addComponent(new Sprite("kat.jpg"));
@@ -59,21 +55,6 @@ public:
 	Sandbox()
 	{
 		pushLayer(new ExampleLayer());
-
-		// lua_State* vm = luaL_newstate();
-		//
-		// LuaScript script(vm, "res/LuaTestScript.lua");
-		// script.linkStandardFunctions();
-		//
-		// script.addGetFunction("position", [vm]() { lua_pushnumber(vm, 100); });
-		//
-		// {
-		// 	auto func = script.getFunction<void>("test");
-		// 	std::function<void(double)> callback = func;
-		// 	callback(5);
-		// }
-		//
-		// lua_close(vm);
 	}
 
 	// The end of your application
