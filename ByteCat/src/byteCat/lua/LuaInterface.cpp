@@ -47,7 +47,6 @@ namespace BC
 				if (!strcmp(function.first, msg))
 				{
 					function.second();
-					lua_pop(vm, 1);
 					
 					return 0;
 				}

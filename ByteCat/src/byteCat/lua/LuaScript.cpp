@@ -27,16 +27,27 @@ namespace BC
 		// Link ByteCat functions
 		linkFunction("LOG_INFO", LuaAPI::LogInfo);
 		linkFunction("LOG_ERROR", LuaAPI::LogError);
-		linkFunction("Get", LuaAPI::Get);
 	}
 
-	void LuaScript::addGetFunction(const char* getName, const std::function<void()>& func)
+	void LuaScript::addGet(const char* getName, const std::function<void()>& func)
 	{
+		if (static bool hasFunction = false; !hasFunction)
+		{
+			linkFunction("Get", LuaAPI::Get);
+			hasFunction = true;
+		}
+		
 		LuaAPI::AddGet(getName, func);
 	}
 
-	void LuaScript::addSetFunction(const char* setName, const std::function<void()>& func)
+	void LuaScript::addSet(const char* setName, const std::function<void()>& func)
 	{
+		if (static bool hasFunction = false; !hasFunction)
+		{
+			linkFunction("Set", LuaAPI::Set);
+			hasFunction = true;
+		}
+		
 		LuaAPI::AddSet(setName, func);
 	}
 

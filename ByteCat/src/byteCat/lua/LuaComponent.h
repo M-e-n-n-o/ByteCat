@@ -5,6 +5,10 @@
 
 namespace BC
 {
+	/*
+	 * Class LuaComponent:
+	 *		This component holds a lua script which gets called when this component gets called.
+	 */
 	class LuaComponent : public ObjectComponent
 	{
 	private:

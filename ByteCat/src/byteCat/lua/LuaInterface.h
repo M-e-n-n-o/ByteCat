@@ -6,7 +6,7 @@
 namespace BC
 {
 	namespace LuaAPI
-	{
+	{		
 		inline int LogInfo(lua_State* vm)
 		{
 			const char* msg = lua_tostring(vm, 1);
