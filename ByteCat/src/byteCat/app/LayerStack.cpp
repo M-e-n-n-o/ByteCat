@@ -13,6 +13,8 @@ namespace BC
 
 	void LayerStack::pushLayer(Layer* layer)
 	{
+		LOG_INFO("Adding a new layer to the application: {0}", layer->getName());
+
 		layers.emplace(layers.begin() + layerInsertIndex, layer);
 		layerInsertIndex++;
 		layer->onAttach();
@@ -20,6 +22,8 @@ namespace BC
 
 	void LayerStack::pushOverlay(Layer* overlay)
 	{
+		LOG_INFO("Adding a new overlay to the application: {0}", overlay->getName());
+
 		layers.emplace_back(overlay);
 		overlay->onAttach();
 	}

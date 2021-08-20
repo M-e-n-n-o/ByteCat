@@ -38,6 +38,9 @@
 #include "byteCat/entity-system/cameras/PerspectiveCamera.h"
 #include "byteCat/entity-system/ModelStorage.h"
 
+#include "byteCat/lua/LuaScript.h"
+#include "byteCat/lua/LuaComponent.h"
+
 // --Start of the engine--
 #include "byteCat/EntryPoint.h"
 // -----------------------

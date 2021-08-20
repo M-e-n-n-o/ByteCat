@@ -33,6 +33,7 @@ namespace BC
 
     Application::~Application()
     {
+        Renderer::Shutdown();
         LOG_INFO("ByteCat engine is closing...");
     }
 

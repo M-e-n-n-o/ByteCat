@@ -4,6 +4,11 @@
 
 namespace BC
 {
+	/*
+	 * Class Sprite:
+	 *		This class represents a quad with an image. Use this to render
+	 *		sprites in the application.
+	 */
 	class Sprite : public RenderComponent
 	{
 	private:
@@ -14,6 +19,7 @@ namespace BC
 		Sprite(std::string const& fileName);
 		Sprite(std::shared_ptr<Texture2D>& texture);
 
+		// Sets the texture of the sprite
 		void setTexture(std::string const& fileName);
 		void setTexture(std::shared_ptr<Texture2D>& texture);
 

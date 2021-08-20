@@ -40,6 +40,8 @@ namespace BC
 		virtual void onUpdate() {}
 		// Gets called when the component gets removed from the GameObject
 		virtual void onDetach() {}
+
+		std::string toString() { return typeid(*this).name(); }
 	};
 
 	// Use this class to make custom render components for the gameobject
