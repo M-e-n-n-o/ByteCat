@@ -11,14 +11,20 @@ namespace BC
 
 		int Get(lua_State* vm)
 		{
+			if (lua_gettop(vm) != 1)
+			{
+				LOG_WARN("Called Get with the wrong amount of arguments");
+			}
+			
 			const char* msg = lua_tostring(vm, 1);
-			lua_pop(vm, 1);
-
+			lua_pop(vm, 1);			
+			
 			for (auto& function : GetFunctions)
 			{
 				if (!strcmp(function.first, msg))
 				{
 					function.second();
+					
 					return 1;
 				}
 			}
@@ -39,14 +45,19 @@ namespace BC
 		
 		int Set(lua_State* vm)
 		{
-			const char* msg = lua_tostring(vm, 1);
-			lua_pop(vm, 1);
-
+			if (lua_gettop(vm) != 2)
+			{
+				LOG_WARN("Called Set with the wrong amount of arguments");
+			}
+			
+			const char* msg = lua_tostring(vm, 1);			
+			
 			for (auto& function : SetFunctions)
 			{
 				if (!strcmp(function.first, msg))
 				{
 					function.second();
+					lua_settop(vm, 0);
 					
 					return 0;
 				}

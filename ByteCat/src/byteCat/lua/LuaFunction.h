@@ -7,7 +7,7 @@ namespace BC
 	// Thanks for the inspiration for this code: reko_t
 	
 	namespace LuaAPI
-	{
+	{		
 		void LOG(std::string string);
 		
 		// we overload push_value instead of specializing
@@ -148,7 +148,6 @@ namespace BC
 			// call the function, throws an exception on error
 			void call(int args, int results)
 			{
-				// call it with no return values
 				int status = lua_pcall(m_vm, args, results, 0);
 				if (status != 0) {
 					// call failed; throw an exception

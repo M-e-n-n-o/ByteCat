@@ -3,7 +3,9 @@ function onAttach()
 end
 
 function onUpdate(delta)
-	LOG_INFO(delta)
+	local pos = Get("rotation")
+	pos.y = pos.y + (delta * 100)
+	Set("rotation", pos)
 end
 
 function onDetach()

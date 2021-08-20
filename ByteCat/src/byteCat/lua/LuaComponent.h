@@ -30,5 +30,8 @@ namespace BC
 		void onAttach() override;
 		void onUpdate() override;
 		void onDetach() override;
+
+	private:
+		void linkGetSetFunctions(std::string const& scriptName);
 	};
 }
