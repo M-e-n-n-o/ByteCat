@@ -16,10 +16,6 @@ private:
 public:
 	ExampleLayer() : Layer("ExampleLayer")
 	{		
-		// std::shared_ptr<Shader> shader = Shaders::Create(ByteCatShader::Standard);
-		// std::shared_ptr<Texture2D> texture = Texture2D::Create("TreeTexture.png");
-		// shader->setTexture(texture);
-		
 		object = GameLayer::CreateGameObject("Tree", Transform({ 0, -5, -100 }, { 0, 0, 0 }, { 0.5, 0.5, 0.5 }));
 		object->addComponent(new Material(Shaders::Create(ByteCatShader::Standard)));
 		object->addComponent(new Sprite("kat.jpg"));
@@ -27,6 +23,7 @@ public:
 		camera = GameLayer::CreateGameObject("Camera", Transform({ 0, 0, 0 }, { 0, 0, 0 }, { 1, 1, 1 }));
 		camera->addComponent(new PerspectiveCamera(70, 0.01f, 1000));
 		camera->addComponent(new CameraControls);
+		camera->addComponent(new LuaComponent("res/LuaTestScript.lua"));
 		GameLayer::SetCamera(camera);
 	}
 
