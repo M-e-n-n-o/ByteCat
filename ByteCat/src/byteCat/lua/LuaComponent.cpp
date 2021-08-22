@@ -1,4 +1,6 @@
 #include "bcpch.h"
+#include <magic_enum.hpp>
+#include "byteCat/input/Input.h"
 #include "byteCat/lua/LuaComponent.h"
 #include "byteCat/app/Application.h"
 
@@ -56,7 +58,7 @@ namespace BC
 	}
 
 	void LuaComponent::onUpdate()
-	{
+	{	
 		// TODO Make this section thread safe (this may not be interrupted)
 			script->update();
 			updateCallback(Application::GetDelta());
@@ -72,6 +74,7 @@ namespace BC
 		// Link Get variables
 		script->addGet("position", [=]()
 			{
+				lua_pop(vm, 1);
 				glm::vec3& pos = gameObject->transform.position;
 
 				lua_newtable(vm);
@@ -82,6 +85,7 @@ namespace BC
 
 		script->addGet("rotation", [=]()
 			{
+				lua_pop(vm, 1);
 				glm::vec3& rot = gameObject->transform.rotation;
 
 				lua_newtable(vm);
@@ -92,12 +96,59 @@ namespace BC
 
 		script->addGet("scale", [=]()
 			{
+				lua_pop(vm, 1);
 				glm::vec3& scale = gameObject->transform.scale;
 
 				lua_newtable(vm);
 				PushTableComponent(vm, "x", scale.x);
 				PushTableComponent(vm, "y", scale.y);
 				PushTableComponent(vm, "z", scale.z);
+			});
+
+		script->addGet("key", [=]()
+			{
+				const char* keyString = lua_tostring(vm, -1);
+				lua_settop(vm, 0);
+
+				auto keyEnum = magic_enum::enum_cast<KeyCode>(keyString);
+				if (keyEnum.has_value())
+				{
+					if (Input::IsKeyPressed(keyEnum.value()))
+					{
+						lua_pushboolean(vm, 1);
+					} else
+					{
+						lua_pushboolean(vm, 0);
+					}
+				} else
+				{
+					LOG_WARN("Requested keycode from lua file {0}: \"{1}\", was not found", scriptName, keyString);
+					lua_pushboolean(vm, 0);
+				}
+			});
+
+		script->addGet("mouse", [=]()
+			{
+				const char* mouseString = lua_tostring(vm, -1);
+				lua_settop(vm, 0);
+
+				auto mouseEnum = magic_enum::enum_cast<MouseCode>(mouseString);
+				if (mouseEnum.has_value())
+				{
+					if (Input::IsMouseButtonPressed(mouseEnum.value()))
+					{
+						lua_pushboolean(vm, 1);
+					}
+					else
+					{
+						lua_pushboolean(vm, 0);
+					}
+				}
+				else
+				{
+					LOG_WARN("Requested mousecode from lua file {0}: \"{1}\", was not found", scriptName, mouseString);
+					lua_pushboolean(vm, 0);
+				}
 			});
 
 

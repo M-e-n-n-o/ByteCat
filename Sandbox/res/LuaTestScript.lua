@@ -3,11 +3,15 @@ function onAttach()
 end
 
 function onUpdate(delta)
-	local rotation = Get("rotation")
+	--pos = Get("position")
+	--pos.y = 0
+	--Set("position", pos)
 
-	rotation.z = rotation.z + (delta * 100)
+	isPressed = Get("mouse", "Button1")
 
-	Set("rotation", rotation)
+	if (isPressed) then
+		LOG_INFO("Button1 is pressed")
+	end
 end
 
 function onDetach()

@@ -29,7 +29,7 @@ public:
 	}
 
 	void onUpdate() override
-	{
+	{		
 		object->transform.rotation.y += Application::GetDelta() * 10;
 	}
 
