@@ -1,9 +1,13 @@
 #include "bcpch.h"
+#define MAGIC_ENUM_RANGE_MIN 0
+#define MAGIC_ENUM_RANGE_MAX 348
+#include <magic_enum.hpp>
+#include "byteCat/input/Input.h"
 #include "byteCat/lua/LuaComponent.h"
 #include "byteCat/app/Application.h"
 
 namespace BC
-{
+{	
 	static void PushTableComponent(lua_State* vm, const char* key, float value)
 	{
 		lua_pushstring(vm, key);
@@ -19,12 +23,63 @@ namespace BC
 		lua_pop(vm, 1);
 		return value;
 	}
+
+	static int IsKeyPressed(lua_State* vm)
+	{
+		const char* keyString = lua_tostring(vm, 1);
+		lua_settop(vm, 0);
+
+		auto keyEnum = magic_enum::enum_cast<KeyCode>(keyString);
+		if (keyEnum.has_value())
+		{
+			if (Input::IsKeyPressed(keyEnum.value()))
+			{
+				lua_pushboolean(vm, 1);
+			}
+			else
+			{
+				lua_pushboolean(vm, 0);
+			}
+		}
+		else
+		{
+			LOG_WARN("Requested keycode \"{1}\", from a lua file, was not found", keyString);
+			lua_pushboolean(vm, 0);
+		}
+
+		return 1;
+	}
+
+	static int IsMouseButtonPressed(lua_State* vm)
+	{
+		const char* mouseString = lua_tostring(vm, -1);
+		lua_settop(vm, 0);
+
+		auto mouseEnum = magic_enum::enum_cast<MouseCode>(mouseString);
+		if (mouseEnum.has_value())
+		{
+			if (Input::IsMouseButtonPressed(mouseEnum.value()))
+			{
+				lua_pushboolean(vm, 1);
+			}
+			else
+			{
+				lua_pushboolean(vm, 0);
+			}
+		}
+		else
+		{
+			LOG_WARN("Requested mousecode \"{1}\", from a lua file, was not found", mouseString);
+			lua_pushboolean(vm, 0);
+		}
+
+		return 1;
+	}
 	
 	LuaComponent::LuaComponent(std::string const& scriptName)
 	{
 		vm = luaL_newstate();
 		script = new LuaScript(vm, scriptName);
-		script->linkStandardFunctions();
 
 		// Link objectComponent functions
 		attachFunc = std::make_unique<LuaAPI::lua_function<void>>(script->getFunction<void>("onAttach"));
@@ -37,6 +92,8 @@ namespace BC
 		detachCallback = *detachFunc;
 
 		linkGetSetFunctions(scriptName);
+		script->linkFunction("IsKeyPressed", IsKeyPressed);
+		script->linkFunction("IsMouseButtonPressed", IsMouseButtonPressed);
 	}
 
 	LuaComponent::~LuaComponent()
@@ -56,7 +113,7 @@ namespace BC
 	}
 
 	void LuaComponent::onUpdate()
-	{
+	{	
 		// TODO Make this section thread safe (this may not be interrupted)
 			script->update();
 			updateCallback(Application::GetDelta());
@@ -72,6 +129,7 @@ namespace BC
 		// Link Get variables
 		script->addGet("position", [=]()
 			{
+				lua_pop(vm, 1);
 				glm::vec3& pos = gameObject->transform.position;
 
 				lua_newtable(vm);
@@ -82,6 +140,7 @@ namespace BC
 
 		script->addGet("rotation", [=]()
 			{
+				lua_pop(vm, 1);
 				glm::vec3& rot = gameObject->transform.rotation;
 
 				lua_newtable(vm);
@@ -92,6 +151,7 @@ namespace BC
 
 		script->addGet("scale", [=]()
 			{
+				lua_pop(vm, 1);
 				glm::vec3& scale = gameObject->transform.scale;
 
 				lua_newtable(vm);
@@ -99,7 +159,7 @@ namespace BC
 				PushTableComponent(vm, "y", scale.y);
 				PushTableComponent(vm, "z", scale.z);
 			});
-
+		
 
 		// Link Set variables
 		script->addSet("position", [=]()

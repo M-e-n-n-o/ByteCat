@@ -32,10 +32,8 @@ namespace BC
 		// Adds a new function into the lua script
 		void linkFunction(std::string const& funcName, int (*func)(lua_State*));
 
-		// Adds some standard lua libraries and ByteCat functions into the lua script
-		void linkStandardFunctions();
-
 		// Adds a new 'Get' into the lua script which can be called by "Get({getName})"
+		// ! Do not forget to pop the values which you take of the lua stack !
 		void addGet(const char* getName, const std::function<void()>& func);
 
 		// Adds a new 'Set' into the lua script which can be called by "Set({setName})"

@@ -10,20 +10,14 @@ namespace BC
 
 		int Get(lua_State* vm)
 		{
-			if (lua_gettop(vm) != 1)
-			{
-				LOG_WARN("Called Get with the wrong amount of arguments (needs 1)");
-				return 0;
-			}
-
 			if (!lua_isstring(vm, 1))
 			{
 				LOG_WARN("First argument of Get function needs to be a string!");
-				return 0;
+				lua_pushnil(vm);
+				return 1;
 			}
 			
-			const char* msg = lua_tostring(vm, 1);
-			lua_pop(vm, 1);			
+			const char* msg = lua_tostring(vm, 1);			
 			
 			for (auto& function : GetFunctions)
 			{
@@ -37,7 +31,8 @@ namespace BC
 
 			LOG_WARN("Requested Get \"{0}\" from a luascript could not be found", msg);
 
-			return 0;
+			lua_pushnil(vm);
+			return 1;
 		}
 
 		void SetGetFunctions(std::map<const char*, std::function<void()>>& functions)
@@ -51,12 +46,6 @@ namespace BC
 		
 		int Set(lua_State* vm)
 		{
-			if (lua_gettop(vm) != 2)
-			{
-				LOG_WARN("Called Set with the wrong amount of arguments (needs 2)");
-				return 0;
-			}
-
 			if (!lua_isstring(vm, 1))
 			{
 				LOG_WARN("First argument of Set function needs to be a string!");
