@@ -80,7 +80,6 @@ namespace BC
 	{
 		vm = luaL_newstate();
 		script = new LuaScript(vm, scriptName);
-		script->linkStandardFunctions();
 
 		// Link objectComponent functions
 		attachFunc = std::make_unique<LuaAPI::lua_function<void>>(script->getFunction<void>("onAttach"));

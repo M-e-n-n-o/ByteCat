@@ -6,16 +6,6 @@ namespace BC
 {
 	LuaScript::LuaScript(lua_State* luaState, std::string const& fileName): vm(luaState), scriptName(fileName)
 	{
-		checkLua(luaL_loadfile(vm, scriptName.c_str()));
-	}
-
-	void LuaScript::linkFunction(std::string const& funcName, int (*func)(lua_State*))
-	{
-		lua_register(vm, funcName.c_str(), func);
-	}
-
-	void LuaScript::linkStandardFunctions()
-	{
 		// Link lua libraries
 		luaL_requiref(vm, LUA_TABLIBNAME, luaopen_table, 1);
 		lua_pop(vm, 1);
@@ -23,10 +13,21 @@ namespace BC
 		lua_pop(vm, 1);
 		luaL_requiref(vm, LUA_MATHLIBNAME, luaopen_math, 1);
 		lua_pop(vm, 1);
+		luaL_requiref(vm, LUA_LOADLIBNAME, luaopen_package, 1);
+		lua_pop(vm, 1);
+		luaL_requiref(vm, "_G", luaopen_base, 1);
+		lua_pop(vm, 1);
 
-		// Link ByteCat functions
+		// Link standard ByteCat functions
 		linkFunction("LOG_INFO", LuaAPI::LogInfo);
 		linkFunction("LOG_ERROR", LuaAPI::LogError);
+		
+		checkLua(luaL_loadfile(vm, scriptName.c_str()));
+	}
+
+	void LuaScript::linkFunction(std::string const& funcName, int (*func)(lua_State*))
+	{
+		lua_register(vm, funcName.c_str(), func);
 	}
 
 	void LuaScript::addGet(const char* getName, const std::function<void()>& func)

@@ -2,55 +2,63 @@ function onAttach()
 	LOG_INFO("attach")
 end
 
+
 local rad = math.rad
+local cos = math.cos
+local sin = math.sin
+
+local speed = 15.0
+local rotationSpeed = 60
+
+local currentSpeed, currentRotationSpeed = 0, 0
+local Position, Rotation = {x = 0, y = 0, z = 0}
+
+local KeyActions = {
+    ["W"] = function(delta)
+        currentSpeed = currentSpeed + speed
+    end,
+    ["S"] = function(delta)
+        currentSpeed = currentSpeed - speed
+    end,
+    ["D"] = function(delta)
+        currentRotationSpeed = currentRotationSpeed + rotationSpeed
+    end,
+    ["A"] = function(delta)
+        currentRotationSpeed = currentRotationSpeed - rotationSpeed
+    end,
+    ["Space"] = function(delta)
+        Position.y = Position.y + (speed * delta)
+    end,
+    ["LeftControl"] = function(delta)
+        Position.y = Position.y - (speed * delta)
+    end
+}
 
 function onUpdate(delta)
-	local speed = 15.0
-	local rotationSpeed = 60.0
+    currentSpeed, currentRotationSpeed = 0, 0
+    Position, Rotation = Get("position"), Get("rotation")
 
-	local currentSpeed = 0.0
-	local currentRotationSpeed = 0.0
+    for key, func in pairs(KeyActions) do
+        if IsKeyPressed(key) then
+            func(delta)
+        end
+    end
+    
+    Rotation.y = Rotation.y + (currentRotationSpeed * delta)
 
-	pos = Get("position")
-	local rot = Get("rotation")
-
-	if (IsKeyPressed("W")) then
-		currentSpeed = currentSpeed + speed
-	end
-
-	if (IsKeyPressed("S")) then
-		currentSpeed = currentSpeed - speed
-	end
-
-	if (IsKeyPressed("D")) then
-		currentRotationSpeed = currentRotationSpeed + rotationSpeed
-	end
-
-	if (IsKeyPressed("A")) then
-		currentRotationSpeed = currentRotationSpeed - rotationSpeed
-	end
-
-	if (IsKeyPressed("Space")) then
-		pos.y = pos.y + (speed * delta)
-	end
-
-	if (IsKeyPressed("LeftControl")) then
-		pos.y = pos.y - (speed * delta)
-	end
-
-	rot.y = rot.y + (currentRotationSpeed * delta)
-
-	local distance = currentSpeed * delta
-	local y = rot.y + 270
-	local dx = distance * math.cos(rad(y))
-	local dz = distance * math.sin(rad(y))
-
-	pos.x = pos.x + dx
-	pos.z = pos.z + dz
-
-	Set("position", pos)
-	Set("rotation", rot)
+    local distance = currentSpeed * delta
+    local yRad = rad(Rotation.y + 270)
+    
+    local dx = distance * cos(yRad)
+    local dz = distance * sin(yRad)
+    
+    Position.x = Position.x + dx
+    Position.z = Position.z + dz
+    
+    Set("position", Position)
+    Set("rotation", Rotation)
 end
+
 
 function onDetach()
 	LOG_INFO("detach")
