@@ -23,12 +23,12 @@ public:
 		camera = GameLayer::CreateGameObject("Camera", Transform({ 0, 0, 0 }, { 0, 0, 0 }, { 1, 1, 1 }));
 		camera->addComponent(new PerspectiveCamera(70, 0.01f, 1000));
 		//camera->addComponent(new CameraControls);
-		camera->addComponent(new LuaComponent("res/LuaTestScript.lua"));
+		camera->addComponent(new LuaComponent("LuaTestScript.lua"));
 		GameLayer::SetCamera(camera);
 	}
 
 	void onUpdate() override
-	{
+	{		
 		//object->transform.rotation.y += Application::GetDelta() * 10;
 	}
 
