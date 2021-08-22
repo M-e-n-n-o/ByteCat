@@ -6,7 +6,7 @@ namespace BC
 {
 	LuaScript::LuaScript(lua_State* luaState, std::string const& fileName): vm(luaState), scriptName(fileName)
 	{
-		checkLua(luaL_dofile(vm, scriptName.c_str()));
+		checkLua(luaL_loadfile(vm, scriptName.c_str()));
 	}
 
 	void LuaScript::linkFunction(std::string const& funcName, int (*func)(lua_State*))

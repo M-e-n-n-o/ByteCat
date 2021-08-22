@@ -1,11 +1,13 @@
 #include "bcpch.h"
+#define MAGIC_ENUM_RANGE_MIN 0
+#define MAGIC_ENUM_RANGE_MAX 348
 #include <magic_enum.hpp>
 #include "byteCat/input/Input.h"
 #include "byteCat/lua/LuaComponent.h"
 #include "byteCat/app/Application.h"
 
 namespace BC
-{
+{	
 	static void PushTableComponent(lua_State* vm, const char* key, float value)
 	{
 		lua_pushstring(vm, key);
@@ -20,6 +22,58 @@ namespace BC
 		float value = (float)lua_tonumber(vm, -1);
 		lua_pop(vm, 1);
 		return value;
+	}
+
+	static int IsKeyPressed(lua_State* vm)
+	{
+		const char* keyString = lua_tostring(vm, 1);
+		lua_settop(vm, 0);
+
+		auto keyEnum = magic_enum::enum_cast<KeyCode>(keyString);
+		if (keyEnum.has_value())
+		{
+			if (Input::IsKeyPressed(keyEnum.value()))
+			{
+				lua_pushboolean(vm, 1);
+			}
+			else
+			{
+				lua_pushboolean(vm, 0);
+			}
+		}
+		else
+		{
+			LOG_WARN("Requested keycode \"{1}\", from a lua file, was not found", keyString);
+			lua_pushboolean(vm, 0);
+		}
+
+		return 1;
+	}
+
+	static int IsMouseButtonPressed(lua_State* vm)
+	{
+		const char* mouseString = lua_tostring(vm, -1);
+		lua_settop(vm, 0);
+
+		auto mouseEnum = magic_enum::enum_cast<MouseCode>(mouseString);
+		if (mouseEnum.has_value())
+		{
+			if (Input::IsMouseButtonPressed(mouseEnum.value()))
+			{
+				lua_pushboolean(vm, 1);
+			}
+			else
+			{
+				lua_pushboolean(vm, 0);
+			}
+		}
+		else
+		{
+			LOG_WARN("Requested mousecode \"{1}\", from a lua file, was not found", mouseString);
+			lua_pushboolean(vm, 0);
+		}
+
+		return 1;
 	}
 	
 	LuaComponent::LuaComponent(std::string const& scriptName)
@@ -39,6 +93,8 @@ namespace BC
 		detachCallback = *detachFunc;
 
 		linkGetSetFunctions(scriptName);
+		script->linkFunction("IsKeyPressed", IsKeyPressed);
+		script->linkFunction("IsMouseButtonPressed", IsMouseButtonPressed);
 	}
 
 	LuaComponent::~LuaComponent()
@@ -104,53 +160,7 @@ namespace BC
 				PushTableComponent(vm, "y", scale.y);
 				PushTableComponent(vm, "z", scale.z);
 			});
-
-		script->addGet("key", [=]()
-			{
-				const char* keyString = lua_tostring(vm, -1);
-				lua_settop(vm, 0);
-
-				auto keyEnum = magic_enum::enum_cast<KeyCode>(keyString);
-				if (keyEnum.has_value())
-				{
-					if (Input::IsKeyPressed(keyEnum.value()))
-					{
-						lua_pushboolean(vm, 1);
-					} else
-					{
-						lua_pushboolean(vm, 0);
-					}
-				} else
-				{
-					LOG_WARN("Requested keycode from lua file {0}: \"{1}\", was not found", scriptName, keyString);
-					lua_pushboolean(vm, 0);
-				}
-			});
-
-		script->addGet("mouse", [=]()
-			{
-				const char* mouseString = lua_tostring(vm, -1);
-				lua_settop(vm, 0);
-
-				auto mouseEnum = magic_enum::enum_cast<MouseCode>(mouseString);
-				if (mouseEnum.has_value())
-				{
-					if (Input::IsMouseButtonPressed(mouseEnum.value()))
-					{
-						lua_pushboolean(vm, 1);
-					}
-					else
-					{
-						lua_pushboolean(vm, 0);
-					}
-				}
-				else
-				{
-					LOG_WARN("Requested mousecode from lua file {0}: \"{1}\", was not found", scriptName, mouseString);
-					lua_pushboolean(vm, 0);
-				}
-			});
-
+		
 
 		// Link Set variables
 		script->addSet("position", [=]()
