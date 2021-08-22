@@ -3,9 +3,11 @@ function onAttach()
 end
 
 function onUpdate(delta)
-	local pos = Get("rotation")
-	pos.y = pos.y + (delta * 100)
-	Set("rotation", pos)
+	local rotation = Get("rotation")
+
+	rotation.z = rotation.z + (delta * 100)
+
+	Set("rotation", rotation)
 end
 
 function onDetach()

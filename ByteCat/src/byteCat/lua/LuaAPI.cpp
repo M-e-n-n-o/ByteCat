@@ -1,6 +1,5 @@
 #include "bcpch.h"
-#include "byteCat/lua/LuaInterface.h"
-#include <map>
+#include "byteCat/lua/LuaAPI.h"
 
 namespace BC
 {
@@ -13,7 +12,14 @@ namespace BC
 		{
 			if (lua_gettop(vm) != 1)
 			{
-				LOG_WARN("Called Get with the wrong amount of arguments");
+				LOG_WARN("Called Get with the wrong amount of arguments (needs 1)");
+				return 0;
+			}
+
+			if (!lua_isstring(vm, 1))
+			{
+				LOG_WARN("First argument of Get function needs to be a string!");
+				return 0;
 			}
 			
 			const char* msg = lua_tostring(vm, 1);
@@ -34,9 +40,9 @@ namespace BC
 			return 0;
 		}
 
-		void AddGet(const char* getName, const std::function<void()>& func)
+		void SetGetFunctions(std::map<const char*, std::function<void()>>& functions)
 		{
-			GetFunctions.emplace(getName, func);
+			GetFunctions = functions;
 		}
 
 
@@ -47,7 +53,14 @@ namespace BC
 		{
 			if (lua_gettop(vm) != 2)
 			{
-				LOG_WARN("Called Set with the wrong amount of arguments");
+				LOG_WARN("Called Set with the wrong amount of arguments (needs 2)");
+				return 0;
+			}
+
+			if (!lua_isstring(vm, 1))
+			{
+				LOG_WARN("First argument of Set function needs to be a string!");
+				return 0;
 			}
 			
 			const char* msg = lua_tostring(vm, 1);			
@@ -68,9 +81,9 @@ namespace BC
 			return 0;
 		}
 
-		void AddSet(const char* setName, const std::function<void()>& func)
+		void SetSetFunctions(std::map<const char*, std::function<void()>>& functions)
 		{
-			SetFunctions.emplace(setName, func);
+			SetFunctions = functions;
 		}
 	}
 }

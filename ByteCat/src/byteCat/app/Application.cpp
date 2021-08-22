@@ -46,7 +46,7 @@ namespace BC
         }
         isRunning = true;
         isMinimized = false;
-
+		
         run();
     }
 	

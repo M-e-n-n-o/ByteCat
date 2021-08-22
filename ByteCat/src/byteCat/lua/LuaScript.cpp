@@ -1,6 +1,6 @@
 #include "bcpch.h"
 #include "byteCat/lua/LuaScript.h"
-#include "byteCat/lua/LuaInterface.h"
+#include "byteCat/lua/LuaAPI.h"
 
 namespace BC
 {
@@ -31,24 +31,30 @@ namespace BC
 
 	void LuaScript::addGet(const char* getName, const std::function<void()>& func)
 	{
-		if (static bool hasFunction = false; !hasFunction)
+		if (!isGetInit)
 		{
-			linkFunction("Get", LuaAPI::Get);
-			hasFunction = true;
+			linkFunction("Get", LuaAPI::Get);			
+			isGetInit = true;
 		}
-		
-		LuaAPI::AddGet(getName, func);
+
+		getFunctions.emplace(getName, func);
 	}
 
 	void LuaScript::addSet(const char* setName, const std::function<void()>& func)
 	{
-		if (static bool hasFunction = false; !hasFunction)
+		if (!isSetInit)
 		{
 			linkFunction("Set", LuaAPI::Set);
-			hasFunction = true;
+			isSetInit = true;
 		}
-		
-		LuaAPI::AddSet(setName, func);
+
+		setFunctions.emplace(setName, func);
+	}
+
+	void LuaScript::update()
+	{
+		LuaAPI::SetGetFunctions(getFunctions);
+		LuaAPI::SetSetFunctions(setFunctions);
 	}
 
 	bool LuaScript::checkLua(int error) const

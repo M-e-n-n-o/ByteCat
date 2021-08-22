@@ -56,8 +56,10 @@ namespace BC
 	}
 
 	void LuaComponent::onUpdate()
-	{		
-		updateCallback(Application::GetDelta());
+	{
+		// TODO Make this section thread safe (this may not be interrupted)
+			script->update();
+			updateCallback(Application::GetDelta());
 	}
 
 	void LuaComponent::onDetach()

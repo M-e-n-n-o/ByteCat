@@ -1,5 +1,6 @@
 #pragma once
 
+#include <map>
 #include <string>
 #include "byteCat/lua/LuaFunction.h"
 
@@ -15,6 +16,12 @@ namespace BC
 		lua_State* vm;
 		std::string scriptName;
 
+		bool isSetInit = false;
+		bool isGetInit = false;
+		
+		std::map<const char*, std::function<void()>> setFunctions;
+		std::map<const char*, std::function<void()>> getFunctions;
+	
 	public:
 		LuaScript(lua_State* luaState, std::string const& fileName);
 
@@ -34,6 +41,9 @@ namespace BC
 		// Adds a new 'Set' into the lua script which can be called by "Set({setName})"
 		// ! Do not forget to pop the values which you take of the lua stack !
 		void addSet(const char* setName, const std::function<void()>& func);
+
+		// Call this function every frame to update the Get and Set functions for the script
+		void update();
 
 	private:
 		bool checkLua(int error) const;
