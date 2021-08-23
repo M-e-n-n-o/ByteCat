@@ -106,7 +106,6 @@ namespace BC
 				// ensure it's a function
 				if (!lua_isfunction(m_vm, -1)) {
 					lua_pop(m_vm, 1);
-					LOG(func + " function not found in a lua script");
 					isFound = false;
 					return;
 				}

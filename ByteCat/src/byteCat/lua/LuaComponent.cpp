@@ -86,23 +86,24 @@ namespace BC
 		script = new LuaScript(vm, file);
 		
 		// Link objectComponent functions
-		attachFunc = script->getFunction<void>("onAttach");
+		auto attachFunc = script->getFunction<void>("onAttach");
 		if (attachFunc != nullptr)
 		{
 			attachCallback = *attachFunc;
-		}
+		} else { LOG_INFO("OnAttach function not found in a lua script \"{0}\"", scriptName); }
 
-		updateFunc = script->getFunction<void>("onUpdate");
+		auto updateFunc = script->getFunction<void>("onUpdate");
 		if (updateFunc != nullptr)
 		{
 			updateCallback = *updateFunc;
-		}
+			updateFunc->cleanUp();
+		} else { LOG_INFO("onUpdate function not found in a lua script \"{0}\"", scriptName); }
 
-		detachFunc = script->getFunction<void>("onUpdate");
+		auto detachFunc = script->getFunction<void>("onDetach");
 		if (detachFunc != nullptr)
 		{
 			detachCallback = *detachFunc;
-		}
+		} else { LOG_INFO("onDetach function not found in a lua script \"{0}\"", scriptName); }
 
 		linkGetSetFunctions(scriptName);
 		script->linkFunction("IsKeyPressed", IsKeyPressed);
@@ -110,19 +111,14 @@ namespace BC
 	}
 
 	LuaComponent::~LuaComponent()
-	{
-		if (attachFunc != nullptr) { attachFunc->cleanUp(); }
-		if (updateFunc != nullptr) { updateFunc->cleanUp(); }
-		if (detachFunc != nullptr) { detachFunc->cleanUp(); }
-		
+	{		
 		delete script;
-		
 		lua_close(vm);
 	}
 
 	void LuaComponent::onAttach()
 	{
-		if (attachFunc != nullptr)
+		if (attachCallback != nullptr)
 		{
 			attachCallback();
 		}
@@ -131,7 +127,7 @@ namespace BC
 	void LuaComponent::onUpdate()
 	{	
 		// TODO Make this section thread safe (this may not be interrupted)
-		if (updateFunc != nullptr)
+		if (updateCallback != nullptr)
 		{
 			script->update();
 			updateCallback(Application::GetDelta());
@@ -140,7 +136,7 @@ namespace BC
 
 	void LuaComponent::onDetach()
 	{
-		if (detachFunc != nullptr)
+		if (detachCallback != nullptr)
 		{
 			detachCallback();
 		}

@@ -36,9 +36,7 @@ namespace BC
 	}
 
 	void ImGuiLayer::onAttach()
-	{
-		LOG_INFO("Adding imgui");
-		
+	{		
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
 		ImGuiIO& io = ImGui::GetIO(); (void)io;

@@ -5,6 +5,6 @@ namespace BC
 {
 	void LuaAPI::LOG(std::string string)
 	{
-		LOG_ERROR(string);
+		LOG_ERROR("Lua script: {0}", string);
 	}
 }

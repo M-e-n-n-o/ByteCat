@@ -43,7 +43,7 @@ namespace BC
 		virtual void onUpdate() {}
 		// Gets called when the component gets removed from the GameObject
 		virtual void onDetach() {}
-
+	
 	private:
 		void initName()
 		{
@@ -139,7 +139,7 @@ namespace BC
 				}
 			}
 		}
-
+		
 		return nullptr;
 	}
 
