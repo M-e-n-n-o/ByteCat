@@ -1,3 +1,4 @@
+LOG_INFO(package.path)
 LOG_INFO(require "test")
 
 

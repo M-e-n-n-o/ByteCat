@@ -21,6 +21,8 @@ namespace BC
 		// Link standard ByteCat functions
 		linkFunction("LOG_INFO", LuaAPI::LogInfo);
 		linkFunction("LOG_ERROR", LuaAPI::LogError);
+
+		luaL_dostring(vm, "package.path = '?.lua;res/?.lua;'");
 		
 		checkLua(luaL_dofile(vm, scriptName.c_str()));
 	}

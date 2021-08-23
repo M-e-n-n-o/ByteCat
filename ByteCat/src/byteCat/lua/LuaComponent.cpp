@@ -80,11 +80,11 @@ namespace BC
 	{		
 		name = scriptName;
 
-		std::string file = scriptName; file.insert(0, "lua/");
+		std::string file = scriptName; file.insert(0, "res/");
 		
 		vm = luaL_newstate();
 		script = new LuaScript(vm, file);
-
+		
 		// Link objectComponent functions
 		attachFunc = std::make_unique<LuaAPI::lua_function<void>>(script->getFunction<void>("onAttach"));
 		attachCallback = *attachFunc;
