@@ -96,6 +96,8 @@ namespace BC
 		class lua_function_base
 		{
 		public:
+			bool isFound = true;
+			
 			lua_function_base(lua_State* vm, const std::string& func)
 				: m_vm(vm)
 			{
@@ -105,6 +107,7 @@ namespace BC
 				if (!lua_isfunction(m_vm, -1)) {
 					lua_pop(m_vm, 1);
 					LOG(func + " function not found in a lua script");
+					isFound = false;
 					return;
 				}
 				

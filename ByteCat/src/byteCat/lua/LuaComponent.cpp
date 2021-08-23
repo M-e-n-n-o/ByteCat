@@ -86,14 +86,23 @@ namespace BC
 		script = new LuaScript(vm, file);
 		
 		// Link objectComponent functions
-		attachFunc = std::make_unique<LuaAPI::lua_function<void>>(script->getFunction<void>("onAttach"));
-		attachCallback = *attachFunc;
+		attachFunc = script->getFunction<void>("onAttach");
+		if (attachFunc != nullptr)
+		{
+			attachCallback = *attachFunc;
+		}
 
-		updateFunc = std::make_unique<LuaAPI::lua_function<void>>(script->getFunction<void>("onUpdate"));
-		updateCallback = *updateFunc;
+		updateFunc = script->getFunction<void>("onUpdate");
+		if (updateFunc != nullptr)
+		{
+			updateCallback = *updateFunc;
+		}
 
-		detachFunc = std::make_unique<LuaAPI::lua_function<void>>(script->getFunction<void>("onUpdate"));
-		detachCallback = *detachFunc;
+		detachFunc = script->getFunction<void>("onUpdate");
+		if (detachFunc != nullptr)
+		{
+			detachCallback = *detachFunc;
+		}
 
 		linkGetSetFunctions(scriptName);
 		script->linkFunction("IsKeyPressed", IsKeyPressed);
@@ -101,10 +110,10 @@ namespace BC
 	}
 
 	LuaComponent::~LuaComponent()
-	{		
-		attachFunc->cleanUp();
-		updateFunc->cleanUp();
-		detachFunc->cleanUp();
+	{
+		if (attachFunc != nullptr) { attachFunc->cleanUp(); }
+		if (updateFunc != nullptr) { updateFunc->cleanUp(); }
+		if (detachFunc != nullptr) { detachFunc->cleanUp(); }
 		
 		delete script;
 		
@@ -113,19 +122,28 @@ namespace BC
 
 	void LuaComponent::onAttach()
 	{
-		attachCallback();
+		if (attachFunc != nullptr)
+		{
+			attachCallback();
+		}
 	}
 
 	void LuaComponent::onUpdate()
 	{	
 		// TODO Make this section thread safe (this may not be interrupted)
+		if (updateFunc != nullptr)
+		{
 			script->update();
 			updateCallback(Application::GetDelta());
+		}
 	}
 
 	void LuaComponent::onDetach()
 	{
-		detachCallback();
+		if (detachFunc != nullptr)
+		{
+			detachCallback();
+		}
 	}
 
 	void LuaComponent::linkGetSetFunctions(std::string const& scriptName)

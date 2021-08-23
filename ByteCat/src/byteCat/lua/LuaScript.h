@@ -27,7 +27,7 @@ namespace BC
 
 		// Returns a function pointer to the function in the lua script
 		template<typename Ret>
-		LuaAPI::lua_function<Ret> getFunction(std::string const& funcName);
+		std::unique_ptr<LuaAPI::lua_function<Ret>> getFunction(std::string const& funcName);
 
 		// Adds a new function into the lua script
 		void linkFunction(std::string const& funcName, int (*func)(lua_State*));
@@ -49,9 +49,15 @@ namespace BC
 
 	
 	template <typename Ret>
-	LuaAPI::lua_function<Ret> LuaScript::getFunction(std::string const& funcName)
+	std::unique_ptr<LuaAPI::lua_function<Ret>> LuaScript::getFunction(std::string const& funcName)
 	{
 		checkLua(luaL_loadfile(vm, scriptName.c_str()));
-		return LuaAPI::lua_function<Ret>(vm, funcName);
+		std::unique_ptr<LuaAPI::lua_function<Ret>> func = std::make_unique<LuaAPI::lua_function<Ret>>(vm, funcName);
+		if (func->isFound)
+		{
+			return func;
+		}
+
+		return nullptr;
 	}
 }

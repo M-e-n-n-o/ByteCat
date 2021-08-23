@@ -1,6 +1,4 @@
-function onAttach()
-	LOG_INFO("attach")
-end
+
 
 
 local rad = math.rad

@@ -64,7 +64,7 @@ namespace BC
 	{
 		if (error != LUA_OK)
 		{
-			LOG_ERROR("{0}", lua_tostring(vm, -1));
+			LOG_ERROR("Lua script \"{0}\": {1}", scriptName, lua_tostring(vm, -1));
 			return false;
 		}
 

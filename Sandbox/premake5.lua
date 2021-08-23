@@ -34,7 +34,7 @@ project "Sandbox"
 
 		postbuildcommands
 		{
-			("mkdir ..\\bin\\" .. outputdir .. "\\Sandbox\\res"),
+			("if not exist \"..\\bin\\" .. outputdir .. "\\Sandbox\\res\" mkdir \"..\\bin\\" .. outputdir .. "\\Sandbox\\res\""),
 			("ROBOCOPY ./res ../bin/" .. outputdir .. "/Sandbox/res /E")
 		}
 
