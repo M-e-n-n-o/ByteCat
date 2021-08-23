@@ -22,7 +22,7 @@ namespace BC
 		linkFunction("LOG_INFO", LuaAPI::LogInfo);
 		linkFunction("LOG_ERROR", LuaAPI::LogError);
 		
-		checkLua(luaL_loadfile(vm, scriptName.c_str()));
+		checkLua(luaL_dofile(vm, scriptName.c_str()));
 	}
 
 	void LuaScript::linkFunction(std::string const& funcName, int (*func)(lua_State*))

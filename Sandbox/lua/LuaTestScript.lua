@@ -1,3 +1,6 @@
+LOG_INFO(require "test")
+
+
 function onAttach()
 	LOG_INFO("attach")
 end

@@ -19,6 +19,7 @@ public:
 		object = GameLayer::CreateGameObject("Tree", Transform({ 0, -5, -100 }, { 0, 0, 0 }, { 0.5, 0.5, 0.5 }));
 		object->addComponent(new Material(Shaders::Create(ByteCatShader::Standard)));
 		object->addComponent(new Sprite("kat.jpg"));
+		//object->addComponent(new LuaComponent("test.lua"));
 		
 		camera = GameLayer::CreateGameObject("Camera", Transform({ 0, 0, 0 }, { 0, 0, 0 }, { 1, 1, 1 }));
 		camera->addComponent(new PerspectiveCamera(70, 0.01f, 1000));
@@ -29,7 +30,7 @@ public:
 
 	void onUpdate() override
 	{		
-		//object->transform.rotation.y += Application::GetDelta() * 10;
+		object->transform.rotation.y += Application::GetDelta() * 10;
 	}
 
 	void onImGuiRender() override

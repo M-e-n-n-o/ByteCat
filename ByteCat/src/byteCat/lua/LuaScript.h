@@ -51,7 +51,7 @@ namespace BC
 	template <typename Ret>
 	LuaAPI::lua_function<Ret> LuaScript::getFunction(std::string const& funcName)
 	{
-		checkLua(luaL_dofile(vm, scriptName.c_str()));
+		checkLua(luaL_loadfile(vm, scriptName.c_str()));
 		return LuaAPI::lua_function<Ret>(vm, funcName);
 	}
 }

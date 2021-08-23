@@ -77,10 +77,10 @@ namespace BC
 	}
 	
 	LuaComponent::LuaComponent(std::string const& scriptName)
-	{
+	{		
 		name = scriptName;
 
-		std::string file = scriptName; file.insert(0, "res/");
+		std::string file = scriptName; file.insert(0, "lua/");
 		
 		vm = luaL_newstate();
 		script = new LuaScript(vm, file);

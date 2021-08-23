@@ -34,7 +34,8 @@ project "Sandbox"
 
 		postbuildcommands
 		{
-			("{COPY} res/* ../bin/" .. outputdir .. "/Sandbox/res")
+			("{COPY} res/* ../bin/" .. outputdir .. "/Sandbox/res"),
+			("{COPY} lua/* ../bin/" .. outputdir .. "/Sandbox/lua")
 		}
 
 		defines
@@ -59,7 +60,8 @@ project "Sandbox"
 
 		postbuildcommands
 		{
-			("cp -R ./res ../bin/" .. outputdir .. "/Sandbox")
+			("cp -R ./res ../bin/" .. outputdir .. "/Sandbox"),
+			("cp -R ./lua ../bin/" .. outputdir .. "/Sandbox")
 		}
 
 		defines
