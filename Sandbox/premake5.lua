@@ -34,7 +34,8 @@ project "Sandbox"
 
 		postbuildcommands
 		{
-			("{COPY} res/* ../bin/" .. outputdir .. "/Sandbox/res")
+			("mkdir ..\\bin\\" .. outputdir .. "\\Sandbox\\res"),
+			("ROBOCOPY ./res ../bin/" .. outputdir .. "/Sandbox/res /E")
 		}
 
 		defines

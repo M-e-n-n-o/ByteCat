@@ -1,7 +1,3 @@
-LOG_INFO(package.path)
-LOG_INFO(require "test")
-
-
 function onAttach()
 	LOG_INFO("attach")
 end
@@ -12,7 +8,7 @@ local cos = math.cos
 local sin = math.sin
 
 local speed = 15.0
-local rotationSpeed = 60
+local rotationSpeed = 60 
 
 local currentSpeed, currentRotationSpeed = 0, 0
 local Position, Rotation = {x = 0, y = 0, z = 0}
