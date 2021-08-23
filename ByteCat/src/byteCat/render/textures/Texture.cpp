@@ -7,8 +7,6 @@ namespace BC
 {
 	Texture2D::Texture2D(std::string& filePath, float mipmapLOD)
 	{
-		filePath.insert(0, "res/");
-
 		LOG_INFO("Loading texture: {0}", filePath);
 		
 		int width, height, bpp;

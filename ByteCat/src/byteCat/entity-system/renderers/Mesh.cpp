@@ -19,7 +19,8 @@ namespace BC
 
 	Mesh::Mesh(std::string const& fileName, bool useStaticModel)
 	{
-		this->vao = ModelStorage::GetModel(fileName, useStaticModel);
+		std::string file = fileName; file.insert(0, "res/");
+		this->vao = ModelStorage::GetModel(file, useStaticModel);
 	}
 
 	Mesh::Mesh(std::vector<float>& vertices, std::vector<unsigned int>& indices)

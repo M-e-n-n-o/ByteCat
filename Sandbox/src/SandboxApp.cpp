@@ -3,8 +3,6 @@
 #include "byteCat/render/Renderer.h"
 #include "imgui/imgui.h"
 
-#include "CameraControls.h"
-
 using namespace BC;
 
 class ExampleLayer : public Layer
@@ -18,17 +16,16 @@ public:
 	{		
 		object = GameLayer::CreateGameObject("Tree", Transform({ 0, -5, -100 }, { 0, 0, 0 }, { 0.5, 0.5, 0.5 }));
 		object->addComponent(new Material(Shaders::Create(ByteCatShader::Standard)));
-		object->addComponent(new Sprite("kat.jpg"));
+		object->addComponent(new Sprite("textures/kat.jpg"));
 		
 		camera = GameLayer::CreateGameObject("Camera", Transform({ 0, 0, 0 }, { 0, 0, 0 }, { 1, 1, 1 }));
 		camera->addComponent(new PerspectiveCamera(70, 0.01f, 1000));
-		camera->addComponent(new CameraControls);
-		camera->addComponent(new LuaComponent("res/LuaTestScript.lua"));
+		camera->addComponent(new LuaComponent("scripts/CameraControls"));
 		GameLayer::SetCamera(camera);
 	}
 
 	void onUpdate() override
-	{
+	{		
 		object->transform.rotation.y += Application::GetDelta() * 10;
 	}
 

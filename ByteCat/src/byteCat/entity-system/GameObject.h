@@ -29,6 +29,9 @@ namespace BC
 	
 	protected:
 		GameObject* gameObject;
+
+	public:
+		std::string name;
 	
 	public:
 		ObjectComponent() = default;
@@ -41,7 +44,14 @@ namespace BC
 		// Gets called when the component gets removed from the GameObject
 		virtual void onDetach() {}
 
-		std::string toString() { return typeid(*this).name(); }
+	private:
+		void initName()
+		{
+			if (name.empty())
+			{
+				name = typeid(*this).name();
+			}
+		}
 	};
 
 	// Use this class to make custom render components for the gameobject
@@ -52,7 +62,7 @@ namespace BC
 
 	public:
 		virtual ~RenderComponent() = default;
-	
+
 	private:		
 		// Gets called before rendering the GameObject (load the modelMatrix and bind the textures to the shader)
 		virtual void prepareRender(glm::mat4& viewMatrix, glm::mat4& projectionMatrix) = 0;
@@ -91,16 +101,19 @@ namespace BC
 		void removeComponent(ObjectComponent* toRemove);
 		
 		// This function returns the ObjectComponent with the given ObjectComponent type
+		// Pass an optional name into this function when there can be multiple components attached from the same type (like a LuaScript)
 		template<class T>
-		T* getComponent();
+		T* getComponent(std::string const& optionalName = "");
 
 		// This function checks if the gameobject already has this component
+		// Pass an optional name into this function when there can be multiple components attached from the same type (like a LuaScript)
 		template<class T>
-		bool hasComponent();
+		bool hasComponent(std::string const& optionalName = "");
 
 		// This function removes the ObjectComponent with the given ObjectComponent type
+		// Pass an optional name into this function when there can be multiple components attached from the same type (like a LuaScript)
 		template<class T>
-		void removeComponent() { removeComponent(getComponent<T>()); }
+		void removeComponent(std::string const& optionalName = "") { removeComponent(getComponent<T>(optionalName)); }
 
 		glm::mat4 getModelMatrix() const;
 	};
@@ -109,13 +122,21 @@ namespace BC
 	// --------------------- Template elaborations of GameObject ----------------------------
 	
 	template <class T>
-	T* GameObject::getComponent()
+	T* GameObject::getComponent(std::string const& optionalName)
 	{
 		for (ObjectComponent* component : components)
 		{
 			if (T* x = dynamic_cast<T*>(component))
 			{
-				return x;
+				if (optionalName.empty())
+				{
+					return x;
+				}
+
+				if (optionalName == component->name)
+				{
+					return x;
+				}
 			}
 		}
 
@@ -123,13 +144,21 @@ namespace BC
 	}
 
 	template <class T>
-	bool GameObject::hasComponent()
+	bool GameObject::hasComponent(std::string const& optionalName)
 	{
 		for (ObjectComponent* component : components)
 		{
 			if (T* x = dynamic_cast<T*>(component))
 			{
-				return true;
+				if (optionalName.empty())
+				{
+					return true;
+				}
+
+				if (optionalName == component->name)
+				{
+					return true;
+				}
 			}
 		}
 

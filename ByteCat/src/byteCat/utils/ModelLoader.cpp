@@ -49,7 +49,6 @@ namespace BC
 		
 		static bool LoadObjModel(std::string filePath, std::vector<float>& vertices, std::vector<unsigned>& indices, std::vector<float>& normals, std::vector<float>& textureCoords)
 		{
-			filePath.insert(0, "res/");
 			std::ifstream ifs(filePath);
 			if (!ifs.is_open())
 			{
@@ -147,7 +146,7 @@ namespace BC
 		
 		bool LoadModel(std::string const& filePath, std::vector<float>& vertices, std::vector<unsigned>& indices, std::vector<float>& normals, std::vector<float>& textureCoords)
 		{
-			LOG_INFO("Loading model: res/{0}", filePath);
+			LOG_INFO("Loading model: {0}", filePath);
 			
 			if (filePath.find(".obj") != std::string::npos)
 			{
