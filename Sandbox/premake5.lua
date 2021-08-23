@@ -32,12 +32,6 @@ project "Sandbox"
 	filter "system:windows"
 		systemversion "latest"
 
-		postbuildcommands
-		{
-			("if not exist \"..\\bin\\" .. outputdir .. "\\Sandbox\\res\" mkdir \"..\\bin\\" .. outputdir .. "\\Sandbox\\res\""),
-			("ROBOCOPY ./res ../bin/" .. outputdir .. "/Sandbox/res /E")
-		}
-
 		defines
 		{
 			"BC_PLATFORM_WINDOWS"
