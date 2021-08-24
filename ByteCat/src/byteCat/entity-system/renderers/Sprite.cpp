@@ -1,6 +1,7 @@
 #include "bcpch.h"
 #include "byteCat/entity-system/renderers/Sprite.h"
 #include "byteCat/entity-system/Material.h"
+#include "byteCat/utils/Storage.h"
 
 namespace BC
 {
@@ -17,8 +18,8 @@ namespace BC
 	void Sprite::setTexture(std::string const& fileName)
 	{
 		std::string file = fileName; file.insert(0, "res/");
-		
-		this->texture = Texture2D::Create(file);
+
+		this->texture = Storage::GetTexture(file);
 		this->vao = generateVao(texture->getWidth(), texture->getHeight());
 	}
 

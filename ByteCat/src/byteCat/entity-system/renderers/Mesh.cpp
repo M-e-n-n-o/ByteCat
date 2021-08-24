@@ -2,7 +2,7 @@
 #include "byteCat/entity-system/renderers/Mesh.h"
 #include "byteCat/entity-system/Material.h"
 #include "byteCat/render/Renderer.h"
-#include "byteCat/entity-system/ModelStorage.h"
+#include "byteCat/utils/Storage.h"
 
 
 namespace BC
@@ -20,7 +20,7 @@ namespace BC
 	Mesh::Mesh(std::string const& fileName, bool useStaticModel)
 	{
 		std::string file = fileName; file.insert(0, "res/");
-		this->vao = ModelStorage::GetModel(file, useStaticModel);
+		this->vao = Storage::GetModel(file, useStaticModel);
 	}
 
 	Mesh::Mesh(std::vector<float>& vertices, std::vector<unsigned int>& indices)

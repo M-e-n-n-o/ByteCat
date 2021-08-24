@@ -21,6 +21,7 @@
 
 #include "byteCat/utils/Math.h"
 #include "byteCat/utils/ModelLoader.h"
+#include "byteCat/utils/Storage.h"
 
 #include "byteCat/render/RenderSettings.h"
 #include "byteCat/render/Renderer.h"
@@ -36,7 +37,6 @@
 #include "byteCat/entity-system/Material.h"
 #include "byteCat/entity-system/cameras/OrthographicCamera.h"
 #include "byteCat/entity-system/cameras/PerspectiveCamera.h"
-#include "byteCat/entity-system/ModelStorage.h"
 
 #include "byteCat/lua/LuaScript.h"
 #include "byteCat/lua/LuaComponent.h"

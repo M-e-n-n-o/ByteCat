@@ -36,7 +36,7 @@ namespace BC
 	 *		This class represents a ByteCat 2D Texture to render on top of a VertexArray
 	 */
 	class Texture2D : public Texture
-	{
+	{		
 	public:
 		Texture2D(std::string& filePath, float mipmapLOD);
 		~Texture2D() override;

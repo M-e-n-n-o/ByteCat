@@ -13,10 +13,13 @@ private:
 
 public:
 	ExampleLayer() : Layer("ExampleLayer")
-	{		
-		object = GameLayer::CreateGameObject("Tree", Transform({ 0, -5, -100 }, { 0, 0, 0 }, { 0.5, 0.5, 0.5 }));
-		object->addComponent(new Material(Shaders::Create(ByteCatShader::Standard)));
-		object->addComponent(new Sprite("textures/kat.jpg"));
+	{
+		for (int i = -100; i < 100; i += 2)
+		{
+			object = GameLayer::CreateGameObject("Tree", Transform({ 0, -5, -100 }, { 0, 0, 0 }, { 0.2, 0.2, 0.2 }));
+			object->addComponent(new Material(ByteCatShader::Standard));
+			object->addComponent(new Sprite("textures/kat.jpg"));
+		}
 		
 		camera = GameLayer::CreateGameObject("Camera", Transform({ 0, 0, 0 }, { 0, 0, 0 }, { 1, 1, 1 }));
 		camera->addComponent(new PerspectiveCamera(70, 0.01f, 1000));
@@ -59,6 +62,8 @@ public:
 	{
 
 	}
+
+	
 };
 
 Application* BC::CreateApplication()

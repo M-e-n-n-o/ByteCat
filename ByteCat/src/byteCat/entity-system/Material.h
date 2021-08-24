@@ -15,11 +15,14 @@ namespace BC
 		std::shared_ptr<Shader> shader;
 
 	public:
-		Material(ByteCatShader const& shaderType);
-		Material(std::shared_ptr<Shader> shader);
-		Material(std::string& vertexShader, std::string& fragmentShader);
+		Material(ByteCatShader const& shaderType, std::string const& texture2DFile = "");
+		Material(std::shared_ptr<Shader> shader, std::string const& texture2DFile = "");
+		Material(std::string& vertexShader, std::string& fragmentShader, std::string const& texture2DFile = "");
 
 		void setShader(std::shared_ptr<Shader> newShader) { shader = newShader; }
 		std::shared_ptr<Shader>& getShader() { return shader; }
+
+		void setTexture(std::string const& texture2DFile, unsigned int textureUnit = 0);
+		void setTexture(std::shared_ptr<Texture2D> texture2D, unsigned int textureUnit = 0);
 	};
 }
