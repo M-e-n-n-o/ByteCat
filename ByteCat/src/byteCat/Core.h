@@ -39,6 +39,7 @@
 	#define BC_DEBUG_BREAK
 #endif
 
+#define BC_RES_FOLDER "res/"
 
 #define BIT(x) (1 << x)
 

@@ -80,7 +80,7 @@ namespace BC
 	{		
 		name = scriptName;
 
-		std::string file = scriptName; file.insert(0, "res/"); file.append(".lua");
+		std::string file = scriptName; file.insert(0, BC_RES_FOLDER); file.append(".lua");
 		
 		vm = luaL_newstate();
 		script = new LuaScript(vm, file);

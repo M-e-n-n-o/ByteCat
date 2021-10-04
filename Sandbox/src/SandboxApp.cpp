@@ -14,12 +14,11 @@ private:
 public:
 	ExampleLayer() : Layer("ExampleLayer")
 	{
-		for (int i = -100; i < 100; i += 2)
-		{
-			object = GameLayer::CreateGameObject("Tree", Transform({ 0, -5, -100 }, { 0, 0, 0 }, { 0.2, 0.2, 0.2 }));
-			object->addComponent(new Material(ByteCatShader::Standard));
-			object->addComponent(new Sprite("textures/kat.jpg"));
-		}
+		auto shader = ByteCatShaders::Create(ByteCatShader::Standard);
+		
+		object = GameLayer::CreateGameObject("Tree", Transform({ 0, -5, -100 }, { 0, 0, 0 }, { 1, 1, 1 }));
+		object->addComponent(new Material(shader, "textures/TreeTexture.png"));
+		object->addComponent(new Mesh("models/Tree.obj"));
 		
 		camera = GameLayer::CreateGameObject("Camera", Transform({ 0, 0, 0 }, { 0, 0, 0 }, { 1, 1, 1 }));
 		camera->addComponent(new PerspectiveCamera(70, 0.01f, 1000));

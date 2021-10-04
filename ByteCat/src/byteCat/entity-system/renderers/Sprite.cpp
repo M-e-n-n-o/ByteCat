@@ -17,9 +17,7 @@ namespace BC
 
 	void Sprite::setTexture(std::string const& fileName)
 	{
-		std::string file = fileName; file.insert(0, "res/");
-
-		this->texture = Storage::GetTexture(file);
+		this->texture = Storage::GetTexture(fileName);
 		this->vao = generateVao(texture->getWidth(), texture->getHeight());
 	}
 

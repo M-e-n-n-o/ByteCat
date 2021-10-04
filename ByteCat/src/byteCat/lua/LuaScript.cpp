@@ -22,7 +22,9 @@ namespace BC
 		linkFunction("LOG_INFO", LuaAPI::LogInfo);
 		linkFunction("LOG_ERROR", LuaAPI::LogError);
 
-		luaL_dostring(vm, "package.path = '?.lua;res/?.lua;'");
+		// Set the package path for module support
+		std::string path = "package.path = '?.lua;"; path.append(BC_RES_FOLDER); path.append("?.lua;'");
+		luaL_dostring(vm, path.c_str());
 		
 		checkLua(luaL_dofile(vm, scriptName.c_str()));
 	}

@@ -19,7 +19,7 @@ namespace BC
 	 *		-Back to not render the back faces
 	 *		-Front to not render the front faces
 	 */
-	enum class RenderCulling
+	enum class CullingMode
 	{
 		None,
 		Back,

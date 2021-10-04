@@ -54,13 +54,13 @@ namespace BC
 			}
 		}
 
-		void SetRenderCulling(RenderCulling const& mode)
+		void SetRenderCulling(CullingMode const& mode)
 		{
 			switch (mode)
 			{
-			case RenderCulling::None: glDisable(GL_CULL_FACE); break;
-			case RenderCulling::Back: glEnable(GL_CULL_FACE); glCullFace(GL_BACK); break;
-			case RenderCulling::Front: glEnable(GL_CULL_FACE); glCullFace(GL_FRONT); break;
+			case CullingMode::None: glDisable(GL_CULL_FACE); break;
+			case CullingMode::Back: glEnable(GL_CULL_FACE); glCullFace(GL_BACK); break;
+			case CullingMode::Front: glEnable(GL_CULL_FACE); glCullFace(GL_FRONT); break;
 			}
 		}
 

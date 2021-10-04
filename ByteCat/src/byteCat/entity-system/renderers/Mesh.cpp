@@ -19,7 +19,7 @@ namespace BC
 
 	Mesh::Mesh(std::string const& fileName, bool useStaticModel)
 	{
-		std::string file = fileName; file.insert(0, "res/");
+		std::string file = fileName; file.insert(0, BC_RES_FOLDER);
 		this->vao = Storage::GetModel(file, useStaticModel);
 	}
 

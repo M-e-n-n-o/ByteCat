@@ -28,7 +28,7 @@ namespace BC
 		RenderAPI::SetRenderMode(mode);
 	}
 
-	void Renderer::SetCullingMode(RenderCulling const& mode)
+	void Renderer::SetCullingMode(CullingMode const& mode)
 	{
 		RenderAPI::SetRenderCulling(mode);
 	}
@@ -56,7 +56,7 @@ namespace BC
 		for (std::shared_ptr<GameObject>& gameObject : gameObjects)
 		{
 			auto renderComp = gameObject->getComponent<RenderComponent>();
-			if (renderComp == nullptr)
+			if (renderComp == nullptr || !renderComp->isRendered)
 			{
 				continue;
 			}
@@ -101,12 +101,12 @@ namespace BC
 
 		// Render the sorted entities
 		for (const auto& vertexPair : sortedEntities)
-		{
+		{			
 			// Bind the vao
 			vertexPair.first->bind();
 			
 			for (const auto& shaderPair : vertexPair.second)
-			{
+			{				
 				// Bind the shader
 				shaderPair.first->bind();
 				

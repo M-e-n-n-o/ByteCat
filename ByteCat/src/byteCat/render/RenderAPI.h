@@ -15,7 +15,7 @@ namespace BC
 		void SetRenderMode(RenderMode const& mode);
 
 		// Sets the render culling to the chosen render culling mode
-		void SetRenderCulling(RenderCulling const& mode);
+		void SetRenderCulling(CullingMode const& mode);
 		
 		// Call this function to change the size of the OpenGL window
 		void SetViewport(unsigned int x, unsigned int y, unsigned int width, unsigned int height);

@@ -6,7 +6,7 @@ namespace BC
 {
 	Material::Material(ByteCatShader const& shaderType, std::string const& texture2DFile): ObjectComponent()
 	{
-		shader = Shaders::Create(shaderType);
+		shader = ByteCatShaders::Create(shaderType);
 		setTexture(texture2DFile);
 	}
 
@@ -29,8 +29,7 @@ namespace BC
 			return;
 		}
 
-		std::string textureFile = texture2DFile; textureFile.insert(0, "res/");
-		if (auto texture = Storage::GetTexture(textureFile); texture)
+		if (auto texture = Storage::GetTexture(texture2DFile); texture)
 		{
 			shader->setTexture(texture, textureUnit);
 		}

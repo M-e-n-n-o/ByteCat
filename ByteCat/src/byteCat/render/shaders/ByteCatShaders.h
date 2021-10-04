@@ -26,7 +26,7 @@ namespace BC
 		}
 	};
 
-	namespace Shaders
+	namespace ByteCatShaders
 	{
 		// Use this function to create a predefined ByteCat shader
 		static std::shared_ptr<Shader> Create(ByteCatShader const& shaderType)

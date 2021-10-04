@@ -57,6 +57,9 @@ namespace BC
 	// Use this class to make custom render components for the gameobject
 	class RenderComponent: public ObjectComponent
 	{
+	public:
+		bool isRendered = true;
+
 	private:
 		friend class Renderer;
 
