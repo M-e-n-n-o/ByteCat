@@ -1,14 +1,8 @@
 #include "bcpch.h"
 #include "byteCat/app/Application.h"
 
-#include "byteCat/entity-system/Material.h"
-#include "byteCat/entity-system/renderers/Mesh.h"
-#include "byteCat/entity-system/cameras/PerspectiveCamera.h"
-#include "byteCat/render/Renderer.h"
-
-
 namespace BC
-{	
+{
     Application* Application::instance = nullptr;
 	
 	Application::Application() : isRunning(false)
@@ -21,20 +15,13 @@ namespace BC
         WindowSetting setting = { "ByteCat Engine", 1280, 720, false };
         window = Window::Create(setting);
         window->setEventListener(this);
-
-        gameLayer = new GameLayer();
-        pushLayer(gameLayer);
-		
-        imGuiLayer = new ImGuiLayer();
-        pushOverlay(imGuiLayer);
-
-        Renderer::Init();
 	}
 
     Application::~Application()
     {
-        Renderer::Shutdown();
         LOG_INFO("ByteCat engine is closing...");
+
+        delete window;
     }
 
     void Application::start()
@@ -44,8 +31,8 @@ namespace BC
             LOG_WARN("Cannot run the main game loop synchronous");
             return;
         }
+		
         isRunning = true;
-        isMinimized = false;
 		
         run();
     }
@@ -54,10 +41,13 @@ namespace BC
 	{	
 		while (isRunning)
 		{
-            delta = window->update();
-			
-            if (isMinimized) { continue; }
-			
+            window->update();
+
+			if (window->isMinimized())
+			{
+				continue;
+			}
+
 		 	// Updating
 	        for (Layer* layer : layerStack)
 	        {
@@ -66,37 +56,9 @@ namespace BC
 
 			
             // Rendering
-            if (std::shared_ptr<GameObject> camera = gameLayer->GetCamera())
+            for (Layer* layer : layerStack)
             {
-                Renderer::BeginScene(camera->getComponent<Camera>()->getViewMatrix(), camera->getComponent<Camera>()->getProjectionMatrix());
-
-            	// OnRender
-                for (Layer* layer : layerStack)
-                {
-                    if (layer->enabled) { layer->onRender(); }
-                }
-            	
-                for (std::shared_ptr<GameObject>& gameObject : gameLayer->getGameObjects())
-                {
-                    if (gameObject->isEnabled) { Renderer::Submit(gameObject); }
-                }
-
-                Renderer::EndScene();
-            } else
-            {
-                LOG_WARN("No camera has been set");
-            }
-		 	
-		 	
-		 	// ImGui Rendering
-            if (imGuiLayer->enabled)
-            {
-                imGuiLayer->begin();
-                for (Layer* layer : layerStack)
-				{
-					if (layer->enabled) { layer->onImGuiRender(); }
-                }
-				imGuiLayer->end();
+                if (layer->enabled) { layer->onRender(); }
             }
 		}
 	}
@@ -130,18 +92,7 @@ namespace BC
 
     bool Application::onWindowResize(WindowResizeEvent& event)
     {
-		if (event.getWidth() == 0 || event.getHeight() == 0)
-		{
-            isMinimized = true;
-            return false;
-		}
-
-        isMinimized = false;
-
         window->resize(event.getWidth(), event.getHeight());
-        Renderer::OnWindowResize(event.getWidth(), event.getHeight());
-        gameLayer->onWindowResize(event.getWidth(), event.getHeight());
-
         return true;
     }
 

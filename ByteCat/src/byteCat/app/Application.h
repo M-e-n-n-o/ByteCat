@@ -4,32 +4,24 @@
 #include "byteCat/input/events/Event.h"
 #include "byteCat/app/Window.h"
 #include "byteCat/app/Layer.h"
-#include "byteCat/entity-system/GameLayer.h"
-#include "byteCat/imgui/ImGuiLayer.h"
 #include "byteCat/input/events/ApplicationEvent.h"
 
 namespace BC
 {
-	/*
-	 * class Application:
-	 *		This class represents the whole ByteCat application itself.
-	 *		When starting this class the application starts.
-	 *		Inherit from this class in the users application to make a ByteCat application.
-	 */
+	/// <summary>
+	/// This class represents the whole ByteCat application itself.
+	/// When starting this class the application starts.
+	/// Inherit from this class in the users application to make a ByteCat application.
+	/// </summary>
 	class Application : public EventListener
 	{
 	private:
 		static Application* instance;
-
-		static inline double delta;
 		
 		LayerStack layerStack;
-		ImGuiLayer* imGuiLayer;
-		GameLayer* gameLayer;
 
-		std::unique_ptr<Window> window;
+		Window* window;
 		bool isRunning;
-		bool isMinimized;
 
 		friend int ::main(int argc, char** argv);
 		
@@ -44,8 +36,6 @@ namespace BC
 
 		Window& getWindow() const { return *window; }
 		static Application& GetInstance() { return *instance; }
-
-		static double GetDelta() { return delta; }
 	
 	private:
 		void start();

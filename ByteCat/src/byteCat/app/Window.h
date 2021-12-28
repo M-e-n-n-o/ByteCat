@@ -12,8 +12,8 @@ namespace BC
 	struct WindowSetting
 	{
 		std::string title;
-		int width;
-		int height;
+		unsigned int width;
+		unsigned int height;
 		bool vSync;
 	};
 
@@ -24,41 +24,37 @@ namespace BC
 	 */
 	class Window
 	{
-	private:
+	protected:
 		EventListener* listener;
-		WindowSetting setting;
-
-		const int printFpsAfterSec = 5;
-	
+		WindowSetting windowSetting;
 	public:
-		Window(WindowSetting& windowSetting);
-		~Window() { shutdown(); }
+		Window() = default;
+		virtual ~Window() = default;
 
-		// Swap the buffers, poll the events and update delta
-		double update() const;
+		// Swap the buffers, poll the events
+		virtual void update() const = 0;
 		// Shutdown the window
-		void shutdown() const;
+		virtual void shutdown() const = 0;
 
 		// Change the window settings to the new width and heigt
-		void resize(unsigned int width, unsigned int height);
+		virtual void resize(unsigned int width, unsigned int height) = 0;
 		
-		std::string getTitle() const { return setting.title; }
-		int getWidth() const { return setting.width; }
-		int getHeight() const { return setting.height; }
+		virtual std::string getTitle() const = 0;
+		virtual unsigned int getWidth() const = 0;
+		virtual unsigned int getHeight() const = 0;
 		
-		void setVsync(bool enabled);
-		bool getVsync() const { return setting.vSync; }
+		virtual void setVsync(bool enabled) = 0;
+		virtual bool getVsync() const = 0;
 
-		// Returns an OpenGL GLFWwindow
-		void* getNativeWindow() const;
+		virtual bool isMinimized() = 0;
+		
+		// Returns the native window
+		virtual void* getNativeWindow() const = 0;
 
 		// Sets the eventlistener of the incoming events
-		void setEventListener(EventListener* newListener) { listener = newListener; }
+		void setEventListener(EventListener* newListener) { listener = newListener; };
 		EventListener* getEventListener() const { return listener; }
 
-		static std::unique_ptr<Window> Create(WindowSetting& windowSetting)
-		{
-			return std::make_unique<Window>(windowSetting);
-		}
+		static Window* Create(WindowSetting& setting);
 	};
 }
