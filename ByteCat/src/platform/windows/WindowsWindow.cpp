@@ -13,7 +13,7 @@ namespace BC
 		static GLFWwindow* nativeWindow;
 		static EventListener* eventListener;
 		
-		WindowsWindow::WindowsWindow(WindowSetting& setting)
+		WindowsWindow::WindowsWindow(WindowSettings& setting)
 		{
 			LOG_INFO("Trying to create a Windows window");
 
@@ -44,7 +44,7 @@ namespace BC
 
 			LOG_INFO("Created a Windows window with title: {0}, width: {1}, height: {2} and vSync: {3}", windowSetting.title, windowSetting.width, windowSetting.height, windowSetting.vSync);
 
-			context = GraphicsContext::Create(nativeWindow, GraphicsAPI::OpenGL);
+			context = GraphicsContext::Create(nativeWindow);
 			context->init();
 
 			setVsync(windowSetting.vSync);

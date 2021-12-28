@@ -5,11 +5,8 @@
 
 namespace BC
 {
-	/*
-	 * Struct WindowSetting:
-	 *		This struct holds the settings for a window
-	 */
-	struct WindowSetting
+	// This struct holds the settings for a window
+	struct WindowSettings
 	{
 		std::string title;
 		unsigned int width;
@@ -17,10 +14,10 @@ namespace BC
 		bool vSync;
 	};
 
-
-	/*
-	 * Class Window:
-	 *		This class represents a window from a ByteCat application
+	/* Class Window:
+	 *
+	 * @desc
+	 *	This class represents a window from a ByteCat application
 	 */
 	class Window
 	{
@@ -51,6 +48,6 @@ namespace BC
 		// Sets the eventlistener of the incoming events
 		virtual void setEventListener(EventListener* newListener) = 0;
 
-		static Window* Create(WindowSetting& setting);
+		static Window* Create(WindowSettings& setting);
 	};
 }

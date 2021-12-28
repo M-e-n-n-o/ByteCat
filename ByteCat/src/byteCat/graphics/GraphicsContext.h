@@ -1,9 +1,12 @@
 #pragma once
 
-#include "byteCat/graphics/GraphicsAPI.h"
-
 namespace BC
-{	
+{
+	/* Class GraphicsContext
+	 *
+	 * @desc
+	 *	This generic GraphicsContext represents the render context the renderer will render to.
+	 */
 	class GraphicsContext
 	{
 	public:
@@ -12,6 +15,6 @@ namespace BC
 		virtual void init() = 0;
 		virtual void swapBuffers() = 0;
 
-		static GraphicsContext* Create(void* window, GraphicsAPI api);
+		static GraphicsContext* Create(void* window);
 	};
 }

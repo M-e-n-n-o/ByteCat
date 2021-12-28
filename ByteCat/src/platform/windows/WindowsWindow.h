@@ -9,13 +9,13 @@ namespace BC
 		class WindowsWindow : public Window
 		{
 		private:
-			WindowSetting windowSetting;
+			WindowSettings windowSetting;
 			GraphicsContext* context;
 			
 			bool minimized = false;
 			
 		public:
-			WindowsWindow(WindowSetting& setting);
+			WindowsWindow(WindowSettings& setting);
 			~WindowsWindow() { shutdown(); }
 
 			// Swap the buffers, poll the events

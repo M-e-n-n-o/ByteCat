@@ -5,9 +5,10 @@
 
 namespace BC
 {
-	/*
-	 * Class LayerStack:
-	 *		This class holds all the layers in the application and updates them every frame.
+	/* Class LayerStack:
+	 *
+	 * @desc
+	 *	This class holds all the layers in the application and updates them every frame.
 	 */
 	class LayerStack
 	{

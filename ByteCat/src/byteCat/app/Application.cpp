@@ -1,5 +1,6 @@
 #include "bcpch.h"
 #include "byteCat/app/Application.h"
+#include "byteCat/graphics/GraphicsAPI.h"
 
 namespace BC
 {
@@ -11,8 +12,10 @@ namespace BC
         instance = this;
 		
         LOG_INFO("ByteCat engine is starting...");
+
+        RendererAPI::SetGraphicsAPI(GraphicsAPI::OpenGL);
 		
-        WindowSetting setting = { "ByteCat Engine", 1280, 720, false };
+        WindowSettings setting = { "ByteCat Engine", 1280, 720, false };
         window = Window::Create(setting);
         window->setEventListener(this);
 	}
@@ -54,7 +57,6 @@ namespace BC
 				if (layer->enabled) { layer->onUpdate(); }
 	        }
 
-			
             // Rendering
             for (Layer* layer : layerStack)
             {

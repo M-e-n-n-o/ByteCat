@@ -1,7 +1,5 @@
 #pragma once
 
-#include <iostream>
-
 #ifdef BC_PLATFORM_WINDOWS
 	#ifdef BC_CORE
 		#define BC_CORE_ACCESS
@@ -37,7 +35,5 @@
 #elif BC_DIST
 	#define BC_DEBUG_BREAK
 #endif
-
-#include "utils/Macro.h"
 
 int main(int argc, char** argv);

@@ -1,3 +1,4 @@
+// ReSharper disable All
 #pragma once
 
 #include "byteCat/input/events/Event.h"

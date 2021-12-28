@@ -1,7 +1,6 @@
 #pragma once
-
+#include <GLFW/glfw3.h>
 #include "byteCat/graphics/GraphicsContext.h"
-#include "GLFW/glfw3.h"
 
 namespace BC
 {

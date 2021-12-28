@@ -2,6 +2,7 @@
 
 #include "bcpch.h"
 #include "byteCat/Core.h"
+#include "byteCat/utils/Macro.h"
 
 namespace BC
 {
@@ -27,9 +28,10 @@ namespace BC
 								virtual EventType getEventType() const override { return getStaticType(); }\
 								virtual const char* getName() const override { return #type; }
 
-	/*
-	 * Class Event:
-	 *		This class represents an Event (input) for a ByteCat application
+	/* Class Event:
+	 *
+	 * @desc
+	 *	This class represents an Event (input) for a ByteCat application
 	 */
 	class Event
 	{
@@ -48,12 +50,13 @@ namespace BC
 		}
 	};
 
-	/*
-	 * Class EventDispatcher:
-	 *		Use this class to automatic handle events in the correct way.
+	/* Class EventDispatcher:
 	 *
-	 *		Usage:
-	 *		dispatcher.dispatch<<EventType>>(BC_BIND_EVENT_FN(<Function pointer>));
+	 * @desc
+	 *	Use this class to automatic handle events in the correct way.
+	 *
+	 * @example
+	 *	dispatcher.dispatch<<EventType>>(BC_BIND_EVENT_FN(<Function pointer>));
 	 */
 	class EventDispatcher
 	{

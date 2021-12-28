@@ -7,7 +7,7 @@
 
 namespace BC
 {
-	Window* Window::Create(WindowSetting& setting)
+	Window* Window::Create(WindowSettings& setting)
 	{
 		#ifdef BC_PLATFORM_WINDOWS
 			LOG_INFO("Detected Windows platform");

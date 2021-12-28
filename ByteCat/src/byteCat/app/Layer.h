@@ -4,10 +4,11 @@
 
 namespace BC
 {
-	/*
-	 * Class Layer:
-	 *		This class represents a layer in the application which will be updated (when enabled)
-	 *		every game loop when added to the LayerStack from the Application class.
+	/* Class Layer:
+	 * 
+	 * @desc
+	 *	This class represents a layer in the application which will be updated (when enabled)
+	 *	every game loop when added to the LayerStack from the Application class.
 	 */
 	class Layer
 	{
@@ -29,8 +30,6 @@ namespace BC
 		virtual void onUpdate() {}
 		// Gets called right before the rendering takes place
 		virtual void onRender() {}
-		// Gets called every game loop after rendering the main game. Use this to render imGui windows
-		virtual void onImGuiRender() {}
 		// Gets called every time an event occurs in the application
 		virtual void onEvent(Event& event) {}
 
