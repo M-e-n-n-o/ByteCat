@@ -2,7 +2,6 @@
 #include <GLFW/glfw3.h>
 #include "platform/windows/WindowsWindow.h"
 
-#include "byteCat/app/Application.h"
 #include "byteCat/input/events/ApplicationEvent.h"
 #include "byteCat/input/events/KeyEvent.h"
 #include "byteCat/input/events/MouseEvent.h"
@@ -12,6 +11,7 @@ namespace BC
 	namespace Platform
 	{
 		static GLFWwindow* nativeWindow;
+		static EventListener* eventListener;
 		
 		WindowsWindow::WindowsWindow(WindowSetting& setting)
 		{
@@ -52,13 +52,13 @@ namespace BC
 			glfwSetWindowSizeCallback(nativeWindow, [](GLFWwindow* window, int width, int height)
 				{
 					WindowResizeEvent event(width, height);
-					Application::GetInstance().getWindow().getEventListener()->onEvent(event);
+					eventListener->onEvent(event);
 				});
 
 			glfwSetWindowCloseCallback(nativeWindow, [](GLFWwindow* window)
 				{
 					WindowCloseEvent event;
-					Application::GetInstance().getWindow().getEventListener()->onEvent(event);
+					eventListener->onEvent(event);
 				});
 
 			glfwSetKeyCallback(nativeWindow, [](GLFWwindow* window, int key, int scancode, int action, int mods)
@@ -68,21 +68,21 @@ namespace BC
 					case GLFW_PRESS:
 					{
 						KeyPressedEvent event(static_cast<KeyCode>(key), false);
-						Application::GetInstance().getWindow().getEventListener()->onEvent(event);
+						eventListener->onEvent(event);
 						break;
 					}
 
 					case GLFW_RELEASE:
 					{
 						KeyReleasedEvent event(static_cast<KeyCode>(key));
-						Application::GetInstance().getWindow().getEventListener()->onEvent(event);
+						eventListener->onEvent(event);
 						break;
 					}
 
 					case GLFW_REPEAT:
 					{
 						KeyPressedEvent event(static_cast<KeyCode>(key), true);
-						Application::GetInstance().getWindow().getEventListener()->onEvent(event);
+						eventListener->onEvent(event);
 						break;
 					}
 					}
@@ -91,7 +91,7 @@ namespace BC
 			glfwSetCharCallback(nativeWindow, [](GLFWwindow* window, unsigned int keycode)
 				{
 					KeyTypedEvent event(static_cast<KeyCode>(keycode));
-					Application::GetInstance().getWindow().getEventListener()->onEvent(event);
+					eventListener->onEvent(event);
 				});
 
 			glfwSetMouseButtonCallback(nativeWindow, [](GLFWwindow* window, int button, int action, int mods)
@@ -101,13 +101,13 @@ namespace BC
 					case GLFW_PRESS:
 					{
 						MouseButtonPressedEvent event(static_cast<MouseCode>(button));
-						Application::GetInstance().getWindow().getEventListener()->onEvent(event);
+						eventListener->onEvent(event);
 						break;
 					}
 					case GLFW_RELEASE:
 					{
 						MouseButtonReleasedEvent event(static_cast<MouseCode>(button));
-						Application::GetInstance().getWindow().getEventListener()->onEvent(event);
+						eventListener->onEvent(event);
 						break;
 					}
 					}
@@ -116,13 +116,13 @@ namespace BC
 			glfwSetScrollCallback(nativeWindow, [](GLFWwindow* window, double xOffset, double yOffset)
 				{
 					MouseScrolledEvent event((float)xOffset, (float)yOffset);
-					Application::GetInstance().getWindow().getEventListener()->onEvent(event);
+					eventListener->onEvent(event);
 				});
 
 			glfwSetCursorPosCallback(nativeWindow, [](GLFWwindow* window, double xPos, double yPos)
 				{
 					MouseMovedEvent event((float)xPos, (float)yPos);
-					Application::GetInstance().getWindow().getEventListener()->onEvent(event);
+					eventListener->onEvent(event);
 				});
 		}
 
@@ -171,6 +171,11 @@ namespace BC
 		void* WindowsWindow::getNativeWindow() const
 		{
 			return (void*) nativeWindow;
+		}
+
+		void WindowsWindow::setEventListener(EventListener* newListener)
+		{
+			eventListener = newListener;
 		}
 	}
 }

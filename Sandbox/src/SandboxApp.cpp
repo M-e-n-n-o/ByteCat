@@ -24,7 +24,7 @@ public:
 
 	bool onKey(KeyPressedEvent& event)
 	{
-		LOG_INFO("Key: {0}", event.getKeyCode() == KeyCode::A);
+		LOG_INFO("Is key pressed A?: {0}", event.getKeyCode() == KeyCode::A);
 		return true;
 	}
 };

@@ -9,6 +9,7 @@ namespace BC
 		class WindowsWindow : public Window
 		{
 		private:
+			WindowSetting windowSetting;
 			GraphicsContext* context;
 			
 			bool minimized = false;
@@ -37,6 +38,8 @@ namespace BC
 			
 			// Returns the native window
 			void* getNativeWindow() const override;
+
+			void setEventListener(EventListener* newListener) override;
 		};
 	}
 }

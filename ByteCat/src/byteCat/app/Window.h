@@ -24,9 +24,6 @@ namespace BC
 	 */
 	class Window
 	{
-	protected:
-		EventListener* listener;
-		WindowSetting windowSetting;
 	public:
 		Window() = default;
 		virtual ~Window() = default;
@@ -52,8 +49,7 @@ namespace BC
 		virtual void* getNativeWindow() const = 0;
 
 		// Sets the eventlistener of the incoming events
-		void setEventListener(EventListener* newListener) { listener = newListener; };
-		EventListener* getEventListener() const { return listener; }
+		virtual void setEventListener(EventListener* newListener) = 0;
 
 		static Window* Create(WindowSetting& setting);
 	};
