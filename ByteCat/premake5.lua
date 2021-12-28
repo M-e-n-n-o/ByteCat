@@ -18,7 +18,6 @@ project "ByteCat"
 		"vendor/stb_image/**.cpp",
 		"vendor/glm/glm/**.hpp",
 		"vendor/glm/glm/**.inl",
-		"vendor/magic_enum/include/**.hpp"
 	}
 
 	defines
@@ -38,7 +37,6 @@ project "ByteCat"
 		"%{Libs.GLM}",
 		"%{Libs.StbImage}",
 		"%{Libs.Lua}/src",
-		"%{Libs.MagicEnum}/include"
 	}
 
 	filter "system:windows"
