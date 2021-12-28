@@ -18,7 +18,6 @@ project "Sandbox"
 		"../ByteCat/vendor/spdlog/include",
 		"../ByteCat/src",
 		"../ByteCat/vendor",
-		"%{Libs.Lua}/src",
 		"%{Libs.GLM}"
 	}
 
@@ -48,8 +47,7 @@ project "Sandbox"
 			"pthread",
 			"GLFW",
 			"GLAD",
-			"ImGui",
-			"Lua"
+			"ImGui"
 		}
 
 		postbuildcommands
