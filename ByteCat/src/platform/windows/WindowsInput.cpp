@@ -27,8 +27,50 @@
 			auto* window = Application::GetInstance().getWindow().getNativeWindow();
 			double xpos, ypos;
 			glfwGetCursorPos(static_cast<GLFWwindow*>(window), &xpos, &ypos);
-
 			return { (float)xpos, (float)ypos };
+		}
+
+		std::vector<Gamepad> Input::GetActiveGamepads()
+		{
+			std::vector<Gamepad> gamepads;
+			
+			for (int i = 0; i < 16; i++)
+			{
+				if (glfwJoystickIsGamepad(i))
+				{
+					const char* name = glfwGetGamepadName(i);
+					gamepads.push_back({ static_cast<GamepadID>(i), name });
+				}
+			}
+
+			return gamepads;
+		}
+
+		bool Input::IsGamepadButtonPressed(GamepadButton button, GamepadID id)
+		{
+			GLFWgamepadstate state;
+
+			if (glfwGetGamepadState(static_cast<int>(id), &state))
+			{
+				if (state.buttons[static_cast<int>(button)])
+				{
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		float Input::GetGamepadAxis(GamepasAxis axis, GamepadID id)
+		{
+			GLFWgamepadstate state;
+
+			if (glfwGetGamepadState(static_cast<int>(id), &state))
+			{
+				return state.axes[static_cast<int>(axis)];
+			}
+
+			return 0;
 		}
 	}
 
