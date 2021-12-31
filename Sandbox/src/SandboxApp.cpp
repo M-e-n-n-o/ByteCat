@@ -4,21 +4,15 @@ using namespace BC;
 
 class ExampleLayer : public Layer
 {
-	GamepadID controllerID;
-	
-	
 public:
 	ExampleLayer() : Layer("ExampleLayer")
 	{
-		auto gamepads = Input::GetActiveGamepads();
-		LOG_INFO("Gamepad_1 name: {0}", gamepads[0].name);
-		controllerID = gamepads[0].id;
+
 	}
 
 	void onUpdate() override
 	{		
-		float result = Input::GetGamepadAxis(GamepadAxis::LEFT_X, controllerID);
-		LOG_INFO(result);
+
 	}
 
 	void onEvent(Event& event) override
@@ -50,8 +44,6 @@ public:
 	{
 
 	}
-
-	
 };
 
 Application* BC::CreateApplication()

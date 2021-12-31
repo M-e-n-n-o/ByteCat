@@ -6,7 +6,7 @@ namespace BC
 {
 	namespace Platform
 	{
-		class WindowsWindow : public Window
+		class WinLinWindow : public Window
 		{
 		private:
 			WindowSettings windowSetting;
@@ -15,8 +15,8 @@ namespace BC
 			bool minimized = false;
 			
 		public:
-			WindowsWindow(WindowSettings& setting);
-			~WindowsWindow() { shutdown(); }
+			WinLinWindow(WindowSettings& setting);
+			~WinLinWindow() { shutdown(); }
 
 			// Swap the buffers, poll the events
 			void update() const override;

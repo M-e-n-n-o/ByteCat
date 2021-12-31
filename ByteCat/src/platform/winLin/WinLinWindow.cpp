@@ -1,6 +1,6 @@
 #include "bcpch.h"
 #include <GLFW/glfw3.h>
-#include "platform/windows/WindowsWindow.h"
+#include "platform/winLin/WinLinWindow.h"
 
 #include "byteCat/input/events/ApplicationEvent.h"
 #include "byteCat/input/events/KeyEvent.h"
@@ -13,9 +13,9 @@ namespace BC
 		static GLFWwindow* nativeWindow;
 		static EventListener* eventListener;
 		
-		WindowsWindow::WindowsWindow(WindowSettings& setting)
+		WinLinWindow::WinLinWindow(WindowSettings& setting)
 		{
-			LOG_INFO("Trying to create a Windows window");
+			LOG_INFO("Trying to create a Windows/Linux window");
 
 			windowSetting = setting;
 
@@ -37,12 +37,12 @@ namespace BC
 
 			if (!nativeWindow)
 			{
-				LOG_CRITICAL("Failed to create a Windows window");
+				LOG_CRITICAL("Failed to create a Windows/Linux window");
 				glfwTerminate();
 				std::exit(-1);
 			}
 
-			LOG_INFO("Created a Windows window with title: {0}, width: {1}, height: {2} and vSync: {3}", windowSetting.title, windowSetting.width, windowSetting.height, windowSetting.vSync);
+			LOG_INFO("Created a Windows/Linux window with title: {0}, width: {1}, height: {2} and vSync: {3}", windowSetting.title, windowSetting.width, windowSetting.height, windowSetting.vSync);
 
 			context = GraphicsContext::Create(nativeWindow);
 			context->init();
@@ -126,20 +126,20 @@ namespace BC
 				});
 		}
 
-		void WindowsWindow::update() const
+		void WinLinWindow::update() const
 		{
 			glfwPollEvents();
 			context->swapBuffers();
 		}
 
-		void WindowsWindow::shutdown() const
+		void WinLinWindow::shutdown() const
 		{
 			delete context;
 			glfwDestroyWindow(nativeWindow);
 			glfwTerminate();
 		}
 
-		void WindowsWindow::resize(unsigned int width, unsigned int height)
+		void WinLinWindow::resize(unsigned int width, unsigned int height)
 		{
 			windowSetting.width = width;
 			windowSetting.height = height;
@@ -154,7 +154,7 @@ namespace BC
 			}
 		}
 
-		void WindowsWindow::setVsync(bool enabled)
+		void WinLinWindow::setVsync(bool enabled)
 		{
 			windowSetting.vSync = enabled;
 			
@@ -168,12 +168,12 @@ namespace BC
 			}
 		}
 
-		void* WindowsWindow::getNativeWindow() const
+		void* WinLinWindow::getNativeWindow() const
 		{
 			return (void*) nativeWindow;
 		}
 
-		void WindowsWindow::setEventListener(EventListener* newListener)
+		void WinLinWindow::setEventListener(EventListener* newListener)
 		{
 			eventListener = newListener;
 		}
