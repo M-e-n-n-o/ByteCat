@@ -61,7 +61,7 @@
 			return false;
 		}
 
-		float Input::GetGamepadAxis(GamepasAxis axis, GamepadID id)
+		float Input::GetGamepadAxis(GamepadAxis axis, GamepadID id)
 		{
 			GLFWgamepadstate state;
 

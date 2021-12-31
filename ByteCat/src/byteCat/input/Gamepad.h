@@ -52,7 +52,7 @@ namespace BC
 		TRIANGLE = Y
 	};
 
-	enum class GamepasAxis
+	enum class GamepadAxis
 	{
 		LEFT_X = 0,
 		LEFT_Y = 1,

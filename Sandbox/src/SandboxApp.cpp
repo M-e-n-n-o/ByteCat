@@ -6,6 +6,7 @@ class ExampleLayer : public Layer
 {
 	GamepadID controllerID;
 	
+	
 public:
 	ExampleLayer() : Layer("ExampleLayer")
 	{
@@ -16,7 +17,7 @@ public:
 
 	void onUpdate() override
 	{		
-		float result = Input::GetGamepadAxis(GamepasAxis::LEFT_X, controllerID);
+		float result = Input::GetGamepadAxis(GamepadAxis::LEFT_X, controllerID);
 		LOG_INFO(result);
 	}
 

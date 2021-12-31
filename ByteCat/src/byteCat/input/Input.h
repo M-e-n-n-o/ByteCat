@@ -26,6 +26,6 @@ namespace BC
 		static bool IsGamepadButtonPressed(GamepadButton button, GamepadID id = GamepadID::ID_1);
 
 		// Returns a value between -1 and 1 on the given axis with the given gamepad (with GamepadID)
-		static float GetGamepadAxis(GamepasAxis axis, GamepadID id = GamepadID::ID_1);
+		static float GetGamepadAxis(GamepadAxis axis, GamepadID id = GamepadID::ID_1);
 	};
 }
