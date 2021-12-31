@@ -1,6 +1,6 @@
 #include "bcpch.h"
 
-#ifdef BC_PLATFORM_WINDOWS || BC_PLATFORM_LINUX
+#if defined(BC_PLATFORM_WINDOWS) || defined(BC_PLATFORM_LINUX)
 
 	#include "GLFW/glfw3.h"
 	#include "byteCat/app/Application.h"
