@@ -1,5 +1,5 @@
 #pragma once
-#include "byteCat/app/Window.h"
+#include "byteCat/graphics/Window.h"
 #include "byteCat/graphics/GraphicsContext.h"
 
 namespace BC

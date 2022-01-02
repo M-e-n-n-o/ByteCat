@@ -1,5 +1,5 @@
 #include "bcpch.h"
-#include "byteCat/app/Window.h"
+#include "byteCat/graphics/Window.h"
 
 #if defined(BC_PLATFORM_WINDOWS) || defined(BC_PLATFORM_LINUX)
 	#include "platform/winLin/WinLinWindow.h"

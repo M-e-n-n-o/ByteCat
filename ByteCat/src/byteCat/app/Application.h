@@ -2,7 +2,7 @@
 
 #include "byteCat/app/LayerStack.h"
 #include "byteCat/input/events/Event.h"
-#include "byteCat/app/Window.h"
+#include "byteCat/graphics/Window.h"
 #include "byteCat/app/Layer.h"
 #include "byteCat/input/events/ApplicationEvent.h"
 

@@ -14,7 +14,7 @@ namespace BC
 		case GraphicsAPI::OpenGL:	LOG_INFO("Detected OpenGL as Graphics API");	return new Platform::OpenGLGraphicsContext((GLFWwindow*)window);
 		}
 
-		LOG_CRITICAL("Unknown Graphics API selected");
+		LOG_CRITICAL("Unsupported Graphics API selected!");
 		return nullptr;
 	}
 }
