@@ -1,5 +1,5 @@
 #include "bcpch.h"
-#include "byteCat/graphics/objects/Buffer.h"
+#include "byteCat/graphics/vertexObjects/Buffer.h"
 #include "byteCat/graphics/RendererAPI.h"
 #include "platform/openGL/OpenGLBuffer.h"
 

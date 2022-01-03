@@ -1,5 +1,5 @@
 #include "bcpch.h"
-#include "byteCat/graphics/objects/VertexArray.h"
+#include "byteCat/graphics/vertexObjects/VertexArray.h"
 #include "byteCat/graphics/RendererAPI.h"
 #include "platform/openGL/OpenGLVertexArray.h"
 

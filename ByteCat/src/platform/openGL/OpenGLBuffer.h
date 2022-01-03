@@ -1,5 +1,5 @@
 #pragma once
-#include "byteCat/graphics/objects/Buffer.h"
+#include "byteCat/graphics/vertexObjects/Buffer.h"
 
 namespace BC
 {
