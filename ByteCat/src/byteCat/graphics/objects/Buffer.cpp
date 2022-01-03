@@ -1,6 +1,6 @@
 #include "bcpch.h"
 #include "byteCat/graphics/objects/Buffer.h"
-#include "byteCat/graphics/GraphicsAPI.h"
+#include "byteCat/graphics/RendererAPI.h"
 #include "platform/openGL/OpenGLBuffer.h"
 
 namespace BC
