@@ -1,6 +1,5 @@
 #include "bcpch.h"
 #include "byteCat/app/Application.h"
-#include "byteCat/graphics/RendererAPI.h"
 
 namespace BC
 {
@@ -13,7 +12,7 @@ namespace BC
 		
         LOG_INFO("ByteCat engine is starting...");
 
-        RendererAPI::SetGraphicsAPI(GraphicsAPI::OpenGL);
+        //RendererAPI::SetGraphicsAPI(GraphicsAPI::OpenGL);
 		
         WindowSettings setting = { "ByteCat Engine", 1280, 720, false };
         window = Window::Create(setting);
@@ -95,6 +94,7 @@ namespace BC
     bool Application::onWindowResize(WindowResizeEvent& event)
     {
         window->resize(event.getWidth(), event.getHeight());
+		
         return true;
     }
 

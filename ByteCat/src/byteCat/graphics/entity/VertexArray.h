@@ -1,6 +1,6 @@
 #pragma once
 #include <vector>
-#include "byteCat/graphics/vertexObjects/Buffer.h"
+#include "byteCat/graphics/entity/Buffer.h"
 
 namespace BC
 {

@@ -22,7 +22,7 @@ namespace BC
 		static Application* instance;
 		
 		LayerStack layerStack;
-
+		
 		Window* window;
 		bool isRunning;
 
