@@ -11,8 +11,8 @@ namespace BC
 			unsigned int id;
 			unsigned int vboIndex = 0;
 
-			IndexBuffer* indexBuffer;
-			std::vector<VertexBuffer*> vertexBuffers;
+			std::shared_ptr<IndexBuffer> indexBuffer;
+			std::vector<std::shared_ptr<VertexBuffer>> vertexBuffers;
 			
 		public:
 			OpenGLVertexArray();
@@ -21,11 +21,11 @@ namespace BC
 			void bind() const override;
 			void unbind() const override;
 			
-			void setIndexBuffer(IndexBuffer* buffer) override;
-			void addVertexBuffer(VertexBuffer* buffer) override;
+			void setIndexBuffer(std::shared_ptr<IndexBuffer> buffer) override;
+			void addVertexBuffer(std::shared_ptr<VertexBuffer> buffer) override;
 
-			const IndexBuffer* getIndexBuffer() const override { return indexBuffer; }
-			const std::vector<VertexBuffer*>& getVertexBuffers() const override { return vertexBuffers; }
+			const std::shared_ptr<IndexBuffer>& getIndexBuffer() const override { return indexBuffer; }
+			const std::vector<std::shared_ptr<VertexBuffer>>& getVertexBuffers() const override { return vertexBuffers; }
 		};
 	}
 }

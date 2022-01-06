@@ -3,7 +3,7 @@
 using namespace BC;
 
 class ExampleLayer : public Layer
-{
+{	
 public:
 	ExampleLayer() : Layer("ExampleLayer")
 	{
@@ -13,19 +13,6 @@ public:
 	void onUpdate() override
 	{		
 
-	}
-
-	void onEvent(Event& event) override
-	{
-		EventDispatcher dispatcher(event);
-
-		dispatcher.dispatch<KeyPressedEvent>(BC_BIND_EVENT_FN(onKey));
-	}
-
-	bool onKey(KeyPressedEvent& event)
-	{
-		LOG_INFO("Is key pressed A?: {0}", event.getKeyCode() == KeyCode::A);
-		return true;
 	}
 };
 

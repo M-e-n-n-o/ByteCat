@@ -45,10 +45,11 @@ namespace BC
 			LOG_INFO("Created a Windows/Linux window with title: {0}, width: {1}, height: {2} and vSync: {3}", windowSetting.title, windowSetting.width, windowSetting.height, windowSetting.vSync);
 
 			context = GraphicsContext::Create(nativeWindow);
-			context->init();
+			context->init(windowSetting.width, windowSetting.height);
 
 			setVsync(windowSetting.vSync);
 
+			
 			glfwSetWindowSizeCallback(nativeWindow, [](GLFWwindow* window, int width, int height)
 				{
 					WindowResizeEvent event(width, height);
@@ -128,8 +129,8 @@ namespace BC
 
 		void WinLinWindow::update() const
 		{
-			glfwPollEvents();
 			context->swapBuffers();
+			glfwPollEvents();
 		}
 
 		void WinLinWindow::shutdown() const

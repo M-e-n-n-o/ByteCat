@@ -4,10 +4,17 @@
 namespace BC
 {
 	#define CHECK_INIT if(!isInit) return;
+
+
+	void Renderer::SetAPI(const GraphicsAPI& api)
+	{
+		if (graphicsAPI == GraphicsAPI::None)
+		{
+			graphicsAPI = api;
+		}
+	}
 	
-	bool Renderer::isInit = false;
-	
-	void Renderer::Create(RenderBase* renderer, const GraphicsAPI& api)
+	void Renderer::Init(RenderBase* renderer)
 	{		
 		if (renderer == nullptr)
 		{
@@ -15,7 +22,7 @@ namespace BC
 			return;
 		}
 
-		if (!renderer->supports(api))
+		if (!renderer->supports(graphicsAPI))
 		{
 			LOG_WARN("Selected renderer does not support the selected graphics API!");
 			delete renderer;
@@ -27,7 +34,7 @@ namespace BC
 			isInit = true;
 
 			activeRenderer = renderer;
-			rendererAPI = RendererAPI::Create(api);
+			rendererAPI = RendererAPI::Create(graphicsAPI);
 		}
 	}
 
@@ -37,18 +44,18 @@ namespace BC
 		delete activeRenderer;
 	}
 
-	void Renderer::StartScene()
+	void Renderer::StartScene(const SceneData& sceneData)
 	{
 		CHECK_INIT
 		
-		activeRenderer->startScene();
+		activeRenderer->startScene(rendererAPI, sceneData);
 	}
 
-	void Renderer::Submit(VertexArray* vao, Shader* shader)
+	void Renderer::Submit(const Renderable& renderable)
 	{
 		CHECK_INIT
 		
-		activeRenderer->submit(vao, shader);
+		activeRenderer->submit(renderable);
 	}
 
 	void Renderer::RenderScene()
@@ -79,7 +86,7 @@ namespace BC
 			return;
 		}
 
-		if (!renderer->supports(RendererAPI::GetAPI()))
+		if (!renderer->supports(graphicsAPI))
 		{
 			LOG_WARN("Selected renderer does not support the selected graphics API!");
 			delete renderer;

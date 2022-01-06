@@ -12,14 +12,16 @@ namespace BC
 		
 		OpenGLVertexBuffer::OpenGLVertexBuffer(unsigned size)
 		{
-			glCreateBuffers(1, &id);
+			glGenBuffers(1, &id);
+			
 			glBindBuffer(GL_ARRAY_BUFFER, id);
 			glBufferData(GL_ARRAY_BUFFER, size, nullptr, GL_DYNAMIC_DRAW);
 		}
 
 		OpenGLVertexBuffer::OpenGLVertexBuffer(float* vertices, unsigned size)
 		{
-			glCreateBuffers(1, &id);
+			glGenBuffers(1, &id);
+			
 			glBindBuffer(GL_ARRAY_BUFFER, id);
 			glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
 		}
@@ -51,9 +53,10 @@ namespace BC
 
 		OpenGLIndexBuffer::OpenGLIndexBuffer(unsigned* indices, unsigned count) : count(count)
 		{
-			glCreateBuffers(1, &id);
-			glBindBuffer(GL_ARRAY_BUFFER, id);
-			glBufferData(GL_ARRAY_BUFFER, count * sizeof(uint32_t), indices, GL_STATIC_DRAW);
+			glGenBuffers(1, &id);
+			
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, id);
+			glBufferData(GL_ELEMENT_ARRAY_BUFFER, count, indices, GL_STATIC_DRAW);
 		}
 
 		OpenGLIndexBuffer::~OpenGLIndexBuffer()

@@ -14,7 +14,7 @@ namespace BC
 		public:
 			OpenGLGraphicsContext(GLFWwindow* window): window(window) {}
 			
-			void init() override;
+			void init(unsigned int windowWidth, unsigned int windowHeight) override;
 			void swapBuffers() override;
 		};
 	}

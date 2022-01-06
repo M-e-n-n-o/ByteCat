@@ -23,6 +23,6 @@ namespace BC
 
 		virtual const std::string& getName() const = 0;
 
-		static Shader* Create(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc);
+		static std::shared_ptr<Shader> Create(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc);
 	};
 }

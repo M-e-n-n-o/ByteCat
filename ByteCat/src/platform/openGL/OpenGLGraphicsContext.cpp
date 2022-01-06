@@ -7,7 +7,7 @@ namespace BC
 {
 	namespace Platform
 	{
-		void OpenGLGraphicsContext::init()
+		void OpenGLGraphicsContext::init(unsigned int windowWidth, unsigned int windowHeight)
 		{
 			LOG_INFO("Adding OpenGL context to window");
 			

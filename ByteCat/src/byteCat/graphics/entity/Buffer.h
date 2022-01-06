@@ -78,8 +78,8 @@ namespace BC
 			CalculateOffsetsAndStride();
 		}
 
-		unsigned int GetStride() const { return stride; }
-		const std::vector<BufferElement>& GetElements() const { return elements; }
+		unsigned int getStride() const { return stride; }
+		const std::vector<BufferElement>& getElements() const { return elements; }
 
 		std::vector<BufferElement>::iterator begin() { return elements.begin(); }
 		std::vector<BufferElement>::iterator end() { return elements.end(); }
@@ -112,10 +112,10 @@ namespace BC
 		virtual void setData(const void* data, unsigned int size) = 0;
 
 		virtual const BufferLayout& getLayout() const = 0;
-		virtual void setLayout(const BufferLayout & layout) = 0;
+		virtual void setLayout(const BufferLayout& layout) = 0;
 
-		static VertexBuffer* Create(unsigned int size);
-		static VertexBuffer* Create(float* vertices, unsigned int size);
+		static std::shared_ptr<VertexBuffer> Create(unsigned int size);
+		static std::shared_ptr<VertexBuffer> Create(float* vertices, unsigned int size);
 	};
 
 	class IndexBuffer
@@ -128,6 +128,6 @@ namespace BC
 
 		virtual unsigned int getCount() const = 0;
 
-		static IndexBuffer* Create(unsigned int* indices, unsigned int count);
+		static std::shared_ptr<IndexBuffer> Create(unsigned int* indices, unsigned int count);
 	};
 }

@@ -12,7 +12,7 @@ namespace BC
 	public:
 		virtual ~GraphicsContext() = default;
 
-		virtual void init() = 0;
+		virtual void init(unsigned int windowWidth, unsigned int windowHeight) = 0;
 		virtual void swapBuffers() = 0;
 
 		static GraphicsContext* Create(void* window);

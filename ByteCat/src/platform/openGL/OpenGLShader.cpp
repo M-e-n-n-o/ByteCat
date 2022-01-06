@@ -17,10 +17,16 @@ namespace BC
 			glAttachShader(programID, fragmentShaderID);
 
 			glLinkProgram(programID);
-			glValidateProgram(programID);
 
-			glDetachShader(programID, vertexShaderID);
-			glDetachShader(programID, fragmentShaderID);
+			int success;
+			char infoLog[512];
+			glGetProgramiv(programID, GL_LINK_STATUS, &success);
+			if (!success) {
+				glGetProgramInfoLog(programID, 512, NULL, infoLog);
+				LOG_CRITICAL("Could not link shader program!");
+				std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
+			}
+			
 			glDeleteShader(vertexShaderID);
 			glDeleteShader(fragmentShaderID);
 		}
@@ -126,7 +132,7 @@ namespace BC
 		{
 			const GLchar* shaderText = shader.c_str();
 			const GLuint shaderID = glCreateShader(type);
-			glShaderSource(shaderID, 1, &shaderText, NULL);
+			glShaderSource(shaderID, 1, &shaderText, nullptr);
 			glCompileShader(shaderID);
 
 			GLint succes = 0;

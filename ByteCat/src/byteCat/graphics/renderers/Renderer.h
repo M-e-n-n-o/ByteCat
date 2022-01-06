@@ -1,6 +1,6 @@
 #pragma once
 #include "byteCat/graphics/renderers/RendererAPI.h"
-#include "byteCat/graphics/entity/Shader.h"
+#include "byteCat/graphics/entity/RenderData.h"
 
 namespace BC
 {
@@ -10,8 +10,8 @@ namespace BC
 	public:
 		virtual ~RenderBase() = default;
 		
-		virtual void startScene() = 0;
-		virtual void submit(VertexArray* vao, Shader* shader) = 0;
+		virtual void startScene(RendererAPI* rendererAPI, const SceneData& sceneData) = 0;
+		virtual void submit(const Renderable& renderable) = 0;
 		virtual void renderScene() = 0;
 
 		virtual bool supports(const GraphicsAPI& api) = 0;
@@ -20,24 +20,25 @@ namespace BC
 	class Renderer
 	{
 	private:
-		static bool isInit;
+		inline static bool isInit = false;
 		
-		static RenderBase* activeRenderer;
-	
-	protected:
-		static RendererAPI* rendererAPI;
+		inline static RenderBase* activeRenderer = nullptr;
+
+		inline static GraphicsAPI graphicsAPI = GraphicsAPI::None;
+		inline static RendererAPI* rendererAPI = nullptr;
 
 	public:
-		static void Create(RenderBase* renderer, const GraphicsAPI& api);
+		static void SetAPI(const GraphicsAPI& api);
+		static void Init(RenderBase* renderer);
 		static void Shutdown();
 
-		static void StartScene();
-		static void Submit(VertexArray* vao, Shader* shader);
+		static void StartScene(const SceneData& sceneData);
+		static void Submit(const Renderable& renderable);
 		static void RenderScene();
 		
 		static void SetViewport(unsigned int x, unsigned int y, unsigned int width, unsigned int height);
 		
 		static void SetRenderer(RenderBase* renderer);
-		static GraphicsAPI& GetAPI() { return RendererAPI::GetAPI(); }
+		static GraphicsAPI& GetAPI() { return graphicsAPI; }
 	};
 }

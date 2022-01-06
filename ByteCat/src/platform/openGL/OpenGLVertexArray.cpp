@@ -29,7 +29,7 @@ namespace BC
 		
 		OpenGLVertexArray::OpenGLVertexArray()
 		{
-			glCreateVertexArrays(1, &id);
+			glGenVertexArrays(1, &id);
 		}
 
 		OpenGLVertexArray::~OpenGLVertexArray()
@@ -47,22 +47,22 @@ namespace BC
 			glBindVertexArray(0);
 		}
 
-		void OpenGLVertexArray::setIndexBuffer(IndexBuffer* buffer)
+		void OpenGLVertexArray::setIndexBuffer(std::shared_ptr<IndexBuffer> buffer)
 		{
-			glBindVertexArray(id);
+			bind();
 			buffer->bind();
 
 			indexBuffer = buffer;
 		}
 
-		void OpenGLVertexArray::addVertexBuffer(VertexBuffer* buffer)
+		void OpenGLVertexArray::addVertexBuffer(std::shared_ptr<VertexBuffer> buffer)
 		{
-			if (buffer->getLayout().GetElements().size() == 0)
+			if (buffer->getLayout().getElements().empty())
 			{
 				LOG_CRITICAL("VertexBuffer has no layout!");
 			}
 
-			glBindVertexArray(id);
+			bind();
 			buffer->bind();
 
 			const auto& layout = buffer->getLayout();
@@ -77,7 +77,7 @@ namespace BC
 				{
 					glEnableVertexAttribArray(vboIndex);
 					glVertexAttribPointer(vboIndex, element.getComponentCount(), ShaderDataTypeToOpenGLBaseType(element.type), 
-						element.normalized ? GL_TRUE : GL_FALSE, layout.GetStride(), (const void*)element.offset);
+						element.normalized ? GL_TRUE : GL_FALSE, layout.getStride(), (const void*)element.offset);
 					vboIndex++;
 					break;
 				}
@@ -89,7 +89,7 @@ namespace BC
 				{
 					glEnableVertexAttribArray(vboIndex);
 					glVertexAttribIPointer(vboIndex, element.getComponentCount(), ShaderDataTypeToOpenGLBaseType(element.type),
-						layout.GetStride(), (const void*)element.offset);
+						layout.getStride(), (const void*)element.offset);
 					vboIndex++;
 					break;
 				}
@@ -101,7 +101,7 @@ namespace BC
 					{
 						glEnableVertexAttribArray(vboIndex);
 						glVertexAttribPointer(vboIndex, count, ShaderDataTypeToOpenGLBaseType(element.type),
-							element.normalized ? GL_TRUE : GL_FALSE, layout.GetStride(), (const void*)(element.offset + sizeof(float) * count * i));
+							element.normalized ? GL_TRUE : GL_FALSE, layout.getStride(), (const void*)(element.offset + sizeof(float) * count * i));
 						glVertexAttribDivisor(vboIndex, 1);
 						vboIndex++;
 					}

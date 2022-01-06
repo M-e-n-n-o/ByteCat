@@ -4,8 +4,6 @@
 
 namespace BC
 {
-	GraphicsAPI RendererAPI::graphicsAPI = GraphicsAPI::None;
-
 	RendererAPI* RendererAPI::Create(const GraphicsAPI& api)
 	{
 		static bool createdRendererAPI = false;
@@ -13,12 +11,12 @@ namespace BC
 		if (!createdRendererAPI)
 		{
 			createdRendererAPI = true;
-			graphicsAPI = api;
+			//graphicsAPI = api;
 
-			switch (graphicsAPI)
+			switch (api)
 			{
 			case GraphicsAPI::None:		LOG_CRITICAL("GraphicsAPI::None is not a supported Graphics API"); return nullptr;
-			case GraphicsAPI::OpenGL:	LOG_INFO("Selected OpenGL as Graphics API"); return new Platform::OpenGLRendererAPI();
+			case GraphicsAPI::OpenGL:	LOG_INFO("Creating an OpenGL renderer"); return new Platform::OpenGLRendererAPI();
 			}
 		}
 

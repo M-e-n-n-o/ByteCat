@@ -28,7 +28,7 @@ namespace BC
 
 		friend int ::main(int argc, char** argv);
 		
-	public:
+	public:		
 		Application();
 		virtual ~Application();
 

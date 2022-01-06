@@ -5,12 +5,12 @@
 
 namespace BC
 {
-	VertexArray* VertexArray::Create()
+	std::shared_ptr<VertexArray> VertexArray::Create()
 	{
 		switch (Renderer::GetAPI())
 		{
 		case GraphicsAPI::None:		LOG_CRITICAL("No Graphics API selected!"); return nullptr;
-		case GraphicsAPI::OpenGL:	return new Platform::OpenGLVertexArray();
+		case GraphicsAPI::OpenGL:	return std::make_shared<Platform::OpenGLVertexArray>();
 		}
 
 		LOG_CRITICAL("Unsupported Graphics API selected!");
