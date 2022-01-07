@@ -1,5 +1,5 @@
 #pragma once
-#include "byteCat/graphics/entity/VertexArray.h"
+#include "byteCat/graphics/buffers/VertexArray.h"
 
 namespace BC
 {

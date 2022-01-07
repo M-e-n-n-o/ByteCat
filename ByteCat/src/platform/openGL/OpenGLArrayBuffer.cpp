@@ -1,6 +1,6 @@
 #include "bcpch.h"
 #include <glad/glad.h>
-#include "platform/openGL/OpenGLBuffer.h"
+#include "platform/openGL/OpenGLArrayBuffer.h"
 
 namespace BC
 {

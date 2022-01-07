@@ -1,6 +1,6 @@
 #pragma once
 #include "glm/vec4.hpp"
-#include "byteCat/graphics/entity/VertexArray.h"
+#include "byteCat/graphics/buffers/VertexArray.h"
 
 namespace BC
 {

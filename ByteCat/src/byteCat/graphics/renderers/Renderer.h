@@ -1,6 +1,6 @@
 #pragma once
 #include "byteCat/graphics/renderers/RendererAPI.h"
-#include "byteCat/graphics/entity/RenderData.h"
+#include "byteCat/graphics/buffers/RenderData.h"
 
 namespace BC
 {

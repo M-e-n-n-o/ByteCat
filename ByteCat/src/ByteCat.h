@@ -29,9 +29,9 @@
 #include "byteCat/input/Gamepad.h"
 #include "byteCat/input/Input.h"
 
-#include "byteCat/graphics/entity/VertexArray.h"
-#include "byteCat/graphics/entity/Buffer.h"
-#include "byteCat/graphics/entity/Shader.h"
+#include "byteCat/graphics/buffers/VertexArray.h"
+#include "byteCat/graphics/buffers/ArrayBuffer.h"
+#include "byteCat/graphics/buffers/Shader.h"
 #include "byteCat/graphics/renderers/Renderer.h"
 
 // --Start of the engine--
