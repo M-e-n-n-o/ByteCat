@@ -8,7 +8,7 @@ namespace BC
 	namespace Platform
 	{
 		OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc) : name(name)
-		{
+		{			
 			const unsigned int vertexShaderID = loadShader(vertexSrc, GL_VERTEX_SHADER);
 			const unsigned int fragmentShaderID = loadShader(fragmentSrc, GL_FRAGMENT_SHADER);
 
@@ -107,6 +107,12 @@ namespace BC
 			{
 				glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(value));
 			}
+		}
+
+		void OpenGLShader::addUniformBuffer(const std::string& bufferName, unsigned bindingIndex)
+		{
+			unsigned int uniformBlockIndex = glGetUniformBlockIndex(programID, bufferName.c_str());
+			glUniformBlockBinding(programID, uniformBlockIndex, bindingIndex);
 		}
 
 		int OpenGLShader::getUniformLocation(const std::string& uniformName) const

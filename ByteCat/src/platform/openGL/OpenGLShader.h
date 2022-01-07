@@ -7,6 +7,8 @@ namespace BC
 	{
 		class OpenGLShader : public Shader
 		{
+
+			
 		private:
 			std::string name;
 			unsigned int programID;
@@ -28,6 +30,8 @@ namespace BC
 			void loadVector4(const std::string& name, const glm::vec4& value) override;
 			void loadMatrix4(const std::string& name, const glm::mat4& value) override;
 
+			void addUniformBuffer(const std::string& bufferName, unsigned int bindingIndex) override;
+			
 			const std::string& getName() const override { return name; }
 
 		private:

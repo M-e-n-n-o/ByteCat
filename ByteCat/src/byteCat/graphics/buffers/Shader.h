@@ -24,29 +24,9 @@ namespace BC
 		virtual void loadMatrix4(const std::string& name, const glm::mat4& value) = 0;
 
 		virtual void addUniformBuffer(const std::string& bufferName, unsigned int bindingIndex) = 0;
-
+		
 		virtual const std::string& getName() const = 0;
 
 		static std::shared_ptr<Shader> Create(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc);
-	};
-
-
-	class ShaderPack
-	{
-	private:
-		std::string name;
-		
-		std::vector<std::shared_ptr<Shader>> shaders;
-		std::vector<std::shared_ptr<UniformBuffer>> ufbs;
-
-	public:
-		ShaderPack(const std::string& name): name(name) {}
-		
-		void add(const std::shared_ptr<Shader>& shader);
-		
-		std::shared_ptr<Shader> get(const std::string& name);
-
-		void addUniformBuffer(const std::string& bufferName, const BufferLayout& layout);
-		void setIntUniformBufferVariable(const std::string& name, int value, unsigned int bufferIndex = 0);
 	};
 }

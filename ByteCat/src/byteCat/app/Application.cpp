@@ -3,6 +3,11 @@
 #include "byteCat/graphics/renderers/Renderer.h"
 #include "byteCat/graphics/renderers/SimpleRenderer.h"
 
+#include <glad/glad.h>
+
+#include "glm/ext/matrix_clip_space.hpp"
+#include "glm/gtc/type_ptr.hpp"
+
 namespace BC
 {
     Application* Application::instance = nullptr;
@@ -45,7 +50,60 @@ namespace BC
     }
 	
 	void Application::run()
-	{    	
+	{
+		const char* vertexSource = R"(
+			#version 330 core
+
+			layout (location = 0) in vec3 vertexPos;
+
+			uniform Test
+			{
+			    int testInt;
+			};
+		
+			void main()
+			{
+				gl_Position = vec4(vertexPos.x + testInt, vertexPos.y, vertexPos.z, 1.0);
+			}
+		)";
+
+		const char* fragmentSource = R"(
+			#version 330 core
+
+			out vec4 FragColor;
+
+			void main()
+			{
+				FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);
+			}
+		)";
+
+        auto buffer = UniformBuffer::Builder("Test", 0)
+            .addInt("testInt", 1);
+		
+		auto shader = Shader::Create("Test", vertexSource, fragmentSource);
+		shader->addUniformBuffer("Test", 0);		
+
+		float vertices[] = {
+			-0.5f, -0.5f, 0.0f,
+			0.5f, -0.5f, 0.0f,
+			0.0f, 0.5f, 0.0f
+		};
+
+		unsigned int indices[] = {
+			0, 1, 2
+		};
+
+		auto vao = VertexArray::Create();
+
+		auto ebo = IndexBuffer::Create(indices, sizeof(indices));
+		vao->setIndexBuffer(ebo);
+
+		auto vbo = VertexBuffer::Create(vertices, sizeof(vertices));
+		BufferLayout layout = { { ShaderDataType::Float3, "vertexPos" } };
+		vbo->setLayout(layout);
+		vao->addVertexBuffer(vbo);
+		
 		while (isRunning)
 		{
 			window->update();
@@ -70,6 +128,7 @@ namespace BC
             }
 
             Renderer::RenderScene();
+			Renderer::Submit({ vao, shader });
 		}
 	}
 

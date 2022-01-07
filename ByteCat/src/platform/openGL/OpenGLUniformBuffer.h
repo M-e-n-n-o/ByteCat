@@ -12,30 +12,19 @@ namespace BC
 			
 			std::string blockName;
 			unsigned int bindingIndex;
-
-			BufferLayout layout;
 		
 		public:
-			OpenGLUniformBuffer(const std::string& blockName, unsigned int bindingIndex);
+			OpenGLUniformBuffer(const std::string& blockName, unsigned int bindingIndex, unsigned int size);
+			OpenGLUniformBuffer(const std::string& blockName, unsigned int bindingIndex, unsigned int size, const void* data);
 			~OpenGLUniformBuffer();
 			
 			void bind() const override;
 			void unbind() const override;
-			
-			void setLayout(const BufferLayout& layout) override;
-			
-			void loadInt(const std::string& name, int value) override;
-			void loadFloat(const std::string& name, float value) override;
-			void loadVector2(const std::string& name, const glm::vec2& value) override;
-			void loadVector3(const std::string& name, const glm::vec3& value) override;
-			void loadVector4(const std::string& name, const glm::vec4& value) override;
-			void loadMatrix4(const std::string& name, const glm::mat4& value) override;
 
+			void loadData(const void* data, unsigned int size, unsigned int offset) override;
+			
 			const std::string& getName() const override { return blockName; }
 			unsigned getBindingIndex() const override { return bindingIndex; }
-
-		private:
-			bool getSizeAndOffset(const std::string& name, const ShaderDataType& type, unsigned& size, unsigned& offset);
 		};
 	}
 }
