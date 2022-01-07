@@ -5,8 +5,11 @@
 
 namespace BC
 {
+	/// <summary>
+	/// This class represents a shader program which is needed to render with a VertexArray.
+	/// </summary>
 	class Shader
-	{
+	{	
 	public:
 		virtual ~Shader() = default;
 

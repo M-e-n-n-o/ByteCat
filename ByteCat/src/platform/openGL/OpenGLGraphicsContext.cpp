@@ -19,7 +19,7 @@ namespace BC
 				std::exit(-1);
 			}
 
-			LOG_INFO("OpenGL Info:");
+			LOG_INFO("OpenGL Renderer Info:");
 			LOG_INFO("   Vendor:   {0}", glGetString(GL_VENDOR));
 			LOG_INFO("   Renderer: {0}", glGetString(GL_RENDERER));
 			LOG_INFO("   Version:  {0}", glGetString(GL_VERSION));

@@ -23,8 +23,8 @@ namespace BC
 			glGetProgramiv(programID, GL_LINK_STATUS, &success);
 			if (!success) {
 				glGetProgramInfoLog(programID, 512, NULL, infoLog);
-				LOG_CRITICAL("Could not link shader program!");
-				std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
+				LOG_CRITICAL("Could not link shader program: {0}", name);
+				LOG_TEXT_LONG(infoLog);
 			}
 			
 			glDeleteShader(vertexShaderID);
@@ -119,7 +119,7 @@ namespace BC
 			GLint location = glGetUniformLocation(programID, uniformName.c_str());
 			if (location == -1)
 			{
-				LOG_ERROR("Variable \"{0}\" not found in the shader code", uniformName);
+				LOG_ERROR("Variable \"{0}\" not found in the shader {1}", uniformName, name);
 				return -1;
 			}
 
@@ -145,13 +145,16 @@ namespace BC
 				std::vector<GLchar> errorLog(maxLength);
 				glGetShaderInfoLog(shaderID, maxLength, &maxLength, &errorLog[0]);
 
-				LOG_ERROR("Shader error info:");
+				LOG_ERROR("Shader error info: {0}", name);
+				std::stringstream log;
 				for (std::vector<GLchar>::const_iterator i = errorLog.begin(); i != errorLog.end(); ++i)
 				{
-					std::cout << *i;
+					log << *i;
 				}
+
+				LOG_TEXT_LONG(log.str());
 				
-				LOG_CRITICAL("Could not compile shader!");
+				LOG_CRITICAL("Could not compile shader: {0}", name);
 			}
 
 			return shaderID;

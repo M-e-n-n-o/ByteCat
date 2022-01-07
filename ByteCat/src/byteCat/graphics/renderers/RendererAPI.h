@@ -10,6 +10,9 @@ namespace BC
 		OpenGL = 1
 	};
 
+	/// <summary>
+	/// This generic RendererAPI directs requests to the native RendererAPI (for example: OpenGL)
+	/// </summary>
 	class RendererAPI
 	{
 	public:

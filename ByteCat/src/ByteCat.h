@@ -5,7 +5,7 @@
  *							 BYTECAT ENGINE
  *  ------------------------------------------------------------------
  *
- *	Import this header file to make use of the BC engine.
+ *	Import this header file to make use of the ByteCat engine.
  *	Every code from the ByteCat Engine is inside the BC namespace.
  *
  *	This graphics engine is created by:

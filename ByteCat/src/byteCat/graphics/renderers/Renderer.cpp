@@ -24,7 +24,7 @@ namespace BC
 
 		if (!renderer->supports(graphicsAPI))
 		{
-			LOG_WARN("Selected renderer does not support the selected graphics API!");
+			LOG_WARN("{0} does not support the selected graphics API!", renderer->getName());
 			delete renderer;
 			return;
 		}
@@ -49,6 +49,13 @@ namespace BC
 		CHECK_INIT
 		
 		activeRenderer->startScene(rendererAPI, sceneData);
+	}
+
+	void Renderer::SetSceneData(const SceneData& sceneData)
+	{
+		CHECK_INIT
+
+		activeRenderer->setSceneData(sceneData);
 	}
 
 	void Renderer::Submit(const Renderable& renderable)
@@ -88,7 +95,7 @@ namespace BC
 
 		if (!renderer->supports(graphicsAPI))
 		{
-			LOG_WARN("Selected renderer does not support the selected graphics API!");
+			LOG_WARN("{0} does not support the selected graphics API!", renderer->getName());
 			delete renderer;
 			return;
 		}

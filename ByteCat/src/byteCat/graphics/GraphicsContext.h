@@ -2,11 +2,9 @@
 
 namespace BC
 {
-	/* Class GraphicsContext
-	 *
-	 * @desc
-	 *	This generic GraphicsContext represents the render context the renderer will render to.
-	 */
+	/// <summary>
+	/// This generic GraphicsContext represents the render context the renderer will render to.
+	/// </summary>
 	class GraphicsContext
 	{
 	public:

@@ -4,12 +4,10 @@
 
 namespace BC
 {
-	/* Class Layer:
-	 * 
-	 * @desc
-	 *	This class represents a layer in the application which will be updated (when enabled)
-	 *	every game loop when added to the LayerStack from the Application class.
-	 */
+	/// <summary>
+	/// This class represents a layer in the application which will be updated (when enabled)
+	/// every game loop when added to the LayerStack from the Application class.
+	/// </summary>
 	class Layer
 	{
 	private:

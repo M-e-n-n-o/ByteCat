@@ -14,11 +14,9 @@ namespace BC
 		bool vSync;
 	};
 
-	/* Class Window:
-	 *
-	 * @desc
-	 *	This class represents a window from a ByteCat application
-	 */
+	/// <summary>
+	/// This class represents a window from a ByteCat application
+	/// </summary>
 	class Window
 	{
 	public:

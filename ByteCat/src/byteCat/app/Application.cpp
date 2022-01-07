@@ -3,12 +3,6 @@
 #include "byteCat/graphics/renderers/Renderer.h"
 #include "byteCat/graphics/renderers/SimpleRenderer.h"
 
-#include "GLFW/glfw3.h"
-#include "glad/glad.h"
-#include "glm/ext/matrix_clip_space.hpp"
-#include "platform/openGL/OpenGLBuffer.h"
-#include "platform/openGL/OpenGLVertexArray.h"
-
 namespace BC
 {
     Application* Application::instance = nullptr;
@@ -51,52 +45,7 @@ namespace BC
     }
 	
 	void Application::run()
-	{
-        const char* vertexSource = R"(
-			#version 330 core
-
-			layout (location = 0) in vec3 aPos;
-
-			void main()
-			{
-				gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);
-			}
-		)";
-
-        const char* fragmentSource = R"(
-			#version 330 core
-
-			out vec4 FragColor;
-
-			void main()
-			{
-				FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);
-			}
-		)";
-		
-        auto shader = Shader::Create("Test", vertexSource, fragmentSource);
-
-        float vertices[] = {
-             0.5f,  0.5f, 0.0f,  // top right
-             0.5f, -0.5f, 0.0f,  // bottom right
-            -0.5f, -0.5f, 0.0f,  // bottom left
-            -0.5f,  0.5f, 0.0f   // top left 
-        };
-        unsigned int indices[] = {  // note that we start from 0!
-            0, 1, 3,  // first Triangle
-            1, 2, 3   // second Triangle
-        };
-
-        auto vao = VertexArray::Create();
-
-        auto ebo = IndexBuffer::Create(indices, sizeof(indices));
-        vao->setIndexBuffer(ebo);
-
-        auto vbo = VertexBuffer::Create(vertices, sizeof(vertices));
-        BufferLayout layout = { { ShaderDataType::Float3, "aPos" } };
-        vbo->setLayout(layout);
-        vao->addVertexBuffer(vbo);
-    	
+	{    	
 		while (isRunning)
 		{
 			window->update();
@@ -112,14 +61,15 @@ namespace BC
 				if (layer->enabled) { layer->onUpdate(); }
 	        }
 
+            Renderer::StartScene({ });
+			
             // Rendering
             for (Layer* layer : layerStack)
             {
                 if (layer->enabled) { layer->onRender(); }
             }
 
-            Renderer::StartScene({ });
-			Renderer::Submit({ vao, shader });
+            Renderer::RenderScene();
 		}
 	}
 

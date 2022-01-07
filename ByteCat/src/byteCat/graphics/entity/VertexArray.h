@@ -4,6 +4,10 @@
 
 namespace BC
 {
+	/// <summary>
+	/// This class, when filled with an index buffer and vertex buffer(s),
+	/// can be rendered together with a shader.
+	/// </summary>
 	class VertexArray
 	{
 	public:
