@@ -109,7 +109,7 @@ namespace BC
 			}
 		}
 
-		void OpenGLShader::addUniformBuffer(const std::string& bufferName, unsigned bindingIndex)
+		void OpenGLShader::linkUniformBuffer(const std::string& bufferName, unsigned bindingIndex)
 		{
 			unsigned int uniformBlockIndex = glGetUniformBlockIndex(programID, bufferName.c_str());
 			glUniformBlockBinding(programID, uniformBlockIndex, bindingIndex);

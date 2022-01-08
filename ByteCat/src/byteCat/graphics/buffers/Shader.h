@@ -1,6 +1,5 @@
 #pragma once
 #include <glm/glm.hpp>
-#include "byteCat/graphics/buffers/UniformBuffer.h"
 
 namespace BC
 {
@@ -23,7 +22,7 @@ namespace BC
 		virtual void loadVector4(const std::string& name, const glm::vec4& value) = 0;
 		virtual void loadMatrix4(const std::string& name, const glm::mat4& value) = 0;
 
-		virtual void addUniformBuffer(const std::string& bufferName, unsigned int bindingIndex) = 0;
+		virtual void linkUniformBuffer(const std::string& bufferName, unsigned int bindingIndex) = 0;
 		
 		virtual const std::string& getName() const = 0;
 

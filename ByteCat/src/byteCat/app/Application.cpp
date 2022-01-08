@@ -3,11 +3,6 @@
 #include "byteCat/graphics/renderers/Renderer.h"
 #include "byteCat/graphics/renderers/SimpleRenderer.h"
 
-#include <glad/glad.h>
-
-#include "glm/ext/matrix_clip_space.hpp"
-#include "glm/gtc/type_ptr.hpp"
-
 namespace BC
 {
     Application* Application::instance = nullptr;
@@ -55,15 +50,10 @@ namespace BC
 			#version 330 core
 
 			layout (location = 0) in vec3 vertexPos;
-
-			uniform Test
-			{
-			    int testInt;
-			};
 		
 			void main()
 			{
-				gl_Position = vec4(vertexPos.x + testInt, vertexPos.y, vertexPos.z, 1.0);
+				gl_Position = vec4(vertexPos.x, vertexPos.y, vertexPos.z, 1.0);
 			}
 		)";
 
@@ -77,12 +67,8 @@ namespace BC
 				FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);
 			}
 		)";
-
-        auto buffer = UniformBuffer::Builder("Test", 0)
-            .addInt("testInt", 1);
 		
 		auto shader = Shader::Create("Test", vertexSource, fragmentSource);
-		shader->addUniformBuffer("Test", 0);		
 
 		float vertices[] = {
 			-0.5f, -0.5f, 0.0f,
