@@ -22,9 +22,9 @@ namespace BC
 			char infoLog[512];
 			glGetProgramiv(programID, GL_LINK_STATUS, &success);
 			if (!success) {
-				glGetProgramInfoLog(programID, 512, NULL, infoLog);
+				//glGetProgramInfoLog(programID, 512, NULL, infoLog);
 				LOG_CRITICAL("Could not link shader program: {0}", name);
-				LOG_TEXT_LONG(infoLog);
+				//LOG_TEXT_LONG(infoLog);
 			}
 			
 			glDeleteShader(vertexShaderID);
