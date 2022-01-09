@@ -32,7 +32,7 @@
 #include "byteCat/graphics/buffers/VertexArray.h"
 #include "byteCat/graphics/buffers/ArrayBuffer.h"
 #include "byteCat/graphics/buffers/Shader.h"
-#include "byteCat/graphics/renderers/Renderer.h"
+#include "byteCat/graphics/renderer/Renderer.h"
 
 // --Start of the engine--
 #include "byteCat/EntryPoint.h"

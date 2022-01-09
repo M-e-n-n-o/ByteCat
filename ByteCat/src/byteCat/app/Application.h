@@ -21,8 +21,9 @@ namespace BC
 		LayerStack layerStack;
 		
 		Window* window;
-		bool isRunning;
 
+		bool isRunning;
+		
 		friend int ::main(int argc, char** argv);
 		
 	public:		

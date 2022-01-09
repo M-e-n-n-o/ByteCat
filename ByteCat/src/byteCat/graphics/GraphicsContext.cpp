@@ -1,6 +1,6 @@
 #include "bcpch.h"
 #include "byteCat/graphics/GraphicsContext.h"
-#include "byteCat/graphics/renderers/Renderer.h"
+#include "byteCat/graphics/renderer/Renderer.h"
 
 #include "platform/openGL/OpenGLGraphicsContext.h"
 

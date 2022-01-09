@@ -1,6 +1,6 @@
 #include "bcpch.h"
 #include "byteCat/graphics/buffers/VertexArray.h"
-#include "byteCat/graphics/renderers/Renderer.h"
+#include "byteCat/graphics/renderer/Renderer.h"
 #include "platform/openGL/OpenGLVertexArray.h"
 
 namespace BC

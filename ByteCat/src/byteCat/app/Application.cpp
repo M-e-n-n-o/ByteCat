@@ -1,7 +1,7 @@
 #include "bcpch.h"
 #include "byteCat/app/Application.h"
-#include "byteCat/graphics/renderers/Renderer.h"
-#include "byteCat/graphics/renderers/SimpleRenderer.h"
+#include "byteCat/graphics/renderer/Renderer.h"
+#include "byteCat/graphics/renderer/elaborations/SimpleRenderer.h"
 
 namespace BC
 {
@@ -105,7 +105,7 @@ namespace BC
 				if (layer->enabled) { layer->onUpdate(); }
 	        }
 
-            Renderer::StartScene({ });
+            Renderer::Submit({ vao, shader });
 			
             // Rendering
             for (Layer* layer : layerStack)
@@ -113,8 +113,7 @@ namespace BC
                 if (layer->enabled) { layer->onRender(); }
             }
 
-            Renderer::RenderScene();
-			Renderer::Submit({ vao, shader });
+            Renderer::RenderFrame({});
 		}
 	}
 

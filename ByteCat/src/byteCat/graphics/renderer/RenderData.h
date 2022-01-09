@@ -10,7 +10,7 @@ namespace BC
 		std::shared_ptr<Shader> shader;
 	};
 
-	
+
 	struct SceneData
 	{
 

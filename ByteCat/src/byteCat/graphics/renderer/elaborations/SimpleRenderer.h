@@ -1,19 +1,20 @@
 #pragma once
-#include "byteCat/graphics/renderers/Renderer.h"
+#include "byteCat/graphics/renderer/RendererBase.h"
 
 namespace BC
 {
 	class SimpleRenderer : public RenderBase
 	{
 	private:
+		std::vector<Renderable> entities;
+		
 		RendererAPI* rendererAPI;
 		SceneData sceneData;
 	
 	public:
-		void startScene(RendererAPI* rendererAPI, const SceneData& sceneData) override;
-		void setSceneData(const SceneData& sceneData) override { this->sceneData = sceneData; }
+		void init(RendererAPI* rendererAPI) override;
 		void submit(const Renderable& renderable) override;
-		void renderScene() override;
+		void renderFrame(const SceneData& sceneData) override;
 		
 		bool supports(const GraphicsAPI& api) override;
 		
