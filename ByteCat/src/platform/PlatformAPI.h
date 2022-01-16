@@ -44,19 +44,17 @@ namespace BC
 		
 		class API
 		{
-		private:			
-            static inline ThreadSafeQueue<CommandWrapper> s_commandsFrame1;
-            static inline ThreadSafeQueue<CommandWrapper> s_commandsFrame2;
-
-            static inline ThreadSafeQueue<CommandWrapper>* s_executingList = &s_commandsFrame1;
-            static inline ThreadSafeQueue<CommandWrapper>* s_pushingList = &s_commandsFrame1;
+		private:
+            static inline bool s_multithreaded;
+			
+            static inline ThreadSafeQueue<CommandWrapper>* s_commands;
 		
 		public:
-			static void Start();
+			static void Start(bool multithreaded);
 
             static void PushCommand(const CommandWrapper& wrappedCommand);
 
-            static void EndFrame();
+            static void Sync();
 
             static void Shutdown();
 		};

@@ -22,6 +22,7 @@ namespace BC
 		Window* m_window;
 
 		bool m_isRunning;
+		bool m_multithreaded = true;
 		
 		friend int ::main(int argc, char** argv);
 		
@@ -39,7 +40,6 @@ namespace BC
 	
 	private:
 		void start();
-		void run();
 
 		void onEvent(Event& event) override;
 		bool onWindowClose(WindowCloseEvent& event);

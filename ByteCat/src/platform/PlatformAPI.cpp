@@ -6,62 +6,69 @@ namespace BC
 	namespace Platform
 	{
 		std::atomic<bool> stop = false;
+		std::mutex mutex;
+		std::condition_variable condition;
 		
-		void API::Start()
-		{
+		void API::Start(bool multithreaded)
+		{			
+			s_multithreaded = multithreaded;
+			if (!s_multithreaded)
+			{
+				return;
+			}
+
+			s_commands = new ThreadSafeQueue<CommandWrapper>();
+			
 			while (!stop)
 			{
-				auto& command = s_executingList->getFront();
+				auto& command = s_commands->getFront();
 				command();
-				bool empty = s_executingList->pop();
-			
+				bool empty = s_commands->pop();
+
 				if (empty)
 				{
-					if (s_executingList == &s_commandsFrame1)
-					{
-						s_executingList = &s_commandsFrame2;
-					} else
-					{
-						s_executingList = &s_commandsFrame1;
-					}
+					std::lock_guard<std::mutex> lock(mutex);
+					condition.notify_one();
 				}
 			}
+
+			delete s_commands;
 		}
 
 		void API::PushCommand(const CommandWrapper& wrappedCommand)
 		{
-			s_pushingList->enqueue(wrappedCommand);
+			if (!s_multithreaded)
+			{
+				wrappedCommand();
+				return;
+			}
+			
+			s_commands->enqueue(wrappedCommand);
 		}
 
-		void API::EndFrame()
+		void API::Sync()
 		{
-			if (s_executingList == &s_commandsFrame1)
+			if (!s_multithreaded)
 			{
-				if (!s_commandsFrame2.isEmpty())
-				{
-					s_commandsFrame2.clear();
-				}
-				
-				s_pushingList = &s_commandsFrame2;
-			} else
+				return;
+			}
+			
+			std::unique_lock<std::mutex> lock(mutex);
+			while (!s_commands->isEmpty())
 			{
-				if (!s_commandsFrame1.isEmpty())
-				{
-					s_commandsFrame1.clear();
-				}
-
-				s_pushingList = &s_commandsFrame1;
+				condition.wait(lock);
 			}
 		}
 
 		void API::Shutdown()
 		{
+			if (!s_multithreaded)
+			{
+				return;
+			}
+			
 			stop = true;
-
-			s_commandsFrame1.clear();
-			s_commandsFrame2.clear();
-			s_commandsFrame1.enqueue([]() {});
-			s_commandsFrame2.enqueue([]() {});
+			s_commands->enqueue([]() {});
 		}
 	}
 }
