@@ -1,5 +1,4 @@
 #pragma once
-
 #include "byteCat/app/LayerStack.h"
 #include "byteCat/input/events/m_event.h"
 #include "byteCat/graphics/Window.h"
@@ -15,7 +14,7 @@ namespace BC
 	/// </summary>
 	class Application : public EventListener
 	{
-	private:
+	private:	
 		static Application* s_instance;
 		
 		LayerStack m_layerStack;
