@@ -8,8 +8,8 @@ namespace BC
 		class OpenGLVertexBuffer : public VertexBuffer
 		{
 		private:
-			unsigned int id;
-			BufferLayout layout;
+			unsigned int m_id;
+			BufferLayout m_layout;
 
 		public:
 			OpenGLVertexBuffer(unsigned int size);
@@ -21,15 +21,15 @@ namespace BC
 			
 			void setData(const void* data, unsigned size) override;
 			
-			const BufferLayout& getLayout() const override { return layout; }
-			void setLayout(const BufferLayout& layout) override { this->layout = layout; }
+			const BufferLayout& getLayout() const override { return m_layout; }
+			void setLayout(const BufferLayout& layout) override { this->m_layout = layout; }
 		};
 		
 		class OpenGLIndexBuffer : public IndexBuffer
 		{
 		private:
-			unsigned int id;
-			unsigned int count;
+			unsigned int m_id;
+			unsigned int m_count;
 
 		public:
 			OpenGLIndexBuffer(unsigned int* indices, unsigned int count);
@@ -38,7 +38,7 @@ namespace BC
 			void bind() const override;
 			void unbind() const override;
 			
-			unsigned getCount() const override { return count; }
+			unsigned getCount() const override { return m_count; }
 		};
 	}
 }

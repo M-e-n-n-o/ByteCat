@@ -1,6 +1,6 @@
 #pragma once
 
-#include "byteCat/input/events/Event.h"
+#include "byteCat/input/events/m_event.h"
 
 namespace BC
 {
@@ -11,13 +11,13 @@ namespace BC
 	class Layer
 	{
 	private:
-		std::string name;
+		std::string m_name;
 
 	public:
-		bool enabled = true;
+		bool m_enabled = true;
 	
 	public:
-		Layer(std::string name): name(name) {}
+		Layer(std::string name): m_name(name) {}
 		virtual ~Layer() = default;
 
 		// Gets called when attached to the layerstack
@@ -31,6 +31,6 @@ namespace BC
 		// Gets called every time an event occurs in the application
 		virtual void onEvent(Event& event) {}
 
-		std::string getName() const { return name; }
+		std::string getName() const { return m_name; }
 	};
 }

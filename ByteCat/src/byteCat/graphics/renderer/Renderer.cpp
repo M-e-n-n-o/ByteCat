@@ -3,13 +3,13 @@
 
 namespace BC
 {
-	#define CHECK_INIT if(!isInit) return;
+	#define CHECK_INIT if(!s_isInit) return;
 
 	void Renderer::SetAPI(const GraphicsAPI& api)
 	{
-		if (graphicsAPI == GraphicsAPI::None)
+		if (s_graphicsAPI == GraphicsAPI::None)
 		{
-			graphicsAPI = api;
+			s_graphicsAPI = api;
 		}
 	}
 	
@@ -21,20 +21,20 @@ namespace BC
 			return;
 		}
 
-		if (!renderer->supports(graphicsAPI))
+		if (!renderer->supports(s_graphicsAPI))
 		{
 			LOG_WARN("{0} does not support the selected graphics API!", renderer->getName());
 			delete renderer;
 			return;
 		}
 
-		if (!isInit)
+		if (!s_isInit)
 		{
-			isInit = true;
+			s_isInit = true;
 
-			activeRenderer = renderer;
-			rendererAPI = RendererAPI::Create(graphicsAPI);
-			activeRenderer->init(rendererAPI);
+			s_activeRenderer = renderer;
+			s_rendererAPI = RendererAPI::Create(s_graphicsAPI);
+			s_activeRenderer->init(s_rendererAPI);
 		}
 	}
 
@@ -71,15 +71,15 @@ namespace BC
 
 	void Renderer::Shutdown()
 	{
-		delete rendererAPI;
-		delete activeRenderer;
+		delete s_rendererAPI;
+		delete s_activeRenderer;
 	}
 
 	void Renderer::Submit(const Renderable& renderable)
 	{
 		CHECK_INIT
 		
-		activeRenderer->submit(renderable);
+		s_activeRenderer->submit(renderable);
 		// submittedRenderables.push_back(renderable);
 	}
 
@@ -87,7 +87,7 @@ namespace BC
 	{
 		CHECK_INIT
 
-		activeRenderer->renderFrame(sceneData);
+		s_activeRenderer->renderFrame(sceneData);
 
 		// renderFrame = true;
 		// sceneData = data;
@@ -97,7 +97,7 @@ namespace BC
 	{
 		CHECK_INIT
 
-		rendererAPI->setViewport(x, y, width, height);
+		s_rendererAPI->setViewport(x, y, width, height);
 		// renderCommands.push_back(SetViewPortCommand(x, y, width, height));
 	}
 }

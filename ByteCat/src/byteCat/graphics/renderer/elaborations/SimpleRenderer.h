@@ -6,10 +6,10 @@ namespace BC
 	class SimpleRenderer : public RenderBase
 	{
 	private:
-		std::vector<Renderable> entities;
+		std::vector<Renderable> m_entities;
 		
-		RendererAPI* rendererAPI;
-		SceneData sceneData;
+		RendererAPI* m_rendererAPI;
+		SceneData m_sceneData;
 	
 	public:
 		void init(RendererAPI* rendererAPI) override;

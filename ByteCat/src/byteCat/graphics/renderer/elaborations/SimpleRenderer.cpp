@@ -5,27 +5,27 @@ namespace BC
 {
 	void SimpleRenderer::init(RendererAPI* rendererAPI)
 	{
-		this->rendererAPI = rendererAPI;
+		this->m_rendererAPI = rendererAPI;
 	}
 
 	void SimpleRenderer::submit(const Renderable& renderable)
 	{		
-		entities.push_back(renderable);
+		m_entities.push_back(renderable);
 	}
 
 	void SimpleRenderer::renderFrame(const SceneData& sceneData)
 	{
-		rendererAPI->clearBuffers();
-		rendererAPI->clearColor(glm::vec4(0.2f, 0.3f, 0.3f, 1.0f));
+		m_rendererAPI->clearBuffers();
+		m_rendererAPI->clearColor(glm::vec4(0.2f, 0.3f, 0.3f, 1.0f));
 
-		for (const auto& entity : entities)
+		for (const auto& entity : m_entities)
 		{
 			entity.shader->bind();
 			entity.vao->bind();
-			rendererAPI->draw(entity.vao);
+			m_rendererAPI->draw(entity.vao);
 		}
 		
-		entities.clear();
+		m_entities.clear();
 	}
 
 	bool SimpleRenderer::supports(const GraphicsAPI& api)

@@ -40,27 +40,27 @@ namespace BC
 
 	UniformBuffer::Builder::Builder(const std::string& blockName, unsigned int bindingIndex)
 	{
-		buffer = Create(blockName, bindingIndex, MAX_BUFFER_SIZE);
+		m_buffer = Create(blockName, bindingIndex, MAX_BUFFER_SIZE);
 	}
 
 	UniformBuffer::Builder& UniformBuffer::Builder::addInt(const std::string& name, int value)
 	{
-		buffer->loadData(&value, sizeof(int), offset);
-		offset += sizeof(int);
+		m_buffer->loadData(&value, sizeof(int), m_offset);
+		m_offset += sizeof(int);
 		
 		return *this;
 	}
 
 	UniformBuffer::Builder& UniformBuffer::Builder::addFloat(const std::string& name, float value)
 	{
-		buffer->loadData(&value, sizeof(float), offset);
-		offset += sizeof(float);
+		m_buffer->loadData(&value, sizeof(float), m_offset);
+		m_offset += sizeof(float);
 
 		return *this;
 	}
 
 	std::shared_ptr<UniformBuffer> UniformBuffer::Builder::build()
 	{
-		return buffer;
+		return m_buffer;
 	}
 }

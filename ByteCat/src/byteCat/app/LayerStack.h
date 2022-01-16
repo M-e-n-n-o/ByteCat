@@ -11,8 +11,8 @@ namespace BC
 	class LayerStack
 	{
 	private:
-		std::vector<Layer*> layers;
-		unsigned int layerInsertIndex = 0;
+		std::vector<Layer*> m_layers;
+		unsigned int m_layerInsertIndex = 0;
 
 	public:
 		LayerStack() = default;
@@ -27,7 +27,7 @@ namespace BC
 		// Remove an overlay from the stack
 		//void popOverlay(Layer* overlay);
 
-		std::vector<Layer*>::iterator begin() { return layers.begin(); }
-		std::vector<Layer*>::iterator end() { return layers.end(); }
+		std::vector<Layer*>::iterator begin() { return m_layers.begin(); }
+		std::vector<Layer*>::iterator end() { return m_layers.end(); }
 	};
 }

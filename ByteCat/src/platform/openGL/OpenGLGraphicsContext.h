@@ -9,10 +9,10 @@ namespace BC
 		class OpenGLGraphicsContext : public GraphicsContext
 		{
 		private:
-			GLFWwindow* window;
+			GLFWwindow* m_window;
 			
 		public:
-			OpenGLGraphicsContext(GLFWwindow* window): window(window) {}
+			OpenGLGraphicsContext(GLFWwindow* window): m_window(window) {}
 			
 			void init(unsigned int windowWidth, unsigned int windowHeight) override;
 			void swapBuffers() override;

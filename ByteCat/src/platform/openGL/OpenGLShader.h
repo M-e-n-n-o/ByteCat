@@ -10,8 +10,8 @@ namespace BC
 
 			
 		private:
-			std::string name;
-			unsigned int programID;
+			std::string m_name;
+			unsigned int m_programID;
 
 			mutable std::unordered_map<std::string, unsigned int> uniformLocationCache;
 			
@@ -32,7 +32,7 @@ namespace BC
 
 			void linkUniformBuffer(const std::string& bufferName, unsigned int bindingIndex) override;
 			
-			const std::string& getName() const override { return name; }
+			const std::string& getName() const override { return m_name; }
 
 		private:
 			int getUniformLocation(const std::string& uniformName) const;

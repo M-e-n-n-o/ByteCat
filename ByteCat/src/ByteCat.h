@@ -20,7 +20,7 @@
 
 #include "byteCat/Log.h"
 
-#include "byteCat/input/events/Event.h"
+#include "byteCat/input/events/m_event.h"
 #include "byteCat/input/events/ApplicationEvent.h"
 #include "byteCat/input/events/KeyEvent.h"
 #include "byteCat/input/events/MouseEvent.h"

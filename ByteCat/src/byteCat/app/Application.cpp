@@ -5,20 +5,20 @@
 
 namespace BC
 {
-    Application* Application::instance = nullptr;
+    Application* Application::s_instance = nullptr;
 	
-	Application::Application() : isRunning(false)
+	Application::Application() : m_isRunning(false)
 	{
-        LOG_ASSERT(!instance, "Application already exists!");
-        instance = this;
+        LOG_ASSERT(!s_instance, "Application already exists!");
+        s_instance = this;
 		
         LOG_INFO("ByteCat engine is starting...");
 
         Renderer::SetAPI(GraphicsAPI::OpenGL);
 		      
         WindowSettings setting = { "ByteCat Engine", 1280, 720, false };
-        window = Window::Create(setting);
-        window->setEventListener(this);
+        m_window = Window::Create(setting);
+        m_window->setEventListener(this);
         
         Renderer::Init(new SimpleRenderer());
 	}
@@ -28,18 +28,18 @@ namespace BC
         LOG_INFO("ByteCat engine is closing...");
 
         Renderer::Shutdown();
-        delete window;
+        delete m_window;
     }
 
     void Application::start()
     {
-        if (isRunning)
+        if (m_isRunning)
         {
             LOG_WARN("Cannot run the main game loop synchronous");
             return;
         }
 		
-        isRunning = true;    	
+        m_isRunning = true;    	
 		
         run();
     }
@@ -90,27 +90,27 @@ namespace BC
 		vbo->setLayout(layout);
 		vao->addVertexBuffer(vbo);
 		
-		while (isRunning)
+		while (m_isRunning)
 		{
-			window->update();
+			m_window->update();
 
-			if (window->isMinimized())
+			if (m_window->isMinimized())
 			{
 				continue;
 			}
 
 		 	// Updating
-	        for (Layer* layer : layerStack)
+	        for (Layer* layer : m_layerStack)
 	        {
-				if (layer->enabled) { layer->onUpdate(); }
+				if (layer->m_enabled) { layer->onUpdate(); }
 	        }
 
             Renderer::Submit({ vao, shader });
 			
             // Rendering
-            for (Layer* layer : layerStack)
+            for (Layer* layer : m_layerStack)
             {
-                if (layer->enabled) { layer->onRender(); }
+                if (layer->m_enabled) { layer->onRender(); }
             }
 
             Renderer::RenderFrame({});
@@ -123,11 +123,11 @@ namespace BC
         dispatcher.dispatch<WindowCloseEvent>(BC_BIND_EVENT_FN(Application::onWindowClose));
         dispatcher.dispatch<WindowResizeEvent>(BC_BIND_EVENT_FN(Application::onWindowResize));
 		
-        for (auto it = layerStack.end(); it != layerStack.begin();)
+        for (auto it = m_layerStack.end(); it != m_layerStack.begin();)
         {
             --it;
         	
-            if ((*it)->enabled)
+            if ((*it)->m_enabled)
             {
                 (*it)->onEvent(event);
                 if (event.handled)
@@ -140,13 +140,13 @@ namespace BC
 
     bool Application::onWindowClose(WindowCloseEvent& event)
     {
-        isRunning = false;
+        m_isRunning = false;
         return true;
     }
 
     bool Application::onWindowResize(WindowResizeEvent& event)
     {
-        window->resize(event.getWidth(), event.getHeight());
+        m_window->resize(event.getWidth(), event.getHeight());
         Renderer::SetViewport(0, 0, event.getWidth(), event.getHeight());
     	
         return true;
@@ -154,11 +154,11 @@ namespace BC
 
     void Application::pushLayer(Layer* layer)
     {
-        layerStack.pushLayer(layer);
+        m_layerStack.pushLayer(layer);
     }
 
     void Application::pushOverlay(Layer* overlay)
     {
-        layerStack.pushOverlay(overlay);
+        m_layerStack.pushOverlay(overlay);
     }
 }

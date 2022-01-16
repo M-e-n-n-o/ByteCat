@@ -9,10 +9,10 @@ namespace BC
 		class WinLinWindow : public Window
 		{
 		private:
-			WindowSettings windowSetting;
-			GraphicsContext* context;
+			WindowSettings m_windowSetting;
+			GraphicsContext* m_context;
 			
-			bool minimized = false;
+			bool m_isMinimized = false;
 			
 		public:
 			WinLinWindow(WindowSettings& setting);
@@ -26,15 +26,15 @@ namespace BC
 			// Change the window settings to the new width and heigt
 			void resize(unsigned int width, unsigned int height) override;
 
-			std::string getTitle() const override { return windowSetting.title; }
-			unsigned int getWidth() const override { return windowSetting.height; }
-			unsigned int getHeight() const override { return windowSetting.width; }
+			std::string getTitle() const override { return m_windowSetting.title; }
+			unsigned int getWidth() const override { return m_windowSetting.height; }
+			unsigned int getHeight() const override { return m_windowSetting.width; }
 			
 			// Change Vsync
 			void setVsync(bool enabled) override;
-			bool getVsync() const override { return windowSetting.vSync; }
+			bool getVsync() const override { return m_windowSetting.vSync; }
 
-			bool isMinimized() override { return minimized; }
+			bool isMinimized() override { return m_isMinimized; }
 			
 			// Returns the native window
 			void* getNativeWindow() const override;

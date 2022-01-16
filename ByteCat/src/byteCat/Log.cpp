@@ -3,17 +3,17 @@
 
 namespace BC
 {
-	std::shared_ptr<spdlog::logger> Log::coreLogger;
-	std::shared_ptr<spdlog::logger> Log::clientLogger;
+	std::shared_ptr<spdlog::logger> Log::s_coreLogger;
+	std::shared_ptr<spdlog::logger> Log::s_clientLogger;
 
 	void Log::Init()
 	{
 		spdlog::set_pattern("%^[%T] %n: %v%$");
 
-		coreLogger = spdlog::stdout_color_mt("BYTECAT");
-		coreLogger->set_level(spdlog::level::trace);
+		s_coreLogger = spdlog::stdout_color_mt("BYTECAT");
+		s_coreLogger->set_level(spdlog::level::trace);
 		
-		clientLogger = spdlog::stdout_color_mt("APP");
-		clientLogger->set_level(spdlog::level::trace);
+		s_clientLogger = spdlog::stdout_color_mt("APP");
+		s_clientLogger->set_level(spdlog::level::trace);
 	}
 }

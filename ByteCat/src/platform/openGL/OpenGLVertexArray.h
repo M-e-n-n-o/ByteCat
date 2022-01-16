@@ -8,8 +8,8 @@ namespace BC
 		class OpenGLVertexArray : public VertexArray
 		{
 		private:
-			unsigned int id;
-			unsigned int vboIndex = 0;
+			unsigned int m_id;
+			unsigned int m_vboIndex = 0;
 
 			std::shared_ptr<IndexBuffer> indexBuffer;
 			std::vector<std::shared_ptr<VertexBuffer>> vertexBuffers;

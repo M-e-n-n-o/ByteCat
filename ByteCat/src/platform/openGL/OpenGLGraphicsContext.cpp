@@ -11,7 +11,7 @@ namespace BC
 		{
 			LOG_INFO("Adding OpenGL context to window");
 			
-			glfwMakeContextCurrent(window);
+			glfwMakeContextCurrent(m_window);
 
 			if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 			{
@@ -33,7 +33,7 @@ namespace BC
 
 		void OpenGLGraphicsContext::swapBuffers()
 		{
-			glfwSwapBuffers(window);
+			glfwSwapBuffers(m_window);
 		}
 	}
 }

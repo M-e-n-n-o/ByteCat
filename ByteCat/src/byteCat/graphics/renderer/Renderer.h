@@ -19,17 +19,17 @@ namespace BC
 		// inline static std::vector<Renderable> submittedRenderables;
 		// inline static SceneData sceneData;
 		
-		inline static bool isInit = false;
+		inline static bool s_isInit = false;
 		// inline static bool shouldShutdown = false;
 		
-		inline static RenderBase* activeRenderer = nullptr;
+		inline static RenderBase* s_activeRenderer = nullptr;
 
-		inline static GraphicsAPI graphicsAPI = GraphicsAPI::None;
-		inline static RendererAPI* rendererAPI = nullptr;
+		inline static GraphicsAPI s_graphicsAPI = GraphicsAPI::None;
+		inline static RendererAPI* s_rendererAPI = nullptr;
 
 	public:
 		static void SetAPI(const GraphicsAPI& api);
-		static GraphicsAPI& GetAPI() { return graphicsAPI; }
+		static GraphicsAPI& GetAPI() { return s_graphicsAPI; }
 		
 		static void Init(RenderBase* renderer);
 

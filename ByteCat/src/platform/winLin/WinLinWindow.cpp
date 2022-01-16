@@ -17,7 +17,7 @@ namespace BC
 		{
 			LOG_INFO("Trying to create a Windows/Linux window");
 
-			windowSetting = setting;
+			m_windowSetting = setting;
 
 			if (!glfwInit())
 			{
@@ -25,14 +25,14 @@ namespace BC
 				std::exit(-1);
 			}
 
-			nativeWindow = glfwCreateWindow(windowSetting.width, windowSetting.height, windowSetting.title.c_str(), NULL, NULL);
-			if (windowSetting.width == 0 || windowSetting.height == 0)
+			nativeWindow = glfwCreateWindow(m_windowSetting.width, m_windowSetting.height, m_windowSetting.title.c_str(), NULL, NULL);
+			if (m_windowSetting.width == 0 || m_windowSetting.height == 0)
 			{
-				minimized = true;
+				m_isMinimized = true;
 			}
 			else
 			{
-				minimized = false;
+				m_isMinimized = false;
 			}
 
 			if (!nativeWindow)
@@ -42,12 +42,12 @@ namespace BC
 				std::exit(-1);
 			}
 
-			LOG_INFO("Created a Windows/Linux window with title: {0}, width: {1}, height: {2} and vSync: {3}", windowSetting.title, windowSetting.width, windowSetting.height, windowSetting.vSync);
+			LOG_INFO("Created a Windows/Linux window with title: {0}, width: {1}, height: {2} and vSync: {3}", m_windowSetting.title, m_windowSetting.width, m_windowSetting.height, m_windowSetting.vSync);
 
-			context = GraphicsContext::Create(nativeWindow);
-			context->init(windowSetting.width, windowSetting.height);
+			m_context = GraphicsContext::Create(nativeWindow);
+			m_context->init(m_windowSetting.width, m_windowSetting.height);
 
-			setVsync(windowSetting.vSync);
+			setVsync(m_windowSetting.vSync);
 
 			
 			glfwSetWindowSizeCallback(nativeWindow, [](GLFWwindow* window, int width, int height)
@@ -129,35 +129,35 @@ namespace BC
 
 		void WinLinWindow::update() const
 		{
-			context->swapBuffers();
+			m_context->swapBuffers();
 			glfwPollEvents();
 		}
 
 		void WinLinWindow::shutdown() const
 		{
-			delete context;
+			delete m_context;
 			glfwDestroyWindow(nativeWindow);
 			glfwTerminate();
 		}
 
 		void WinLinWindow::resize(unsigned int width, unsigned int height)
 		{
-			windowSetting.width = width;
-			windowSetting.height = height;
+			m_windowSetting.width = width;
+			m_windowSetting.height = height;
 
 			if (width == 0 || height == 0)
 			{
-				minimized = true;
+				m_isMinimized = true;
 			}
 			else
 			{
-				minimized = false;
+				m_isMinimized = false;
 			}
 		}
 
 		void WinLinWindow::setVsync(bool enabled)
 		{
-			windowSetting.vSync = enabled;
+			m_windowSetting.vSync = enabled;
 			
 			if (enabled)
 			{
