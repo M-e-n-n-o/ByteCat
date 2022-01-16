@@ -11,22 +11,57 @@ namespace BC
 		{
 			while (!stop)
 			{
-				auto& command = commands.getFront();
+				auto& command = s_executingList->getFront();
 				command();
-				commands.pop();
+				bool empty = s_executingList->pop();
+			
+				if (empty)
+				{
+					if (s_executingList == &s_commandsFrame1)
+					{
+						s_executingList = &s_commandsFrame2;
+					} else
+					{
+						s_executingList = &s_commandsFrame1;
+					}
+				}
 			}
 		}
 
 		void API::PushCommand(const CommandWrapper& wrappedCommand)
 		{
-			commands.enqueue(wrappedCommand);
+			s_pushingList->enqueue(wrappedCommand);
+		}
+
+		void API::EndFrame()
+		{
+			if (s_executingList == &s_commandsFrame1)
+			{
+				if (!s_commandsFrame2.isEmpty())
+				{
+					s_commandsFrame2.clear();
+				}
+				
+				s_pushingList = &s_commandsFrame2;
+			} else
+			{
+				if (!s_commandsFrame1.isEmpty())
+				{
+					s_commandsFrame1.clear();
+				}
+
+				s_pushingList = &s_commandsFrame1;
+			}
 		}
 
 		void API::Shutdown()
 		{
 			stop = true;
 
-			commands.enqueue([]() {});
+			s_commandsFrame1.clear();
+			s_commandsFrame2.clear();
+			s_commandsFrame1.enqueue([]() {});
+			s_commandsFrame2.enqueue([]() {});
 		}
 	}
 }

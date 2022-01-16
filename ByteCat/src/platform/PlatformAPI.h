@@ -10,7 +10,7 @@ namespace BC
         {
             template <typename T>
             CommandWrapper(T&& obj) :
-                wrappedObject(std::make_shared<Command<T>>(std::forward<T>(obj))) { }
+                m_wrappedObject(std::make_shared<Command<T>>(std::forward<T>(obj))) { }
 
             struct CommandBase
             {
@@ -22,35 +22,41 @@ namespace BC
             struct Command : public CommandBase
             {
                 Command(const T& t) :
-                    wrappedObject(t) {}
+                    m_wrappedObject(t) {}
 
                 ~Command() = default;
 
                 void operator()() const override
                 {
-                    return wrappedObject();
+                    return m_wrappedObject();
                 }
-                T wrappedObject;
+                T m_wrappedObject;
             };
 
             void operator()() const
             {
-                return (*wrappedObject)();
+                return (*m_wrappedObject)();
             }
 
-            std::shared_ptr<CommandBase> wrappedObject;
+            std::shared_ptr<CommandBase> m_wrappedObject;
         };
 
 		
 		class API
 		{
-		private:
-            static inline ThreadSafeQueue<CommandWrapper> commands;
+		private:			
+            static inline ThreadSafeQueue<CommandWrapper> s_commandsFrame1;
+            static inline ThreadSafeQueue<CommandWrapper> s_commandsFrame2;
+
+            static inline ThreadSafeQueue<CommandWrapper>* s_executingList = &s_commandsFrame1;
+            static inline ThreadSafeQueue<CommandWrapper>* s_pushingList = &s_commandsFrame1;
 		
 		public:
 			static void Start();
 
             static void PushCommand(const CommandWrapper& wrappedCommand);
+
+            static void EndFrame();
 
             static void Shutdown();
 		};

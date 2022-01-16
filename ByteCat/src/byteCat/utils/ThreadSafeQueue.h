@@ -46,10 +46,37 @@ namespace BC
             return val;
         }
 
-    	void pop()
-        {
+    	// Returns if the queue is empty
+    	bool pop()
+        {        	
             std::unique_lock<std::mutex> lock(m_mutex);
             m_queue.pop();
+            return m_queue.empty();
+        }
+
+    	bool isEmpty()
+        {
+            std::unique_lock<std::mutex> lock(m_mutex);
+            return m_queue.empty();
+        }
+
+    	bool getSize()
+        {
+            std::unique_lock<std::mutex> lock(m_mutex);
+            return m_queue.size();
+        }
+
+    	void clear()
+        {
+            std::unique_lock<std::mutex> lock(m_mutex);        	
+            clear(m_queue);
+        }
+
+    private:
+        void clear(std::queue<T>& q)
+        {
+            std::queue<T> empty;
+            std::swap(q, empty);
         }
     };
 }

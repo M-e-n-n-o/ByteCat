@@ -2,6 +2,8 @@
 #include <glad/glad.h>
 #include "platform/openGL/OpenGLRendererAPI.h"
 
+#include "platform/PlatformAPI.h"
+
 namespace BC
 {
 	namespace Platform
@@ -49,12 +51,19 @@ namespace BC
 
 		void OpenGLRendererAPI::clearColor(const glm::vec4& color)
 		{
-			glClearColor(color.r, color.g, color.b, color.a);
+			API::PushCommand([color]()
+			{
+				glClearColor(color.r, color.g, color.b, color.a);
+			});
 		}
 
 		void OpenGLRendererAPI::clearBuffers()
 		{
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			API::PushCommand([]()
+			{
+				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			});
+			
 		}
 
 		void OpenGLRendererAPI::draw(std::shared_ptr<VertexArray> vao, unsigned indexCount)

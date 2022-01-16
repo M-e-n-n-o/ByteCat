@@ -11,7 +11,7 @@ namespace BC
 		// --------------------------------------------------------------------
 		
 		OpenGLVertexBuffer::OpenGLVertexBuffer(unsigned size)
-		{
+		{			
 			glGenBuffers(1, &m_id);
 			
 			glBindBuffer(GL_ARRAY_BUFFER, m_id);

@@ -5,6 +5,7 @@
 #include "byteCat/input/events/ApplicationEvent.h"
 #include "byteCat/input/events/KeyEvent.h"
 #include "byteCat/input/events/MouseEvent.h"
+#include "platform/PlatformAPI.h"
 
 namespace BC
 {
@@ -129,8 +130,28 @@ namespace BC
 
 		void WinLinWindow::update() const
 		{
-			m_context->swapBuffers();
-			glfwPollEvents();
+			API::PushCommand([this]()
+			{	
+				m_context->swapBuffers();
+				glfwPollEvents();
+
+				const double currentTime = glfwGetTime();
+				static double lastFrameTime = 0;
+				const double deltaTime = (currentTime - lastFrameTime);
+				lastFrameTime = currentTime;
+
+				// Calculate and print fps
+				static long lastFps = 0;
+				static long fps = 0;
+				if (glfwGetTime() - lastFps > 3)
+				{
+					LOG_INFO("Fps {0}", fps / 3);
+					fps = 0;
+					lastFps += 3;
+				}
+
+				fps++;
+			});
 		}
 
 		void WinLinWindow::shutdown() const
