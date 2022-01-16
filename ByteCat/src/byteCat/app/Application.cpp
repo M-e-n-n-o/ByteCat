@@ -32,35 +32,9 @@ namespace BC
         Renderer::Shutdown();
         delete m_window;
     }
-
-
-    void addCommands(int threadNumber)
-	{
-		for (int i = 0; i < 50; i++)
-		{
-            Platform::API::PushCommand([number = threadNumber, i]() { LOG_INFO("{0} printed number: {1}", number, i); });
-		}
-
-        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-
-        Platform::API::Shutdown();
-	}
 	
     void Application::start()
-    {		      
-        std::thread first(addCommands, 1);
-        std::thread second(addCommands, 2);
-        std::thread third(addCommands, 3);
-
-        Platform::API::Start();
-
-        first.join();
-        second.join();
-        third.join();
-
-        return;
-		
-		
+    {		
         if (m_isRunning)
         {
             LOG_WARN("Cannot run the main game loop synchronous");

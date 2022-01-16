@@ -38,36 +38,25 @@ namespace BC
 		}
 	}
 
-	// void Renderer::Run(Window* window)
-	// {
-	// 	CHECK_INIT
-	// 	
-	// 	while (!shouldShutdown)
-	// 	{
-	// 		window->update();
-	// 		
-	// 		if (window->isMinimized())
-	// 		{
-	// 			continue;
-	// 		}
-	// 		
-	// 		if (!renderCommands.empty())
-	// 		{
-	// 			for (auto& command : renderCommands)
-	// 			{
-	// 				command.execute(rendererAPI);
-	// 			}
-	// 		}
-	//
-	// 		if (renderFrame)
-	// 		{
-	// 			
-	// 		}
-	// 	}
-	//
-	// 	delete rendererAPI;
-	// 	delete activeRenderer;
-	// }
+	void Renderer::SetRenderer(RenderBase* renderer)
+	{
+		if (renderer == nullptr || !s_isInit)
+		{
+			delete renderer;
+			return;
+		}
+
+		if (!renderer->supports(s_graphicsAPI))
+		{
+			LOG_WARN("{0} does not support the selected graphics API!", renderer->getName());
+			delete renderer;
+			return;
+		}
+
+		delete s_activeRenderer;
+		s_activeRenderer = renderer;
+		s_activeRenderer->init(s_rendererAPI);
+	}
 
 	void Renderer::Shutdown()
 	{
@@ -80,7 +69,6 @@ namespace BC
 		CHECK_INIT
 		
 		s_activeRenderer->submit(renderable);
-		// submittedRenderables.push_back(renderable);
 	}
 
 	void Renderer::RenderFrame(const SceneData& sceneData)
@@ -88,9 +76,6 @@ namespace BC
 		CHECK_INIT
 
 		s_activeRenderer->renderFrame(sceneData);
-
-		// renderFrame = true;
-		// sceneData = data;
 	}
 
 	void Renderer::SetViewport(unsigned x, unsigned y, unsigned width, unsigned height)
@@ -98,6 +83,5 @@ namespace BC
 		CHECK_INIT
 
 		s_rendererAPI->setViewport(x, y, width, height);
-		// renderCommands.push_back(SetViewPortCommand(x, y, width, height));
 	}
 }

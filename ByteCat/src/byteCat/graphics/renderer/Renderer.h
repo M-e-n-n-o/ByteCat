@@ -12,15 +12,8 @@ namespace BC
 	/// </summary>
 	class Renderer
 	{
-	private:
-		// inline static std::vector<RendererCommand> renderCommands;
-		//
-		// inline static bool renderFrame = false;
-		// inline static std::vector<Renderable> submittedRenderables;
-		// inline static SceneData sceneData;
-		
+	private:		
 		inline static bool s_isInit = false;
-		// inline static bool shouldShutdown = false;
 		
 		inline static RenderBase* s_activeRenderer = nullptr;
 
@@ -32,11 +25,9 @@ namespace BC
 		static GraphicsAPI& GetAPI() { return s_graphicsAPI; }
 		
 		static void Init(RenderBase* renderer);
-
-		// static void Run(Window* window);
+		static void SetRenderer(RenderBase* renderer);
 		
 		static void Shutdown();
-
 		
 		// ---------- Commands ----------
 		
