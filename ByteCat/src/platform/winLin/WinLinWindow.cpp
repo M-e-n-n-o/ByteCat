@@ -5,7 +5,7 @@
 #include "byteCat/input/events/ApplicationEvent.h"
 #include "byteCat/input/events/KeyEvent.h"
 #include "byteCat/input/events/MouseEvent.h"
-#include "platform/PlatformAPI.h"
+#include "platform/CommandExecutor.h"
 
 namespace BC
 {
@@ -130,7 +130,7 @@ namespace BC
 
 		void WinLinWindow::update() const
 		{
-			API::PushCommand([this]()
+			CommandExecutor::PushCommand([this]()
 			{	
 				m_context->swapBuffers();
 				glfwPollEvents();

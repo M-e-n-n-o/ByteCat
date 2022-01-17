@@ -2,9 +2,7 @@
 #include "byteCat/app/Application.h"
 #include "byteCat/graphics/renderer/Renderer.h"
 #include "byteCat/graphics/renderer/elaborations/SimpleRenderer.h"
-#include "platform/PlatformAPI.h"
-
-#include "glad/glad.h"
+#include "platform/CommandExecutor.h"
 
 namespace BC
 {
@@ -22,8 +20,6 @@ namespace BC
         WindowSettings setting = { "ByteCat Engine", 1280, 720, false };
         m_window = Window::Create(setting);
         m_window->setEventListener(this);
-
-		
         
         Renderer::Init(new SimpleRenderer());
 	}
@@ -38,7 +34,7 @@ namespace BC
 
 	void runLogic(Window* window, LayerStack& layerStack, bool& isRunning)
 	{
-        // 		const char* vertexSource = R"(
+// 		const char* vertexSource = R"(
 // 			#version 330 core
 //
 // 			layout (location = 0) in vec3 vertexPos;
@@ -97,31 +93,29 @@ namespace BC
                 if (layer->m_enabled) { layer->onUpdate(); }
             }
 
+            // Heave duty test code
+            // for (int k = 0; k < 10000; k++)
+            // {
+            //     int arr[] = { 64, 34, 25, 12, 22, 11, 90 };
+            //     int n = sizeof(arr) / sizeof(arr[0]);
+            //
+            //     int i, j;
+            //     for (i = 0; i < n - 1; i++)
+            //     {
+            //         for (j = 0; j < n - i - 1; j++)
+            //         {
+            //             if (arr[j] > arr[j + 1])
+            //             {
+            //                 //swap(&arr[j], &arr[j + 1]);
+            //                 int temp = arr[j];
+            //                 arr[j] = arr[j + 1];
+            //                 arr[j + 1] = temp;
+            //             }
+            //         }
+            //     }
+            // }
 
-
-            for (int k = 0; k < 10000; k++)
-            {
-                int arr[] = { 64, 34, 25, 12, 22, 11, 90 };
-                int n = sizeof(arr) / sizeof(arr[0]);
-            
-                int i, j;
-                for (i = 0; i < n - 1; i++)
-                {
-                    for (j = 0; j < n - i - 1; j++)
-                    {
-                        if (arr[j] > arr[j + 1])
-                        {
-                            //swap(&arr[j], &arr[j + 1]);
-                            int temp = arr[j];
-                            arr[j] = arr[j + 1];
-                            arr[j + 1] = temp;
-                        }
-                    }
-                }
-            }
-        	
-
-            Platform::API::Sync();
+            Platform::CommandExecutor::Sync();
         	
             //Renderer::Submit({ vao, shader });
             
@@ -131,41 +125,42 @@ namespace BC
                 if (layer->m_enabled) { layer->onRender(); }
             }
 
-            for (int j = 0; j < 5; j++)
-            {
-                Platform::API::PushCommand([]()
-                {
-                    unsigned int id;
-                    glGenVertexArrays(1, &id);
-            
-                	for (int i = 0; i < 10000; i++)
-                	{
-                        glBindVertexArray(id);
-                        glBindVertexArray(0);
-                	}
-                	
-                    glDeleteVertexArrays(1, &id);
-                });
-            }
+        	// Heave duty test code
+            // for (int j = 0; j < 5; j++)
+            // {
+            //     Platform::CommandExecutor::PushCommand([]()
+            //     {
+            //         unsigned int id;
+            //         glGenVertexArrays(1, &id);
+            //
+            //     	for (int i = 0; i < 10000; i++)
+            //     	{
+            //             glBindVertexArray(id);
+            //             glBindVertexArray(0);
+            //     	}
+            //     	
+            //         glDeleteVertexArrays(1, &id);
+            //     });
+            // }
             
             Renderer::RenderFrame({});
         }
 
-        Platform::API::Shutdown();
+        Platform::CommandExecutor::Shutdown();
 	}
 	
     void Application::start()
     {		
         m_isRunning = true;
 
-		if (m_multithreaded)
+		if (c_multithreaded)
 		{
             std::thread logicThread(runLogic, m_window, std::ref(m_layerStack), std::ref(m_isRunning));
-            Platform::API::Start(true);
+            Platform::CommandExecutor::Start(true);
             logicThread.join();
 		} else
 		{
-            Platform::API::Start(false);
+            Platform::CommandExecutor::Start(false);
             runLogic(m_window, m_layerStack, m_isRunning);
 		} 
     }

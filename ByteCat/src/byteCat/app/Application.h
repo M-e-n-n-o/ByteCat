@@ -22,7 +22,7 @@ namespace BC
 		Window* m_window;
 
 		bool m_isRunning;
-		bool m_multithreaded = true;
+		const bool c_multithreaded = true;
 		
 		friend int ::main(int argc, char** argv);
 		

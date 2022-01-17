@@ -42,11 +42,9 @@ namespace BC
         };
 
 		
-		class API
+		class CommandExecutor
 		{
-		private:
-            static inline bool s_multithreaded;
-			
+		private:			
             static inline ThreadSafeQueue<CommandWrapper>* s_commands;
 		
 		public:

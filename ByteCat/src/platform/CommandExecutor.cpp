@@ -1,25 +1,34 @@
 #include "bcpch.h"
-#include "platform/PlatformAPI.h"
+#include "platform/CommandExecutor.h"
 
 namespace BC
 {
 	namespace Platform
 	{
-		std::atomic<bool> stop = false;
+		std::atomic<bool> isRunning = false;
+		std::atomic<bool> isMultithreaded = false;
+		
 		std::mutex mutex;
 		std::condition_variable condition;
 		
-		void API::Start(bool multithreaded)
-		{			
-			s_multithreaded = multithreaded;
-			if (!s_multithreaded)
+		void CommandExecutor::Start(bool multithreaded)
+		{
+			if (isRunning)
+			{
+				return;
+			}
+			
+			isRunning = true;
+			
+			isMultithreaded = multithreaded;
+			if (!isMultithreaded)
 			{
 				return;
 			}
 
 			s_commands = new ThreadSafeQueue<CommandWrapper>();
 			
-			while (!stop)
+			while (isRunning)
 			{
 				auto& command = s_commands->getFront();
 				command();
@@ -35,9 +44,9 @@ namespace BC
 			delete s_commands;
 		}
 
-		void API::PushCommand(const CommandWrapper& wrappedCommand)
-		{
-			if (!s_multithreaded)
+		void CommandExecutor::PushCommand(const CommandWrapper& wrappedCommand)
+		{			
+			if (!isMultithreaded || !isRunning)
 			{
 				wrappedCommand();
 				return;
@@ -46,9 +55,9 @@ namespace BC
 			s_commands->enqueue(wrappedCommand);
 		}
 
-		void API::Sync()
+		void CommandExecutor::Sync()
 		{
-			if (!s_multithreaded)
+			if (!isMultithreaded || !isRunning)
 			{
 				return;
 			}
@@ -60,14 +69,15 @@ namespace BC
 			}
 		}
 
-		void API::Shutdown()
-		{
-			if (!s_multithreaded)
+		void CommandExecutor::Shutdown()
+		{			
+			if (!isMultithreaded || !isRunning)
 			{
 				return;
 			}
-			
-			stop = true;
+
+			isRunning = false;
+			s_commands->clear();
 			s_commands->enqueue([]() {});
 		}
 	}

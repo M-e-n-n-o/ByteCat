@@ -1,8 +1,7 @@
 #include "bcpch.h"
 #include <glad/glad.h>
 #include "platform/openGL/OpenGLRendererAPI.h"
-
-#include "platform/PlatformAPI.h"
+#include "platform/CommandExecutor.h"
 
 namespace BC
 {
@@ -51,7 +50,7 @@ namespace BC
 
 		void OpenGLRendererAPI::clearColor(const glm::vec4& color)
 		{
-			API::PushCommand([color]()
+			CommandExecutor::PushCommand([color]()
 			{
 				glClearColor(color.r, color.g, color.b, color.a);
 			});
@@ -59,7 +58,7 @@ namespace BC
 
 		void OpenGLRendererAPI::clearBuffers()
 		{
-			API::PushCommand([]()
+			CommandExecutor::PushCommand([]()
 			{
 				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			});
