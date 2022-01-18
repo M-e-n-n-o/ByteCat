@@ -2,6 +2,8 @@
 #include <glad/glad.h>
 #include "platform/openGL/OpenGLVertexArray.h"
 
+#include "platform/CommandExecutor.h"
+
 namespace BC
 {
 	namespace Platform
@@ -39,7 +41,10 @@ namespace BC
 
 		void OpenGLVertexArray::bind() const
 		{
-			glBindVertexArray(m_id);
+			CommandExecutor::PushCommand([id = m_id]()
+			{
+				glBindVertexArray(id);
+			});
 		}
 
 		void OpenGLVertexArray::unbind() const

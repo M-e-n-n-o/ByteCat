@@ -2,6 +2,8 @@
 #include <glad/glad.h>
 #include "platform/openGL/OpenGLArrayBuffer.h"
 
+#include "platform/CommandExecutor.h"
+
 namespace BC
 {
 	namespace Platform

@@ -15,7 +15,7 @@ namespace BC
 	private:		
 		inline static bool s_isInit = false;
 		
-		inline static RenderBase* s_activeRenderer = nullptr;
+		inline static RendererBase* s_activeRenderer = nullptr;
 
 		inline static GraphicsAPI s_graphicsAPI = GraphicsAPI::None;
 		inline static RendererAPI* s_rendererAPI = nullptr;
@@ -24,8 +24,8 @@ namespace BC
 		static void SetAPI(const GraphicsAPI& api);
 		static GraphicsAPI& GetAPI() { return s_graphicsAPI; }
 		
-		static void Init(RenderBase* renderer);
-		static void SetRenderer(RenderBase* renderer);
+		static void Init(RendererBase* renderer);
+		static void SetRenderer(RendererBase* renderer);
 		
 		static void Shutdown();
 		

@@ -17,7 +17,7 @@ namespace BC
 	{		
 		m_rendererAPI->clearBuffers();
 		m_rendererAPI->clearColor(glm::vec4(0.2f, 0.3f, 0.3f, 1.0f));
-
+		
 		for (const auto& entity : m_entities)
 		{
 			entity.shader->bind();

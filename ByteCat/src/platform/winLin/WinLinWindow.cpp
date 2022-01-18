@@ -16,116 +16,119 @@ namespace BC
 		
 		WinLinWindow::WinLinWindow(WindowSettings& setting)
 		{
-			LOG_INFO("Trying to create a Windows/Linux window");
-
-			m_windowSetting = setting;
-
-			if (!glfwInit())
+			CommandExecutor::PushCommand([this, setting]()
 			{
-				LOG_CRITICAL("Could not initialize GLFW");
-				std::exit(-1);
-			}
+				LOG_INFO("Trying to create a Windows/Linux window");
 
-			nativeWindow = glfwCreateWindow(m_windowSetting.width, m_windowSetting.height, m_windowSetting.title.c_str(), NULL, NULL);
-			if (m_windowSetting.width == 0 || m_windowSetting.height == 0)
-			{
-				m_isMinimized = true;
-			}
-			else
-			{
-				m_isMinimized = false;
-			}
+				m_windowSetting = setting;
 
-			if (!nativeWindow)
-			{
-				LOG_CRITICAL("Failed to create a Windows/Linux window");
-				glfwTerminate();
-				std::exit(-1);
-			}
-
-			LOG_INFO("Created a Windows/Linux window with title: {0}, width: {1}, height: {2} and vSync: {3}", m_windowSetting.title, m_windowSetting.width, m_windowSetting.height, m_windowSetting.vSync);
-
-			m_context = GraphicsContext::Create(nativeWindow);
-			m_context->init(m_windowSetting.width, m_windowSetting.height);
-
-			setVsync(m_windowSetting.vSync);
-
-			
-			glfwSetWindowSizeCallback(nativeWindow, [](GLFWwindow* window, int width, int height)
+				if (!glfwInit())
 				{
-					WindowResizeEvent event(width, height);
-					eventListener->onEvent(event);
-				});
-
-			glfwSetWindowCloseCallback(nativeWindow, [](GLFWwindow* window)
+					LOG_CRITICAL("Could not initialize GLFW");
+					std::exit(-1);
+				}
+				
+				nativeWindow = glfwCreateWindow(m_windowSetting.width, m_windowSetting.height, m_windowSetting.title.c_str(), NULL, NULL);
+				if (m_windowSetting.width == 0 || m_windowSetting.height == 0)
 				{
-					WindowCloseEvent event;
-					eventListener->onEvent(event);
-				});
-
-			glfwSetKeyCallback(nativeWindow, [](GLFWwindow* window, int key, int scancode, int action, int mods)
+					m_isMinimized = true;
+				}
+				else
 				{
-					switch (action)
+					m_isMinimized = false;
+				}
+
+				if (!nativeWindow)
+				{
+					LOG_CRITICAL("Failed to create a Windows/Linux window");
+					glfwTerminate();
+					std::exit(-1);
+				}
+
+				LOG_INFO("Created a Windows/Linux window with title: {0}, width: {1}, height: {2} and vSync: {3}", m_windowSetting.title, m_windowSetting.width, m_windowSetting.height, m_windowSetting.vSync);
+
+				m_context = GraphicsContext::Create(nativeWindow);
+				m_context->init(m_windowSetting.width, m_windowSetting.height);
+
+				setVsync(m_windowSetting.vSync);
+
+
+				glfwSetWindowSizeCallback(nativeWindow, [](GLFWwindow* window, int width, int height)
 					{
-					case GLFW_PRESS:
-					{
-						KeyPressedEvent event(static_cast<KeyCode>(key), false);
+						WindowResizeEvent event(width, height);
 						eventListener->onEvent(event);
-						break;
-					}
+					});
 
-					case GLFW_RELEASE:
+				glfwSetWindowCloseCallback(nativeWindow, [](GLFWwindow* window)
 					{
-						KeyReleasedEvent event(static_cast<KeyCode>(key));
+						WindowCloseEvent event;
 						eventListener->onEvent(event);
-						break;
-					}
+					});
 
-					case GLFW_REPEAT:
+				glfwSetKeyCallback(nativeWindow, [](GLFWwindow* window, int key, int scancode, int action, int mods)
 					{
-						KeyPressedEvent event(static_cast<KeyCode>(key), true);
+						switch (action)
+						{
+						case GLFW_PRESS:
+						{
+							KeyPressedEvent event(static_cast<KeyCode>(key), false);
+							eventListener->onEvent(event);
+							break;
+						}
+
+						case GLFW_RELEASE:
+						{
+							KeyReleasedEvent event(static_cast<KeyCode>(key));
+							eventListener->onEvent(event);
+							break;
+						}
+
+						case GLFW_REPEAT:
+						{
+							KeyPressedEvent event(static_cast<KeyCode>(key), true);
+							eventListener->onEvent(event);
+							break;
+						}
+						}
+					});
+
+				glfwSetCharCallback(nativeWindow, [](GLFWwindow* window, unsigned int keycode)
+					{
+						KeyTypedEvent event(static_cast<KeyCode>(keycode));
 						eventListener->onEvent(event);
-						break;
-					}
-					}
-				});
+					});
 
-			glfwSetCharCallback(nativeWindow, [](GLFWwindow* window, unsigned int keycode)
-				{
-					KeyTypedEvent event(static_cast<KeyCode>(keycode));
-					eventListener->onEvent(event);
-				});
+				glfwSetMouseButtonCallback(nativeWindow, [](GLFWwindow* window, int button, int action, int mods)
+					{
+						switch (action)
+						{
+						case GLFW_PRESS:
+						{
+							MouseButtonPressedEvent event(static_cast<MouseCode>(button));
+							eventListener->onEvent(event);
+							break;
+						}
+						case GLFW_RELEASE:
+						{
+							MouseButtonReleasedEvent event(static_cast<MouseCode>(button));
+							eventListener->onEvent(event);
+							break;
+						}
+						}
+					});
 
-			glfwSetMouseButtonCallback(nativeWindow, [](GLFWwindow* window, int button, int action, int mods)
-				{
-					switch (action)
+				glfwSetScrollCallback(nativeWindow, [](GLFWwindow* window, double xOffset, double yOffset)
 					{
-					case GLFW_PRESS:
-					{
-						MouseButtonPressedEvent event(static_cast<MouseCode>(button));
+						MouseScrolledEvent event((float)xOffset, (float)yOffset);
 						eventListener->onEvent(event);
-						break;
-					}
-					case GLFW_RELEASE:
+					});
+
+				glfwSetCursorPosCallback(nativeWindow, [](GLFWwindow* window, double xPos, double yPos)
 					{
-						MouseButtonReleasedEvent event(static_cast<MouseCode>(button));
+						MouseMovedEvent event((float)xPos, (float)yPos);
 						eventListener->onEvent(event);
-						break;
-					}
-					}
-				});
-
-			glfwSetScrollCallback(nativeWindow, [](GLFWwindow* window, double xOffset, double yOffset)
-				{
-					MouseScrolledEvent event((float)xOffset, (float)yOffset);
-					eventListener->onEvent(event);
-				});
-
-			glfwSetCursorPosCallback(nativeWindow, [](GLFWwindow* window, double xPos, double yPos)
-				{
-					MouseMovedEvent event((float)xPos, (float)yPos);
-					eventListener->onEvent(event);
-				});
+					});
+			});
 		}
 
 		void WinLinWindow::update() const
@@ -156,9 +159,12 @@ namespace BC
 
 		void WinLinWindow::shutdown() const
 		{
-			delete m_context;
-			glfwDestroyWindow(nativeWindow);
-			glfwTerminate();
+			CommandExecutor::PushCommand([this]()
+			{
+				delete m_context;
+				glfwDestroyWindow(nativeWindow);
+				glfwTerminate();
+			});
 		}
 
 		void WinLinWindow::resize(unsigned int width, unsigned int height)
@@ -178,16 +184,19 @@ namespace BC
 
 		void WinLinWindow::setVsync(bool enabled)
 		{
-			m_windowSetting.vSync = enabled;
-			
-			if (enabled)
+			CommandExecutor::PushCommand([this, enabled]()
 			{
-				glfwSwapInterval(1);
-			}
-			else
-			{
-				glfwSwapInterval(0);
-			}
+				m_windowSetting.vSync = enabled;
+
+				if (enabled)
+				{
+					glfwSwapInterval(1);
+				}
+				else
+				{
+					glfwSwapInterval(0);
+				}
+			});
 		}
 
 		void* WinLinWindow::getNativeWindow() const

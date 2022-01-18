@@ -3,6 +3,8 @@
 #include <glm/gtc/type_ptr.hpp>
 #include "platform/openGL/OpenGLShader.h"
 
+#include "platform/CommandExecutor.h"
+
 namespace BC
 {
 	namespace Platform
@@ -38,7 +40,10 @@ namespace BC
 
 		void OpenGLShader::bind() const
 		{
-			glUseProgram(m_programID);
+			CommandExecutor::PushCommand([id = m_programID]()
+			{
+				glUseProgram(id);
+			});
 		}
 
 		void OpenGLShader::unbind() const

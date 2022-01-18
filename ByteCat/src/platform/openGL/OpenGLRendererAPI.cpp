@@ -45,7 +45,10 @@ namespace BC
 
 		void OpenGLRendererAPI::setViewport(unsigned x, unsigned y, unsigned width, unsigned height)
 		{
-			glViewport(x, y, width, height);
+			CommandExecutor::PushCommand([x, y, width, height]()
+			{
+				glViewport(x, y, width, height);
+			});
 		}
 
 		void OpenGLRendererAPI::clearColor(const glm::vec4& color)
@@ -62,13 +65,16 @@ namespace BC
 			{
 				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			});
-			
 		}
 
 		void OpenGLRendererAPI::draw(std::shared_ptr<VertexArray> vao, unsigned indexCount)
 		{
-			unsigned int count = indexCount ? indexCount : vao->getIndexBuffer()->getCount();
-			glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);
+			unsigned vaoIndexCount = vao->getIndexBuffer()->getCount();
+			CommandExecutor::PushCommand([vaoIndexCount, indexCount]()
+			{
+				unsigned int count = indexCount ? indexCount : vaoIndexCount;
+				glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);
+			});
 		}
 	}
 }

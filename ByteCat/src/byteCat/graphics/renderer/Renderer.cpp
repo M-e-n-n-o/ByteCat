@@ -13,7 +13,7 @@ namespace BC
 		}
 	}
 	
-	void Renderer::Init(RenderBase* renderer)
+	void Renderer::Init(RendererBase* renderer)
 	{		
 		if (renderer == nullptr)
 		{
@@ -38,7 +38,7 @@ namespace BC
 		}
 	}
 
-	void Renderer::SetRenderer(RenderBase* renderer)
+	void Renderer::SetRenderer(RendererBase* renderer)
 	{
 		if (renderer == nullptr || !s_isInit)
 		{

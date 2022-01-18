@@ -32,52 +32,8 @@ namespace BC
         delete m_window;
     }
 
-	void runLogic(Window* window, LayerStack& layerStack, bool& isRunning)
-	{
-// 		const char* vertexSource = R"(
-// 			#version 330 core
-//
-// 			layout (location = 0) in vec3 vertexPos;
-// 		
-// 			void main()
-// 			{
-// 				gl_Position = vec4(vertexPos.x, vertexPos.y, vertexPos.z, 1.0);
-// 			}
-// 		)";
-//
-// 		const char* fragmentSource = R"(
-// 			#version 330 core
-//
-// 			out vec4 FragColor;
-//
-// 			void main()
-// 			{
-// 				FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);
-// 			}
-// 		)";
-// 		
-// 		auto shader = Shader::Create("Test", vertexSource, fragmentSource);
-//
-// 		float vertices[] = {
-// 			-0.5f, -0.5f, 0.0f,
-// 			0.5f, -0.5f, 0.0f,
-// 			0.0f, 0.5f, 0.0f
-// 		};
-//
-// 		unsigned int indices[] = {
-// 			0, 1, 2
-// 		};
-//
-// 		auto vao = VertexArray::Create();
-//
-// 		auto ebo = IndexBuffer::Create(indices, sizeof(indices));
-// 		vao->setIndexBuffer(ebo);
-//
-// 		auto vbo = VertexBuffer::Create(vertices, sizeof(vertices));
-// 		BufferLayout layout = { { ShaderDataType::Float3, "vertexPos" } };
-// 		vbo->setLayout(layout);
-// 		vao->addVertexBuffer(vbo);
-		
+	void runLogic(Window* window, LayerStack& layerStack, bool& isRunning, std::shared_ptr<VertexArray> vao, std::shared_ptr<Shader> shader)
+	{		
         while (isRunning)
         {
             window->update();
@@ -117,7 +73,7 @@ namespace BC
 
             Platform::CommandExecutor::Sync();
         	
-            //Renderer::Submit({ vao, shader });
+            Renderer::Submit({ vao, shader });
             
             // Rendering
             for (Layer* layer : layerStack)
@@ -150,18 +106,65 @@ namespace BC
 	}
 	
     void Application::start()
-    {		
+    {
+        const char* vertexSource = R"(
+			#version 330 core
+
+			layout (location = 0) in vec3 vertexPos;
+		
+			void main()
+			{
+				gl_Position = vec4(vertexPos.x, vertexPos.y, vertexPos.z, 1.0);
+			}
+		)";
+
+		const char* fragmentSource = R"(
+			#version 330 core
+
+			out vec4 FragColor;
+
+			void main()
+			{
+				FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);
+			}
+		)";
+		
+		auto shader = Shader::Create("Test", vertexSource, fragmentSource);
+		
+		float vertices[] = {
+			-0.5f, -0.5f, 0.0f,
+			0.5f, -0.5f, 0.0f,
+			0.0f, 0.5f, 0.0f
+		};
+
+		unsigned int indices[] = {
+			0, 1, 2
+		};
+
+		auto vao = VertexArray::Create();
+
+		auto ebo = IndexBuffer::Create(indices, sizeof(indices));
+		vao->setIndexBuffer(ebo);
+
+		auto vbo = VertexBuffer::Create(vertices, sizeof(vertices));
+		BufferLayout layout = { { ShaderDataType::Float3, "vertexPos" } };
+		vbo->setLayout(layout);
+		vao->addVertexBuffer(vbo);
+		
+		
         m_isRunning = true;
 
+        LOG_INFO("Using multithreading: {0}", c_multithreaded);
+		
 		if (c_multithreaded)
-		{
-            std::thread logicThread(runLogic, m_window, std::ref(m_layerStack), std::ref(m_isRunning));
+		{			
+            std::thread logicThread(runLogic, m_window, std::ref(m_layerStack), std::ref(m_isRunning), vao, shader);
             Platform::CommandExecutor::Start(true);
             logicThread.join();
 		} else
 		{
             Platform::CommandExecutor::Start(false);
-            runLogic(m_window, m_layerStack, m_isRunning);
+            runLogic(m_window, m_layerStack, m_isRunning, vao, shader);
 		} 
     }
 

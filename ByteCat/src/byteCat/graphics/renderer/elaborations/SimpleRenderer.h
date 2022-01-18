@@ -3,7 +3,7 @@
 
 namespace BC
 {
-	class SimpleRenderer : public RenderBase
+	class SimpleRenderer : public RendererBase
 	{
 	private:
 		std::vector<Renderable> m_entities;
