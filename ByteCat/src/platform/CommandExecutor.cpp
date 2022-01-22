@@ -77,7 +77,6 @@ namespace BC
 			}
 
 			isRunning = false;
-			s_commands->clear();
 			s_commands->enqueue([]() {});
 		}
 	}

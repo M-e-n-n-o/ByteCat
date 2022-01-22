@@ -29,18 +29,21 @@ namespace BC
 		
 		OpenGLRendererAPI::OpenGLRendererAPI()
 		{
-			#ifdef BC_ENABLE_LOG
-				glEnable(GL_DEBUG_OUTPUT);
-				glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
-				glDebugMessageCallback(OpenGLMessageCallback, nullptr);
+			CommandExecutor::PushCommand([]()
+			{
+				#ifdef BC_ENABLE_LOG
+					glEnable(GL_DEBUG_OUTPUT);
+					glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+					glDebugMessageCallback(OpenGLMessageCallback, nullptr);
 
-				glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DEBUG_SEVERITY_NOTIFICATION, 0, nullptr, GL_FALSE);
-			#endif
+					glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DEBUG_SEVERITY_NOTIFICATION, 0, nullptr, GL_FALSE);
+				#endif
 
-			glEnable(GL_BLEND);
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+				glEnable(GL_BLEND);
+				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-			glEnable(GL_DEPTH_TEST);
+				glEnable(GL_DEPTH_TEST);
+			});
 		}
 
 		void OpenGLRendererAPI::setViewport(unsigned x, unsigned y, unsigned width, unsigned height)

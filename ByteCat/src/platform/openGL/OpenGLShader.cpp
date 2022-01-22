@@ -10,114 +10,147 @@ namespace BC
 	namespace Platform
 	{
 		OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc) : m_name(name)
-		{			
-			const unsigned int vertexShaderID = loadShader(vertexSrc, GL_VERTEX_SHADER);
-			const unsigned int fragmentShaderID = loadShader(fragmentSrc, GL_FRAGMENT_SHADER);
+		{	
+			CommandExecutor::PushCommand([this, name, vertexSrc, fragmentSrc]()
+			{
+				const unsigned int vertexShaderID = loadShader(vertexSrc, GL_VERTEX_SHADER);
+				const unsigned int fragmentShaderID = loadShader(fragmentSrc, GL_FRAGMENT_SHADER);
 
-			m_programID = glCreateProgram();
-			glAttachShader(m_programID, vertexShaderID);
-			glAttachShader(m_programID, fragmentShaderID);
+				m_programID = glCreateProgram();
+				glAttachShader(m_programID, vertexShaderID);
+				glAttachShader(m_programID, fragmentShaderID);
 
-			glLinkProgram(m_programID);
+				glLinkProgram(m_programID);
 
-			int success;
-			char infoLog[512];
-			glGetProgramiv(m_programID, GL_LINK_STATUS, &success);
-			if (!success) {
-				//glGetProgramInfoLog(programID, 512, NULL, infoLog);
-				LOG_CRITICAL("Could not link shader program: {0}", name);
-				//LOG_TEXT_LONG(infoLog);
-			}
-			
-			glDeleteShader(vertexShaderID);
-			glDeleteShader(fragmentShaderID);
+				int success;
+				char infoLog[512];
+				glGetProgramiv(m_programID, GL_LINK_STATUS, &success);
+				if (!success) {
+					//glGetProgramInfoLog(programID, 512, NULL, infoLog);
+					LOG_CRITICAL("Could not link shader program: {0}", name);
+					//LOG_TEXT_LONG(infoLog);
+				}
+
+				glDeleteShader(vertexShaderID);
+				glDeleteShader(fragmentShaderID);
+			});
 		}
 
 		OpenGLShader::~OpenGLShader()
 		{
-			glDeleteProgram(m_programID);
+			CommandExecutor::PushCommand([id = m_programID]()
+			{
+				glDeleteProgram(id);
+			});
 		}
 
 		void OpenGLShader::bind() const
 		{
-			CommandExecutor::PushCommand([id = m_programID]()
+			CommandExecutor::PushCommand([this]()
 			{
-				glUseProgram(id);
+				glUseProgram(m_programID);
 			});
 		}
 
 		void OpenGLShader::unbind() const
 		{
-			glUseProgram(0);
+			CommandExecutor::PushCommand([]()
+			{
+				glUseProgram(0);
+			});
 		}
 
 		void OpenGLShader::loadInt(const std::string& name, int value)
 		{
-			GLint location = getUniformLocation(name);
-			if (location != -1)
+			CommandExecutor::PushCommand([this, name, value]()
 			{
-				glUniform1i(location, value);
-			}
+				GLint location = getUniformLocation(name);
+				if (location != -1)
+				{
+					glUniform1i(location, value);
+				}
+			});
 		}
 
 		void OpenGLShader::loadIntArray(const std::string& name, int* values, unsigned count)
 		{
-			GLint location = getUniformLocation(name);
-			if (location != -1)
+			CommandExecutor::PushCommand([this, name, values, count]()
 			{
-				glUniform1iv(location, count, values);
-			}
+				GLint location = getUniformLocation(name);
+				if (location != -1)
+				{
+					glUniform1iv(location, count, values);
+				}
+			});
 		}
 
 		void OpenGLShader::loadFloat(const std::string& name, float value)
 		{
-			GLint location = getUniformLocation(name);
-			if (location != -1)
+			CommandExecutor::PushCommand([this, name, value]()
 			{
-				glUniform1f(location, value);
-			}
+				GLint location = getUniformLocation(name);
+				if (location != -1)
+				{
+					glUniform1f(location, value);
+				}
+			});
 		}
 
 		void OpenGLShader::loadVector2(const std::string& name, const glm::vec2& value)
 		{
-			GLint location = getUniformLocation(name);
-			if (location != -1)
+			CommandExecutor::PushCommand([this, name, value]()
 			{
-				glUniform2fv(location, 1, glm::value_ptr(value));
-			}
+				GLint location = getUniformLocation(name);
+				if (location != -1)
+				{
+					glUniform2fv(location, 1, glm::value_ptr(value));
+				}
+			});
 		}
 
 		void OpenGLShader::loadVector3(const std::string& name, const glm::vec3& value)
 		{
-			GLint location = getUniformLocation(name);
-			if (location != -1)
+			CommandExecutor::PushCommand([this, name, value]()
 			{
-				glUniform3fv(location, 1, glm::value_ptr(value));
-			}
+				GLint location = getUniformLocation(name);
+				if (location != -1)
+				{
+					glUniform3fv(location, 1, glm::value_ptr(value));
+				}
+			});
 		}
 
 		void OpenGLShader::loadVector4(const std::string& name, const glm::vec4& value)
 		{
-			GLint location = getUniformLocation(name);
-			if (location != -1)
+			CommandExecutor::PushCommand([this, name, value]()
 			{
-				glUniform4fv(location, 1, glm::value_ptr(value));
-			}
+				GLint location = getUniformLocation(name);
+				if (location != -1)
+				{
+					glUniform4fv(location, 1, glm::value_ptr(value));
+				}
+			});
 		}
 
 		void OpenGLShader::loadMatrix4(const std::string& name, const glm::mat4& value)
 		{
-			GLint location = getUniformLocation(name);
-			if (location != -1)
+			CommandExecutor::PushCommand([this, name, value]()
 			{
-				glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(value));
-			}
+				GLint location = getUniformLocation(name);
+				if (location != -1)
+				{
+					glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(value));
+				}
+			});
 		}
 
 		void OpenGLShader::linkUniformBuffer(const std::string& bufferName, unsigned bindingIndex)
 		{
-			unsigned int uniformBlockIndex = glGetUniformBlockIndex(m_programID, bufferName.c_str());
-			glUniformBlockBinding(m_programID, uniformBlockIndex, bindingIndex);
+			CommandExecutor::PushCommand([id = m_programID, bufferName, bindingIndex]()
+			{
+				unsigned int uniformBlockIndex = glGetUniformBlockIndex(id, bufferName.c_str());
+				glUniformBlockBinding(id, uniformBlockIndex, bindingIndex);
+			});
 		}
 
 		int OpenGLShader::getUniformLocation(const std::string& uniformName) const
