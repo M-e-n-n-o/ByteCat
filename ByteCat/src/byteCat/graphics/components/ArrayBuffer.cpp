@@ -1,5 +1,5 @@
 #include "bcpch.h"
-#include "byteCat/graphics/buffers/ArrayBuffer.h"
+#include "byteCat/graphics/components/ArrayBuffer.h"
 #include "byteCat/graphics/renderer/Renderer.h"
 #include "platform/openGL/OpenGLArrayBuffer.h"
 

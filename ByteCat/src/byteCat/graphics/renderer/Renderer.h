@@ -1,7 +1,7 @@
 #pragma once
 #include "byteCat/graphics/renderer/RendererAPI.h"
 #include "byteCat/graphics/renderer/RenderData.h"
-#include "byteCat/graphics/renderer/RendererBase.h"
+#include "byteCat/graphics/renderer/BaseRenderer.h"
 
 namespace BC
 {	
@@ -15,7 +15,7 @@ namespace BC
 	private:		
 		inline static bool s_isInit = false;
 		
-		inline static RendererBase* s_activeRenderer = nullptr;
+		inline static BaseRenderer* s_activeRenderer = nullptr;
 
 		inline static GraphicsAPI s_graphicsAPI = GraphicsAPI::None;
 		inline static RendererAPI* s_rendererAPI = nullptr;
@@ -24,8 +24,8 @@ namespace BC
 		static void SetAPI(const GraphicsAPI& api);
 		static GraphicsAPI& GetAPI() { return s_graphicsAPI; }
 		
-		static void Init(RendererBase* renderer);
-		static void SetRenderer(RendererBase* renderer);
+		static void Init(BaseRenderer* renderer);
+		static void SetRenderer(BaseRenderer* renderer);
 		
 		static void Shutdown();
 		

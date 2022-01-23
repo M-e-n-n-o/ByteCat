@@ -1,6 +1,6 @@
 #pragma once
-#include "byteCat/graphics/buffers/VertexArray.h"
-#include "byteCat/graphics/buffers/Shader.h"
+#include "byteCat/graphics/components/VertexArray.h"
+#include "byteCat/graphics/components/Shader.h"
 
 namespace BC
 {

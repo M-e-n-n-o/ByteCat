@@ -9,10 +9,10 @@ namespace BC
 	/// Inherit from this class to create a custom Renderer. Apply this
 	/// renderer in the renderer class using the SetRenderer() method.
 	/// </summary>
-	class RendererBase
+	class BaseRenderer
 	{
 	public:
-		virtual ~RendererBase() = default;
+		virtual ~BaseRenderer() = default;
 
 		virtual void init(RendererAPI* rendererAPI) = 0;
 		virtual void submit(const Renderable& renderable) = 0;

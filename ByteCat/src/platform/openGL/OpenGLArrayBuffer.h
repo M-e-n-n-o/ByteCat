@@ -1,5 +1,5 @@
 #pragma once
-#include "byteCat/graphics/buffers/ArrayBuffer.h"
+#include "byteCat/graphics/components/ArrayBuffer.h"
 
 namespace BC
 {

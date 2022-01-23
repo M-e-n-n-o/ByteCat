@@ -1,5 +1,5 @@
 #pragma once
-#include "byteCat/graphics/buffers/Shader.h"
+#include "byteCat/graphics/components/Shader.h"
 
 namespace BC
 {

@@ -1,5 +1,5 @@
 #pragma once
-#include "byteCat/graphics/buffers/VertexArray.h"
+#include "byteCat/graphics/components/VertexArray.h"
 
 namespace BC
 {
@@ -17,7 +17,7 @@ namespace BC
 		public:
 			OpenGLVertexArray();
 			~OpenGLVertexArray();
-			
+
 			void bind() const override;
 			void unbind() const override;
 			

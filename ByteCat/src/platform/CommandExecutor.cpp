@@ -7,18 +7,22 @@ namespace BC
 	{
 		std::atomic<bool> isRunning = false;
 		std::atomic<bool> isMultithreaded = false;
+
+		std::thread::id commandExecutorThread;
 		
 		std::mutex mutex;
 		std::condition_variable condition;
 		
 		void CommandExecutor::Start(bool multithreaded)
-		{
+		{			
 			if (isRunning)
 			{
 				return;
 			}
 			
 			isRunning = true;
+
+			commandExecutorThread = std::this_thread::get_id();
 			
 			isMultithreaded = multithreaded;
 			if (!isMultithreaded)
@@ -46,7 +50,7 @@ namespace BC
 
 		void CommandExecutor::PushCommand(const CommandWrapper& wrappedCommand)
 		{			
-			if (!isMultithreaded || !isRunning)
+			if (!isMultithreaded || !isRunning || commandExecutorThread == std::this_thread::get_id())
 			{
 				wrappedCommand();
 				return;

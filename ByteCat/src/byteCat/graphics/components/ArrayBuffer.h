@@ -106,7 +106,7 @@ namespace BC
 	/// Put this class inside a VertexArray to use it.
 	/// </summary>
 	class VertexBuffer
-	{
+	{	
 	public:
 		virtual ~VertexBuffer() = default;
 

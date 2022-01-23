@@ -1,5 +1,5 @@
 #include "bcpch.h"
-#include "byteCat/graphics/buffers/Shader.h"
+#include "byteCat/graphics/components/Shader.h"
 #include "byteCat/graphics/renderer/Renderer.h"
 #include "platform/openGL/OpenGLShader.h"
 

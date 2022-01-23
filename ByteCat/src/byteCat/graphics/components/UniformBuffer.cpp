@@ -1,5 +1,5 @@
 #include "bcpch.h"
-#include "byteCat/graphics/buffers/UniformBuffer.h"
+#include "byteCat/graphics/components/UniformBuffer.h"
 #include "byteCat/graphics/renderer/Renderer.h"
 #include "platform/openGL/OpenGLUniformBuffer.h"
 
