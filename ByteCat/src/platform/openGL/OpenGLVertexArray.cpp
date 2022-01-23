@@ -76,12 +76,12 @@ namespace BC
 				LOG_CRITICAL("VertexBuffer has no layout!");
 			}
 
-			bind();
-			buffer->bind();
-
-			const auto& layout = buffer->getLayout();
-			CommandExecutor::PushCommand([layout, &vboIndex = m_vboIndex]()
+			CommandExecutor::PushCommand([this, &buffer]()
 			{
+				bind();
+				buffer->bind();
+
+				const auto& layout = buffer->getLayout();				
 				for (const auto& element : layout)
 				{
 					switch (element.type)
@@ -91,10 +91,10 @@ namespace BC
 					case ShaderDataType::Float3:
 					case ShaderDataType::Float4:
 					{
-						glEnableVertexAttribArray(vboIndex);
-						glVertexAttribPointer(vboIndex, element.getComponentCount(), ShaderDataTypeToOpenGLBaseType(element.type),
+						glEnableVertexAttribArray(m_vboIndex);
+						glVertexAttribPointer(m_vboIndex, element.getComponentCount(), ShaderDataTypeToOpenGLBaseType(element.type),
 							element.normalized ? GL_TRUE : GL_FALSE, layout.getStride(), (const void*)element.offset);
-						vboIndex++;
+						m_vboIndex++;
 						break;
 					}
 					case ShaderDataType::Int:
@@ -103,10 +103,10 @@ namespace BC
 					case ShaderDataType::Int4:
 					case ShaderDataType::Bool:
 					{
-						glEnableVertexAttribArray(vboIndex);
-						glVertexAttribIPointer(vboIndex, element.getComponentCount(), ShaderDataTypeToOpenGLBaseType(element.type),
+						glEnableVertexAttribArray(m_vboIndex);
+						glVertexAttribIPointer(m_vboIndex, element.getComponentCount(), ShaderDataTypeToOpenGLBaseType(element.type),
 							layout.getStride(), (const void*)element.offset);
-						vboIndex++;
+						m_vboIndex++;
 						break;
 					}
 					case ShaderDataType::Mat3:
@@ -115,11 +115,11 @@ namespace BC
 						unsigned int count = element.getComponentCount();
 						for (unsigned int i = 0; i < count; i++)
 						{
-							glEnableVertexAttribArray(vboIndex);
-							glVertexAttribPointer(vboIndex, count, ShaderDataTypeToOpenGLBaseType(element.type),
+							glEnableVertexAttribArray(m_vboIndex);
+							glVertexAttribPointer(m_vboIndex, count, ShaderDataTypeToOpenGLBaseType(element.type),
 								element.normalized ? GL_TRUE : GL_FALSE, layout.getStride(), (const void*)(element.offset + sizeof(float) * count * i));
-							glVertexAttribDivisor(vboIndex, 1);
-							vboIndex++;
+							glVertexAttribDivisor(m_vboIndex, 1);
+							m_vboIndex++;
 						}
 						break;
 					}

@@ -2,7 +2,6 @@
 #include "byteCat/app/Application.h"
 #include "byteCat/graphics/renderer/Renderer.h"
 #include "byteCat/graphics/renderer/elaborations/SimpleRenderer.h"
-#include "glad/glad.h"
 #include "platform/CommandExecutor.h"
 
 namespace BC
@@ -96,7 +95,7 @@ namespace BC
             }
 
 
-            // Heave duty test code
+            // Heavy duty test code
 			for (int k = 0; k < 15000; k++)
 			{
 			    int arr[] = { 64, 34, 25, 12, 22, 11, 90 };
@@ -109,7 +108,6 @@ namespace BC
 			        {
 			            if (arr[j] > arr[j + 1])
 			            {
-			                //swap(&arr[j], &arr[j + 1]);
 			                int temp = arr[j];
 			                arr[j] = arr[j + 1];
 			                arr[j + 1] = temp;
@@ -118,18 +116,19 @@ namespace BC
 			    }
 			}
         	
-
+            // Synchronize with render thread
             Platform::CommandExecutor::Sync();
 
-            for (int i = 0; i < 200; i++)
-            {
-                Renderer::Submit({ vao, shader });
-            }
-            
             // Rendering
             for (Layer* layer : layerStack)
             {
                 if (layer->m_enabled) { layer->onRender(); }
+            }
+        	
+            // Heavy duty test code
+            for (int i = 0; i < 200; i++)
+            {
+                Renderer::Submit({ vao, shader });
             }
             
             Renderer::RenderFrame({});
@@ -142,9 +141,10 @@ namespace BC
     {		
         m_isRunning = true;
 
-        LOG_INFO("Multithreaded platform backend: {0}", c_multithreaded);
+        const bool multithreaded = true;
+        LOG_INFO("Multithreaded platform backend: {0}", multithreaded);
 		
-		if (c_multithreaded)
+		if (multithreaded)
 		{			
             std::thread logicThread(runMainLoop, m_window, std::ref(m_layerStack), std::ref(m_isRunning));
             Platform::CommandExecutor::Start(true);
