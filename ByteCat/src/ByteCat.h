@@ -20,7 +20,7 @@
 
 #include "byteCat/Log.h"
 
-#include "byteCat/input/events/Event.h"
+#include "byteCat/input/events/m_event.h"
 #include "byteCat/input/events/ApplicationEvent.h"
 #include "byteCat/input/events/KeyEvent.h"
 #include "byteCat/input/events/MouseEvent.h"
@@ -29,10 +29,10 @@
 #include "byteCat/input/Gamepad.h"
 #include "byteCat/input/Input.h"
 
-#include "byteCat/graphics/buffers/VertexArray.h"
-#include "byteCat/graphics/buffers/ArrayBuffer.h"
-#include "byteCat/graphics/buffers/Shader.h"
-#include "byteCat/graphics/renderers/Renderer.h"
+#include "byteCat/graphics/components/VertexArray.h"
+#include "byteCat/graphics/components/ArrayBuffer.h"
+#include "byteCat/graphics/components/Shader.h"
+#include "byteCat/graphics/renderer/Renderer.h"
 
 // --Start of the engine--
 #include "byteCat/EntryPoint.h"

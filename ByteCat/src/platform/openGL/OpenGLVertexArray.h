@@ -1,5 +1,5 @@
 #pragma once
-#include "byteCat/graphics/buffers/VertexArray.h"
+#include "byteCat/graphics/components/VertexArray.h"
 
 namespace BC
 {
@@ -8,8 +8,8 @@ namespace BC
 		class OpenGLVertexArray : public VertexArray
 		{
 		private:
-			unsigned int id;
-			unsigned int vboIndex = 0;
+			unsigned int m_id;
+			unsigned int m_vboIndex = 0;
 
 			std::shared_ptr<IndexBuffer> indexBuffer;
 			std::vector<std::shared_ptr<VertexBuffer>> vertexBuffers;
@@ -17,7 +17,7 @@ namespace BC
 		public:
 			OpenGLVertexArray();
 			~OpenGLVertexArray();
-			
+
 			void bind() const override;
 			void unbind() const override;
 			

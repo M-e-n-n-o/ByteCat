@@ -1,5 +1,5 @@
 #pragma once
-#include "byteCat/graphics/renderers/RendererAPI.h"
+#include "byteCat/graphics/renderer/RendererAPI.h"
 
 namespace BC
 {

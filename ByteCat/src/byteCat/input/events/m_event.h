@@ -57,18 +57,18 @@ namespace BC
 	class EventDispatcher
 	{
 	private:
-		Event& event;
+		Event& m_event;
 		
 	public:
-		EventDispatcher(Event& event): event(event){}
+		EventDispatcher(Event& event): m_event(event){}
 
 		// F will be deduced by the compiler
 		template<class T, typename F>
 		bool dispatch(const F& func)
 		{
-			if (event.getEventType() == T::getStaticType())
+			if (m_event.getEventType() == T::getStaticType())
 			{
-				event.handled |= func(static_cast<T&>(event));
+				m_event.handled |= func(static_cast<T&>(m_event));
 				return true;
 			}
 			return false;

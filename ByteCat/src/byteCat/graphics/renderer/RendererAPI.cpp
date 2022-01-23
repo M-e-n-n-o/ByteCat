@@ -1,5 +1,5 @@
 #include "bcpch.h"
-#include "byteCat/graphics/renderers/RendererAPI.h"
+#include "byteCat/graphics/renderer/RendererAPI.h"
 #include "platform/openGL/OpenGLRendererAPI.h"
 
 namespace BC
@@ -11,7 +11,6 @@ namespace BC
 		if (!createdRendererAPI)
 		{
 			createdRendererAPI = true;
-			//graphicsAPI = api;
 
 			switch (api)
 			{

@@ -23,6 +23,11 @@ public:
 	{
 		//Renderer::Submit({ vao, shader });
 	}
+
+	void onEvent(Event& event) override
+	{
+		//LOG_INFO("GOT EVENT");
+	}
 };
 
 

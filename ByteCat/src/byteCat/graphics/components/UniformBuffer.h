@@ -24,8 +24,8 @@ namespace BC
 		private:
 			const int MAX_BUFFER_SIZE = 800;
 			
-			std::shared_ptr<UniformBuffer> buffer;
-			unsigned int offset = 0;
+			std::shared_ptr<UniformBuffer> m_buffer;
+			unsigned int m_offset = 0;
 			
 		public:
 			Builder(const std::string& blockName, unsigned int bindingIndex);

@@ -66,37 +66,37 @@ namespace BC
 	class BufferLayout
 	{
 	private:
-		std::vector<BufferElement> elements;
-		unsigned int stride = 0;
+		std::vector<BufferElement> m_elements;
+		unsigned int m_stride = 0;
 		
 	public:
 		BufferLayout() {}
 
 		BufferLayout(std::initializer_list<BufferElement> elements)
-			: elements(elements)
+			: m_elements(elements)
 		{
 			CalculateOffsetsAndStride();
 		}
 
-		unsigned int getStride() const { return stride; }
-		const std::vector<BufferElement>& getElements() const { return elements; }
+		unsigned int getStride() const { return m_stride; }
+		const std::vector<BufferElement>& getElements() const { return m_elements; }
 
-		std::vector<BufferElement>::iterator begin() { return elements.begin(); }
-		std::vector<BufferElement>::iterator end() { return elements.end(); }
-		std::vector<BufferElement>::const_iterator begin() const { return elements.begin(); }
-		std::vector<BufferElement>::const_iterator end() const { return elements.end(); }
+		std::vector<BufferElement>::iterator begin() { return m_elements.begin(); }
+		std::vector<BufferElement>::iterator end() { return m_elements.end(); }
+		std::vector<BufferElement>::const_iterator begin() const { return m_elements.begin(); }
+		std::vector<BufferElement>::const_iterator end() const { return m_elements.end(); }
 	
 	private:
 		void CalculateOffsetsAndStride()
 		{
 			unsigned int offset = 0;
-			stride = 0;
+			m_stride = 0;
 			
-			for (auto& element : elements)
+			for (auto& element : m_elements)
 			{
 				element.offset = offset;
 				offset += element.size;
-				stride += element.size;
+				m_stride += element.size;
 			}
 		}
 	};
@@ -106,7 +106,7 @@ namespace BC
 	/// Put this class inside a VertexArray to use it.
 	/// </summary>
 	class VertexBuffer
-	{
+	{	
 	public:
 		virtual ~VertexBuffer() = default;
 

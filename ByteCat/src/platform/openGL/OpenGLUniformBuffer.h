@@ -1,5 +1,5 @@
 #pragma once
-#include "byteCat/graphics/buffers/UniformBuffer.h"
+#include "byteCat/graphics/components/UniformBuffer.h"
 
 namespace BC
 {
@@ -8,10 +8,10 @@ namespace BC
 		class OpenGLUniformBuffer : public UniformBuffer
 		{
 		private:
-			unsigned int id;
+			unsigned int m_id;
 			
-			std::string blockName;
-			unsigned int bindingIndex;
+			std::string m_blockName;
+			unsigned int m_bindingIndex;
 		
 		public:
 			OpenGLUniformBuffer(const std::string& blockName, unsigned int bindingIndex, unsigned int size);
@@ -23,8 +23,8 @@ namespace BC
 
 			void loadData(const void* data, unsigned int size, unsigned int offset) override;
 			
-			const std::string& getName() const override { return blockName; }
-			unsigned getBindingIndex() const override { return bindingIndex; }
+			const std::string& getName() const override { return m_blockName; }
+			unsigned getBindingIndex() const override { return m_bindingIndex; }
 		};
 	}
 }

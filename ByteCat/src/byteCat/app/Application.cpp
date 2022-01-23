@@ -1,24 +1,25 @@
 #include "bcpch.h"
 #include "byteCat/app/Application.h"
-#include "byteCat/graphics/renderers/Renderer.h"
-#include "byteCat/graphics/renderers/SimpleRenderer.h"
+#include "byteCat/graphics/renderer/Renderer.h"
+#include "byteCat/graphics/renderer/elaborations/SimpleRenderer.h"
+#include "platform/CommandExecutor.h"
 
 namespace BC
 {
-    Application* Application::instance = nullptr;
+    Application* Application::s_instance = nullptr;
 	
-	Application::Application() : isRunning(false)
+	Application::Application() : m_isRunning(false)
 	{
-        LOG_ASSERT(!instance, "Application already exists!");
-        instance = this;
+        LOG_ASSERT(!s_instance, "Application already exists!");
+        s_instance = this;
 		
         LOG_INFO("ByteCat engine is starting...");
 
         Renderer::SetAPI(GraphicsAPI::OpenGL);
 		      
         WindowSettings setting = { "ByteCat Engine", 1280, 720, false };
-        window = Window::Create(setting);
-        window->setEventListener(this);
+        m_window = Window::Create(setting);
+        m_window->setEventListener(this);
         
         Renderer::Init(new SimpleRenderer());
 	}
@@ -28,25 +29,12 @@ namespace BC
         LOG_INFO("ByteCat engine is closing...");
 
         Renderer::Shutdown();
-        delete window;
+        delete m_window;
     }
 
-    void Application::start()
-    {
-        if (isRunning)
-        {
-            LOG_WARN("Cannot run the main game loop synchronous");
-            return;
-        }
-		
-        isRunning = true;    	
-		
-        run();
-    }
-	
-	void Application::run()
-	{
-		const char* vertexSource = R"(
+	void runMainLoop(Window* window, LayerStack& layerStack, bool& isRunning)
+	{		
+        const char* vertexSource = R"(
 			#version 330 core
 
 			layout (location = 0) in vec3 vertexPos;
@@ -57,7 +45,7 @@ namespace BC
 			}
 		)";
 
-		const char* fragmentSource = R"(
+        const char* fragmentSource = R"(
 			#version 330 core
 
 			out vec4 FragColor;
@@ -67,56 +55,106 @@ namespace BC
 				FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);
 			}
 		)";
-		
-		auto shader = Shader::Create("Test", vertexSource, fragmentSource);
 
-		float vertices[] = {
-			-0.5f, -0.5f, 0.0f,
-			0.5f, -0.5f, 0.0f,
-			0.0f, 0.5f, 0.0f
-		};
+        auto shader = Shader::Create("Test", vertexSource, fragmentSource);
 
-		unsigned int indices[] = {
-			0, 1, 2
-		};
+        float vertices[] = {
+            -0.5f, -0.5f, 0.0f,
+            0.5f, -0.5f, 0.0f,
+            0.0f, 0.5f, 0.0f
+        };
 
-		auto vao = VertexArray::Create();
+        unsigned int indices[] = {
+            0, 1, 2
+        };
 
-		auto ebo = IndexBuffer::Create(indices, sizeof(indices));
-		vao->setIndexBuffer(ebo);
+        auto vao = VertexArray::Create();
 
-		auto vbo = VertexBuffer::Create(vertices, sizeof(vertices));
-		BufferLayout layout = { { ShaderDataType::Float3, "vertexPos" } };
-		vbo->setLayout(layout);
-		vao->addVertexBuffer(vbo);
-		
-		while (isRunning)
-		{
-			window->update();
+        auto ebo = IndexBuffer::Create(indices, sizeof(indices));
+        vao->setIndexBuffer(ebo);
 
-			if (window->isMinimized())
+        auto vbo = VertexBuffer::Create(vertices, sizeof(vertices));
+        BufferLayout layout = { { ShaderDataType::Float3, "vertexPos" } };
+        vbo->setLayout(layout);
+        vao->addVertexBuffer(vbo);
+
+
+        while (isRunning)
+        {
+            window->update();
+            
+            if (window->isMinimized())
+            {
+                continue;
+            }
+            
+            // Updating
+            for (Layer* layer : layerStack)
+            {
+                if (layer->m_enabled) { layer->onUpdate(); }
+            }
+
+
+            // Heavy duty test code
+			for (int k = 0; k < 15000; k++)
 			{
-				continue;
-			}
-
-		 	// Updating
-	        for (Layer* layer : layerStack)
-	        {
-				if (layer->enabled) { layer->onUpdate(); }
-	        }
-
-            Renderer::StartScene({ });
+			    int arr[] = { 64, 34, 25, 12, 22, 11, 90 };
+			    int n = sizeof(arr) / sizeof(arr[0]);
 			
+			    int i, j;
+			    for (i = 0; i < n - 1; i++)
+			    {
+			        for (j = 0; j < n - i - 1; j++)
+			        {
+			            if (arr[j] > arr[j + 1])
+			            {
+			                int temp = arr[j];
+			                arr[j] = arr[j + 1];
+			                arr[j + 1] = temp;
+			            }
+			        }
+			    }
+			}
+        	
+            // Synchronize with render thread
+            Platform::CommandExecutor::Sync();
+
             // Rendering
             for (Layer* layer : layerStack)
             {
-                if (layer->enabled) { layer->onRender(); }
+                if (layer->m_enabled) { layer->onRender(); }
             }
+        	
+            // Heavy duty test code
+            for (int i = 0; i < 200; i++)
+            {
+                Renderer::Submit({ vao, shader });
+            }
+            
+            Renderer::RenderFrame({});
+        }
 
-            Renderer::RenderScene();
-			Renderer::Submit({ vao, shader });
-		}
+        Platform::CommandExecutor::Shutdown();
 	}
+	
+    void Application::start()
+    {		
+        m_isRunning = true;
+
+        const bool multithreaded = true;
+        LOG_INFO("Multithreaded platform backend: {0}", multithreaded);
+		
+		if (multithreaded)
+		{			
+            std::thread logicThread(runMainLoop, m_window, std::ref(m_layerStack), std::ref(m_isRunning));
+            Platform::CommandExecutor::Start(true);
+            logicThread.join();
+		} else
+		{
+            Platform::CommandExecutor::Start(false);
+            runMainLoop(m_window, m_layerStack, m_isRunning);
+		}
+    }
 
     void Application::onEvent(Event& event)
     {		
@@ -124,11 +162,11 @@ namespace BC
         dispatcher.dispatch<WindowCloseEvent>(BC_BIND_EVENT_FN(Application::onWindowClose));
         dispatcher.dispatch<WindowResizeEvent>(BC_BIND_EVENT_FN(Application::onWindowResize));
 		
-        for (auto it = layerStack.end(); it != layerStack.begin();)
+        for (auto it = m_layerStack.end(); it != m_layerStack.begin();)
         {
             --it;
         	
-            if ((*it)->enabled)
+            if ((*it)->m_enabled)
             {
                 (*it)->onEvent(event);
                 if (event.handled)
@@ -141,13 +179,13 @@ namespace BC
 
     bool Application::onWindowClose(WindowCloseEvent& event)
     {
-        isRunning = false;
+        m_isRunning = false;
         return true;
     }
 
     bool Application::onWindowResize(WindowResizeEvent& event)
     {
-        window->resize(event.getWidth(), event.getHeight());
+        m_window->resize(event.getWidth(), event.getHeight());
         Renderer::SetViewport(0, 0, event.getWidth(), event.getHeight());
     	
         return true;
@@ -155,11 +193,11 @@ namespace BC
 
     void Application::pushLayer(Layer* layer)
     {
-        layerStack.pushLayer(layer);
+        m_layerStack.pushLayer(layer);
     }
 
     void Application::pushOverlay(Layer* overlay)
     {
-        layerStack.pushOverlay(overlay);
+        m_layerStack.pushOverlay(overlay);
     }
 }

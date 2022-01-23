@@ -44,15 +44,15 @@ namespace BC
 	private:
 		friend int ::main(int argc, char** argv);
 		
-		static std::shared_ptr<spdlog::logger> coreLogger;
-		static std::shared_ptr<spdlog::logger> clientLogger;
+		static std::shared_ptr<spdlog::logger> s_coreLogger;
+		static std::shared_ptr<spdlog::logger> s_clientLogger;
 
 		static void Init();
 		
 	public:
-		inline static std::shared_ptr<spdlog::logger>& GetClientLogger() { return clientLogger; }
+		inline static std::shared_ptr<spdlog::logger>& GetClientLogger() { return s_clientLogger; }
 	#ifdef BC_CORE_ACCESS
-		inline static std::shared_ptr<spdlog::logger>& GetCoreLogger() { return coreLogger; }
+		inline static std::shared_ptr<spdlog::logger>& GetCoreLogger() { return s_coreLogger; }
 	#endif
 	};
 }
