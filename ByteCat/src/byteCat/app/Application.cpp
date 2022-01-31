@@ -33,52 +33,7 @@ namespace BC
     }
 
 	void runMainLoop(Window* window, LayerStack& layerStack, bool& isRunning)
-	{		
-        const char* vertexSource = R"(
-			#version 330 core
-
-			layout (location = 0) in vec3 vertexPos;
-		
-			void main()
-			{
-				gl_Position = vec4(vertexPos.x, vertexPos.y, vertexPos.z, 1.0);
-			}
-		)";
-
-        const char* fragmentSource = R"(
-			#version 330 core
-
-			out vec4 FragColor;
-
-			void main()
-			{
-				FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);
-			}
-		)";
-
-        auto shader = Shader::Create("Test", vertexSource, fragmentSource);
-
-        float vertices[] = {
-            -0.5f, -0.5f, 0.0f,
-            0.5f, -0.5f, 0.0f,
-            0.0f, 0.5f, 0.0f
-        };
-
-        unsigned int indices[] = {
-            0, 1, 2
-        };
-
-        auto vao = VertexArray::Create();
-
-        auto ebo = IndexBuffer::Create(indices, sizeof(indices));
-        vao->setIndexBuffer(ebo);
-
-        auto vbo = VertexBuffer::Create(vertices, sizeof(vertices));
-        BufferLayout layout = { { ShaderDataType::Float3, "vertexPos" } };
-        vbo->setLayout(layout);
-        vao->addVertexBuffer(vbo);
-
-
+	{
         while (isRunning)
         {
             window->update();
@@ -93,28 +48,6 @@ namespace BC
             {
                 if (layer->m_enabled) { layer->onUpdate(); }
             }
-
-
-            // Heavy duty test code
-			// for (int k = 0; k < 15000; k++)
-			// {
-			//     int arr[] = { 64, 34, 25, 12, 22, 11, 90 };
-			//     int n = sizeof(arr) / sizeof(arr[0]);
-			//
-			//     int i, j;
-			//     for (i = 0; i < n - 1; i++)
-			//     {
-			//         for (j = 0; j < n - i - 1; j++)
-			//         {
-			//             if (arr[j] > arr[j + 1])
-			//             {
-			//                 int temp = arr[j];
-			//                 arr[j] = arr[j + 1];
-			//                 arr[j + 1] = temp;
-			//             }
-			//         }
-			//     }
-			// }
         	
             // Synchronize with render thread
             Platform::CommandExecutor::Sync();
@@ -124,8 +57,6 @@ namespace BC
             {
                 if (layer->m_enabled) { layer->onRender(); }
             }
-        	
-            Renderer::Submit({ vao, shader });
             
             Renderer::RenderFrame({});
         }
@@ -137,7 +68,7 @@ namespace BC
     {		
         m_isRunning = true;
 
-        const bool multithreaded = true;
+        const bool multithreaded = false;
         LOG_INFO("Multithreaded platform backend: {0}", multithreaded);
 		
 		if (multithreaded)
