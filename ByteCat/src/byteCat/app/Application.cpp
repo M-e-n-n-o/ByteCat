@@ -96,25 +96,25 @@ namespace BC
 
 
             // Heavy duty test code
-			for (int k = 0; k < 15000; k++)
-			{
-			    int arr[] = { 64, 34, 25, 12, 22, 11, 90 };
-			    int n = sizeof(arr) / sizeof(arr[0]);
-			
-			    int i, j;
-			    for (i = 0; i < n - 1; i++)
-			    {
-			        for (j = 0; j < n - i - 1; j++)
-			        {
-			            if (arr[j] > arr[j + 1])
-			            {
-			                int temp = arr[j];
-			                arr[j] = arr[j + 1];
-			                arr[j + 1] = temp;
-			            }
-			        }
-			    }
-			}
+			// for (int k = 0; k < 15000; k++)
+			// {
+			//     int arr[] = { 64, 34, 25, 12, 22, 11, 90 };
+			//     int n = sizeof(arr) / sizeof(arr[0]);
+			//
+			//     int i, j;
+			//     for (i = 0; i < n - 1; i++)
+			//     {
+			//         for (j = 0; j < n - i - 1; j++)
+			//         {
+			//             if (arr[j] > arr[j + 1])
+			//             {
+			//                 int temp = arr[j];
+			//                 arr[j] = arr[j + 1];
+			//                 arr[j + 1] = temp;
+			//             }
+			//         }
+			//     }
+			// }
         	
             // Synchronize with render thread
             Platform::CommandExecutor::Sync();
@@ -125,11 +125,7 @@ namespace BC
                 if (layer->m_enabled) { layer->onRender(); }
             }
         	
-            // Heavy duty test code
-            for (int i = 0; i < 200; i++)
-            {
-                Renderer::Submit({ vao, shader });
-            }
+            Renderer::Submit({ vao, shader });
             
             Renderer::RenderFrame({});
         }
