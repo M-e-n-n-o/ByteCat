@@ -7,7 +7,7 @@ class ExampleLayer : public Layer
 private:
 	std::shared_ptr<Shader> shader;
 	std::shared_ptr<VertexArray> vao;
-	
+
 public:
 	ExampleLayer() : Layer("ExampleLayer")
 	{
@@ -57,7 +57,7 @@ public:
 	}
 
 	void onUpdate() override
-	{		
+	{
 
 	}
 
@@ -66,9 +66,9 @@ public:
 		Renderer::Submit({ vao, shader });
 	}
 
-	void onEvent(Event& event) override
+	~ExampleLayer()
 	{
-		//LOG_INFO("GOT EVENT");
+
 	}
 };
 
@@ -93,3 +93,15 @@ Application* BC::CreateApplication()
 {
 	return new Sandbox();
 }
+
+
+/*
+ * TODO
+ * - Entity manager maken
+ * - System maken
+ * - System manager maken
+ *
+ * - Entity systeem uitgebreid testen
+ *
+ * https://austinmorlan.com/posts/entity_component_system/
+ */

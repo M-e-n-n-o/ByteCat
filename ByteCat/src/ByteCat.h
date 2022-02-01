@@ -34,6 +34,9 @@
 #include "byteCat/graphics/components/Shader.h"
 #include "byteCat/graphics/renderer/Renderer.h"
 
+#include "byteCat/entity/Entity.h"
+#include "byteCat/entity/Behaviour.h"
+
 // --Start of the engine--
 #include "byteCat/EntryPoint.h"
 // -----------------------

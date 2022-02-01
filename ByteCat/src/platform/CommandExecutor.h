@@ -9,20 +9,18 @@ namespace BC
         struct CommandWrapper
         {
             template <typename T>
-            CommandWrapper(T&& obj) :
-                m_wrappedObject(std::make_shared<Command<T>>(std::forward<T>(obj))) { }
+            CommandWrapper(T&& obj): m_wrappedObject(std::make_shared<Command<T>>(std::forward<T>(obj))) { }
 
             struct CommandBase
             {
-                virtual void operator()() const = 0;
                 virtual ~CommandBase() = default;
+                virtual void operator()() const = 0;
             };
 
             template<typename T>
-            struct Command : public CommandBase
+            struct Command : CommandBase
             {
-                Command(const T& t) :
-                    m_wrappedObject(t) {}
+                Command(const T& t): m_wrappedObject(t) {}
 
                 ~Command() = default;
 
@@ -30,6 +28,7 @@ namespace BC
                 {
                     return m_wrappedObject();
                 }
+            	
                 T m_wrappedObject;
             };
 
