@@ -36,6 +36,7 @@
 
 #include "byteCat/entity/Entity.h"
 #include "byteCat/entity/Behaviour.h"
+#include "byteCat/entity/components/Transform.h"
 
 // --Start of the engine--
 #include "byteCat/EntryPoint.h"

@@ -3,11 +3,11 @@
 #include "byteCat/entity/Behaviour.h"
 
 namespace BC
-{
+{	
 	struct Component
 	{
 		virtual ~Component() = default;
-	};	
+	};
 	
 	class Entity
 	{
@@ -20,7 +20,7 @@ namespace BC
 		std::vector<Component*> m_components;
 
 		Behaviour* m_behaviour = nullptr;
-
+	
 	public:
 		Entity(const std::string& name);
 		Entity(const std::string& name, Entity* parent);
@@ -32,8 +32,8 @@ namespace BC
 		void attachChild(Entity* child);
 		void detachChild(Entity* entity);
 		
-		template<class T>
-		T* addComponent();
+		template<class T, typename... Args>
+		T* addComponent(Args&... args);
 
 		template<class T>
 		T* getComponent();
@@ -42,15 +42,16 @@ namespace BC
 		void removeComponent();
 		
 		void setBehaviour(Behaviour* behaviour);
+		void updateBehaviour();
 	};
 
 	// ----------------------------------------------------------------------------------
 	// --------------------- Template elaborations of Entity ----------------------------
-	
-	template <class T>
-	T* Entity::addComponent()
+
+	template <class T, typename ... Args>
+	T* Entity::addComponent(Args&... args)
 	{
-		T* component = new T();
+		T* component = new T(args...);
 		m_components.push_back(component);
 		return component;
 	}

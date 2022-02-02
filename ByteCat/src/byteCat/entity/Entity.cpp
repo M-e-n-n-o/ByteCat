@@ -99,4 +99,12 @@ namespace BC
 		m_behaviour->m_entity = this;
 		m_behaviour->onAttach();
 	}
+
+	void Entity::updateBehaviour()
+	{
+		if (m_behaviour != nullptr)
+		{
+			m_behaviour->onUpdate();
+		}
+	}
 }

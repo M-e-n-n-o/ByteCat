@@ -8,6 +8,7 @@ private:
 	std::shared_ptr<Shader> shader;
 	std::shared_ptr<VertexArray> vao;
 
+	Entity* entity;
 public:
 	ExampleLayer() : Layer("ExampleLayer")
 	{
@@ -54,6 +55,11 @@ public:
 		BufferLayout layout = { { ShaderDataType::Float3, "vertexPos" } };
 		vbo->setLayout(layout);
 		vao->addVertexBuffer(vbo);
+
+
+		entity = new Entity("Test");
+		entity->addComponent<Transform>();
+
 	}
 
 	void onUpdate() override
@@ -100,6 +106,7 @@ Application* BC::CreateApplication()
  * - Entity manager maken
  * - System maken
  * - System manager maken
+ * - Coordinator maken
  *
  * - Entity systeem uitgebreid testen
  *
