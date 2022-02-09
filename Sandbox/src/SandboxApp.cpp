@@ -2,20 +2,6 @@
 
 using namespace BC;
 
-
-class TestBehaviour : public Behaviour
-{
-public:
-	TestBehaviour(const Entity& entity): Behaviour(entity) {}
-	
-	void onUpdate(EcsCoordinator& coordinator) override
-	{
-		LOG_INFO(m_entity);
-	}
-};
-
-
-
 class ExampleLayer : public Layer
 {
 private:
@@ -80,20 +66,16 @@ public:
 		// signature.set(coordinator.getComponentType<Behaviour>());
 		// coordinator.setSystemSignature<BehaviourSystem>(signature);
 		
-		
 		// Maak een entity en voeg components toe
 		auto entity = coordinator.createEntity();
 		coordinator.addComponent<Transform>(entity, { glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0) });
-		coordinator.setBehaviour<TestBehaviour>(entity, entity);
-
-		coordinator.updateBehaviours();
 		
 		// system->update(coordinator);
 	}
 
 	void onUpdate() override
 	{
-
+		coordinator.updateBehaviours();
 	}
 
 	void onRender() override
@@ -128,18 +110,3 @@ Application* BC::CreateApplication()
 {
 	return new Sandbox();
 }
-
-
-/*
- * TODO
- * - Entity manager maken
- * - System maken
- * - System manager maken
- * - Coordinator maken
- *
- * - Entity systeem uitgebreid testen
- * 
- * - PlatformResult struct maken
- *
- * https://austinmorlan.com/posts/entity_component_system/
- */
