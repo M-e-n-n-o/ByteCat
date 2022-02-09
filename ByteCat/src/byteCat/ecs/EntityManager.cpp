@@ -8,6 +8,7 @@ namespace BC
 		for (Entity entity = 0; entity < MAX_ENTITIES; ++entity)
 		{
 			m_entities.push(entity);
+			m_behaviours[entity] = nullptr;
 		}
 	}
 
@@ -33,9 +34,24 @@ namespace BC
 		}
 
 		m_signatures[entity].reset();
+		
+		delete m_behaviours[entity];
+		m_behaviours[entity] = nullptr;
 
 		m_entities.push(entity);
 		--m_entityCount;
+	}
+
+	void EntityManager::updateBehaviours(EcsCoordinator& coordinator)
+	{
+		for (int entity = 0; entity < MAX_ENTITIES; entity++)
+		{
+			auto behaviour = m_behaviours[entity];
+			if (behaviour != nullptr)
+			{
+				behaviour->onUpdate(coordinator);
+			}
+		}
 	}
 
 	void EntityManager::setSignature(const Entity& entity, Signature signature)

@@ -1,8 +1,8 @@
 #pragma once
 #include <memory>
-#include <byteCat/ecs/EntityManager.h>
-#include <byteCat/ecs/ComponentManager.h>
-#include <byteCat/ecs/SystemManager.h>
+#include "byteCat/ecs/EntityManager.h"
+#include "byteCat/ecs/ComponentManager.h"
+#include "byteCat/ecs/SystemManager.h"
 
 namespace BC
 {
@@ -31,6 +31,17 @@ namespace BC
 			m_entityManager->destroyEntity(entity);
 			m_componentManager->entityDestroyed(entity);
 			m_systemManager->entityDestroyed(entity);
+		}
+
+		template<typename T, typename... Args>
+		void setBehaviour(const Entity& entity, Args&... args)
+		{
+			m_entityManager->setBehaviour<T>(entity, args...);
+		}
+
+		void updateBehaviours()
+		{
+			m_entityManager->updateBehaviours(*this);
 		}
 
 		template<typename T>

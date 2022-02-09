@@ -6,13 +6,14 @@ using namespace BC;
 class TestBehaviour : public Behaviour
 {
 public:
-	TestBehaviour(const Entity& entity) : Behaviour(entity) { LOG_INFO("test"); }
-
+	TestBehaviour(const Entity& entity): Behaviour(entity) {}
+	
 	void onUpdate(EcsCoordinator& coordinator) override
 	{
-		LOG_INFO("Derrived");
+		LOG_INFO(m_entity);
 	}
 };
+
 
 
 class ExampleLayer : public Layer
@@ -72,21 +73,22 @@ public:
 
 		// Registreer de components
 		coordinator.registerComponent<Transform>();
-		coordinator.registerComponent<Behaviour>();
 		
 		// Maak en configureer een system
-		auto system = coordinator.registerSystem<BehaviourSystem>();
-		Signature signature;
-		signature.set(coordinator.getComponentType<Behaviour>());
-		coordinator.setSystemSignature<BehaviourSystem>(signature);
+		// auto system = coordinator.registerSystem<BehaviourSystem>();
+		// Signature signature;
+		// signature.set(coordinator.getComponentType<Behaviour>());
+		// coordinator.setSystemSignature<BehaviourSystem>(signature);
 		
 		
 		// Maak een entity en voeg components toe
 		auto entity = coordinator.createEntity();
 		coordinator.addComponent<Transform>(entity, { glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0) });
-		coordinator.addComponent<Behaviour>(entity, TestBehaviour(30));
+		coordinator.setBehaviour<TestBehaviour>(entity, entity);
+
+		coordinator.updateBehaviours();
 		
-		system->update(coordinator);
+		// system->update(coordinator);
 	}
 
 	void onUpdate() override

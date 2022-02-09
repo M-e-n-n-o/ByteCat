@@ -36,9 +36,8 @@
 
 #include "byteCat/ecs/Entity.h"
 #include "byteCat/ecs/EcsCoordinator.h"
-#include "byteCat/ecs/components/Behaviour.h"
+#include "byteCat/ecs/Behaviour.h"
 #include "byteCat/ecs/components/Transform.h"
-#include "byteCat/ecs/systems/BehaviourSystem.h"
 
 // --Start of the engine--
 #include "byteCat/EntryPoint.h"
