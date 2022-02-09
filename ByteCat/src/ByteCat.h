@@ -34,9 +34,11 @@
 #include "byteCat/graphics/components/Shader.h"
 #include "byteCat/graphics/renderer/Renderer.h"
 
-#include "byteCat/entity/Entity.h"
-#include "byteCat/entity/Behaviour.h"
-#include "byteCat/entity/components/Transform.h"
+#include "byteCat/ecs/Entity.h"
+#include "byteCat/ecs/EcsCoordinator.h"
+#include "byteCat/ecs/components/Behaviour.h"
+#include "byteCat/ecs/components/Transform.h"
+#include "byteCat/ecs/systems/BehaviourSystem.h"
 
 // --Start of the engine--
 #include "byteCat/EntryPoint.h"

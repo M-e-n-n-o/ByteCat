@@ -68,7 +68,7 @@ namespace BC
     {		
         m_isRunning = true;
 
-        const bool multithreaded = false;
+        const bool multithreaded = true;
         LOG_INFO("Multithreaded platform backend: {0}", multithreaded);
 		
 		if (multithreaded)

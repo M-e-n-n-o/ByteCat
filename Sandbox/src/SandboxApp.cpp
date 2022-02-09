@@ -2,13 +2,26 @@
 
 using namespace BC;
 
+
+class TestBehaviour : public Behaviour
+{
+public:
+	TestBehaviour(const Entity& entity) : Behaviour(entity) { LOG_INFO("test"); }
+
+	void onUpdate(EcsCoordinator& coordinator) override
+	{
+		LOG_INFO("Derrived");
+	}
+};
+
+
 class ExampleLayer : public Layer
 {
 private:
 	std::shared_ptr<Shader> shader;
 	std::shared_ptr<VertexArray> vao;
 
-	Entity* entity;
+	EcsCoordinator coordinator;
 public:
 	ExampleLayer() : Layer("ExampleLayer")
 	{
@@ -57,9 +70,23 @@ public:
 		vao->addVertexBuffer(vbo);
 
 
-		entity = new Entity("Test");
-		entity->addComponent<Transform>();
-
+		// Registreer de components
+		coordinator.registerComponent<Transform>();
+		coordinator.registerComponent<Behaviour>();
+		
+		// Maak en configureer een system
+		auto system = coordinator.registerSystem<BehaviourSystem>();
+		Signature signature;
+		signature.set(coordinator.getComponentType<Behaviour>());
+		coordinator.setSystemSignature<BehaviourSystem>(signature);
+		
+		
+		// Maak een entity en voeg components toe
+		auto entity = coordinator.createEntity();
+		coordinator.addComponent<Transform>(entity, { glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0) });
+		coordinator.addComponent<Behaviour>(entity, TestBehaviour(30));
+		
+		system->update(coordinator);
 	}
 
 	void onUpdate() override
@@ -109,6 +136,8 @@ Application* BC::CreateApplication()
  * - Coordinator maken
  *
  * - Entity systeem uitgebreid testen
+ * 
+ * - PlatformResult struct maken
  *
  * https://austinmorlan.com/posts/entity_component_system/
  */
