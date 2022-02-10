@@ -44,6 +44,11 @@ namespace BC
 			m_entityManager->updateBehaviours(*this);
 		}
 
+		void updateSystems()
+		{
+			m_systemManager->updateSystems(*this);
+		}
+
 		template<typename T>
 		void registerComponent()
 		{

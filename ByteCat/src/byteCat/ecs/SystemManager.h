@@ -67,5 +67,15 @@ namespace BC
 				}
 			}
 		}
+
+		void updateSystems(EcsCoordinator& coordinator)
+		{
+			for (auto const& pair : m_systems)
+			{
+				auto const& system = pair.second;
+				
+				system->update(coordinator);
+			}
+		}
 	};
 }

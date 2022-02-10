@@ -8,7 +8,7 @@ private:
 	std::shared_ptr<Shader> shader;
 	std::shared_ptr<VertexArray> vao;
 
-	EcsCoordinator coordinator;
+	SceneManager sceneManager;
 public:
 	ExampleLayer() : Layer("ExampleLayer")
 	{
@@ -57,8 +57,15 @@ public:
 		vao->addVertexBuffer(vbo);
 
 
+		
+
+		
 		// Registreer de components
-		coordinator.registerComponent<Transform>();
+		auto scene = sceneManager.CreateScene("TestScene");
+
+		auto ecsCoordinator = scene->getEcsCoordinator();
+
+		ecsCoordinator->registerComponent<Transform>();
 		
 		// Maak en configureer een system
 		// auto system = coordinator.registerSystem<BehaviourSystem>();
@@ -67,15 +74,13 @@ public:
 		// coordinator.setSystemSignature<BehaviourSystem>(signature);
 		
 		// Maak een entity en voeg components toe
-		auto entity = coordinator.createEntity();
-		coordinator.addComponent<Transform>(entity, { glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0) });
-		
-		// system->update(coordinator);
+		auto entity = ecsCoordinator->createEntity();
+		ecsCoordinator->addComponent<Transform>(entity, { glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0) });
 	}
 
 	void onUpdate() override
 	{
-		coordinator.updateBehaviours();
+		sceneManager.GetScene("TestScene")->update();
 	}
 
 	void onRender() override
