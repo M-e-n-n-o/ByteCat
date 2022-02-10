@@ -42,14 +42,14 @@ namespace BC
 		--m_entityCount;
 	}
 
-	void EntityManager::updateBehaviours(EcsCoordinator& coordinator)
+	void EntityManager::updateBehaviours()
 	{
 		for (int entity = 0; entity < MAX_ENTITIES; entity++)
 		{
 			auto behaviour = m_behaviours[entity];
 			if (behaviour != nullptr)
 			{
-				behaviour->onUpdate(coordinator);
+				behaviour->onUpdate();
 			}
 		}
 	}

@@ -2,12 +2,21 @@
 
 using namespace BC;
 
+
+struct TestComponent
+{
+	int x;
+};
+
 class TestSystem : public System
 {
 public:
-	void onUpdate(EcsCoordinator& coordinator) override
+	void onUpdate() override
 	{
-		LOG_INFO("TestSystem update");
+		for (auto itr = m_entities.begin(); itr != m_entities.end(); itr++)
+		{
+			LOG_INFO("TestSystem update, {0}", m_coordinator->getComponent<TestComponent>(*itr).x);
+		}
 	}
 };
 
@@ -19,7 +28,7 @@ public:
 		LOG_INFO("TestBehaviour onAttach");
 	}
 	
-	void onUpdate(EcsCoordinator& coordinator) override
+	void onUpdate() override
 	{
 		LOG_INFO("TestBehaviour onUpdate, entity number: {0}", m_entity);
 	}
@@ -37,7 +46,6 @@ private:
 	std::shared_ptr<Shader> shader;
 	std::shared_ptr<VertexArray> vao;
 
-	SceneManager sceneManager;
 public:
 	ExampleLayer() : Layer("ExampleLayer")
 	{
@@ -90,27 +98,30 @@ public:
 
 		
 		// Registreer de components
-		auto scene = sceneManager.CreateScene("TestScene");
+		auto scene = SceneManager::CreateScene("TestScene");
+		SceneManager::ActivateScene(scene);
 
 		auto ecsCoordinator = scene->getEcsCoordinator();
 
 		ecsCoordinator->registerComponent<Transform>();
+		ecsCoordinator->registerComponent<TestComponent>();
 		
 		// Maak en configureer een system
 		auto system = ecsCoordinator->registerSystem<TestSystem>();
-		// Signature signature;
-		// signature.set(coordinator.getComponentType<Behaviour>());
-		// coordinator.setSystemSignature<BehaviourSystem>(signature);
+		Signature signature;
+		signature.set(ecsCoordinator->getComponentType<TestComponent>());
+		ecsCoordinator->setSystemSignature<TestSystem>(signature);
 		
 		// Maak een entity en voeg components toe
 		auto entity = ecsCoordinator->createEntity();
-		ecsCoordinator->addComponent<Transform>(entity, { glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0) });
+		ecsCoordinator->addComponent<Transform>(entity, { glm::vec3(69, 0, 0), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0) });
+		ecsCoordinator->addComponent<TestComponent>(entity, {5});
 		ecsCoordinator->setBehaviour<TestBehaviour>(entity);
 	}
 
 	void onUpdate() override
 	{
-		sceneManager.GetScene("TestScene")->update();
+		SceneManager::GetActiveScene()->update();
 	}
 
 	void onRender() override

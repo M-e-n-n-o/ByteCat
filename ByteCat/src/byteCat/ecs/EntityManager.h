@@ -22,16 +22,16 @@ namespace BC
 		void destroyEntity(const Entity& entity);
 
 		template<typename T, typename... Args>
-		void setBehaviour(const Entity& entity, Args&... args);
+		void setBehaviour(const Entity& entity, EcsCoordinator* coordinator, Args&... args);
 
-		void updateBehaviours(EcsCoordinator& coordinator);
+		void updateBehaviours();
 
 		void setSignature(const Entity& entity, Signature signature);
 		Signature& getSignature(const Entity& entity);
 	};
 
 	template <typename T, typename ... Args>
-	void EntityManager::setBehaviour(const Entity& entity, Args&... args)
+	void EntityManager::setBehaviour(const Entity& entity, EcsCoordinator* coordinator, Args&... args)
 	{
 		if (entity > MAX_ENTITIES)
 		{
@@ -47,6 +47,7 @@ namespace BC
 
 		Behaviour* behaviour = new T(args...);
 		behaviour->m_entity = entity;
+		behaviour->m_coordinator = coordinator;
 		
 		m_behaviours[entity] = behaviour;
 		m_behaviours[entity]->onAttach();

@@ -11,13 +11,14 @@ namespace BC
 		friend class EntityManager;
 	
 	protected:
+		EcsCoordinator* m_coordinator;
 		Entity m_entity = -1;
 	
 	public:		
 		virtual ~Behaviour() = default;
 
 		virtual void onAttach() {}
-		virtual void onUpdate(EcsCoordinator& coordinator) {}
+		virtual void onUpdate() {}
 		virtual void onDetach() {}
 	};
 }

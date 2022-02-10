@@ -36,17 +36,17 @@ namespace BC
 		template<typename T, typename... Args>
 		void setBehaviour(const Entity& entity, Args&... args)
 		{
-			m_entityManager->setBehaviour<T>(entity, args...);
+			m_entityManager->setBehaviour<T>(entity, this, args...);
 		}
 
 		void updateBehaviours()
 		{
-			m_entityManager->updateBehaviours(*this);
+			m_entityManager->updateBehaviours();
 		}
 
 		void updateSystems()
 		{
-			m_systemManager->updateSystems(*this);
+			m_systemManager->updateSystems();
 		}
 
 		template<typename T>
@@ -91,12 +91,10 @@ namespace BC
 			return m_componentManager->getComponentType<T>();
 		}
 
-
-		// System methods
 		template<typename T>
 		std::shared_ptr<T> registerSystem()
 		{
-			return m_systemManager->registerSystem<T>();
+			return m_systemManager->registerSystem<T>(this);
 		}
 
 		template<typename T>

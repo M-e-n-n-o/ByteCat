@@ -46,4 +46,15 @@ namespace BC
 
 		return nullptr;
 	}
+
+	std::shared_ptr<Scene> SceneManager::GetActiveScene()
+	{
+		if (s_activeScene != -1)
+		{
+			return s_scenes[s_activeScene];
+		}
+
+		LOG_ERROR("No active scene!");
+		return nullptr;
+	}
 }

@@ -14,7 +14,7 @@ namespace BC
 
 	public:
 		template<typename T>
-		std::shared_ptr<T> registerSystem()
+		std::shared_ptr<T> registerSystem(EcsCoordinator* coordinator)
 		{
 			const char* typeName = typeid(T).name();
 
@@ -24,6 +24,7 @@ namespace BC
 			}
 
 			auto system = std::make_shared<T>();
+			system->m_coordinator = coordinator;
 			m_systems.insert({ typeName, system });
 			return system;
 		}
@@ -68,13 +69,13 @@ namespace BC
 			}
 		}
 
-		void updateSystems(EcsCoordinator& coordinator)
+		void updateSystems()
 		{
 			for (auto const& pair : m_systems)
 			{
 				auto const& system = pair.second;
 				
-				system->onUpdate(coordinator);
+				system->onUpdate();
 			}
 		}
 	};
