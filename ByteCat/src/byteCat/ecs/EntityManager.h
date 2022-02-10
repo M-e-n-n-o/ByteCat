@@ -39,14 +39,16 @@ namespace BC
 		}
 
 		if (m_behaviours[entity] != nullptr)
-		{
+		{			
 			m_behaviours[entity]->onDetach();
 			delete m_behaviours[entity];
 			m_behaviours[entity] = nullptr;
 		}
 
-		T* component = new T(args...);
-		m_behaviours[entity] = component;
+		Behaviour* behaviour = new T(args...);
+		behaviour->m_entity = entity;
+		
+		m_behaviours[entity] = behaviour;
 		m_behaviours[entity]->onAttach();
 	}
 }

@@ -2,6 +2,35 @@
 
 using namespace BC;
 
+class TestSystem : public System
+{
+public:
+	void onUpdate(EcsCoordinator& coordinator) override
+	{
+		LOG_INFO("TestSystem update");
+	}
+};
+
+class TestBehaviour : public Behaviour
+{
+public:	
+	void onAttach() override
+	{
+		LOG_INFO("TestBehaviour onAttach");
+	}
+	
+	void onUpdate(EcsCoordinator& coordinator) override
+	{
+		LOG_INFO("TestBehaviour onUpdate, entity number: {0}", m_entity);
+	}
+	
+	void onDetach() override
+	{
+		LOG_INFO("TestBehaviour onDettach");
+	}
+};
+
+
 class ExampleLayer : public Layer
 {
 private:
@@ -68,7 +97,7 @@ public:
 		ecsCoordinator->registerComponent<Transform>();
 		
 		// Maak en configureer een system
-		// auto system = coordinator.registerSystem<BehaviourSystem>();
+		auto system = ecsCoordinator->registerSystem<TestSystem>();
 		// Signature signature;
 		// signature.set(coordinator.getComponentType<Behaviour>());
 		// coordinator.setSystemSignature<BehaviourSystem>(signature);
@@ -76,6 +105,7 @@ public:
 		// Maak een entity en voeg components toe
 		auto entity = ecsCoordinator->createEntity();
 		ecsCoordinator->addComponent<Transform>(entity, { glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0) });
+		ecsCoordinator->setBehaviour<TestBehaviour>(entity);
 	}
 
 	void onUpdate() override

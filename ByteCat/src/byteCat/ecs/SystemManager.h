@@ -74,7 +74,7 @@ namespace BC
 			{
 				auto const& system = pair.second;
 				
-				system->update(coordinator);
+				system->onUpdate(coordinator);
 			}
 		}
 	};

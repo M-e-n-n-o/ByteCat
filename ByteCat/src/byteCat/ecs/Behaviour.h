@@ -6,13 +6,14 @@ namespace BC
 	class EcsCoordinator;
 	
 	class Behaviour
-	{	
-	protected:
-		Entity m_entity;
+	{
+	private:
+		friend class EntityManager;
 	
-	public:
-		Behaviour(const Entity& entity): m_entity(entity) {}
-		
+	protected:
+		Entity m_entity = -1;
+	
+	public:		
 		virtual ~Behaviour() = default;
 
 		virtual void onAttach() {}

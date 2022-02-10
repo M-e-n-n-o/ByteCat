@@ -13,6 +13,6 @@ namespace BC
 
 		virtual ~System() = default;
 
-		virtual void update(EcsCoordinator& coordinator) = 0;
+		virtual void onUpdate(EcsCoordinator& coordinator) = 0;
 	};
 }
