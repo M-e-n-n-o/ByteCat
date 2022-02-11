@@ -17,6 +17,7 @@ namespace BC
 		if (m_entityCount >= MAX_ENTITIES)
 		{
 			LOG_WARN("Max entitiy count reached");
+			return;
 		}
 
 		Entity id = m_entities.front();
@@ -31,6 +32,7 @@ namespace BC
 		if (entity > MAX_ENTITIES)
 		{
 			LOG_WARN("Given entity {0} out of range", entity);
+			return;
 		}
 
 		m_signatures[entity].reset();
@@ -59,6 +61,7 @@ namespace BC
 		if (entity > MAX_ENTITIES)
 		{
 			LOG_WARN("Given entity {0} out of range", entity);
+			return;
 		}
 
 		m_signatures[entity] = signature;

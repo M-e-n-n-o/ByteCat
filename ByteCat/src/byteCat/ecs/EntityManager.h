@@ -36,6 +36,7 @@ namespace BC
 		if (entity > MAX_ENTITIES)
 		{
 			LOG_WARN("Given entity {0} out of range", entity);
+			return;
 		}
 
 		if (m_behaviours[entity] != nullptr)

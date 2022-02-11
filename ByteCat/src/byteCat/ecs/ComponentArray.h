@@ -25,7 +25,8 @@ namespace BC
 		{
 			if (m_entityToIndexMap.find(entity) != m_entityToIndexMap.end())
 			{
-				LOG_WARN("Component added to same entity more than once");
+				LOG_WARN("Cannot add component {0} to entity {1} more than once", typeid(T).name(), entity);
+				return;
 			}
 
 			int newIndex = m_size;
@@ -39,7 +40,8 @@ namespace BC
 		{
 			if (m_entityToIndexMap.find(entity) == m_entityToIndexMap.end())
 			{
-				LOG_WARN("Cannot remove non-existent component");
+				LOG_WARN("Cannot remove non-existent component in entity {0}", entity);
+				return;
 			}
 
 			int indexOfRemovedEntity = m_entityToIndexMap[entity];
@@ -60,7 +62,8 @@ namespace BC
 		{
 			if (m_entityToIndexMap.find(entity) == m_entityToIndexMap.end())
 			{
-				LOG_WARN("Cannot retrieve non-existent component");
+				LOG_WARN("Cannot retrieve non-existent component from entity {0}", entity);
+				return nullptr;
 			}
 
 			return m_componentArray[m_entityToIndexMap[entity]];

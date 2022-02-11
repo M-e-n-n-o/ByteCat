@@ -21,6 +21,7 @@ namespace BC
 			if (m_systems.find(typeName) != m_systems.end())
 			{
 				LOG_WARN("Cannot register system {0} more then once", typeName);
+				return nullptr;
 			}
 
 			auto system = std::make_shared<T>();
@@ -37,6 +38,7 @@ namespace BC
 			if (m_systems.find(typeName) == m_systems.end())
 			{
 				LOG_WARN("System {0} is not registered yet", typeName);
+				return;
 			}
 
 			m_signatures.insert({ typeName, signature });

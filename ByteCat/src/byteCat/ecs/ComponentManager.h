@@ -18,11 +18,12 @@ namespace BC
 		template<typename T>
 		void registerComponent()
 		{
-			const char* typeName = typeid(T).name();
+			const char* typeName = typeid(T).name();	
 
 			if (m_componentTypes.find(typeName) != m_componentTypes.end())
 			{
-				LOG_WARN("Cannot register the same component {0} multiple times", typeName);
+				LOG_WARN("Cannot register the same componentType {0} multiple times", typeName);
+				return;
 			}
 
 			m_componentTypes.insert({ typeName, m_nextComponentType });
@@ -38,7 +39,7 @@ namespace BC
 
 			if (m_componentTypes.find(typeName) == m_componentTypes.end())
 			{
-				LOG_WARN("Component {0} has not been registered yet", typeName);
+				LOG_WARN("ComponentType {0} has not been registered yet", typeName);
 			}
 
 			return m_componentTypes[typeName];
@@ -79,7 +80,8 @@ namespace BC
 			
 			if (m_componentTypes.find(typeName) == m_componentTypes.end())
 			{
-				LOG_WARN("Component {0} has not been registered yet", typeName);
+				LOG_WARN("ComponentType {0} has not been registered yet", typeName);
+				return nullptr;
 			}
 
 			return std::static_pointer_cast<ComponentArray<T>>(m_componentArrays[typeName]);
