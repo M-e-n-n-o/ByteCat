@@ -113,7 +113,7 @@ public:
 		ecsCoordinator->setSystemSignature<TestSystem>(signature);
 		
 		// Maak een entity en voeg components toe
-		auto entity = ecsCoordinator->createEntity();
+		auto entity = ecsCoordinator->createEntity("Test Entity");
 		ecsCoordinator->addComponent<Transform>(entity, { glm::vec3(69, 0, 0), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0) });
 		ecsCoordinator->addComponent<TestComponent>(entity, {5});
 		ecsCoordinator->setBehaviour<TestBehaviour>(entity);

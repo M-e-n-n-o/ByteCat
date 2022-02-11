@@ -9,10 +9,11 @@ namespace BC
 		{
 			m_entities.push(entity);
 			m_behaviours[entity] = nullptr;
+			m_names[entity] = nullptr;
 		}
 	}
 
-	Entity& EntityManager::createEntity()
+	Entity& EntityManager::createEntity(const char* name)
 	{
 		if (m_entityCount >= MAX_ENTITIES)
 		{
@@ -24,6 +25,9 @@ namespace BC
 
 		Entity id = m_entities.front();
 		m_entities.pop();
+
+		m_names[m_entityCount] = name;
+		
 		++m_entityCount;
 
 		return id;
@@ -42,6 +46,8 @@ namespace BC
 		delete m_behaviours[entity];
 		m_behaviours[entity] = nullptr;
 
+		m_names[entity] = nullptr;
+
 		m_entities.push(entity);
 		--m_entityCount;
 	}
@@ -56,6 +62,11 @@ namespace BC
 				behaviour->onUpdate();
 			}
 		}
+	}
+
+	const char* EntityManager::getName(const Entity& entity)
+	{
+		return m_names[entity];
 	}
 
 	void EntityManager::setSignature(const Entity& entity, Signature signature)

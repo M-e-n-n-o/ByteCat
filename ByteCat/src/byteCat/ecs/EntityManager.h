@@ -12,19 +12,22 @@ namespace BC
 		std::queue<Entity> m_entities;
 		std::array<Signature, MAX_ENTITIES> m_signatures;
 		std::array<Behaviour*, MAX_ENTITIES> m_behaviours;
+		std::array<const char*, MAX_ENTITIES> m_names;
 
 		uint32_t m_entityCount = 0;
 	
 	public:
 		EntityManager();
 
-		Entity& createEntity();
+		Entity& createEntity(const char* name);
 		void destroyEntity(const Entity& entity);
 
 		template<typename T, typename... Args>
 		void setBehaviour(const Entity& entity, EcsCoordinator* coordinator, Args&... args);
 
 		void updateBehaviours();
+
+		const char* getName(const Entity& entity);
 
 		void setSignature(const Entity& entity, Signature signature);
 		Signature& getSignature(const Entity& entity);
