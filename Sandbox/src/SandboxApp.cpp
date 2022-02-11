@@ -40,14 +40,14 @@ public:
 };
 
 
-class ExampleLayer : public Layer
+class UserLayer : public Layer
 {
 private:
 	std::shared_ptr<Shader> shader;
 	std::shared_ptr<VertexArray> vao;
 
 public:
-	ExampleLayer() : Layer("ExampleLayer")
+	UserLayer() : Layer("UserLayer")
 	{
 		const char* vertexSource = R"(
 			#version 330 core
@@ -121,7 +121,7 @@ public:
 
 	void onUpdate() override
 	{
-		SceneManager::GetActiveScene()->update();
+
 	}
 
 	void onRender() override
@@ -129,7 +129,7 @@ public:
 		Renderer::Submit({ vao, shader });
 	}
 
-	~ExampleLayer()
+	~UserLayer()
 	{
 
 	}
@@ -142,7 +142,7 @@ public:
 	// The init of your application
 	Sandbox()
 	{
-		pushLayer(new ExampleLayer());
+		pushLayer(new UserLayer());
 	}
 
 	// The end of your application

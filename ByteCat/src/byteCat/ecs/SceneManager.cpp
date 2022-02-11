@@ -34,6 +34,11 @@ namespace BC
 		}
 	}
 
+	void SceneManager::onUpdate()
+	{
+		s_scenes[s_activeScene]->update();
+	}
+
 	std::shared_ptr<Scene> SceneManager::GetScene(const std::string& name)
 	{
 		for (int i = 0; i < s_scenes.size(); i++)

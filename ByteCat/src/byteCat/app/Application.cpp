@@ -1,5 +1,6 @@
 #include "bcpch.h"
 #include "byteCat/app/Application.h"
+#include "byteCat/ecs/SceneManager.h"
 #include "byteCat/graphics/renderer/Renderer.h"
 #include "byteCat/graphics/renderer/elaborations/SimpleRenderer.h"
 #include "platform/CommandExecutor.h"
@@ -22,6 +23,9 @@ namespace BC
         m_window->setEventListener(this);
         
         Renderer::Init(new SimpleRenderer());
+
+        m_logicLayer = new SceneManager();
+        pushLayer(m_logicLayer);
 	}
 
     Application::~Application()

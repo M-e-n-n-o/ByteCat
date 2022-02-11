@@ -63,7 +63,6 @@ namespace BC
 			if (m_entityToIndexMap.find(entity) == m_entityToIndexMap.end())
 			{
 				LOG_WARN("Cannot retrieve non-existent component from entity {0}", entity);
-				return nullptr;
 			}
 
 			return m_componentArray[m_entityToIndexMap[entity]];

@@ -18,6 +18,8 @@ namespace BC
 		static Application* s_instance;
 		
 		LayerStack m_layerStack;
+
+		Layer* m_logicLayer;
 		
 		Window* m_window;
 

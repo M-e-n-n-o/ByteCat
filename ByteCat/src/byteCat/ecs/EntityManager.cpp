@@ -17,7 +17,9 @@ namespace BC
 		if (m_entityCount >= MAX_ENTITIES)
 		{
 			LOG_WARN("Max entitiy count reached");
-			return;
+			
+			Entity id = -1;
+			return id;
 		}
 
 		Entity id = m_entities.front();
