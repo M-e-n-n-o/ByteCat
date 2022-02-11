@@ -33,13 +33,19 @@ namespace BC
 		}
 
 		template<typename T>
-		ComponentType& getComponentType()
+		ComponentType& getComponentType(bool autoRegister)
 		{
 			const char* typeName = typeid(T).name();
 
 			if (m_componentTypes.find(typeName) == m_componentTypes.end())
 			{
 				LOG_WARN("ComponentType {0} has not been registered yet", typeName);
+
+				if (autoRegister)
+				{
+					LOG_INFO("Auto registering ComponentType {0}", typeName);
+					registerComponent<T>();
+				}
 			}
 
 			return m_componentTypes[typeName];
@@ -48,19 +54,19 @@ namespace BC
 		template<typename T>
 		void addComponent(const Entity& entity, const T& component)
 		{
-			getComponentArray<T>()->insertData(entity, component);
+			getComponentArray<T>(true)->insertData(entity, component);
 		}
 
 		template<typename T>
 		void removeComponent(const Entity& entity)
 		{
-			getComponentArray<T>()->removeData(entity);
+			getComponentArray<T>(false)->removeData(entity);
 		}
 
 		template<typename T>
 		T& getComponent(const Entity& entity)
 		{
-			return getComponentArray<T>()->getData(entity);
+			return getComponentArray<T>(false)->getData(entity);
 		}
 
 		void entityDestroyed(const Entity& entity)
@@ -74,14 +80,21 @@ namespace BC
 
 	private:
 		template<typename T>
-		std::shared_ptr<ComponentArray<T>> getComponentArray()
+		std::shared_ptr<ComponentArray<T>> getComponentArray(bool autoRegister)
 		{
 			const char* typeName = typeid(T).name();
 			
 			if (m_componentTypes.find(typeName) == m_componentTypes.end())
 			{
 				LOG_WARN("ComponentType {0} has not been registered yet", typeName);
-				return nullptr;
+
+				if (!autoRegister)
+				{
+					return nullptr;
+				}
+
+				LOG_INFO("Auto registering ComponentType {0}", typeName);
+				registerComponent<T>();
 			}
 
 			return std::static_pointer_cast<ComponentArray<T>>(m_componentArrays[typeName]);

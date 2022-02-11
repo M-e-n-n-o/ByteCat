@@ -13,10 +13,7 @@ class TestSystem : public System
 public:
 	void onUpdate() override
 	{
-		for (auto itr = m_entities.begin(); itr != m_entities.end(); itr++)
-		{
-			LOG_INFO("TestSystem update, {0}", m_coordinator->getComponent<TestComponent>(*itr).x);
-		}
+
 	}
 };
 
@@ -25,17 +22,17 @@ class TestBehaviour : public Behaviour
 public:	
 	void onAttach() override
 	{
-		LOG_INFO("TestBehaviour onAttach");
+
 	}
 	
 	void onUpdate() override
 	{
-		LOG_INFO("TestBehaviour onUpdate, entity number: {0}", m_entity);
+
 	}
 	
 	void onDetach() override
 	{
-		LOG_INFO("TestBehaviour onDettach");
+
 	}
 };
 
@@ -95,16 +92,14 @@ public:
 
 
 		
-
-		
-		// Registreer de components
 		auto scene = SceneManager::CreateScene("TestScene");
 		SceneManager::ActivateScene(scene);
 
 		auto ecsCoordinator = scene->getEcsCoordinator();
 
-		ecsCoordinator->registerComponent<Transform>();
-		ecsCoordinator->registerComponent<TestComponent>();
+		// Not needed anymore
+		// ecsCoordinator->registerComponent<Transform>();
+		// ecsCoordinator->registerComponent<TestComponent>();
 		
 		// Maak en configureer een system
 		auto system = ecsCoordinator->registerSystem<TestSystem>();

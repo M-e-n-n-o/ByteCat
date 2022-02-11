@@ -60,13 +60,14 @@ namespace BC
 			m_componentManager->registerComponent<T>();
 		}
 
+		// This method will automatically register the component if it hasnt been yet
 		template<typename T>
 		void addComponent(const Entity& entity, const T& component)
 		{
 			m_componentManager->addComponent<T>(entity, component);
 
 			auto signature = m_entityManager->getSignature(entity);
-			signature.set(m_componentManager->getComponentType<T>(), true);
+			signature.set(m_componentManager->getComponentType<T>(false), true);
 			m_entityManager->setSignature(entity, signature);
 
 			m_systemManager->entitySignatureChanged(entity, signature);
@@ -78,7 +79,7 @@ namespace BC
 			m_componentManager->removeComponent<T>(entity);
 
 			auto signature = m_entityManager->getSignature(entity);
-			signature.set(m_componentManager->getComponentType<T>(), false);
+			signature.set(m_componentManager->getComponentType<T>(false), false);
 			m_entityManager->setSignature(entity, signature);
 
 			m_systemManager->entitySignatureChanged(entity, signature);
@@ -90,10 +91,11 @@ namespace BC
 			return m_componentManager->getComponent<T>(entity);
 		}
 
+		// This method will automatically register the component if it hasnt been yet
 		template<typename T>
 		ComponentType& getComponentType()
 		{
-			return m_componentManager->getComponentType<T>();
+			return m_componentManager->getComponentType<T>(true);
 		}
 
 		template<typename T>
