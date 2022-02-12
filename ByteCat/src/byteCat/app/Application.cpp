@@ -60,7 +60,7 @@ namespace BC
                 if (layer->m_enabled) { layer->onRender(); }
             }
 
-            Renderer::RenderFrame({});
+            Renderer::RenderFrame();
         }
     }
 

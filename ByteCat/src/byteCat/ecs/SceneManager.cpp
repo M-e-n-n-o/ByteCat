@@ -28,7 +28,8 @@ namespace BC
 		{
 			if (s_scenes[i] == scene)
 			{
-				s_scenes.erase(s_scenes.begin() + i);				
+				s_scenes.erase(s_scenes.begin() + i);
+				s_activeScene = -1;
 				return;
 			}
 		}
@@ -36,6 +37,12 @@ namespace BC
 
 	void SceneManager::onUpdate()
 	{
+		if (s_activeScene == -1)
+		{
+			LOG_ERROR("No active scene selected!");
+			return;
+		}
+		
 		s_scenes[s_activeScene]->onUpdate();
 	}
 

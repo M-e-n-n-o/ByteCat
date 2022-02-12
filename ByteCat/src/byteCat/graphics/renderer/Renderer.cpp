@@ -71,11 +71,18 @@ namespace BC
 		s_activeRenderer->submit(renderable);
 	}
 
-	void Renderer::RenderFrame(const SceneData& sceneData)
+	void Renderer::SetSceneData(const SceneData& sceneData)
 	{
 		CHECK_INIT
 
-		s_activeRenderer->renderFrame(sceneData);
+		s_activeRenderer->setSceneData(sceneData);
+	}
+
+	void Renderer::RenderFrame()
+	{
+		CHECK_INIT
+
+		s_activeRenderer->renderFrame();
 	}
 
 	void Renderer::SetViewport(unsigned x, unsigned y, unsigned width, unsigned height)

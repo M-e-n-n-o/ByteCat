@@ -39,6 +39,10 @@
 #include "byteCat/ecs/Behaviour.h"
 #include "byteCat/ecs/SceneManager.h"
 #include "byteCat/ecs/components/Transform.h"
+#include "byteCat/ecs/components/Material.h"
+#include "byteCat/ecs/components/Mesh.h"
+
+#include "byteCat/utils/Math.h"
 
 // --Start of the engine--
 #include "byteCat/EntryPoint.h"

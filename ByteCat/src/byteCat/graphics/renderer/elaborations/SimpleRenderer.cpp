@@ -13,7 +13,12 @@ namespace BC
 		m_entities.push_back(renderable);
 	}
 
-	void SimpleRenderer::renderFrame(const SceneData& sceneData)
+	void SimpleRenderer::setSceneData(const SceneData& sceneData)
+	{
+		m_sceneData = sceneData;
+	}
+
+	void SimpleRenderer::renderFrame()
 	{
 		m_rendererAPI->clearBuffers();
 		m_rendererAPI->clearColor(glm::vec4(0.2f, 0.3f, 0.3f, 1.0f));
@@ -21,6 +26,10 @@ namespace BC
 		for (const auto& entity : m_entities)
 		{
 			entity.shader->bind();
+			entity.shader->loadMatrix4("modelMatrix", entity.modelMatrix);
+			entity.shader->loadMatrix4("viewMatrix", m_sceneData.viewMatrix);
+			entity.shader->loadMatrix4("projectionMatrix", m_sceneData.projectionMatrix);
+			
 			entity.vao->bind();
 			m_rendererAPI->draw(entity.vao);
 		}

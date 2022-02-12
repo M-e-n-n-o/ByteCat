@@ -32,7 +32,8 @@ namespace BC
 		// ---------- Commands ----------
 		
 		static void Submit(const Renderable& renderable);
-		static void RenderFrame(const SceneData& sceneData);
+		static void SetSceneData(const SceneData& sceneData);
+		static void RenderFrame();
 		
 		static void SetViewport(unsigned int x, unsigned int y, unsigned int width, unsigned int height);
 	};
