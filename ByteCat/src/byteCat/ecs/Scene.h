@@ -11,16 +11,11 @@ namespace BC
 		std::shared_ptr<EcsCoordinator> m_ecsCoordinator;
 
 	public:
-		Scene(const std::string& name): m_name(name)
-		{
-			m_ecsCoordinator = std::make_shared<EcsCoordinator>();
-		}
+		Scene(const std::string& name);
 
-		void update()
-		{
-			m_ecsCoordinator->updateBehaviours();
-			m_ecsCoordinator->updateSystems();
-		}
+		void registerDefaultSystems();
+		
+		void onUpdate();
 		
 		std::string& getName() { return m_name; }
 		std::shared_ptr<EcsCoordinator> getEcsCoordinator() const { return m_ecsCoordinator; }

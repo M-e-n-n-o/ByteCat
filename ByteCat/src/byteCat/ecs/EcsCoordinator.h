@@ -49,11 +49,6 @@ namespace BC
 			return m_entityManager->getName(entity);
 		}
 
-		void updateSystems()
-		{
-			m_systemManager->updateSystems();
-		}
-
 		template<typename T>
 		void registerComponent()
 		{
@@ -108,6 +103,11 @@ namespace BC
 		void setSystemSignature(Signature signature)
 		{
 			m_systemManager->setSignature<T>(signature);
+		}
+
+		void updateSystems()
+		{
+			m_systemManager->updateSystems();
 		}
 	};
 }

@@ -4,8 +4,8 @@
 
 namespace BC
 {
-	class EcsCoordinator;
-
+	class EcsCoordinator;						
+	
 	class System
 	{
 	private:
@@ -18,6 +18,6 @@ namespace BC
 	public:
 		virtual ~System() = default;
 
-		virtual void onUpdate() = 0;
+		virtual void onUpdate() {}
 	};
 }
