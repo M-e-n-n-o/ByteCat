@@ -2,8 +2,6 @@
 #include <glad/glad.h>
 #include "platform/openGL/OpenGLVertexArray.h"
 
-#include "platform/CommandExecutor.h"
-
 namespace BC
 {
 	namespace Platform
@@ -31,34 +29,22 @@ namespace BC
 		
 		OpenGLVertexArray::OpenGLVertexArray()
 		{
-			CommandExecutor::PushCommand([this]()
-			{
-				glGenVertexArrays(1, &m_id);
-			});
+			glGenVertexArrays(1, &m_id);
 		}
 
 		OpenGLVertexArray::~OpenGLVertexArray()
 		{	
-			CommandExecutor::PushCommand([&id = m_id]()
-			{
-				glDeleteVertexArrays(1, &id);
-			});
+			glDeleteVertexArrays(1, &m_id);
 		}
 
 		void OpenGLVertexArray::bind() const
 		{
-			CommandExecutor::PushCommand([this]()
-			{
-				glBindVertexArray(m_id);
-			});
+			glBindVertexArray(m_id);
 		}
 
 		void OpenGLVertexArray::unbind() const
 		{
-			CommandExecutor::PushCommand([]()
-			{
-				glBindVertexArray(0);
-			});
+			glBindVertexArray(0);
 		}
 
 		void OpenGLVertexArray::setIndexBuffer(std::shared_ptr<IndexBuffer> buffer)
@@ -76,58 +62,55 @@ namespace BC
 				LOG_CRITICAL("VertexBuffer has no layout!");
 			}
 
-			CommandExecutor::PushCommand([this, &buffer]()
-			{
-				bind();
-				buffer->bind();
+			bind();
+			buffer->bind();
 
-				const auto& layout = buffer->getLayout();				
-				for (const auto& element : layout)
+			const auto& layout = buffer->getLayout();				
+			for (const auto& element : layout)
+			{
+				switch (element.type)
 				{
-					switch (element.type)
-					{
-					case ShaderDataType::Float:
-					case ShaderDataType::Float2:
-					case ShaderDataType::Float3:
-					case ShaderDataType::Float4:
-					{
-						glEnableVertexAttribArray(m_vboIndex);
-						glVertexAttribPointer(m_vboIndex, element.getComponentCount(), ShaderDataTypeToOpenGLBaseType(element.type),
-							element.normalized ? GL_TRUE : GL_FALSE, layout.getStride(), (const void*)element.offset);
-						m_vboIndex++;
-						break;
-					}
-					case ShaderDataType::Int:
-					case ShaderDataType::Int2:
-					case ShaderDataType::Int3:
-					case ShaderDataType::Int4:
-					case ShaderDataType::Bool:
-					{
-						glEnableVertexAttribArray(m_vboIndex);
-						glVertexAttribIPointer(m_vboIndex, element.getComponentCount(), ShaderDataTypeToOpenGLBaseType(element.type),
-							layout.getStride(), (const void*)element.offset);
-						m_vboIndex++;
-						break;
-					}
-					case ShaderDataType::Mat3:
-					case ShaderDataType::Mat4:
-					{
-						unsigned int count = element.getComponentCount();
-						for (unsigned int i = 0; i < count; i++)
-						{
-							glEnableVertexAttribArray(m_vboIndex);
-							glVertexAttribPointer(m_vboIndex, count, ShaderDataTypeToOpenGLBaseType(element.type),
-								element.normalized ? GL_TRUE : GL_FALSE, layout.getStride(), (const void*)(element.offset + sizeof(float) * count * i));
-							glVertexAttribDivisor(m_vboIndex, 1);
-							m_vboIndex++;
-						}
-						break;
-					}
-					default:
-						LOG_CRITICAL("Unknown ShaderDataType!");
-					}
+				case ShaderDataType::Float:
+				case ShaderDataType::Float2:
+				case ShaderDataType::Float3:
+				case ShaderDataType::Float4:
+				{
+					glEnableVertexAttribArray(m_vboIndex);
+					glVertexAttribPointer(m_vboIndex, element.getComponentCount(), ShaderDataTypeToOpenGLBaseType(element.type),
+						element.normalized ? GL_TRUE : GL_FALSE, layout.getStride(), (const void*)element.offset);
+					m_vboIndex++;
+					break;
 				}
-			});
+				case ShaderDataType::Int:
+				case ShaderDataType::Int2:
+				case ShaderDataType::Int3:
+				case ShaderDataType::Int4:
+				case ShaderDataType::Bool:
+				{
+					glEnableVertexAttribArray(m_vboIndex);
+					glVertexAttribIPointer(m_vboIndex, element.getComponentCount(), ShaderDataTypeToOpenGLBaseType(element.type),
+						layout.getStride(), (const void*)element.offset);
+					m_vboIndex++;
+					break;
+				}
+				case ShaderDataType::Mat3:
+				case ShaderDataType::Mat4:
+				{
+					unsigned int count = element.getComponentCount();
+					for (unsigned int i = 0; i < count; i++)
+					{
+						glEnableVertexAttribArray(m_vboIndex);
+						glVertexAttribPointer(m_vboIndex, count, ShaderDataTypeToOpenGLBaseType(element.type),
+							element.normalized ? GL_TRUE : GL_FALSE, layout.getStride(), (const void*)(element.offset + sizeof(float) * count * i));
+						glVertexAttribDivisor(m_vboIndex, 1);
+						m_vboIndex++;
+					}
+					break;
+				}
+				default:
+					LOG_CRITICAL("Unknown ShaderDataType!");
+				}
+			}
 
 			vertexBuffers.push_back(buffer);
 		}

@@ -7,8 +7,6 @@ namespace BC
 	{
 		class OpenGLShader : public Shader
 		{
-
-			
 		private:
 			std::string m_name;
 			unsigned int m_programID;

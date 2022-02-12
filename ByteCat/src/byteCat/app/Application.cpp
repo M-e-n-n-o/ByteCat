@@ -3,7 +3,6 @@
 #include "byteCat/ecs/SceneManager.h"
 #include "byteCat/graphics/renderer/Renderer.h"
 #include "byteCat/graphics/renderer/elaborations/SimpleRenderer.h"
-#include "platform/CommandExecutor.h"
 
 namespace BC
 {
@@ -35,56 +34,34 @@ namespace BC
         Renderer::Shutdown();
         delete m_window;
     }
-
-	void runMainLoop(Window* window, LayerStack& layerStack, bool& isRunning)
-	{
-        while (isRunning)
-        {
-            window->update();
-            
-            if (window->isMinimized())
-            {
-                continue;
-            }
-            
-            // Updating
-            for (Layer* layer : layerStack)
-            {
-                if (layer->m_enabled) { layer->onUpdate(); }
-            }
-        	
-            // Synchronize with render thread
-            Platform::CommandExecutor::Sync();
-
-            // Rendering
-            for (Layer* layer : layerStack)
-            {
-                if (layer->m_enabled) { layer->onRender(); }
-            }
-            
-            Renderer::RenderFrame({});
-        }
-
-        Platform::CommandExecutor::Shutdown();
-	}
 	
     void Application::start()
     {		
         m_isRunning = true;
 
-        const bool multithreaded = true;
-        LOG_INFO("Multithreaded platform backend: {0}", multithreaded);
-		
-		if (multithreaded)
-		{			
-            std::thread logicThread(runMainLoop, m_window, std::ref(m_layerStack), std::ref(m_isRunning));
-            Platform::CommandExecutor::Start(true);
-            logicThread.join();
-		} else
-		{
-            Platform::CommandExecutor::Start(false);
-            runMainLoop(m_window, m_layerStack, m_isRunning);
-		}
+        while (m_isRunning)
+        {
+            m_window->update();
+
+            if (m_window->isMinimized())
+            {
+                continue;
+            }
+
+            // Updating
+            for (Layer* layer : m_layerStack)
+            {
+                if (layer->m_enabled) { layer->onUpdate(); }
+            }
+
+            // Rendering
+            for (Layer* layer : m_layerStack)
+            {
+                if (layer->m_enabled) { layer->onRender(); }
+            }
+
+            Renderer::RenderFrame({});
+        }
     }
 
     void Application::onEvent(Event& event)

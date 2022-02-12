@@ -1,8 +1,6 @@
 #include "bcpch.h"
 #include "byteCat/graphics/renderer/elaborations/SimpleRenderer.h"
 
-#include "platform/CommandExecutor.h"
-
 namespace BC
 {
 	void SimpleRenderer::init(RendererAPI* rendererAPI)
@@ -17,20 +15,17 @@ namespace BC
 
 	void SimpleRenderer::renderFrame(const SceneData& sceneData)
 	{
-		Platform::CommandExecutor::PushCommand([this, &sceneData]()
+		m_rendererAPI->clearBuffers();
+		m_rendererAPI->clearColor(glm::vec4(0.2f, 0.3f, 0.3f, 1.0f));
+
+		for (const auto& entity : m_entities)
 		{
-			m_rendererAPI->clearBuffers();
-			m_rendererAPI->clearColor(glm::vec4(0.2f, 0.3f, 0.3f, 1.0f));
+			entity.shader->bind();
+			entity.vao->bind();
+			m_rendererAPI->draw(entity.vao);
+		}
 
-			for (const auto& entity : m_entities)
-			{
-				entity.shader->bind();
-				entity.vao->bind();
-				m_rendererAPI->draw(entity.vao);
-			}
-
-			m_entities.clear();
-		});
+		m_entities.clear();
 	}
 
 	bool SimpleRenderer::supports(const GraphicsAPI& api)
