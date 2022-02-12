@@ -20,12 +20,12 @@ namespace BC
 
 		int m_size = 0;
 	
-	public:
+	public:		
 		void insertData(const Entity& entity, const T& component)
 		{
 			if (m_entityToIndexMap.find(entity) != m_entityToIndexMap.end())
 			{
-				LOG_WARN("Cannot add component {0} to entity {1} more than once", typeid(T).name(), entity);
+				LOG_WARN("Cannot add component {0} to entity {1} more than once", T::getTypeName(), entity);
 				return;
 			}
 

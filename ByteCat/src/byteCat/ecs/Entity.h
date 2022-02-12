@@ -10,4 +10,13 @@ namespace BC
 	const ComponentType MAX_COMPONENTS = 32;
 
 	using Signature = std::bitset<MAX_COMPONENTS>;
+
+
+	
+	#define TYPE_NAME(name) static const char* getTypeName() { return (name); }
+	
+	struct Component
+	{
+		virtual ~Component() = default;
+	};
 }

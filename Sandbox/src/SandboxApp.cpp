@@ -3,10 +3,26 @@
 using namespace BC;
 
 
-struct TestComponent
-{
+struct Camera : Component
+{	
 	int x;
+
+	Camera() = default;
+	Camera(int x): x(x) {}
+
+	TYPE_NAME("Camera")
 };
+
+struct PerspectiveCamera : Camera
+{
+	PerspectiveCamera() : Camera(5) {}
+};
+
+struct OrthographicCamera : Camera
+{
+	OrthographicCamera() : Camera(10) {}
+};
+
 
 class TestSystem : public System
 {
@@ -104,13 +120,14 @@ public:
 		// Maak en configureer een system
 		auto system = ecsCoordinator->registerSystem<TestSystem>();
 		Signature signature;
-		signature.set(ecsCoordinator->getComponentType<TestComponent>());
+		signature.set(ecsCoordinator->getComponentType<Camera>());
 		ecsCoordinator->setSystemSignature<TestSystem>(signature);
 		
 		// Maak een entity en voeg components toe
 		auto entity = ecsCoordinator->createEntity("Test Entity");
 		ecsCoordinator->addComponent<Transform>(entity, { glm::vec3(69, 0, 0), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0) });
-		ecsCoordinator->addComponent<TestComponent>(entity, {5});
+		ecsCoordinator->addComponent<PerspectiveCamera>(entity, {});
+		ecsCoordinator->addComponent<OrthographicCamera>(entity, {});
 		ecsCoordinator->setBehaviour<TestBehaviour>(entity);
 	}
 

@@ -18,7 +18,17 @@ namespace BC
 		template<typename T>
 		void registerComponent()
 		{
-			const char* typeName = typeid(T).name();	
+			//const char* typeName = typeid(T).name();
+			
+			const bool isComponent = std::is_base_of<Component, T>::value;
+			if (!isComponent)
+			{
+				const char* typeName = typeid(T).name();
+				LOG_WARN("{0} cannot be registered as a component, it is not derrived of Component", typeName);
+				return;
+			}
+
+			const char* typeName = T::getTypeName();
 
 			if (m_componentTypes.find(typeName) != m_componentTypes.end())
 			{
@@ -35,7 +45,17 @@ namespace BC
 		template<typename T>
 		ComponentType& getComponentType(bool autoRegister)
 		{
-			const char* typeName = typeid(T).name();
+			//const char* typeName = typeid(T).name();
+
+			const bool isComponent = std::is_base_of<Component, T>::value;
+			if (!isComponent)
+			{
+				const char* typeName = typeid(T).name();
+				LOG_WARN("Cannot get componentType {0}, it is not derrived of Component", typeName);
+			}
+
+			const char* typeName = T::getTypeName();
+			
 
 			if (m_componentTypes.find(typeName) == m_componentTypes.end())
 			{
@@ -82,7 +102,17 @@ namespace BC
 		template<typename T>
 		std::shared_ptr<ComponentArray<T>> getComponentArray(bool autoRegister)
 		{
-			const char* typeName = typeid(T).name();
+			//const char* typeName = typeid(T).name();
+
+			const bool isComponent = std::is_base_of<Component, T>::value;
+			if (!isComponent)
+			{
+				const char* typeName = typeid(T).name();
+				LOG_WARN("Cannot get componentArray of componentType {0}, it is not derrived of Component", typeName);
+				return nullptr;
+			}
+
+			const char* typeName = T::getTypeName();
 			
 			if (m_componentTypes.find(typeName) == m_componentTypes.end())
 			{
