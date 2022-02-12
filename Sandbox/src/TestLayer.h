@@ -19,6 +19,7 @@ public:
 
 		auto ecsCoordinator = scene->getEcsCoordinator();
 
+		
 		// Maak een shader
 		const char* vertexSource = R"(
 			#version 330 core
@@ -68,12 +69,11 @@ public:
 		auto vbo = VertexBuffer::Create(vertices, sizeof(vertices));
 		BufferLayout layout = { { ShaderDataType::Float3, "vertexPos" } };
 		vbo->setLayout(layout);
-		vao->addVertexBuffer(vbo);
-		
+		vao->addVertexBuffer(vbo);		
 
 		// Maak een entity en voeg components toe
 		auto entity = ecsCoordinator->createEntity("Test Entity");
-		ecsCoordinator->addComponent<Transform>(entity, { glm::vec3(0, 0, -10), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1) });
+		ecsCoordinator->addComponent<Transform>(entity, { glm::vec3(0, 0, 10), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1) });
 		ecsCoordinator->addComponent<Mesh>(entity, { vao });
 		ecsCoordinator->addComponent<Material>(entity, { shader });
 
@@ -84,12 +84,12 @@ public:
 	{		
 		if (Input::IsKeyPressed(KeyCode::W))
 		{
-			camera.position.z -= 0.01f;
+			camera.position.z += 0.01f;
 		}
 
 		if (Input::IsKeyPressed(KeyCode::S))
 		{
-			camera.position.z += 0.01f;
+			camera.position.z -= 0.01f;
 		}
 
 		if (Input::IsKeyPressed(KeyCode::D))
@@ -101,10 +101,23 @@ public:
 		{
 			camera.position.x -= 0.01f;
 		}
+
+		if (Input::IsKeyPressed(KeyCode::Space))
+		{
+			camera.position.y += 0.01f;
+		}
+
+		if (Input::IsKeyPressed(KeyCode::LeftShift))
+		{
+			camera.position.y -= 0.01f;
+		}
+
+		auto& window = Application::GetInstance().getWindow();
+		float aspect = (window.getWidth() * 1.0f) / (window.getHeight() * 1.0f);
 		
 		Renderer::SetSceneData({
 				Math::CreateViewMatrix(camera.position, glm::vec3(0, 0, 0)),
-				glm::perspective(glm::radians(70.0f), (1280 * 1.0f) / (720 * 1.0f), 0.01f, 1000.0f) });
+				glm::perspective(glm::radians(70.0f), aspect, 0.01f, 1000.0f) });
 	}
 
 	void onRender() override

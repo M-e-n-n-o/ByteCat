@@ -27,8 +27,8 @@ namespace BC
 			void resize(unsigned int width, unsigned int height) override;
 
 			std::string getTitle() const override { return m_windowSetting.title; }
-			unsigned int getWidth() const override { return m_windowSetting.height; }
-			unsigned int getHeight() const override { return m_windowSetting.width; }
+			unsigned int getWidth() const override { return m_windowSetting.width; }
+			unsigned int getHeight() const override { return m_windowSetting.height; }
 			
 			// Change Vsync
 			void setVsync(bool enabled) override;
