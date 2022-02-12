@@ -39,6 +39,8 @@ namespace BC
 		virtual bool getVsync() const = 0;
 
 		virtual bool isMinimized() = 0;
+
+		virtual void captureMouse(bool capture) = 0;
 		
 		// Returns the native window
 		virtual void* getNativeWindow() const = 0;

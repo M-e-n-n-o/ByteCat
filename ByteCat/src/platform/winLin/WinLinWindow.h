@@ -35,6 +35,8 @@ namespace BC
 			bool getVsync() const override { return m_windowSetting.vSync; }
 
 			bool isMinimized() override { return m_isMinimized; }
+
+			void captureMouse(bool capture) override;
 			
 			// Returns the native window
 			void* getNativeWindow() const override;

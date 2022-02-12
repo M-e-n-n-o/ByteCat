@@ -30,6 +30,18 @@
 			return { (float)xpos, (float)ypos };
 		}
 
+		glm::vec2 Input::GetMouseVelocity()
+		{
+			static glm::vec2 previous = glm::vec2(0, 0);
+
+			const glm::vec2 current = GetMousePos();
+			const glm::vec2 velocity = current - previous;
+			
+			previous = current;
+			
+			return velocity;
+		}
+
 		std::vector<Gamepad> Input::GetActiveGamepads()
 		{
 			std::vector<Gamepad> gamepads;

@@ -19,6 +19,9 @@ namespace BC
 		// Call this function to get the current mouse position
 		static glm::vec2 GetMousePos();
 
+		// Call this function to get the mouse movement between now and the last time this function got called
+		static glm::vec2 GetMouseVelocity();
+
 		// Returns a list with all the active gamepads
 		static std::vector<Gamepad> GetActiveGamepads();
 

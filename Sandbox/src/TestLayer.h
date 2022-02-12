@@ -1,14 +1,12 @@
 #pragma once
 #include <ByteCat.h>
 
-#include "glm/ext/matrix_clip_space.hpp"
+#include "CameraBehaviour.h"
 
 using namespace BC;
 
 class TestLayer : public Layer
-{
-	Transform camera;
-	
+{	
 public:
 	TestLayer() : Layer("UserLayer")
 	{
@@ -73,56 +71,38 @@ public:
 
 		// Maak een entity en voeg components toe
 		auto entity = ecsCoordinator->createEntity("Test Entity");
-		ecsCoordinator->addComponent<Transform>(entity, { glm::vec3(0, 0, 10), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1) });
+		ecsCoordinator->addComponent<Transform>(entity, { glm::vec3(0, 0, 2), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1) });
 		ecsCoordinator->addComponent<Mesh>(entity, { vao });
 		ecsCoordinator->addComponent<Material>(entity, { shader });
 
-		camera = Transform(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0));
+		auto camera = ecsCoordinator->createEntity("Camera");
+		ecsCoordinator->addComponent<Transform>(camera, { glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1) });
+		ecsCoordinator->setBehaviour<CameraBehaviour>(camera);
 	}
 
 	void onUpdate() override
-	{		
-		if (Input::IsKeyPressed(KeyCode::W))
-		{
-			camera.position.z += 0.01f;
-		}
+	{
 
-		if (Input::IsKeyPressed(KeyCode::S))
-		{
-			camera.position.z -= 0.01f;
-		}
-
-		if (Input::IsKeyPressed(KeyCode::D))
-		{
-			camera.position.x += 0.01f;
-		}
-
-		if (Input::IsKeyPressed(KeyCode::A))
-		{
-			camera.position.x -= 0.01f;
-		}
-
-		if (Input::IsKeyPressed(KeyCode::Space))
-		{
-			camera.position.y += 0.01f;
-		}
-
-		if (Input::IsKeyPressed(KeyCode::LeftShift))
-		{
-			camera.position.y -= 0.01f;
-		}
-
-		auto& window = Application::GetInstance().getWindow();
-		float aspect = (window.getWidth() * 1.0f) / (window.getHeight() * 1.0f);
-		
-		Renderer::SetSceneData({
-				Math::CreateViewMatrix(camera.position, glm::vec3(0, 0, 0)),
-				glm::perspective(glm::radians(70.0f), aspect, 0.01f, 1000.0f) });
 	}
 
 	void onRender() override
 	{
 		
+	}
+
+	void onEvent(Event& event) override
+	{
+		if (KeyPressedEvent* keyEvent = dynamic_cast<KeyPressedEvent*>(&event); keyEvent != nullptr)
+		{
+			if (keyEvent->getKeyCode() == KeyCode::Escape)
+			{
+				static bool captured = true;
+				Application::GetInstance().getWindow().captureMouse(captured);
+				captured = !captured;
+
+				Input::GetMouseVelocity();
+			}
+		}
 	}
 
 	~TestLayer()

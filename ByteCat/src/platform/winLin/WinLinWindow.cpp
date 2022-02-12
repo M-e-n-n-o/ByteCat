@@ -186,6 +186,17 @@ namespace BC
 			}
 		}
 
+		void WinLinWindow::captureMouse(bool capture)
+		{
+			if (capture)
+			{
+				glfwSetInputMode(nativeWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+			} else
+			{
+				glfwSetInputMode(nativeWindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+			}
+		}
+
 		void* WinLinWindow::getNativeWindow() const
 		{
 			return (void*) nativeWindow;
