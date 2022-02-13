@@ -17,9 +17,17 @@ namespace BC
 		{
 		}
 
-		Material(const std::shared_ptr<Shader>& shader, std::initializer_list<std::shared_ptr<Texture>> textures)
-			: shader(shader), textures(textures)
+		Material(const std::shared_ptr<Shader>& shader, std::initializer_list<std::pair<const char*, std::shared_ptr<Texture>>> textureSlots)
+			: shader(shader)
 		{
+			shader->bind();
+
+			int i = 0;
+			for (auto& textureSlot : textureSlots)
+			{
+				shader->loadInt(textureSlot.first, i++);
+				textures.push_back(textureSlot.second);
+			}
 		}
 
 		TYPE_NAME("Material")

@@ -9,7 +9,10 @@ namespace BC
 	{
 		std::shared_ptr<VertexArray> vao;
 		std::shared_ptr<Shader> shader;
+
+		// Put in order of texture unit!
 		std::vector<std::shared_ptr<Texture>> textures;
+		
 		glm::mat4 modelMatrix;
 	};
 

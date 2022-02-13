@@ -32,9 +32,8 @@ namespace BC
 			
 			int unit = 0;
 			for (auto& texture : entity.textures)
-			{
-				texture->bind();
-				++unit;
+			{				
+				texture->bind(unit++);
 			}
 			
 			entity.vao->bind();

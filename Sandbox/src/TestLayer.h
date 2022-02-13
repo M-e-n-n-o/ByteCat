@@ -32,7 +32,7 @@ public:
 				uniform mat4 projectionMatrix;
 			
 				void main()
-				{
+				{		
 					passTexCoord = texCoord;
 					gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(vertexPos, 1.0);
 				}
@@ -46,11 +46,11 @@ public:
 				out vec4 FragColor;
 
 				uniform sampler2D texture1;
+				uniform sampler2D texture2;
 			
 				void main()
-				{
-					vec4 textureColor = texture(texture1, passTexCoord);
-					FragColor = textureColor;
+				{		
+					FragColor = mix(texture(texture1, passTexCoord), texture(texture2, passTexCoord), 0.5);
 				}
 			)";
 
@@ -80,12 +80,13 @@ public:
 			vao->addVertexBuffer(vbo);
 
 		// Maak een entity en voeg components toe
-			auto texture = Texture2D::Create("dog.png", 0.5);
+			auto texture = Texture2D::Create("turtle.jpg", 0.5);
+			auto texture2 = Texture2D::Create("wall.jpg", 0.5);
 
 			auto entity = ecsCoordinator->createEntity("Test Entity");
 			ecsCoordinator->addComponent<Transform>(entity, { glm::vec3(0, 0, 2), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1) });
 			ecsCoordinator->addComponent<Mesh>(entity, { vao });
-			ecsCoordinator->addComponent<Material>(entity, { shader, {texture}});
+			ecsCoordinator->addComponent<Material>(entity, { shader, {{"texture1", texture}, {"texture2", texture2}} });
 
 			auto camera = ecsCoordinator->createEntity("Camera");
 			ecsCoordinator->addComponent<Transform>(camera, { glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1) });
