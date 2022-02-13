@@ -8,9 +8,23 @@ namespace BC
 {
 	namespace Platform
 	{
+		static int TextureFormatToOpenGLFormat(const TextureFormat& format)
+		{
+			switch (format)
+			{
+			case TextureFormat::DEPTH:			return GL_DEPTH_COMPONENT;
+			case TextureFormat::DEPTH_STENCIL:	return GL_DEPTH_STENCIL;
+			case TextureFormat::R:				return GL_RED;
+			case TextureFormat::RG:				return GL_RG;
+			case TextureFormat::RGB:			return GL_RGB;
+			case TextureFormat::RGBA:			return GL_RGBA;
+			}
+
+			return -1;
+		}
 
 		
-		OpenGLTexture2D::OpenGLTexture2D(const std::string& filePath, float mipmapLOD)
+		OpenGLTexture2D::OpenGLTexture2D(const std::string& filePath, const TextureFormat& format, float mipmapLOD)
 		{
 			std::string finalPath = filePath;
 			finalPath.insert(0, BC_ASSETS_FOLDER);
@@ -46,6 +60,11 @@ namespace BC
 				LOG_ERROR("Image format not supported for texture2D: {0}", finalPath);
 				stbi_image_free(imgData);
 				return;
+			}
+
+			if (format != TextureFormat::AUTO)
+			{
+				internalFormat = TextureFormatToOpenGLFormat(format);
 			}
 			
 			glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, m_width, m_height, 0, dataFormat, GL_UNSIGNED_BYTE, imgData);

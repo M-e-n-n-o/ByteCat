@@ -4,6 +4,20 @@
 
 namespace BC
 {
+	// How should the format of the texture be stored
+	enum class TextureFormat
+	{
+		AUTO = 0,
+		
+		DEPTH,
+		DEPTH_STENCIL,
+		
+		R,
+		RG,
+		RGB,
+		RGBA
+	};
+	
 	class Texture
 	{
 	public:
@@ -25,6 +39,7 @@ namespace BC
 		virtual unsigned getHeight() const override = 0;
 		virtual unsigned getChannels() const override = 0;
 		
-		static std::shared_ptr<Texture2D> Create(const std::string& filePath, float mipmapLOD);
+		static std::shared_ptr<Texture2D> Create(const std::string& filePath, float mipmapLOD = 0);
+		static std::shared_ptr<Texture2D> Create(const std::string& filePath, const TextureFormat& format, float mipmapLOD = 0);
 	};
 }

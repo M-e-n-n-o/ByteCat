@@ -4,7 +4,7 @@
 namespace BC
 {
 	namespace Platform
-	{
+	{		
 		class OpenGLTexture2D : public Texture2D
 		{
 		private:
@@ -15,7 +15,7 @@ namespace BC
 			int m_channels;
 			
 		public:
-			OpenGLTexture2D(const std::string& filePath, float mipmapLOD);
+			OpenGLTexture2D(const std::string& filePath, const TextureFormat& format, float mipmapLOD);
 			~OpenGLTexture2D();
 
 			void bind(unsigned textureUnit) const override;
