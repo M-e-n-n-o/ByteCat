@@ -32,6 +32,7 @@
 #include "byteCat/graphics/components/VertexArray.h"
 #include "byteCat/graphics/components/ArrayBuffer.h"
 #include "byteCat/graphics/components/Shader.h"
+#include "byteCat/graphics/components/Texture.h"
 #include "byteCat/graphics/renderer/Renderer.h"
 
 #include "byteCat/ecs/Entity.h"

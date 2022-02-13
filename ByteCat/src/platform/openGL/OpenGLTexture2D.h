@@ -3,17 +3,26 @@
 
 namespace BC
 {
-	class OpenGLTexture2D : public Texture2D
+	namespace Platform
 	{
-	public:
-		OpenGLTexture2D(const std::string& fileName, float mipmapLod);
-		~OpenGLTexture2D();
+		class OpenGLTexture2D : public Texture2D
+		{
+		private:
+			unsigned int m_id;
+			
+			int m_width;
+			int m_height;
+			int m_channels;
+			
+		public:
+			OpenGLTexture2D(const std::string& filePath, float mipmapLOD);
+			~OpenGLTexture2D();
 
-		void bind(unsigned textureUnit) const override;
-		void unbind() const override;
-		
-		unsigned getWidth() const override;
-		unsigned getHeight() const override;
-		unsigned getBpp() const override;
-	};
+			void bind(unsigned textureUnit) const override;
+
+			unsigned getWidth() const override { return m_width; }
+			unsigned getHeight() const override { return m_height; }
+			unsigned getChannels() const override { return m_channels; }
+		};
+	}
 }

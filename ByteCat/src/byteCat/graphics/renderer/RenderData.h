@@ -1,6 +1,7 @@
 #pragma once
 #include "byteCat/graphics/components/VertexArray.h"
 #include "byteCat/graphics/components/Shader.h"
+#include "byteCat/graphics/components/Texture.h"
 
 namespace BC
 {
@@ -8,6 +9,7 @@ namespace BC
 	{
 		std::shared_ptr<VertexArray> vao;
 		std::shared_ptr<Shader> shader;
+		std::vector<std::shared_ptr<Texture>> textures;
 		glm::mat4 modelMatrix;
 	};
 
