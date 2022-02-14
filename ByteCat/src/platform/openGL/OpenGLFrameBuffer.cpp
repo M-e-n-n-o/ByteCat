@@ -11,10 +11,14 @@ namespace BC
 		OpenGLFrameBuffer::OpenGLFrameBuffer()
 		{
 			glGenFramebuffers(1, &m_id);
+			glBindFramebuffer(GL_FRAMEBUFFER, m_id);
+
+			
 		}
 
 		OpenGLFrameBuffer::~OpenGLFrameBuffer()
 		{
+			glDeleteFramebuffers(1, &m_id);
 		}
 
 		void OpenGLFrameBuffer::bind() const

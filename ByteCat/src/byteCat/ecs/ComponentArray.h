@@ -25,7 +25,7 @@ namespace BC
 		{
 			if (m_entityToIndexMap.find(entity) != m_entityToIndexMap.end())
 			{
-				LOG_WARN("Cannot add component {0} to entity {1} more than once", T::getTypeName(), entity);
+				LOG_WARN("Cannot add component {0} to entity {1} more than once", T::GetTypeName(), entity);
 				return;
 			}
 

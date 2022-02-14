@@ -13,7 +13,7 @@ namespace BC
 
 
 	
-	#define TYPE_NAME(name) static const char* getTypeName() { return (name); }
+	#define TYPE_NAME(name) static const char* GetTypeName() { return (name); }
 	
 	struct Component
 	{

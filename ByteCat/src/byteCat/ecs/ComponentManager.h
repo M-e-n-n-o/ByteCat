@@ -28,7 +28,7 @@ namespace BC
 				return;
 			}
 
-			const char* typeName = T::getTypeName();
+			const char* typeName = T::GetTypeName();
 
 			if (m_componentTypes.find(typeName) != m_componentTypes.end())
 			{
@@ -54,7 +54,7 @@ namespace BC
 				LOG_WARN("Cannot get componentType {0}, it is not derrived of Component", typeName);
 			}
 
-			const char* typeName = T::getTypeName();
+			const char* typeName = T::GetTypeName();
 			
 
 			if (m_componentTypes.find(typeName) == m_componentTypes.end())
@@ -112,7 +112,7 @@ namespace BC
 				return nullptr;
 			}
 
-			const char* typeName = T::getTypeName();
+			const char* typeName = T::GetTypeName();
 			
 			if (m_componentTypes.find(typeName) == m_componentTypes.end())
 			{
