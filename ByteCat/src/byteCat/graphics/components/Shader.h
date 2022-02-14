@@ -23,6 +23,8 @@ namespace BC
 		virtual void loadMatrix4(const std::string& name, const glm::mat4& value) = 0;
 
 		virtual void linkUniformBuffer(const std::string& bufferName, unsigned int bindingIndex) = 0;
+
+		virtual void setTextureSlots(std::initializer_list<const char*> textureNames) = 0;
 		
 		virtual const std::string& getName() const = 0;
 

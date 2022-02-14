@@ -55,6 +55,7 @@ public:
 			)";
 
 			auto shader = Shader::Create("Test", vertexSource, fragmentSource);
+			shader->setTextureSlots({ "texture1", "texture2" });
 
 
 		// Maak een vao met data
@@ -86,7 +87,7 @@ public:
 			auto entity = ecsCoordinator->createEntity("Test Entity");
 			ecsCoordinator->addComponent<Transform>(entity, { glm::vec3(0, 0, 2), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1) });
 			ecsCoordinator->addComponent<Mesh>(entity, { vao });
-			ecsCoordinator->addComponent<Material>(entity, { shader, {{"texture1", texture}, {"texture2", texture2}} });
+			ecsCoordinator->addComponent<Material>(entity, { shader, { texture, texture2} });
 
 			auto camera = ecsCoordinator->createEntity("Camera");
 			ecsCoordinator->addComponent<Transform>(camera, { glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1) });

@@ -29,6 +29,8 @@ namespace BC
 			void loadMatrix4(const std::string& name, const glm::mat4& value) override;
 
 			void linkUniformBuffer(const std::string& bufferName, unsigned int bindingIndex) override;
+
+			void setTextureSlots(std::initializer_list<const char*> textureNames) override;
 			
 			const std::string& getName() const override { return m_name; }
 
