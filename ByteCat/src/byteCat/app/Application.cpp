@@ -3,6 +3,7 @@
 #include "byteCat/ecs/SceneManager.h"
 #include "byteCat/graphics/renderer/Renderer.h"
 #include "byteCat/graphics/renderer/elaborations/SimpleRenderer.h"
+#include "byteCat/utils/Time.h"
 
 namespace BC
 {
@@ -25,6 +26,8 @@ namespace BC
 
         m_logicLayer = new SceneManager();
         pushLayer(m_logicLayer);
+        m_timeLayer = new Time();
+        pushLayer(m_timeLayer);
 	}
 
     Application::~Application()

@@ -20,6 +20,7 @@ namespace BC
 		LayerStack m_layerStack;
 
 		Layer* m_logicLayer;
+		Layer* m_timeLayer;
 		
 		Window* m_window;
 

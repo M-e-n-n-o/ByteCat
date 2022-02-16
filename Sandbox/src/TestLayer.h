@@ -61,7 +61,7 @@ public:
 
 		// Maak een vao met data
 			float data[] = {
-			    // Vertex positions					Texture Coords
+			 // Vertex positions		Texture Coords
 				-0.5f, -0.5f, 0.0f,		0.0f, 0.0f,
 				 0.5f, -0.5f, 0.0f,		1.0f, 0.0f,
 				 0.0f,  0.5f, 0.0f,		0.5f, 1.0f
@@ -82,7 +82,7 @@ public:
 			vao->addVertexBuffer(vbo);
 
 		// Maak een entity en voeg components toe
-			auto texture = Texture2D::Create("turtle.jpg", TextureFormat::RG, 0.5);
+			auto texture = Texture2D::Create("turtle.jpg", 0.5);
 			//auto texture2 = Texture2D::Create("wall.jpg", 0.5);
 
 			auto entity = ecsCoordinator->createEntity("Test Entity");
