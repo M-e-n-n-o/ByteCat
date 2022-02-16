@@ -14,6 +14,8 @@ namespace BC
 		std::vector<std::shared_ptr<Texture>> textures;
 		
 		glm::mat4 modelMatrix;
+
+		std::function<void(const Renderable&)> onDrawRenderable;
 	};
 
 

@@ -37,6 +37,12 @@ namespace BC
 			}
 			
 			entity.vao->bind();
+
+			if (entity.onDrawRenderable != nullptr)
+			{
+				entity.onDrawRenderable(entity);
+			}
+			
 			m_rendererAPI->draw(entity.vao);
 		}
 
