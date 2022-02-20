@@ -24,126 +24,131 @@ public:
 
 		
 		// Maak een shader
+			#pragma region
 			const char* vertexSource = R"(
-	#version 330 core
+				#version 330 core
 
-	layout (location = 0) in vec3 vertexPos;
-	layout (location = 1) in vec2 texCoord;
+				layout (location = 0) in vec3 vertexPos;
+				layout (location = 1) in vec2 texCoord;
 
-	out v2f
-	{
-		vec2 uv;
-		vec3 originPos;
-		vec3 hitPos;
-	} dout;
+				out v2f
+				{
+					vec2 uv;
+					vec3 originPos;
+					vec3 hitPos;
+				} output;
 
-	uniform mat4 modelMatrix;
-	uniform mat4 viewMatrix;
-	uniform mat4 projectionMatrix;
-		
-	uniform vec3 cameraPos;
+				uniform mat4 modelMatrix;
+				uniform mat4 viewMatrix;
+				uniform mat4 projectionMatrix;
+					
+				uniform vec3 cameraPos;
 
-	void main()
-	{		
-		dout.uv = texCoord;
-		dout.originPos = cameraPos;		
-		dout.hitPos = (modelMatrix * vec4(vertexPos, 1.0)).xyz;
-		
-		gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(vertexPos, 1.0);
-	}
+				void main()
+				{		
+					output.uv = texCoord;
+					output.originPos = cameraPos;		
+					output.hitPos = (modelMatrix * vec4(vertexPos, 1.0)).xyz;
+					
+					gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(vertexPos, 1.0);
+				}
 			)";
+			#pragma endregion VertexShader
 
-		
+			#pragma region
 			const char* fragmentSource = R"(
-	#version 330 core
+				#version 330 core
 
-	#define MAX_STEPS 100
-	#define MIN_DISTANCE 0.001
-	#define MAX_DISTANCE 100
+				#define MAX_STEPS 100
+				#define MIN_DISTANCE 0.001
+				#define MAX_DISTANCE 100
+					
+				in v2f
+				{
+					vec2 uv;
+					vec3 originPos;
+					vec3 hitPos;	
+				} input;
+
+				out vec4 FragColor;
+
+				uniform sampler2D texture1;
 		
-	in v2f
-	{
-		vec2 uv;
-		vec3 originPos;
-		vec3 hitPos;	
-	} din;
 
-	out vec4 FragColor;
+				float getDistance(vec3 point)
+				{
+					//float distance = length(point) - 0.5;
+					float distance = length(vec2(length(point.xz) - 0.5, point.y)) - 0.1;
+					return distance;
+				}
 
+					
+				float rayMarch(vec3 rayOrigin, vec3 rayDirection)
+				{
+					float distanceOrigin = 0;
+					float distanceSurface = 0;
 
+					for (int i = 0; i < MAX_STEPS; i++)
+					{
+						vec3 point = rayOrigin + distanceOrigin * rayDirection;
+						distanceSurface = getDistance(point);
+						distanceOrigin += distanceSurface;
 
-	float getDistance(vec3 point)
-	{
-		//float distance = length(point) - 0.5;
-		float distance = length(vec2(length(point.xz) - 0.5, point.y)) - 0.1;
-		return distance;
-	}
+						if (distanceSurface < MIN_DISTANCE || distanceOrigin > MAX_DISTANCE)
+						{
+							break;
+						}
+					}
 
-		
-	float rayMarch(vec3 rayOrigin, vec3 rayDirection)
-	{
-		float distanceOrigin = 0;
-		float distanceSurface = 0;
+					return distanceOrigin;
+				}
 
-		for (int i = 0; i < MAX_STEPS; i++)
-		{
-			vec3 point = rayOrigin + distanceOrigin * rayDirection;
-			distanceSurface = getDistance(point);
-			distanceOrigin += distanceSurface;
+				vec3 getNormal(vec3 point)
+				{
+					vec2 epsilon = vec2(0.01, 0);
+					
+					vec3 normal = getDistance(point) - vec3(
+						getDistance(point - epsilon.xyy),
+						getDistance(point - epsilon.yxy),
+						getDistance(point - epsilon.yyx)
+						);
 
-			if (distanceSurface < MIN_DISTANCE || distanceOrigin > MAX_DISTANCE)
-			{
-				break;
-			}
-		}
+					return normalize(normal);
+				}
+					
+				void main()
+				{
+					vec2 uv = input.uv - 0.5;
+					vec3 rayOrigin = input.originPos;
+					vec3 rayDirection = normalize(input.hitPos - rayOrigin);
 
-		return distanceOrigin;
-	}
+					float distance = rayMarch(rayOrigin, rayDirection);
+					
+					vec4 col = vec4(0, 0, 0, 1);
 
-	vec3 getNormal(vec3 point)
-	{
-		vec2 epsilon = vec2(0.01, 0);
-		
-		vec3 normal = getDistance(point) - vec3(
-			getDistance(point - epsilon.xyy),
-			getDistance(point - epsilon.yxy),
-			getDistance(point - epsilon.yyx)
-			);
+					if (distance < MAX_DISTANCE)
+					{		
+						vec3 point = rayOrigin + rayDirection * distance;
+						vec3 normal = getNormal(point);
+						col.rgb = normal;
+					} else
+					{
+						discard;
+					}
 
-		return normalize(normal);
-	}
-		
-	void main()
-	{
-		vec2 uv = din.uv - 0.5;
-		vec3 rayOrigin = din.originPos;
-		vec3 rayDirection = normalize(din.hitPos - rayOrigin);
-
-		float distance = rayMarch(rayOrigin, rayDirection);
-		
-		vec4 col = vec4(0, 0, 0, 1);
-
-		if (distance < MAX_DISTANCE)
-		{
-			vec3 point = rayOrigin + rayDirection * distance;
-			vec3 normal = getNormal(point);
-			col.rgb = normal;
-		} else
-		{
-			discard;
-		}
-
-		FragColor = col;
-	}
+					FragColor = col;
+				}
 			)";
+			#pragma endregion FragmentShader
 
 			auto shader = Shader::Create("Test", vertexSource, fragmentSource);
-			//shader->setTextureSlots({ "texture1" });
+			shader->setTextureSlots({ "texture1" });
 
 
 		// Maak een vao met data
 			float data[] =
 			{
+				// Vertex pos		Texture coords
 				0.5, -0.5, 0.5,		0, 0,
 				-0.5, -0.5, 0.5,    1, 0,
 				0.5, 0.5, 0.5,		0, 1,
@@ -211,13 +216,12 @@ public:
 		
 
 		// Maak een entity en voeg components toe
-			//auto texture = Texture2D::Create("turtle.jpg", 0.5);
-			//auto texture2 = Texture2D::Create("wall.jpg", 0.5);
+			auto texture = Texture2D::Create("wall.jpg", 0.5);
 
 			entity = ecsCoordinator->createEntity("Test Entity");
 			ecsCoordinator->addComponent<Transform>(entity, { glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(5, 5, 5) });
 			ecsCoordinator->addComponent<Mesh>(entity, { vao });
-			ecsCoordinator->addComponent<Material>(entity, { shader });
+			ecsCoordinator->addComponent<Material>(entity, { shader, { texture } });
 
 			auto camera = ecsCoordinator->createEntity("Camera");
 			ecsCoordinator->addComponent<Transform>(camera, { glm::vec3(0, 0, -2), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1) });
