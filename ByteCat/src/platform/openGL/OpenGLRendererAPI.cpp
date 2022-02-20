@@ -41,8 +41,8 @@ namespace BC
 
 			glEnable(GL_DEPTH_TEST);
 
-			// glEnable(GL_CULL_FACE);
-			// glCullFace(GL_BACK);
+			glEnable(GL_CULL_FACE);
+			glCullFace(GL_BACK);
 		}
 
 		void OpenGLRendererAPI::setViewport(unsigned x, unsigned y, unsigned width, unsigned height)
@@ -64,6 +64,17 @@ namespace BC
 		{
 			unsigned int count = indexCount ? indexCount : vao->getIndexBuffer()->getCount();
 			glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);
+		}
+
+		void OpenGLRendererAPI::setCullingMode(const CullingMode& mode)
+		{
+			switch (mode)
+			{
+			case CullingMode::None:			glDisable(GL_CULL_FACE); break;
+			case CullingMode::Front:		glEnable(GL_CULL_FACE); glCullFace(GL_FRONT); break;
+			case CullingMode::Back:			glEnable(GL_CULL_FACE); glCullFace(GL_BACK); break;
+			case CullingMode::FrontAndBack: glEnable(GL_CULL_FACE); glCullFace(GL_FRONT_AND_BACK); break;
+			}
 		}
 	}
 }

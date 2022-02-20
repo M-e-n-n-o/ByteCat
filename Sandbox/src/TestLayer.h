@@ -13,6 +13,8 @@ class TestLayer : public Layer
 public:
 	TestLayer() : Layer("UserLayer")
 	{
+		RendererAPI::SetCullingMode(CullingMode::None);
+		
 		// Maak een nieuwe scene
 			auto scene = SceneManager::CreateScene("TestScene");
 			scene->registerDefaultSystems();
@@ -224,8 +226,7 @@ public:
 
 	void onUpdate() override
 	{
-		// auto transform = &ecsCoordinator->getComponent<Transform>(entity);
-		// transform->position.x += 0.5f * Time::GetDeltaTime();
+
 	}
 
 	void onRender() override

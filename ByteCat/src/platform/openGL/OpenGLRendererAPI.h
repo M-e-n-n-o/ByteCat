@@ -15,6 +15,9 @@ namespace BC
 			void clearColor(const glm::vec4& color) override;
 			void clearBuffers() override;
 			void draw(std::shared_ptr<VertexArray> vao, unsigned indexCount) override;
+
+		private:
+			void setCullingMode(const CullingMode& mode) override;
 		};
 	}
 }

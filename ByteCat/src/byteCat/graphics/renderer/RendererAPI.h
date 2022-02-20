@@ -10,11 +10,23 @@ namespace BC
 		OpenGL = 1
 	};
 
+	enum class CullingMode
+	{
+		None,
+		Front,
+		Back,
+		FrontAndBack
+	};
+	
+
 	/// <summary>
 	/// This generic RendererAPI directs requests to the native RendererAPI (for example: OpenGL)
 	/// </summary>
 	class RendererAPI
 	{
+	private:
+		inline static RendererAPI* s_instance = nullptr;
+	
 	public:
 		virtual ~RendererAPI() = default;
 		
@@ -22,7 +34,12 @@ namespace BC
 		virtual void clearColor(const glm::vec4& color) = 0;
 		virtual void clearBuffers() = 0;
 		virtual void draw(std::shared_ptr<VertexArray> vao, unsigned int indexCount = 0) = 0;
+
+		static void SetCullingMode(const CullingMode& mode);
 		
 		static RendererAPI* Create(const GraphicsAPI& api);
+
+	private:
+		virtual void setCullingMode(const CullingMode& mode) = 0;
 	};
 }
