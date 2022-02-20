@@ -21,6 +21,7 @@ namespace BC
 
 	struct SceneData
 	{
+		glm::vec3 cameraPos;
 		glm::mat4 viewMatrix;
 		glm::mat4 projectionMatrix;
 	};
