@@ -31,7 +31,7 @@ public:
 	out v2f
 	{
 		vec2 uv;
-		vec3 cameraPos;
+		vec3 originPos;
 		vec3 hitPos;
 	} dout;
 
@@ -44,8 +44,8 @@ public:
 	void main()
 	{		
 		dout.uv = texCoord;
-		dout.cameraPos = cameraPos;		
-		dout.hitPos = vertexPos;
+		dout.originPos = cameraPos;		
+		dout.hitPos = (modelMatrix * vec4(vertexPos, 1.0)).xyz;
 		
 		gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(vertexPos, 1.0);
 	}
@@ -62,7 +62,7 @@ public:
 	in v2f
 	{
 		vec2 uv;
-		vec3 cameraPos;
+		vec3 originPos;
 		vec3 hitPos;	
 	} din;
 
@@ -72,8 +72,8 @@ public:
 
 	float getDistance(vec3 point)
 	{
-		float distance = length(point) - 0.5;
-		//float distance = length(vec2(length(point.xz) - 0.5, point.y)) - 0.1;
+		//float distance = length(point) - 0.5;
+		float distance = length(vec2(length(point.xz) - 0.5, point.y)) - 0.1;
 		return distance;
 	}
 
@@ -114,8 +114,8 @@ public:
 	void main()
 	{
 		vec2 uv = din.uv - 0.5;
-		vec3 rayOrigin = vec3(0, 0, -3); //din.cameraPos;
-		vec3 rayDirection = normalize(vec3(uv.x, uv.y, 1)); //normalize(din.hitPos - rayOrigin);
+		vec3 rayOrigin = din.originPos;
+		vec3 rayDirection = normalize(din.hitPos - rayOrigin);
 
 		float distance = rayMarch(rayOrigin, rayDirection);
 		
@@ -123,10 +123,12 @@ public:
 
 		if (distance < MAX_DISTANCE)
 		{
-			col.r = 1;
-			//ec3 point = rayOrigin + rayDirection * distance;
-			//ec3 normal = getNormal(point);
-			//ol.rgb = normal;
+			vec3 point = rayOrigin + rayDirection * distance;
+			vec3 normal = getNormal(point);
+			col.rgb = normal;
+		} else
+		{
+			discard;
 		}
 
 		FragColor = col;
@@ -211,19 +213,19 @@ public:
 			//auto texture2 = Texture2D::Create("wall.jpg", 0.5);
 
 			entity = ecsCoordinator->createEntity("Test Entity");
-			ecsCoordinator->addComponent<Transform>(entity, { glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1) });
+			ecsCoordinator->addComponent<Transform>(entity, { glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(5, 5, 5) });
 			ecsCoordinator->addComponent<Mesh>(entity, { vao });
 			ecsCoordinator->addComponent<Material>(entity, { shader });
 
 			auto camera = ecsCoordinator->createEntity("Camera");
-			ecsCoordinator->addComponent<Transform>(camera, { glm::vec3(0, 0, -2), glm::vec3(0, -90, 0), glm::vec3(1, 1, 1) });
+			ecsCoordinator->addComponent<Transform>(camera, { glm::vec3(0, 0, -2), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1) });
 			ecsCoordinator->setBehaviour<CameraBehaviour>(camera);
 	}
 
 	void onUpdate() override
 	{
 		// auto transform = &ecsCoordinator->getComponent<Transform>(entity);
-		// transform->position.x += 0.5 * Time::GetDeltaTime();
+		// transform->position.x += 0.5f * Time::GetDeltaTime();
 	}
 
 	void onRender() override

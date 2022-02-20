@@ -45,10 +45,10 @@ public:
 		transform->rotation.x += mouseVelocity.y;
 		transform->rotation.y += mouseVelocity.x;
 
-		float dx = movement.z * glm::sin(glm::radians(transform->rotation.y));
-		float dz = movement.z * glm::cos(glm::radians(transform->rotation.y));
-		dx += movement.x * glm::sin(glm::radians(transform->rotation.y + 90));
-		dz += movement.x * glm::cos(glm::radians(transform->rotation.y + 90));
+		float dx = movement.z * glm::cos(glm::radians(transform->rotation.y - 90));
+		float dz = movement.z * glm::sin(glm::radians(transform->rotation.y - 90));
+		dx += movement.x * glm::cos(glm::radians(transform->rotation.y));
+		dz += movement.x * glm::sin(glm::radians(transform->rotation.y));
 
 		transform->position.x += (dx * Time::GetDeltaTime());
 		transform->position.z += (dz * Time::GetDeltaTime());
