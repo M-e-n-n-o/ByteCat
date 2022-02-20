@@ -15,7 +15,7 @@ namespace BC
 		
 		glm::mat4 modelMatrix;
 
-		std::function<void(const Renderable&)> onDrawRenderable;
+		std::function<void(const Renderable&)> onRender;
 	};
 
 

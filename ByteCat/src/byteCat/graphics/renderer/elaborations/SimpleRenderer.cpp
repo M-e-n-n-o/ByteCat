@@ -38,9 +38,9 @@ namespace BC
 			
 			entity.vao->bind();
 
-			if (entity.onDrawRenderable != nullptr)
+			if (entity.onRender != nullptr)
 			{
-				entity.onDrawRenderable(entity);
+				entity.onRender(entity);
 			}
 			
 			m_rendererAPI->draw(entity.vao);

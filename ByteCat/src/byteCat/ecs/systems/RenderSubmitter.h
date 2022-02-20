@@ -8,10 +8,10 @@ namespace BC
 	class RenderSubmitter : public System
 	{
 	public:
-		static void onDrawRenderable(const Renderable& renderable)
-		{
-			LOG_INFO("Draw");
-		}
+		// static void onRenderRenderable(const Renderable& renderable)
+		// {
+		// 	LOG_INFO("Draw");
+		// }
 		
 		void onUpdate() override
 		{
@@ -22,7 +22,7 @@ namespace BC
 				auto& material = m_coordinator->getComponent<Material>(entity);
 
 				glm::mat4 modelMatrix = Math::CreateModelMatrix(transform.position, transform.rotation, transform.scale);
-				Renderer::Submit({ mesh.vao, material.shader, material.textures, modelMatrix, onDrawRenderable });
+				Renderer::Submit({ mesh.vao, material.shader, material.textures, modelMatrix });
 			}
 		}
 	};
