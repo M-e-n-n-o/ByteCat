@@ -28,7 +28,7 @@ namespace BC
 				return;
 			}
 
-			const char* typeName = T::GetTypeName();
+			const char* typeName = T::GetTypeName();			
 
 			if (m_componentTypes.find(typeName) != m_componentTypes.end())
 			{

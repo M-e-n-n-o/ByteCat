@@ -29,8 +29,6 @@ namespace BC
 			entity.shader->loadMatrix4("modelMatrix", entity.modelMatrix);
 			entity.shader->loadMatrix4("viewMatrix", m_sceneData.viewMatrix);
 			entity.shader->loadMatrix4("projectionMatrix", m_sceneData.projectionMatrix);
-
-			entity.shader->loadVector3("cameraPos", m_sceneData.cameraPos);
 			
 			int unit = 0;
 			for (auto& texture : entity.textures)

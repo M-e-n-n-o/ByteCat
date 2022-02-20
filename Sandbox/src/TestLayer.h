@@ -42,12 +42,12 @@ public:
 				uniform mat4 viewMatrix;
 				uniform mat4 projectionMatrix;
 					
-				uniform vec3 cameraPos;
+				uniform vec3 _CameraPos;
 
 				void main()
 				{		
 					output.uv = texCoord;
-					output.originPos = cameraPos;		
+					output.originPos = _CameraPos;
 					output.hitPos = (modelMatrix * vec4(vertexPos, 1.0)).xyz;
 					
 					gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(vertexPos, 1.0);
@@ -71,8 +71,6 @@ public:
 				} input;
 
 				out vec4 FragColor;
-
-				uniform sampler2D texture1;
 		
 
 				float getDistance(vec3 point)
@@ -142,7 +140,7 @@ public:
 			#pragma endregion FragmentShader
 
 			auto shader = Shader::Create("Test", vertexSource, fragmentSource);
-			shader->setTextureSlots({ "texture1" });
+			//shader->setTextureSlots({ "texture1" });
 
 
 		// Maak een vao met data
@@ -216,15 +214,16 @@ public:
 		
 
 		// Maak een entity en voeg components toe
-			auto texture = Texture2D::Create("wall.jpg", 0.5);
+			//auto texture = Texture2D::Create("wall.jpg", 0.5);
 
 			entity = ecsCoordinator->createEntity("Test Entity");
 			ecsCoordinator->addComponent<Transform>(entity, { glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(5, 5, 5) });
 			ecsCoordinator->addComponent<Mesh>(entity, { vao });
-			ecsCoordinator->addComponent<Material>(entity, { shader, { texture } });
-
+			ecsCoordinator->addComponent<Material>(entity, { shader });
+		
 			auto camera = ecsCoordinator->createEntity("Camera");
 			ecsCoordinator->addComponent<Transform>(camera, { glm::vec3(0, 0, -2), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1) });
+			ecsCoordinator->addComponent<Camera>(camera, { 70, 0.01f, 1000.0f });
 			ecsCoordinator->setBehaviour<CameraBehaviour>(camera);
 	}
 

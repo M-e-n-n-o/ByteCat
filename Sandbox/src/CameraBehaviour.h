@@ -53,13 +53,5 @@ public:
 		transform->position.x += (dx * Time::GetDeltaTime());
 		transform->position.z += (dz * Time::GetDeltaTime());
 		transform->position.y += (movement.y * Time::GetDeltaTime());
-		
-		auto& window = Application::GetInstance().getWindow();
-		float aspect = (window.getWidth() * 1.0f) / (window.getHeight() * 1.0f);
-
-		Renderer::SetSceneData({
-				transform->position,
-				Math::CreateViewMatrix(transform->position, transform->rotation),
-				glm::perspective(glm::radians(70.0f), aspect, 0.01f, 1000.0f) });
 	}
 };
