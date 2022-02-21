@@ -14,7 +14,7 @@ namespace BC
 			mutable std::unordered_map<std::string, unsigned int> uniformLocationCache;
 			
 		public:
-			OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc);
+			OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc, bool isFilePath);
 			~OpenGLShader();
 			
 			void bind() const override;

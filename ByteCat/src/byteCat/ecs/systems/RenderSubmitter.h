@@ -14,7 +14,7 @@ namespace BC
 	public:
 		static void onRenderRenderable(const Renderable& renderable)
 		{
-			renderable.shader->loadVector3("_CameraPos", m_cameraPos);
+			renderable.shader->loadVector3("cameraPos", m_cameraPos);
 		}
 		
 		void onUpdate() override
