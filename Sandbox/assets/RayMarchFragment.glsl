@@ -18,12 +18,12 @@ uniform sampler2D noiseTexture;
 
 float getDistance(vec3 point)
 {
-	//float distance = length(point) - 0.5;
-	float distance = length(vec2(length(point.xz) - 0.5, point.y)) - 0.1;				
+	float distance = length(vec2(length(point.xz) - 0.5, point.y)) - 0.1;
 
-	return distance;
+	float distanceCircle = length(point - vec3(3, 0, 0)) - 0.1;
+
+	return min(distance, distanceCircle);
 }
-
 			
 float rayMarch(vec3 rayOrigin, vec3 rayDirection)
 {
@@ -57,19 +57,6 @@ vec3 getNormal(vec3 point)
 
 	return normalize(normal);
 }
-
-float rand(vec2 n)
-{ 
-	return fract(sin(dot(n, vec2(12.9898, 4.1414))) * 43758.5453);
-}
-
-vec3 createCircle(vec3 pos, float diameter, float smoothness)
-{
-	vec3 col = vec3(length(pos) - 0.5);
-	col = smoothstep(diameter, diameter - smoothness, col);
-		    
-	return col;
-}
 			
 void main()
 {
@@ -88,7 +75,7 @@ void main()
 		col.rgb = normal;
 	} else
 	{
-		discard;
+		//discard;
 	}
 
 	FragColor = col;
