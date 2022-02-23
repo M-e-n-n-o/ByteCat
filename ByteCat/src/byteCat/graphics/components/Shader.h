@@ -19,6 +19,7 @@ namespace BC
 		virtual void loadFloat(const std::string& name, float value) = 0;
 		virtual void loadVector2(const std::string& name, const glm::vec2& value) = 0;
 		virtual void loadVector3(const std::string& name, const glm::vec3& value) = 0;
+		virtual void loadVector3Array(const std::string& name, const std::vector<glm::vec3>& values) = 0;
 		virtual void loadVector4(const std::string& name, const glm::vec4& value) = 0;
 		virtual void loadMatrix4(const std::string& name, const glm::mat4& value) = 0;
 

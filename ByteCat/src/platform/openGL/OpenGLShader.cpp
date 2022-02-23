@@ -119,6 +119,15 @@ namespace BC
 			}
 		}
 
+		void OpenGLShader::loadVector3Array(const std::string& name, const std::vector<glm::vec3>& values)
+		{
+			for (int i = 0; i < values.size(); i++)
+			{
+				GLint location = getUniformLocation(name + "[" + std::to_string(i) + "]");
+				glUniform3fv(location, 1, glm::value_ptr(values[i]));
+			}
+		}
+
 		void OpenGLShader::loadVector4(const std::string& name, const glm::vec4& value)
 		{
 			GLint location = getUniformLocation(name);

@@ -27,6 +27,8 @@ public:
 			auto shader = Shader::Create("Test", "RayMarchVertex.glsl", "RayMarchFragment.glsl");
 			shader->setTextureSlots({ "noiseTexture" });
 
+			shader->loadVector3Array("points", {glm::vec3(0, 0, 0), glm::vec3(0, 0.5, 0), glm::vec3(0.5, 0.2, -0.3)});
+
 
 		// Maak een vao met data
 			float data[] =
@@ -116,12 +118,12 @@ public:
 	{
 		if (Input::IsKeyPressed(KeyCode::R))
 		{
-			ecsCoordinator->getComponent<Transform>(entity).scale.x += Time::GetDeltaTime();
+			ecsCoordinator->getComponent<Transform>(entity).scale.y += Time::GetDeltaTime();
 		}
 
 		if (Input::IsKeyPressed(KeyCode::T))
 		{
-			ecsCoordinator->getComponent<Transform>(entity).scale.x -= Time::GetDeltaTime();
+			ecsCoordinator->getComponent<Transform>(entity).scale.y -= Time::GetDeltaTime();
 		}
 	}
 
