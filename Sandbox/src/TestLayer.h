@@ -114,7 +114,15 @@ public:
 
 	void onUpdate() override
 	{
+		if (Input::IsKeyPressed(KeyCode::R))
+		{
+			ecsCoordinator->getComponent<Transform>(entity).scale.x += Time::GetDeltaTime();
+		}
 
+		if (Input::IsKeyPressed(KeyCode::T))
+		{
+			ecsCoordinator->getComponent<Transform>(entity).scale.x -= Time::GetDeltaTime();
+		}
 	}
 
 	void onRender() override

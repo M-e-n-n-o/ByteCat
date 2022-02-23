@@ -19,8 +19,10 @@ uniform vec3 cameraPos;
 void main()
 {		
 	output.uv = texCoord;
-	output.originPos = cameraPos;
-	output.hitPos = (modelMatrix * vec4(vertexPos, 1.0)).xyz;
+
+	// Use object space
+	output.originPos = (inverse(modelMatrix) * vec4(cameraPos, 1.0)).xyz;
+	output.hitPos = vertexPos;
 					
 	gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(vertexPos, 1.0);
 }
