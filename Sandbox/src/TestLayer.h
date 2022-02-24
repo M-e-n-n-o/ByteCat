@@ -13,7 +13,7 @@ class TestLayer : public Layer
 public:
 	TestLayer() : Layer("UserLayer")
 	{
-		RendererAPI::SetCullingMode(CullingMode::None);
+		RendererAPI::SetCullingMode(CullingMode::Front);
 		
 		// Maak een nieuwe scene
 			auto scene = SceneManager::CreateScene("TestScene");
@@ -24,10 +24,10 @@ public:
 
 		
 		// Maak een shader
-			auto shader = Shader::Create("Test", "RayMarchVertex.glsl", "RayMarchFragment.glsl");
+			auto shader = Shader::Create("Test", "VolumetricRayMarchVertex.glsl", "VolumetricRayMarchFragment.glsl");
 			shader->setTextureSlots({ "noiseTexture" });
 
-			shader->loadVector3Array("points", {glm::vec3(0, 0, 0), glm::vec3(0, 0.5, 0), glm::vec3(0.5, 0.2, -0.3)});
+			shader->loadVector3Array("points", { glm::vec3(0, 0, 0) });
 
 
 		// Maak een vao met data

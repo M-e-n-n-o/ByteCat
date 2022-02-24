@@ -3,6 +3,9 @@
 #define MAX_STEPS 100
 #define MIN_DISTANCE 0.001
 #define MAX_DISTANCE 100
+
+#define VOLUME_MAX_STEPS 50
+#define VOLUME_STEP_SIZE 0.01
 			
 in v2f
 {
@@ -14,21 +17,15 @@ in v2f
 out vec4 FragColor;
 
 uniform sampler2D noiseTexture;
-uniform vec3 points[3];
 
 float getDistance(vec3 point)
 {
-//	float distance = length(vec2(length(point.xz) - 0.5, point.y)) - 0.1;
-//
-//	float distanceCircle = length(point - vec3(0, 0, 0)) - 0.5;
-//
-//	return max(-distance, distanceCircle);
-
-	float distance = length(point) - 0.5;
+	float distance = length(vec2(length(point.xz) - 0.3, point.y)) - 0.1;
+	//float distance = length(point) - 0.5;
 	return distance;
 }
-			
-float rayMarch(vec3 rayOrigin, vec3 rayDirection)
+
+float volumetricRayMarch(vec3 rayOrigin, vec3 rayDirection)
 {
 	float distanceOrigin = 0;
 	float distanceSurface = 0;
@@ -45,13 +42,35 @@ float rayMarch(vec3 rayOrigin, vec3 rayDirection)
 		}
 	}
 
-	return distanceOrigin;
+	float alpha = 0;
+
+	if (distanceOrigin < MAX_DISTANCE)
+	{
+		float distanceTraveled = 0;
+		for (int i = 0; i < VOLUME_MAX_STEPS; i++)
+		{
+			vec3 point = rayOrigin + distanceOrigin * rayDirection;
+			distanceOrigin += VOLUME_STEP_SIZE;
+
+			float distance = getDistance(point);
+			if (distance > MIN_DISTANCE)
+			{
+				break;
+			}
+
+			distanceTraveled += VOLUME_STEP_SIZE;
+		}
+
+		alpha = 1 / exp(distanceTraveled * 1);
+	}
+
+	return alpha;
 }
 
 vec3 getNormal(vec3 point)
 {
 	vec2 epsilon = vec2(0.01, 0);
-			
+
 	vec3 normal = getDistance(point) - vec3(
 		getDistance(point - epsilon.xyy),
 		getDistance(point - epsilon.yxy),
@@ -67,18 +86,9 @@ void main()
 	vec3 rayOrigin = input.originPos;
 	vec3 rayDirection = normalize(input.hitPos - rayOrigin);
 	
-	vec4 col = vec4(0, 0, 0, 1);
+	vec4 col = vec4(1, 1, 1, 1);
 
-	float distance = rayMarch(rayOrigin, rayDirection);
-	if (distance < MAX_DISTANCE)
-	{
-		vec3 point = rayOrigin + rayDirection * distance;
-		vec3 normal = getNormal(point);
-		col.rgb = normal;
-	} else
-	{
-		discard;
-	}
+	col.a = volumetricRayMarch(rayOrigin, rayDirection);
 
 	FragColor = col;
 }
