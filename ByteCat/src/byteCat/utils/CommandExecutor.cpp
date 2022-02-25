@@ -20,22 +20,25 @@ namespace BC
 			return;
 		}
 
-		m_commands = new ThreadSafeQueue<CommandWrapper>();
-
-		while (m_isRunning)
+		std::thread executeThread([this]()
 		{
-			auto& command = m_commands->getFront();
-			command();
-			bool empty = m_commands->pop();
+			m_commands = new ThreadSafeQueue<CommandWrapper>();
 
-			if (empty)
+			while (m_isRunning)
 			{
-				std::lock_guard<std::mutex> lock(m_mutex);
-				m_condition.notify_one();
-			}
-		}
+				auto& command = m_commands->getFront();
+				command();
+				bool empty = m_commands->pop();
 
-		delete m_commands;
+				if (empty)
+				{
+					std::lock_guard<std::mutex> lock(m_mutex);
+					m_condition.notify_one();
+				}
+			}
+
+			delete m_commands;
+		});
 	}
 
 	CommandExecutor::~CommandExecutor()

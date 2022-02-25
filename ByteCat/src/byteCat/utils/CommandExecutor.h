@@ -53,7 +53,6 @@ namespace BC
         std::condition_variable m_condition;
 	
 	public:
-		// When calling this constructor with multithreading on, this thread will not return after calling the shutdown method
         CommandExecutor(bool multithreaded);
         ~CommandExecutor();
 
