@@ -27,8 +27,6 @@ public:
 			auto shader = Shader::Create("Test", "VolumetricRayMarchVertex.glsl", "VolumetricRayMarchFragment.glsl");
 			shader->setTextureSlots({ "noiseTexture" });
 
-			shader->loadVector3Array("points", { glm::vec3(0, 0, 0) });
-
 
 		// Maak een vao met data
 			float data[] =

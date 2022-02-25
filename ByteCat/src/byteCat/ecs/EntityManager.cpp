@@ -69,7 +69,7 @@ namespace BC
 		return m_names[entity];
 	}
 
-	void EntityManager::setSignature(const Entity& entity, Signature signature)
+	void EntityManager::setSignature(const Entity& entity, Dependencies signature)
 	{
 		if (entity > MAX_ENTITIES)
 		{
@@ -80,7 +80,7 @@ namespace BC
 		m_signatures[entity] = signature;
 	}
 
-	Signature& EntityManager::getSignature(const Entity& entity)
+	Dependencies& EntityManager::getSignature(const Entity& entity)
 	{
 		if (entity > MAX_ENTITIES)
 		{

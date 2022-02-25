@@ -57,11 +57,12 @@ float volumetricRayMarch(vec3 rayOrigin, vec3 rayDirection)
 			// Still in the material?
 			if (distance < MIN_DISTANCE)
 			{
-				distanceTraveledInMaterial += VOLUME_STEP_SIZE;
+				//float volume = texture(noiseTexture, input.uv).r;
+				distanceTraveledInMaterial += VOLUME_STEP_SIZE; // * volume;
 			}
 		}
 
-		alpha = 1 - (1 / exp(distanceTraveledInMaterial * 1));
+		alpha = 1 - (1 / exp(distanceTraveledInMaterial));
 	}
 
 	return alpha;
@@ -86,7 +87,7 @@ void main()
 	vec3 rayOrigin = input.originPos;
 	vec3 rayDirection = normalize(input.hitPos - rayOrigin);
 	
-	vec4 col = vec4(.2, .2, .2, 1);
+	vec4 col = vec4(.5, .5, .5, 1);
 
 	col.a = volumetricRayMarch(rayOrigin, rayDirection);
 

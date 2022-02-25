@@ -100,7 +100,7 @@ namespace BC
 		}
 
 		template<typename T>
-		void setSystemSignature(Signature signature)
+		void setSystemSignature(Dependencies signature)
 		{
 			m_systemManager->setSignature<T>(signature);
 		}

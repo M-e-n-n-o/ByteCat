@@ -18,14 +18,14 @@ namespace BC
 	void Scene::registerDefaultSystems()
 	{
 		m_ecsCoordinator->registerSystem<RenderSubmitter>();
-		Signature signatureRenderSubmitter;
+		Dependencies signatureRenderSubmitter;
 		signatureRenderSubmitter.set(m_ecsCoordinator->getComponentType<Transform>());
 		signatureRenderSubmitter.set(m_ecsCoordinator->getComponentType<Mesh>());
 		signatureRenderSubmitter.set(m_ecsCoordinator->getComponentType<Material>());
 		m_ecsCoordinator->setSystemSignature<RenderSubmitter>(signatureRenderSubmitter);
 
 		m_cameraSystem = m_ecsCoordinator->registerSystem<CameraSystem>();
-		Signature signatureCameraSystem;
+		Dependencies signatureCameraSystem;
 		signatureCameraSystem.set(m_ecsCoordinator->getComponentType<Transform>());
 		signatureCameraSystem.set(m_ecsCoordinator->getComponentType<Camera>());
 		m_ecsCoordinator->setSystemSignature<CameraSystem>(signatureCameraSystem);
