@@ -21,7 +21,8 @@ namespace BC
 	void SimpleRenderer::renderFrame()
 	{
 		m_rendererAPI->clearBuffers();
-		m_rendererAPI->clearColor(glm::vec4(0.2f, 0.3f, 0.3f, 1.0f));
+		//m_rendererAPI->clearColor(glm::vec4(0.2f, 0.3f, 0.3f, 1.0f));
+		m_rendererAPI->clearColor(glm::vec4(1, 1, 1, 1));
 
 		for (const auto& entity : m_entities)
 		{
