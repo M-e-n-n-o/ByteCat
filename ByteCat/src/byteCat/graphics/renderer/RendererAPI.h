@@ -1,6 +1,7 @@
 #pragma once
 #include "glm/vec4.hpp"
 #include "byteCat/graphics/components/VertexArray.h"
+#include "byteCat/graphics/renderer/RenderModes.h"
 
 namespace BC
 {
@@ -8,14 +9,6 @@ namespace BC
 	{
 		None = 0,
 		OpenGL = 1
-	};
-
-	enum class CullingMode
-	{
-		None,
-		Front,
-		Back,
-		FrontAndBack
 	};
 	
 

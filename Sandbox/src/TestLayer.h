@@ -12,9 +12,7 @@ class TestLayer : public Layer
 	
 public:
 	TestLayer() : Layer("UserLayer")
-	{
-		RendererAPI::SetCullingMode(CullingMode::Front);
-		
+	{		
 		// Maak een nieuwe scene
 			auto scene = SceneManager::CreateScene("TestScene");
 			scene->registerDefaultSystems();
@@ -24,9 +22,10 @@ public:
 
 		
 		// Maak een shader
-			auto shader = Shader::Create("Test", "VolumetricRayMarchVertex.glsl", "VolumetricRayMarchFragment.glsl");
-			shader->setTextureSlots({ "noiseTexture" });
+			auto cloudShader = Shader::Create("Cloud shader", "VolumetricRayMarchVertex.glsl", "VolumetricRayMarchFragment.glsl");
+			cloudShader->setTextureSlots({ "noiseTexture" });
 
+			auto standardShader = Shader::Create("Standard", "StandardVertex.glsl", "StandardFragment.glsl");
 
 		// Maak een vao met data
 			float data[] =
@@ -101,10 +100,15 @@ public:
 			//auto texture = Texture2D::Create("wall.jpg", 0.5);
 			auto noiseTexture = Texture2D::Create("noise.png", 0.5);
 
-			entity = ecsCoordinator->createEntity("Test Entity");
+			entity = ecsCoordinator->createEntity("Cloud Entity");
 			ecsCoordinator->addComponent<Transform>(entity, { glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(5, 5, 5) });
 			ecsCoordinator->addComponent<Mesh>(entity, { vao });
-			ecsCoordinator->addComponent<Material>(entity, { shader, {noiseTexture} });
+			ecsCoordinator->addComponent<Material>(entity, { CullingMode::None, cloudShader, {noiseTexture} });
+
+			entity = ecsCoordinator->createEntity("Test Entity");
+			ecsCoordinator->addComponent<Transform>(entity, { glm::vec3(0, 0, 2), glm::vec3(0, 0, 0), glm::vec3(2, 2, 2) });
+			ecsCoordinator->addComponent<Mesh>(entity, { vao });
+			ecsCoordinator->addComponent<Material>(entity, { CullingMode::Back, standardShader });
 		
 			auto camera = ecsCoordinator->createEntity("Camera");
 			ecsCoordinator->addComponent<Transform>(camera, { glm::vec3(0, 0, -2), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1) });

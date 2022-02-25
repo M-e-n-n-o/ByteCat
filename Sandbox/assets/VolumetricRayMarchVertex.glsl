@@ -6,8 +6,8 @@ layout (location = 1) in vec2 texCoord;
 out v2f
 {
 	vec2 uv;
-	vec3 originPos;
-	vec3 hitPos;
+	vec3 cameraPos;
+	vec3 worldPos;
 } output;
 
 uniform mat4 modelMatrix;
@@ -21,12 +21,20 @@ void main()
 	output.uv = texCoord;
 
 	// Object space
-	output.originPos = (inverse(modelMatrix) * vec4(cameraPos, 1.0)).xyz;
-	output.hitPos = vertexPos;
+//	output.cameraPos = (inverse(modelMatrix) * vec4(cameraPos, 1.0)).xyz;
+//	output.worldPos = vertexPos;
 	
 	// World space
-//	output.originPos = cameraPos;
-//	output.hitPos = (modelMatrix * vec4(vertexPos, 1.0)).xyz;
+	output.cameraPos = cameraPos;
+	output.worldPos = (modelMatrix * vec4(vertexPos, 1.0)).xyz;
+
+//	output.rayOrigin = output.worldPos;
+//	float dist1 = distance(output.cameraPos, vec3(0, 0, 0)) + 2;
+//	float dist2 = distance(output.worldPos, vec3(0, 0, 0));
+//	if (dist1 < dist2)
+//	{
+//		output.rayOrigin = output.cameraPos;
+//	}
 					
 	gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(vertexPos, 1.0);
 }

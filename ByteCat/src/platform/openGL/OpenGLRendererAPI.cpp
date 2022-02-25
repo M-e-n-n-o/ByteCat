@@ -68,6 +68,13 @@ namespace BC
 
 		void OpenGLRendererAPI::setCullingMode(const CullingMode& mode)
 		{
+			static CullingMode currentMode = CullingMode::Back;
+
+			if (mode == currentMode)
+			{
+				return;
+			}
+			
 			switch (mode)
 			{
 			case CullingMode::None:			glDisable(GL_CULL_FACE); break;
@@ -75,6 +82,8 @@ namespace BC
 			case CullingMode::Back:			glEnable(GL_CULL_FACE); glCullFace(GL_BACK); break;
 			case CullingMode::FrontAndBack: glEnable(GL_CULL_FACE); glCullFace(GL_FRONT_AND_BACK); break;
 			}
+
+			currentMode = mode;
 		}
 	}
 }

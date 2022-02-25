@@ -7,6 +7,8 @@ namespace BC
 {
 	struct Renderable
 	{
+		CullingMode cullingMode;
+		
 		std::shared_ptr<VertexArray> vao;
 		std::shared_ptr<Shader> shader;
 

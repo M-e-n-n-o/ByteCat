@@ -43,6 +43,8 @@ namespace BC
 			{
 				entity.onRender(entity);
 			}
+
+			RendererAPI::SetCullingMode(entity.cullingMode);
 			
 			m_rendererAPI->draw(entity.vao);
 		}
