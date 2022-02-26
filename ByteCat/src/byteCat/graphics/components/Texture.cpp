@@ -5,6 +5,18 @@
 
 namespace BC
 {
+	std::shared_ptr<Texture2D> Texture2D::Create(unsigned int width, unsigned int height, const TextureFormat& format)
+	{
+		switch (Renderer::GetAPI())
+		{
+		case GraphicsAPI::None:		LOG_CRITICAL("No Graphics API selected!"); return nullptr;
+		case GraphicsAPI::OpenGL:	return std::make_shared<Platform::OpenGLTexture2D>(width, height, format);
+		}
+
+		LOG_CRITICAL("Unsupported Graphics API selected!");
+		return nullptr;
+	}
+
 	std::shared_ptr<Texture2D> Texture2D::Create(const std::string& filePath, float mipmapLOD)
 	{
 		switch (Renderer::GetAPI())

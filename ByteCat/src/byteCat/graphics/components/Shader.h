@@ -1,5 +1,6 @@
 #pragma once
 #include <glm/glm.hpp>
+#include "byteCat/graphics/components/Texture.h"
 
 namespace BC
 {
@@ -30,5 +31,20 @@ namespace BC
 		virtual const std::string& getName() const = 0;
 
 		static std::shared_ptr<Shader> Create(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc, bool isFilePath = true);
+	};
+
+	class ComputeShader
+	{
+	public:
+		virtual ~ComputeShader() = default;
+
+		virtual void compute(unsigned numberOfGroupsX, unsigned numberOfGroupsY, unsigned numberOfGroupsZ) = 0;
+		virtual void wait() = 0;
+
+		virtual void setOutputTexture(std::shared_ptr<Texture> texture, unsigned int textureUnit = 0) = 0;
+		
+		virtual const std::string& getName() const = 0;
+
+		static std::shared_ptr<ComputeShader> Create(const std::string & name, const std::string & computeSrc, bool isFilePath = true);
 	};
 }

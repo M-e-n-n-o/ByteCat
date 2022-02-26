@@ -13,8 +13,10 @@ namespace BC
 			int m_width;
 			int m_height;
 			int m_channels;
+			TextureFormat m_format;
 			
 		public:
+			OpenGLTexture2D(unsigned int width, unsigned int height, const TextureFormat& format);
 			OpenGLTexture2D(const std::string& filePath, const TextureFormat& format, float mipmapLOD);
 			~OpenGLTexture2D();
 
@@ -23,6 +25,8 @@ namespace BC
 			unsigned getWidth() const override { return m_width; }
 			unsigned getHeight() const override { return m_height; }
 			unsigned getChannels() const override { return m_channels; }
+			TextureFormat getFormat() const override { return m_format; }
+			unsigned getId() const override { return m_id; }
 		};
 	}
 }

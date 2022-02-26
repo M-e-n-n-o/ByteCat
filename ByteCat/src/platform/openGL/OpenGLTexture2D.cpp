@@ -3,27 +3,36 @@
 #include <glad/glad.h>
 #include "byteCat/utils/Macro.h"
 #include "platform/openGL/OpenGLTexture2D.h"
+#include "platform/openGL/Helper"
 
 namespace BC
 {
 	namespace Platform
 	{
-		static int TextureFormatToOpenGLFormat(const TextureFormat& format)
+		OpenGLTexture2D::OpenGLTexture2D(unsigned width, unsigned height, const TextureFormat& format)
 		{
-			switch (format)
-			{
-			case TextureFormat::DEPTH:			return GL_DEPTH_COMPONENT;
-			case TextureFormat::DEPTH_STENCIL:	return GL_DEPTH_STENCIL;
-			case TextureFormat::R:				return GL_RED;
-			case TextureFormat::RG:				return GL_RG;
-			case TextureFormat::RGB:			return GL_RGB;
-			case TextureFormat::RGBA:			return GL_RGBA;
-			}
+			m_width = width;
+			m_height = height;
+			m_format = format;
 
-			return -1;
+			if (format == TextureFormat::AUTO)
+			{
+				LOG_ERROR("Cannot auto format an empty texture!");
+				return;
+			}
+			
+			glGenTextures(1, &m_id);
+			glEnable(GL_TEXTURE_2D);
+			glBindTexture(GL_TEXTURE_2D, m_id);
+			
+			glTexImage2D(GL_TEXTURE_2D, 0, TextureFormatToOpenGLFormat(format), width, width, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
+
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		}
 
-		
 		OpenGLTexture2D::OpenGLTexture2D(const std::string& filePath, const TextureFormat& format, float mipmapLOD)
 		{
 			std::string finalPath = filePath;
@@ -48,12 +57,14 @@ namespace BC
 			int dataFormat = 0;
 			if (m_channels == 4)
 			{
-				internalFormat = GL_RGBA8;
+				m_format = TextureFormat::RGBA;
+				internalFormat = TextureFormatToOpenGLFormat(TextureFormat::RGBA);
 				dataFormat = GL_RGBA;
 			}
 			else if (m_channels == 3)
 			{
-				internalFormat = GL_RGB8;
+				m_format = TextureFormat::RGB;
+				internalFormat = TextureFormatToOpenGLFormat(TextureFormat::RGB);
 				dataFormat = GL_RGB;
 			} else
 			{
@@ -64,6 +75,7 @@ namespace BC
 
 			if (format != TextureFormat::AUTO)
 			{
+				m_format = format;
 				internalFormat = TextureFormatToOpenGLFormat(format);
 			}
 			

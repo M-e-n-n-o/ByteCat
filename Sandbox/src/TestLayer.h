@@ -9,6 +9,9 @@ class TestLayer : public Layer
 {
 	std::shared_ptr<EcsCoordinator> ecsCoordinator;
 	Entity entity;
+
+	std::shared_ptr<ComputeShader> computeShader;
+	std::shared_ptr<Texture2D> computeTexture;
 	
 public:
 	TestLayer() : Layer("UserLayer")
@@ -35,6 +38,7 @@ public:
 			//cloudShader->loadVector3Array("points", points);
 
 			auto standardShader = Shader::Create("Standard", "StandardVertex.glsl", "StandardFragment.glsl");
+			standardShader->setTextureSlots({ "tex" });
 
 		// Maak een vao met data
 			float data[] =
@@ -109,10 +113,10 @@ public:
 			//auto texture = Texture2D::Create("wall.jpg", 0.5);
 			auto noiseTexture = Texture2D::Create("volumeWisp.tga", 0.5);
 
-			entity = ecsCoordinator->createEntity("Cloud Entity");
-			ecsCoordinator->addComponent<Transform>(entity, { glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(20, 20, 20) });
-			ecsCoordinator->addComponent<Mesh>(entity, { vao });
-			ecsCoordinator->addComponent<Material>(entity, { CullingMode::None, RenderLayer::Transparent, cloudShader, {noiseTexture} });
+			//entity = ecsCoordinator->createEntity("Cloud Entity");
+			//ecsCoordinator->addComponent<Transform>(entity, { glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(20, 20, 20) });
+			//ecsCoordinator->addComponent<Mesh>(entity, { vao });
+			//ecsCoordinator->addComponent<Material>(entity, { CullingMode::None, RenderLayer::Transparent, cloudShader, {noiseTexture} });
 
 			// entity = ecsCoordinator->createEntity("Test Entity");
 			// ecsCoordinator->addComponent<Transform>(entity, { glm::vec3(0, 0, 5), glm::vec3(0, 0, 0), glm::vec3(2, 2, 2) });
@@ -123,6 +127,22 @@ public:
 			ecsCoordinator->addComponent<Transform>(camera, { glm::vec3(0, 0, -2), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1) });
 			ecsCoordinator->addComponent<Camera>(camera, { 70, 0.01f, 1000.0f });
 			ecsCoordinator->setBehaviour<CameraBehaviour>(camera);
+
+
+
+		
+		computeTexture = Texture2D::Create(512, 512, TextureFormat::RGBA);
+		
+		computeShader = ComputeShader::Create("Test Compute", "TestCompute.glsl");
+		computeShader->setOutputTexture(computeTexture);
+
+		computeShader->compute(computeTexture->getWidth(), computeTexture->getHeight(), 1);
+		computeShader->wait();
+
+		entity = ecsCoordinator->createEntity("Test Entity");
+		ecsCoordinator->addComponent<Transform>(entity, { glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1) });
+		ecsCoordinator->addComponent<Mesh>(entity, { vao });
+		ecsCoordinator->addComponent<Material>(entity, { CullingMode::Back, RenderLayer::Opaque, standardShader, {computeTexture} });
 	}
 
 	void onUpdate() override
@@ -140,7 +160,7 @@ public:
 
 	void onRender() override
 	{
-		
+
 	}
 
 	void onEvent(Event& event) override

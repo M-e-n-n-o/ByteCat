@@ -3,26 +3,12 @@
 #include <glm/gtc/type_ptr.hpp>
 #include "platform/openGL/OpenGLShader.h"
 #include "byteCat/utils/Macro.h"
+#include "platform/openGL/Helper"
 
 namespace BC
 {
 	namespace Platform
-	{
-		std::string readFileIntoString(const std::string& path) {
-			std::ifstream input_file(path);
-			
-			if (!input_file.is_open()) {
-				LOG_ERROR("Could not open the shader file: {0}", path);
-				return "";
-			}
-
-			std::string text = std::string((std::istreambuf_iterator<char>(input_file)), std::istreambuf_iterator<char>());
-			
-			input_file.close();
-			
-			return text;
-		}
-		
+	{		
 		OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc, bool isFilePath) : m_name(name)
 		{
 			std::string vertexShader = vertexSrc;
@@ -31,10 +17,10 @@ namespace BC
 			if (isFilePath)
 			{
 				vertexShader.insert(0, BC_ASSETS_FOLDER);
-				vertexShader = readFileIntoString(vertexShader);
+				vertexShader = ReadFileIntoString(vertexShader);
 				
 				fragmentShader.insert(0, BC_ASSETS_FOLDER);
-				fragmentShader = readFileIntoString(fragmentShader);
+				fragmentShader = ReadFileIntoString(fragmentShader);
 			}
 			
 			const unsigned int vertexShaderID = loadShader(vertexShader, GL_VERTEX_SHADER);
