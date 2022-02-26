@@ -25,4 +25,12 @@ namespace BC
 		viewMatrix = glm::translate(viewMatrix, negativePos);
 		return viewMatrix;
 	}
+
+	float Math::RandomBetween(float smallNumber, float bigNumber)
+	{
+		if (static bool init = false; !init) { srand(time(0)); init = true; }
+		
+		float diff = bigNumber - smallNumber;
+		return (((float)rand() / RAND_MAX) * diff) + smallNumber;
+	}
 }

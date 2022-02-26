@@ -173,7 +173,10 @@ namespace BC
 			GLint location = glGetUniformLocation(m_programID, uniformName.c_str());
 			if (location == -1)
 			{
-				LOG_ERROR("Variable \"{0}\" not found in the shader {1}", uniformName, m_name);
+				if (uniformName.rfind("_", 0) != 0)
+				{
+					LOG_ERROR("Variable \"{0}\" not found in the shader {1}", uniformName, m_name);
+				}
 				return -1;
 			}
 

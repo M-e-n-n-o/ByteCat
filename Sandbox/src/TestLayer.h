@@ -25,6 +25,15 @@ public:
 			auto cloudShader = Shader::Create("Cloud shader", "VolumetricRayMarchVertex.glsl", "VolumetricRayMarchFragment.glsl");
 			cloudShader->setTextureSlots({ "noiseTexture" });
 
+			cloudShader->loadVector3("sunPos", glm::vec3(0, 100, 0));
+		
+			//std::vector<glm::vec3> points;
+			//for (int i = 0; i < 20; i++)
+			//{
+			//	points.push_back(glm::vec3( Math::RandomBetween(0, 0.4), Math::RandomBetween(0, 0.4), Math::RandomBetween(0, 0.4) ));
+			//}
+			//cloudShader->loadVector3Array("points", points);
+
 			auto standardShader = Shader::Create("Standard", "StandardVertex.glsl", "StandardFragment.glsl");
 
 		// Maak een vao met data
@@ -98,17 +107,17 @@ public:
 
 		// Maak een entity en voeg components toe
 			//auto texture = Texture2D::Create("wall.jpg", 0.5);
-			auto noiseTexture = Texture2D::Create("noise.png", 0.5);
+			auto noiseTexture = Texture2D::Create("volumeWisp.tga", 0.5);
 
 			entity = ecsCoordinator->createEntity("Cloud Entity");
-			ecsCoordinator->addComponent<Transform>(entity, { glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(5, 5, 5) });
+			ecsCoordinator->addComponent<Transform>(entity, { glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(20, 20, 20) });
 			ecsCoordinator->addComponent<Mesh>(entity, { vao });
-			ecsCoordinator->addComponent<Material>(entity, { CullingMode::None, cloudShader, {noiseTexture} });
+			ecsCoordinator->addComponent<Material>(entity, { CullingMode::None, RenderLayer::Transparent, cloudShader, {noiseTexture} });
 
-			entity = ecsCoordinator->createEntity("Test Entity");
-			ecsCoordinator->addComponent<Transform>(entity, { glm::vec3(0, 0, 2), glm::vec3(0, 0, 0), glm::vec3(2, 2, 2) });
-			ecsCoordinator->addComponent<Mesh>(entity, { vao });
-			ecsCoordinator->addComponent<Material>(entity, { CullingMode::Back, standardShader });
+			// entity = ecsCoordinator->createEntity("Test Entity");
+			// ecsCoordinator->addComponent<Transform>(entity, { glm::vec3(0, 0, 5), glm::vec3(0, 0, 0), glm::vec3(2, 2, 2) });
+			// ecsCoordinator->addComponent<Mesh>(entity, { vao });
+			// ecsCoordinator->addComponent<Material>(entity, { CullingMode::Back, RenderLayer::Opaque, standardShader });
 		
 			auto camera = ecsCoordinator->createEntity("Camera");
 			ecsCoordinator->addComponent<Transform>(camera, { glm::vec3(0, 0, -2), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1) });

@@ -3,6 +3,7 @@
 #include "byteCat/ecs/System.h"
 #include "byteCat/graphics/renderer/Renderer.h"
 #include "byteCat/utils/Math.h"
+#include "byteCat/utils/Time.h"
 
 namespace BC
 {
@@ -14,7 +15,11 @@ namespace BC
 	public:
 		static void onRenderRenderable(const Renderable& renderable)
 		{
-			renderable.shader->loadVector3("cameraPos", m_cameraPos);
+			renderable.shader->loadVector3("_CameraPos", m_cameraPos);
+
+			static float time = Time::GetDeltaTime();
+			time += Time::GetDeltaTime();
+			renderable.shader->loadFloat("_Time", time);
 		}
 		
 		void onUpdate() override
@@ -29,7 +34,7 @@ namespace BC
 				auto& material = m_coordinator->getComponent<Material>(entity);
 
 				glm::mat4 modelMatrix = Math::CreateModelMatrix(transform.position, transform.rotation, transform.scale);
-				Renderer::Submit({ material.cullingMode, mesh.vao, material.shader, material.textures, modelMatrix, onRenderRenderable });
+				Renderer::Submit({ material.cullingMode, material.renderLayer, mesh.vao, material.shader, material.textures, modelMatrix, onRenderRenderable });
 			}
 		}
 	};

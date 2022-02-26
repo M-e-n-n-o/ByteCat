@@ -14,27 +14,19 @@ uniform mat4 modelMatrix;
 uniform mat4 viewMatrix;
 uniform mat4 projectionMatrix;
 					
-uniform vec3 cameraPos;
+uniform vec3 _CameraPos;
 
 void main()
 {		
 	output.uv = texCoord;
 
 	// Object space
-//	output.cameraPos = (inverse(modelMatrix) * vec4(cameraPos, 1.0)).xyz;
+//	output.cameraPos = (inverse(modelMatrix) * vec4(_CameraPos, 1.0)).xyz;
 //	output.worldPos = vertexPos;
 	
 	// World space
-	output.cameraPos = cameraPos;
+	output.cameraPos = _CameraPos;
 	output.worldPos = (modelMatrix * vec4(vertexPos, 1.0)).xyz;
-
-//	output.rayOrigin = output.worldPos;
-//	float dist1 = distance(output.cameraPos, vec3(0, 0, 0)) + 2;
-//	float dist2 = distance(output.worldPos, vec3(0, 0, 0));
-//	if (dist1 < dist2)
-//	{
-//		output.rayOrigin = output.cameraPos;
-//	}
 					
 	gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(vertexPos, 1.0);
 }

@@ -14,15 +14,19 @@ uniform mat4 modelMatrix;
 uniform mat4 viewMatrix;
 uniform mat4 projectionMatrix;
 					
-uniform vec3 cameraPos;
+uniform vec3 _CameraPos;
 
 void main()
 {		
 	output.uv = texCoord;
 
-	// Use object space
-	output.originPos = (inverse(modelMatrix) * vec4(cameraPos, 1.0)).xyz;
+	// Object space
+	output.originPos = (inverse(modelMatrix) * vec4(_CameraPos, 1.0)).xyz;
 	output.hitPos = vertexPos;
+
+	// World space
+//	output.originPos = _CameraPos;
+//	output.hitPos = (modelMatrix * vec4(vertexPos, 1.0)).xyz;
 					
 	gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(vertexPos, 1.0);
 }
