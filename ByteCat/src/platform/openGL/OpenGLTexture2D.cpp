@@ -3,7 +3,7 @@
 #include <glad/glad.h>
 #include "byteCat/utils/Macro.h"
 #include "platform/openGL/OpenGLTexture2D.h"
-#include "platform/openGL/Helper"
+#include "platform/openGL/Helper.h"
 
 namespace BC
 {
@@ -14,6 +14,7 @@ namespace BC
 			m_width = width;
 			m_height = height;
 			m_format = format;
+			m_channels = 3;
 
 			if (format == TextureFormat::AUTO)
 			{
@@ -57,14 +58,14 @@ namespace BC
 			int dataFormat = 0;
 			if (m_channels == 4)
 			{
-				m_format = TextureFormat::RGBA;
-				internalFormat = TextureFormatToOpenGLFormat(TextureFormat::RGBA);
+				m_format = TextureFormat::RGBA16F;
+				internalFormat = TextureFormatToOpenGLFormat(TextureFormat::RGBA16F);
 				dataFormat = GL_RGBA;
 			}
 			else if (m_channels == 3)
 			{
-				m_format = TextureFormat::RGB;
-				internalFormat = TextureFormatToOpenGLFormat(TextureFormat::RGB);
+				m_format = TextureFormat::RGB16F;
+				internalFormat = TextureFormatToOpenGLFormat(TextureFormat::RGB16F);
 				dataFormat = GL_RGB;
 			} else
 			{

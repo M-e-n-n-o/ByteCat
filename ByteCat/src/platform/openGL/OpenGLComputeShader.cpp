@@ -2,7 +2,7 @@
 #include <glad/glad.h>
 #include "byteCat/utils/Macro.h"
 #include "platform/openGL/OpenGLComputeShader.h"
-#include "platform/openGL/Helper"
+#include "platform/openGL/Helper.h"
 
 namespace BC
 {
@@ -34,6 +34,23 @@ namespace BC
 				//LOG_TEXT_LONG(infoLog);
 			}
 
+			// Compute shader debug info
+			// int work_grp_cnt[3];
+			// glGetIntegeri_v(GL_MAX_COMPUTE_WORK_GROUP_COUNT, 0, &work_grp_cnt[0]);
+			// glGetIntegeri_v(GL_MAX_COMPUTE_WORK_GROUP_COUNT, 1, &work_grp_cnt[1]);
+			// glGetIntegeri_v(GL_MAX_COMPUTE_WORK_GROUP_COUNT, 2, &work_grp_cnt[2]);
+			// LOG_INFO("Max global work group count: {0}, {1}, {2}", work_grp_cnt[0], work_grp_cnt[1], work_grp_cnt[2]);
+			//
+			// int work_grp_size[3];
+			// glGetIntegeri_v(GL_MAX_COMPUTE_WORK_GROUP_SIZE, 0, &work_grp_size[0]);
+			// glGetIntegeri_v(GL_MAX_COMPUTE_WORK_GROUP_SIZE, 1, &work_grp_size[1]);
+			// glGetIntegeri_v(GL_MAX_COMPUTE_WORK_GROUP_SIZE, 2, &work_grp_size[2]);
+			// LOG_INFO("Max local work group size: {0}, {1}, {2}", work_grp_size[0], work_grp_size[1], work_grp_size[2]);
+			//
+			// int work_grp_inv;
+			// glGetIntegerv(GL_MAX_COMPUTE_WORK_GROUP_INVOCATIONS, &work_grp_inv);
+			// LOG_INFO("Max local work group invocations: {0}", work_grp_inv);
+			
 			glDeleteShader(computeShaderID);
 		}
 

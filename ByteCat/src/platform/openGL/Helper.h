@@ -16,8 +16,8 @@ namespace BC
 			case TextureFormat::DEPTH_STENCIL:	return GL_DEPTH_STENCIL;
 			case TextureFormat::R:				return GL_RED;
 			case TextureFormat::RG:				return GL_RG;
-			case TextureFormat::RGB:			return GL_RGB16F;
-			case TextureFormat::RGBA:			return GL_RGBA16F;
+			case TextureFormat::RGB16F:			return GL_RGB16F;
+			case TextureFormat::RGBA16F:		return GL_RGBA16F;
 			}
 
 			return -1;

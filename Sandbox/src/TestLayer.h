@@ -11,7 +11,7 @@ class TestLayer : public Layer
 	Entity entity;
 
 	std::shared_ptr<ComputeShader> computeShader;
-	std::shared_ptr<Texture2D> computeTexture;
+	std::shared_ptr<Texture3D> computeTexture;
 	
 public:
 	TestLayer() : Layer("UserLayer")
@@ -131,12 +131,12 @@ public:
 
 
 		
-		computeTexture = Texture2D::Create(512, 512, TextureFormat::RGBA);
+		computeTexture = Texture3D::Create(128, 128, 128, TextureFormat::RGBA16F);
 		
 		computeShader = ComputeShader::Create("Test Compute", "TestCompute.glsl");
 		computeShader->setOutputTexture(computeTexture);
 
-		computeShader->compute(computeTexture->getWidth(), computeTexture->getHeight(), 1);
+		computeShader->compute(computeTexture->getWidth(), computeTexture->getHeight(), 64);
 		computeShader->wait();
 
 		entity = ecsCoordinator->createEntity("Test Entity");

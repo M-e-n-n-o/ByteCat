@@ -14,8 +14,8 @@ namespace BC
 		
 		R,
 		RG,
-		RGB,
-		RGBA
+		RGB16F,
+		RGBA16F
 	};
 	
 	class Texture
@@ -46,5 +46,20 @@ namespace BC
 		static std::shared_ptr<Texture2D> Create(unsigned int width, unsigned int height, const TextureFormat& format);
 		static std::shared_ptr<Texture2D> Create(const std::string& filePath, float mipmapLOD = 0);
 		static std::shared_ptr<Texture2D> Create(const std::string& filePath, const TextureFormat& format, float mipmapLOD = 0);
+	};
+
+	class Texture3D : public Texture
+	{
+	public:
+		virtual void bind(unsigned textureUnit) const override = 0;
+
+		virtual unsigned getWidth() const override = 0;
+		virtual unsigned getHeight() const override = 0;
+		virtual unsigned getDepth() const = 0;
+		virtual unsigned getChannels() const override = 0;
+		virtual TextureFormat getFormat() const override = 0;
+		virtual unsigned int getId() const override = 0;
+
+		static std::shared_ptr<Texture3D> Create(unsigned int width, unsigned int height, unsigned int depth, const TextureFormat& format);
 	};
 }

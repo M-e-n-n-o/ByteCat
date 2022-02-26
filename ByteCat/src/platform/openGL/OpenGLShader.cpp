@@ -3,7 +3,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include "platform/openGL/OpenGLShader.h"
 #include "byteCat/utils/Macro.h"
-#include "platform/openGL/Helper"
+#include "platform/openGL/Helper.h"
 
 namespace BC
 {

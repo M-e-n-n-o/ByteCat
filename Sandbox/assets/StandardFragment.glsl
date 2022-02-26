@@ -4,9 +4,12 @@ in vec2 passTexCoord;
 
 out vec4 fragColor;
 
-uniform sampler2D tex;
+uniform sampler3D tex;
+
+uniform float _Time;
 
 void main()
 {
-	fragColor = texture(tex, passTexCoord);
+	float z = mod(_Time / 200, 512);
+	fragColor = texture(tex, vec3(passTexCoord, z));
 }
