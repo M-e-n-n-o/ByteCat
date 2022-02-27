@@ -9,34 +9,20 @@ out vec4 fragColor;
 in v2f
 {
     vec2 uv;
+	vec3 cameraPos;
     vec3 viewVector;
 } input;
 
-uniform vec3 _cameraPos;
 uniform sampler2D screenTexture;
 
-vec2 rayBoxDist(vec3 boundsMin, vec3 boundsMax, vec3 ro, vec3 rd)
+float dBox(vec3 point, vec3 scale)
 {
-    vec3 t0 = (boundsMin - ro) / rd;
-    vec3 t1 = (boundsMax - ro) / rd;
-    vec3 tmin = min(t0, t1);
-    vec3 tmax = max(t0, t1);
-
-    float distA = max(max(tmin.x, tmin.y), tmin.z);
-    float distB = min(tmax.x, min(tmax.y, tmax.z));
-
-    float distToBox = max(0, distA);
-    float distInsideBox = max(0, distB - distToBox);
-    return vec2(distToBox, distInsideBox);
+	return length(max(abs(point) - scale, 0));
 }
 
 float getDistance(vec3 point)
 {
-    //return length(point - vec3(0, -1, 5)) - 2;
-
-	point += vec3(0, 0, 3);
-
-	return length(vec2(length(point.xz) - 0.2, point.y)) - 0.1;
+	return dBox(point + (vec3(3, 0, -5)), vec3(1));
 }
 
 float rayMarch(vec3 ro, vec3 rd)
@@ -61,21 +47,16 @@ float rayMarch(vec3 ro, vec3 rd)
 
 void main()
 {
-	vec3 ro = _cameraPos;
-	float viewLength = length(input.viewVector);
-	vec3 rd = input.viewVector / viewLength;
+	vec3 ro = input.cameraPos;
+	vec3 rd = normalize(input.viewVector);
 
 	vec4 col = vec4(vec3(0), 1);
 
-    vec2 rayBoxInfo = rayBoxDist(vec3(0, 0, 0), vec3(10, 10, 10), ro, rd);
-    float distToBox = rayBoxInfo.x;
-    float distInsideBox = rayBoxInfo.y;
-
-    bool rayHitBox = distInsideBox > 0;
-    if (rayHitBox)
-    {
-        col.rgb = texture(screenTexture, input.uv).rgb;
-    }
+	float distance = rayMarch(ro, rd);
+	if (distance < MAX_DISTANCE)
+	{
+		col.rgb = texture(screenTexture, input.uv).rgb;
+	}
 
 	fragColor = col;
 }
