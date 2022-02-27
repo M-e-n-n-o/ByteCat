@@ -2,7 +2,6 @@
 #include <ByteCat.h>
 
 #include "byteCat/utils/Time.h"
-#include "glm/ext/matrix_clip_space.hpp"
 
 using namespace BC;
 
@@ -11,7 +10,7 @@ class CameraBehaviour : public Behaviour
 private:
 	Transform* transform = nullptr;
 
-	const float speed = 4;
+	const float speed = 5;
 
 public:
 	void onAttach() override

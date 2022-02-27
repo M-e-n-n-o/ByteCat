@@ -2,6 +2,7 @@
 #include <ByteCat.h>
 
 #include "CameraBehaviour.h"
+#include "glm/gtc/matrix_access.hpp"
 
 using namespace BC;
 
@@ -13,7 +14,10 @@ class TestLayer : public Layer
 	std::shared_ptr<ComputeShader> computeShader;
 	std::shared_ptr<Texture3D> computeTexture;
 
-	std::shared_ptr<FrameBuffer> fbo;	
+	Entity camera;
+	
+	std::shared_ptr<FrameBuffer> fbo;
+	std::shared_ptr<Shader> quadShader;
 	Renderable renderable;
 
 public:
@@ -109,13 +113,14 @@ public:
 			 fbo = FrameBuffer::Create("Test", window.getWidth(), window.getHeight());
 			 auto colorAttachment = Texture2D::Create(window.getWidth(), window.getHeight(), TextureFormat::RGB16F);
 			 fbo->attachTexture(colorAttachment);
+			 fbo->attachRenderBuffer(TextureFormat::DEPTH);
 			
 			 float dataQuad[] =
 			 {
-			 	-1.0f,  1.0f,  0, 1,
-			 	-1.0f, -1.0f,  0, 0,
-			 	 1.0f, -1.0f,  1, 0,
-			 	 1.0f,  1.0f,  1, 1
+			 	-1.0f,  1.0f,	0, 1,
+			 	-1.0f, -1.0f,	0, 0,
+			 	 1.0f, -1.0f,	1, 0,
+			 	 1.0f,  1.0f,	1, 1
 			 };
 			
 			 unsigned indicesQuad[] =
@@ -130,10 +135,10 @@ public:
 			quad->addVertexBuffer(quadVertexBuffer);
 			auto quadIndexBuffer = IndexBuffer::Create(indicesQuad, sizeof(indicesQuad));
 			quad->setIndexBuffer(quadIndexBuffer);
-			
-			auto quadShader = Shader::Create("Quad", "QuadVertex.glsl", "QuadFragment.glsl");
-			quadShader->setTextureSlots({ "screenTexture", "depthTexture" });
-			
+		
+			quadShader = Shader::Create("Quad", "QuadVertex.glsl", "QuadFragment.glsl");
+			quadShader->setTextureSlots({ "screenTexture" });
+		
 			renderable = { CullingMode::Back, RenderLayer::Opaque, quad, quadShader, {colorAttachment}, Math::CreateModelMatrix(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)) };
 
 		
@@ -167,9 +172,9 @@ public:
 			// ecsCoordinator->addComponent<Mesh>(entity, { quad });
 			// ecsCoordinator->addComponent<Material>(entity, { CullingMode::Back, RenderLayer::Opaque, quadShader, {texture} });
 		
-			auto camera = ecsCoordinator->createEntity("Camera");
-			ecsCoordinator->addComponent<Transform>(camera, { glm::vec3(0, 0, -2), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1) });
-			ecsCoordinator->addComponent<Camera>(camera, { 70, 0.01f, 1000.0f });
+			camera = ecsCoordinator->createEntity("Camera");
+			ecsCoordinator->addComponent<Transform>(camera, { glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1) });
+			ecsCoordinator->addComponent<Camera>(camera, { 70, 0.1f, 1000.0f });
 			ecsCoordinator->setBehaviour<CameraBehaviour>(camera);
 	}
 
