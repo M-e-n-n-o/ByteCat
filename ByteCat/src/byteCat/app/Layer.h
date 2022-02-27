@@ -28,6 +28,8 @@ namespace BC
 		virtual void onUpdate() {}
 		// Gets called right before the rendering takes place
 		virtual void onRender() {}
+		// Gets called after the rendering takes place
+		virtual void onRenderComplete() {}
 		// Gets called every time an event occurs in the application
 		virtual void onEvent(Event& event) {}
 

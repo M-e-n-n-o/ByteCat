@@ -14,6 +14,8 @@ namespace BC
 			int m_height;
 			int m_channels;
 			TextureFormat m_format;
+
+			bool m_useForFrameBuffer;
 			
 		public:
 			OpenGLTexture2D(unsigned int width, unsigned int height, const TextureFormat& format);

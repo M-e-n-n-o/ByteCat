@@ -72,7 +72,7 @@ namespace BC
 
 		void OpenGLComputeShader::setOutputTexture(std::shared_ptr<Texture> texture, unsigned int textureUnit)
 		{
-			glBindImageTexture(textureUnit, texture->getId(), 0, GL_FALSE, 0, GL_WRITE_ONLY, TextureFormatToOpenGLFormat(texture->getFormat()));
+			glBindImageTexture(textureUnit, texture->getId(), 0, GL_FALSE, 0, GL_WRITE_ONLY, TextureFormatToOpenGLInternalFormat(texture->getFormat()));
 		}
 
 		unsigned OpenGLComputeShader::loadShader(const std::string& shader, int type) const

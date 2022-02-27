@@ -10,23 +10,23 @@ out v2f
 	vec3 worldPos;
 } output;
 
-uniform mat4 modelMatrix;
-uniform mat4 viewMatrix;
-uniform mat4 projectionMatrix;
+uniform mat4 _modelMatrix;
+uniform mat4 _viewMatrix;
+uniform mat4 _projectionMatrix;
 					
-uniform vec3 _CameraPos;
+uniform vec3 _cameraPos;
 
 void main()
 {		
 	output.uv = texCoord;
 
 	// Object space
-//	output.cameraPos = (inverse(modelMatrix) * vec4(_CameraPos, 1.0)).xyz;
-//	output.worldPos = vertexPos;
+	output.cameraPos = (inverse(_modelMatrix) * vec4(_cameraPos, 1.0)).xyz;
+	output.worldPos = vertexPos;
 	
 	// World space
-	output.cameraPos = _CameraPos;
-	output.worldPos = (modelMatrix * vec4(vertexPos, 1.0)).xyz;
+//	output.cameraPos = _cameraPos;
+//	output.worldPos = (_modelMatrix * vec4(vertexPos, 1.0)).xyz;
 					
-	gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(vertexPos, 1.0);
+	gl_Position = _projectionMatrix * _viewMatrix * _modelMatrix * vec4(vertexPos, 1.0);
 }

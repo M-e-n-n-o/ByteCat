@@ -12,7 +12,10 @@ class TestLayer : public Layer
 
 	std::shared_ptr<ComputeShader> computeShader;
 	std::shared_ptr<Texture3D> computeTexture;
-	
+
+	std::shared_ptr<FrameBuffer> fbo;	
+	Renderable renderable;
+
 public:
 	TestLayer() : Layer("UserLayer")
 	{		
@@ -27,15 +30,7 @@ public:
 		// Maak een shader
 			auto cloudShader = Shader::Create("Cloud shader", "VolumetricRayMarchVertex.glsl", "VolumetricRayMarchFragment.glsl");
 			cloudShader->setTextureSlots({ "noiseTexture" });
-
 			cloudShader->loadVector3("sunPos", glm::vec3(0, 100, 0));
-		
-			//std::vector<glm::vec3> points;
-			//for (int i = 0; i < 20; i++)
-			//{
-			//	points.push_back(glm::vec3( Math::RandomBetween(0, 0.4), Math::RandomBetween(0, 0.4), Math::RandomBetween(0, 0.4) ));
-			//}
-			//cloudShader->loadVector3Array("points", points);
 
 			auto standardShader = Shader::Create("Standard", "StandardVertex.glsl", "StandardFragment.glsl");
 			standardShader->setTextureSlots({ "tex" });
@@ -99,50 +94,83 @@ public:
 			};
 			
 			auto vao = VertexArray::Create();
-
-			auto ebo = IndexBuffer::Create(indices, sizeof(indices));
-			vao->setIndexBuffer(ebo);
 		
 			auto vbo = VertexBuffer::Create(data, sizeof(data));
 			BufferLayout layout = { { ShaderDataType::Float3, "vertexPos" }, {ShaderDataType::Float2, "texCoord"} };
 			vbo->setLayout(layout);
 			vao->addVertexBuffer(vbo);
+
+			auto ebo = IndexBuffer::Create(indices, sizeof(indices));
+			vao->setIndexBuffer(ebo);
+
+
+		// Framebuffer spul
+			 auto& window = Application::GetInstance().getWindow();
+			 fbo = FrameBuffer::Create("Test", window.getWidth(), window.getHeight());
+			 auto colorAttachment = Texture2D::Create(window.getWidth(), window.getHeight(), TextureFormat::RGB16F);
+			 fbo->attachTexture(colorAttachment);
+			
+			 float dataQuad[] =
+			 {
+			 	-1.0f,  1.0f,  0, 1,
+			 	-1.0f, -1.0f,  0, 0,
+			 	 1.0f, -1.0f,  1, 0,
+			 	 1.0f,  1.0f,  1, 1
+			 };
+			
+			 unsigned indicesQuad[] =
+			 {
+			 	0, 1, 2,
+			 	2, 3, 0
+			 };
+			
+			auto quad = VertexArray::Create();
+			auto quadVertexBuffer = VertexBuffer::Create(dataQuad, sizeof(dataQuad));
+			quadVertexBuffer->setLayout({ {ShaderDataType::Float2, "vertexPos"}, {ShaderDataType::Float2, "texCoord"} });
+			quad->addVertexBuffer(quadVertexBuffer);
+			auto quadIndexBuffer = IndexBuffer::Create(indicesQuad, sizeof(indicesQuad));
+			quad->setIndexBuffer(quadIndexBuffer);
+			
+			auto quadShader = Shader::Create("Quad", "QuadVertex.glsl", "QuadFragment.glsl");
+			quadShader->setTextureSlots({ "screenTexture", "depthTexture" });
+			
+			renderable = { CullingMode::Back, RenderLayer::Opaque, quad, quadShader, {colorAttachment}, Math::CreateModelMatrix(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)) };
+
 		
-
 		// Maak een entity en voeg components toe
-			//auto texture = Texture2D::Create("wall.jpg", 0.5);
-			auto noiseTexture = Texture2D::Create("volumeWisp.tga", 0.5);
+			auto texture = Texture2D::Create("wall.jpg");
 
+			//computeTexture = Texture3D::Create(128, 128, 128, TextureFormat::RGBA16F);
+
+			//computeShader = ComputeShader::Create("Test Compute", "TestCompute.glsl");
+			//computeShader->setOutputTexture(computeTexture);
+			//computeShader->compute(computeTexture->getWidth(), computeTexture->getHeight(), 64);
+			//computeShader->wait();
+		
 			//entity = ecsCoordinator->createEntity("Cloud Entity");
-			//ecsCoordinator->addComponent<Transform>(entity, { glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(20, 20, 20) });
+			//ecsCoordinator->addComponent<Transform>(entity, { glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(5, 5, 5) });
 			//ecsCoordinator->addComponent<Mesh>(entity, { vao });
-			//ecsCoordinator->addComponent<Material>(entity, { CullingMode::None, RenderLayer::Transparent, cloudShader, {noiseTexture} });
+			//ecsCoordinator->addComponent<Material>(entity, { CullingMode::None, RenderLayer::Transparent, cloudShader, {computeTexture} });
 
-			// entity = ecsCoordinator->createEntity("Test Entity");
-			// ecsCoordinator->addComponent<Transform>(entity, { glm::vec3(0, 0, 5), glm::vec3(0, 0, 0), glm::vec3(2, 2, 2) });
-			// ecsCoordinator->addComponent<Mesh>(entity, { vao });
-			// ecsCoordinator->addComponent<Material>(entity, { CullingMode::Back, RenderLayer::Opaque, standardShader });
+			entity = ecsCoordinator->createEntity("Test Entity");
+			ecsCoordinator->addComponent<Transform>(entity, { glm::vec3(0, 0, 5), glm::vec3(0, 0, 0), glm::vec3(2, 2, 2) });
+			ecsCoordinator->addComponent<Mesh>(entity, { vao });
+			ecsCoordinator->addComponent<Material>(entity, { CullingMode::Back, RenderLayer::Opaque, standardShader, {texture} });
+
+			entity = ecsCoordinator->createEntity("Test Entity");
+			ecsCoordinator->addComponent<Transform>(entity, { glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(2, 2, 2) });
+			ecsCoordinator->addComponent<Mesh>(entity, { vao });
+			ecsCoordinator->addComponent<Material>(entity, { CullingMode::Back, RenderLayer::Opaque, standardShader, {texture} });
+
+			// entity = ecsCoordinator->createEntity("Test Entity2");
+			// ecsCoordinator->addComponent<Transform>(entity, { glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1) });
+			// ecsCoordinator->addComponent<Mesh>(entity, { quad });
+			// ecsCoordinator->addComponent<Material>(entity, { CullingMode::Back, RenderLayer::Opaque, quadShader, {texture} });
 		
 			auto camera = ecsCoordinator->createEntity("Camera");
 			ecsCoordinator->addComponent<Transform>(camera, { glm::vec3(0, 0, -2), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1) });
 			ecsCoordinator->addComponent<Camera>(camera, { 70, 0.01f, 1000.0f });
 			ecsCoordinator->setBehaviour<CameraBehaviour>(camera);
-
-
-
-		
-		computeTexture = Texture3D::Create(128, 128, 128, TextureFormat::RGBA16F);
-		
-		computeShader = ComputeShader::Create("Test Compute", "TestCompute.glsl");
-		computeShader->setOutputTexture(computeTexture);
-
-		computeShader->compute(computeTexture->getWidth(), computeTexture->getHeight(), 64);
-		computeShader->wait();
-
-		entity = ecsCoordinator->createEntity("Test Entity");
-		ecsCoordinator->addComponent<Transform>(entity, { glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1) });
-		ecsCoordinator->addComponent<Mesh>(entity, { vao });
-		ecsCoordinator->addComponent<Material>(entity, { CullingMode::Back, RenderLayer::Opaque, standardShader, {computeTexture} });
 	}
 
 	void onUpdate() override
@@ -160,7 +188,15 @@ public:
 
 	void onRender() override
 	{
+		Renderer::RenderFrame();
+		fbo->unbind();
+		
+		Renderer::Submit(renderable);
+	}
 
+	void onRenderComplete() override
+	{
+		fbo->bind();
 	}
 
 	void onEvent(Event& event) override

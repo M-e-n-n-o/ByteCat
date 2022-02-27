@@ -33,17 +33,16 @@ namespace BC
 
 	void SimpleRenderer::renderFrame()
 	{
-		m_rendererAPI->clearBuffers();
 		m_rendererAPI->clearColor(glm::vec4(0.2f, 0.3f, 0.3f, 1.0f));
-		//m_rendererAPI->clearColor(glm::vec4(0, 0, 0, 1));
+		m_rendererAPI->clearBuffers();
 
 		for (int i = 0; i < m_entities.size(); i++)
 		{
 			const auto& entity = m_entities[i];
 			entity.shader->bind();
-			entity.shader->loadMatrix4("modelMatrix", entity.modelMatrix);
-			entity.shader->loadMatrix4("viewMatrix", m_sceneData.viewMatrix);
-			entity.shader->loadMatrix4("projectionMatrix", m_sceneData.projectionMatrix);
+			entity.shader->loadMatrix4("_modelMatrix", entity.modelMatrix);
+			entity.shader->loadMatrix4("_viewMatrix", m_sceneData.viewMatrix);
+			entity.shader->loadMatrix4("_projectionMatrix", m_sceneData.projectionMatrix);
 			
 			int unit = 0;
 			for (auto& texture : entity.textures)

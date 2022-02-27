@@ -8,7 +8,7 @@ namespace BC
 {
 	namespace Platform
 	{
-		static int TextureFormatToOpenGLFormat(const TextureFormat& format)
+		static int TextureFormatToOpenGLInternalFormat(const TextureFormat& format)
 		{
 			switch (format)
 			{
@@ -18,6 +18,21 @@ namespace BC
 			case TextureFormat::RG:				return GL_RG;
 			case TextureFormat::RGB16F:			return GL_RGB16F;
 			case TextureFormat::RGBA16F:		return GL_RGBA16F;
+			}
+
+			return -1;
+		}
+
+		static int TextureFormatToOpenGLFormat(const TextureFormat& format)
+		{
+			switch (format)
+			{
+			case TextureFormat::DEPTH:			return GL_DEPTH_COMPONENT;
+			case TextureFormat::DEPTH_STENCIL:	return GL_DEPTH_STENCIL;
+			case TextureFormat::R:				return GL_RED;
+			case TextureFormat::RG:				return GL_RG;
+			case TextureFormat::RGB16F:			return GL_RGB;
+			case TextureFormat::RGBA16F:		return GL_RGBA;
 			}
 
 			return -1;

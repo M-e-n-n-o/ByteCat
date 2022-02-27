@@ -33,6 +33,7 @@
 #include "byteCat/graphics/components/ArrayBuffer.h"
 #include "byteCat/graphics/components/Shader.h"
 #include "byteCat/graphics/components/Texture.h"
+#include "byteCat/graphics/components/FrameBuffer.h"
 #include "byteCat/graphics/renderer/Renderer.h"
 
 #include "byteCat/ecs/Entity.h"

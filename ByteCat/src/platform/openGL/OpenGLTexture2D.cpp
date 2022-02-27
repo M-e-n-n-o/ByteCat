@@ -23,15 +23,17 @@ namespace BC
 			}
 			
 			glGenTextures(1, &m_id);
-			glEnable(GL_TEXTURE_2D);
+			//glEnable(GL_TEXTURE_2D);
 			glBindTexture(GL_TEXTURE_2D, m_id);
 			
-			glTexImage2D(GL_TEXTURE_2D, 0, TextureFormatToOpenGLFormat(format), width, width, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
+			glTexImage2D(GL_TEXTURE_2D, 0, TextureFormatToOpenGLInternalFormat(format), m_width, m_height, 0, TextureFormatToOpenGLFormat(format), GL_UNSIGNED_BYTE, nullptr);
 
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+			// glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+			// glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+			//lBindTexture(GL_TEXTURE_2D, 0);
 		}
 
 		OpenGLTexture2D::OpenGLTexture2D(const std::string& filePath, const TextureFormat& format, float mipmapLOD)
@@ -51,7 +53,7 @@ namespace BC
 			}
 
 			glGenTextures(1, &m_id);
-			glEnable(GL_TEXTURE_2D);
+			//glEnable(GL_TEXTURE_2D);
 			glBindTexture(GL_TEXTURE_2D, m_id);
 
 			int internalFormat = 0;
@@ -59,13 +61,13 @@ namespace BC
 			if (m_channels == 4)
 			{
 				m_format = TextureFormat::RGBA16F;
-				internalFormat = TextureFormatToOpenGLFormat(TextureFormat::RGBA16F);
+				internalFormat = TextureFormatToOpenGLInternalFormat(TextureFormat::RGBA16F);
 				dataFormat = GL_RGBA;
 			}
 			else if (m_channels == 3)
 			{
 				m_format = TextureFormat::RGB16F;
-				internalFormat = TextureFormatToOpenGLFormat(TextureFormat::RGB16F);
+				internalFormat = TextureFormatToOpenGLInternalFormat(TextureFormat::RGB16F);
 				dataFormat = GL_RGB;
 			} else
 			{
@@ -77,7 +79,7 @@ namespace BC
 			if (format != TextureFormat::AUTO)
 			{
 				m_format = format;
-				internalFormat = TextureFormatToOpenGLFormat(format);
+				internalFormat = TextureFormatToOpenGLInternalFormat(format);
 			}
 			
 			glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, m_width, m_height, 0, dataFormat, GL_UNSIGNED_BYTE, imgData);
@@ -86,7 +88,7 @@ namespace BC
 			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_LOD_BIAS, mipmapLOD);
 
 			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-			glBindTexture(GL_TEXTURE_2D, 0);
+			//glBindTexture(GL_TEXTURE_2D, 0);
 
 			stbi_image_free(imgData);
 		}

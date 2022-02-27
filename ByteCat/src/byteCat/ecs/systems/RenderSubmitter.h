@@ -15,11 +15,12 @@ namespace BC
 	public:
 		static void onRenderRenderable(const Renderable& renderable)
 		{
-			renderable.shader->loadVector3("_CameraPos", m_cameraPos);
+			renderable.shader->loadVector3("_cameraPos", m_cameraPos);
 
 			static float time = Time::GetDeltaTime();
-			time += Time::GetDeltaTime();
-			renderable.shader->loadFloat("_Time", time);
+			time += Time::GetDeltaTime();			
+			renderable.shader->loadFloat("_time", time);
+			if (time > 10000) { time = 0; }
 		}
 		
 		void onUpdate() override

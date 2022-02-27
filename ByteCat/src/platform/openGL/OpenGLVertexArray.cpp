@@ -49,7 +49,7 @@ namespace BC
 
 		void OpenGLVertexArray::setIndexBuffer(std::shared_ptr<IndexBuffer> buffer)
 		{
-			bind();
+			glBindVertexArray(m_id);
 			buffer->bind();
 
 			indexBuffer = buffer;
@@ -62,7 +62,7 @@ namespace BC
 				LOG_CRITICAL("VertexBuffer has no layout!");
 			}
 
-			bind();
+			glBindVertexArray(m_id);
 			buffer->bind();
 
 			const auto& layout = buffer->getLayout();				

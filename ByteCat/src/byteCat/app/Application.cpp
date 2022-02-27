@@ -64,6 +64,11 @@ namespace BC
             }
 
             Renderer::RenderFrame();
+
+            for (Layer* layer : m_layerStack)
+            {
+                if (layer->m_enabled) { layer->onRenderComplete(); }
+            }
         }
     }
 
