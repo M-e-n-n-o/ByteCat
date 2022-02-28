@@ -140,6 +140,12 @@ public:
 		
 			quadShader = Shader::Create("Quad", "QuadVertex.glsl", "QuadFragment.glsl");
 			quadShader->setTextureSlots({ "screenTexture", "depthTexture" });
+			quadShader->loadVector3("boxPos", glm::vec3(3, 0, 0));
+			quadShader->loadVector3("boxScale", glm::vec3(1, 1, 2));
+			quadShader->loadVector3("cloudOffset", glm::vec3(0, 0 ,0));
+			quadShader->loadFloat("cloudScale", 1);
+			quadShader->loadFloat("densityThreshold", 1);
+			quadShader->loadFloat("densityMultiplier", 1);
 		
 			renderable = { CullingMode::Back, quad, quadShader, {colorAttachment, depthAttachment}, Math::CreateModelMatrix(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)) };
 
