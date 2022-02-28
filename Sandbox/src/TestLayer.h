@@ -26,16 +26,7 @@ public:
 
 			ecsCoordinator = scene->getEcsCoordinator();
 
-		
-		// Maak een shader
-			//auto cloudShader = Shader::Create("Cloud shader", "VolumetricRayMarchVertex.glsl", "VolumetricRayMarchFragment.glsl");
-			//cloudShader->setTextureSlots({ "noiseTexture" });
-			//cloudShader->loadVector3("sunPos", glm::vec3(0, 100, 0));
-
-			auto standardShader = Shader::Create("Standard", "StandardVertex.glsl", "StandardFragment.glsl");
-			standardShader->setTextureSlots({ "tex" });
-
-		// Maak een vao met data
+		// Cube data
 			float data[] =
 			{
 				// Vertex pos		Texture coords
@@ -103,8 +94,11 @@ public:
 			auto ebo = IndexBuffer::Create(indices, sizeof(indices));
 			vao->setIndexBuffer(ebo);
 
+			auto standardShader = Shader::Create("Standard", "StandardVertex.glsl", "StandardFragment.glsl");
+			standardShader->setTextureSlots({ "tex" });
 
-		// Framebuffer spul
+
+		// Framebuffer + cloud spul
 			 auto& window = Application::GetInstance().getWindow();
 			 fbo = FrameBuffer::Create("Test", window.getWidth(), window.getHeight());
 			 auto colorAttachment = Texture2D::Create(window.getWidth(), window.getHeight(), TextureFormat::RGB16F);
@@ -136,23 +130,8 @@ public:
 		
 			quadShader = Shader::Create("Quad", "QuadVertex.glsl", "QuadFragment.glsl");
 			quadShader->setTextureSlots({ "cloudNoise", "screenTexture", "depthTexture" });
-		
-			quadShader->loadVector3("boxMin", glm::vec3(-20, -5, -20));
-			quadShader->loadVector3("boxMax", glm::vec3(50, 10, 50));
-		
 			quadShader->loadFloat("numSteps", 50);
-		
-			quadShader->loadVector3("cloudOffset", glm::vec3(0, 0 ,0));
-			quadShader->loadFloat("cloudScale", 10);
-			quadShader->loadFloat("densityThreshold", 0.5);
-			quadShader->loadFloat("densityMultiplier", 10);
-
-			quadShader->loadVector3("lightPos", glm::vec3(0, 10, 0));
-			quadShader->loadVector3("lightColor", glm::vec3(1, 1, 1));
 			quadShader->loadFloat("numStepsLight", 15);
-			quadShader->loadFloat("lightAbsorptionThroughCloud", 0.85f);
-			quadShader->loadFloat("lightAbsorptionTowardSun", 0.94f);
-			quadShader->loadFloat("darknessThreshold", 0.07f);
 		
 			auto cloudTexture = Texture3D::Create(128, 128, 128, TextureFormat::RGBA8);
 
@@ -164,7 +143,7 @@ public:
 			renderable = { CullingMode::Back, quad, quadShader, {cloudTexture, colorAttachment, depthAttachment}, Math::CreateModelMatrix(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)) };
 
 		
-		// Maak een entity en voeg components toe
+		// Entities + components aanmaken
 			auto texture = Texture2D::Create("wall.jpg");
 
 			auto entity = ecsCoordinator->createEntity("Test Entity");
@@ -226,11 +205,11 @@ public:
 				ImGui::DragFloat3("Max position", maxPos, 0.1);
 				quadShader->loadVector3("boxMax", glm::vec3(maxPos[0], maxPos[1], maxPos[2]));
 				
-				static float densityThreshold = 0.5;
+				static float densityThreshold = 0.52;
 				ImGui::SliderFloat("Density threshold", &densityThreshold, 0, 1);
 				quadShader->loadFloat("densityThreshold", densityThreshold);
 
-				static float densityMultiplier = 10;
+				static float densityMultiplier = 1.3;
 				ImGui::DragFloat("Density multiplier", &densityMultiplier, 0.01);
 				quadShader->loadFloat("densityMultiplier", densityMultiplier);
 			}
@@ -241,19 +220,19 @@ public:
 				ImGui::DragFloat3("Sun position", sunPos);				
 				quadShader->loadVector3("lightPos", glm::vec3(sunPos[0], sunPos[1], sunPos[2]));
 
-				static float sunCol[3] = { 1, 1, 1 };
+				static float sunCol[3] = { 1, 0.5, 0.14 };
 				ImGui::SliderFloat3("Sun color", sunCol, 0, 1);
 				quadShader->loadVector3("lightColor", glm::vec3(sunCol[0], sunCol[1], sunCol[2]));
 
-				static float lightAbsorptionThroughCloud = 0.85;
+				static float lightAbsorptionThroughCloud = 0.95;
 				ImGui::DragFloat("Light absorption through cloud", &lightAbsorptionThroughCloud, 0.01);
 				quadShader->loadFloat("lightAbsorptionThroughCloud", lightAbsorptionThroughCloud);
 
-				static float lightAbsorptionTowardSun = 0.94;
+				static float lightAbsorptionTowardSun = 1.25;
 				ImGui::DragFloat("Light absorption towards sun", &lightAbsorptionTowardSun, 0.01);
 				quadShader->loadFloat("lightAbsorptionTowardSun", lightAbsorptionTowardSun);
 
-				static float darknessThreshold = 0.07;
+				static float darknessThreshold = 0;
 				ImGui::SliderFloat("Darkness Threshold", &darknessThreshold, 0, 1);
 				quadShader->loadFloat("darknessThreshold", darknessThreshold);
 			}
