@@ -31,10 +31,11 @@ namespace BC
 		}
 
 		void OpenGLFrameBuffer::unbind() const
-		{			
+		{
+			auto& window = Application::GetInstance().getWindow();
+			
 			glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-			auto& window = Application::GetInstance().getWindow();
 			glViewport(0, 0, window.getWidth(), window.getHeight());
 		}
 
@@ -48,7 +49,7 @@ namespace BC
 			return false;
 		}
 
-		void OpenGLFrameBuffer::attachTexture(std::shared_ptr<Texture2D> texture)
+		void OpenGLFrameBuffer::attachTexture(std::shared_ptr<Texture2D> texture, unsigned int slot)
 		{
 			switch (texture->getFormat())
 			{
@@ -67,7 +68,7 @@ namespace BC
 			case TextureFormat::RGB16F:
 			case TextureFormat::RGBA16F:
 				glBindTexture(GL_TEXTURE_2D, texture->getId());
-				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture->getId(), 0);
+				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + slot, GL_TEXTURE_2D, texture->getId(), 0);
 				return;
 			}
 

@@ -8,7 +8,7 @@ namespace BC
 	private:
 		std::vector<Renderable> m_entities;
 
-		int m_transparentIndex = 0;
+		//int m_transparentIndex = 0;
 		
 		RendererAPI* m_rendererAPI;
 		SceneData m_sceneData;

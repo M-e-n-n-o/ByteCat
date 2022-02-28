@@ -112,8 +112,10 @@ public:
 			 auto& window = Application::GetInstance().getWindow();
 			 fbo = FrameBuffer::Create("Test", window.getWidth(), window.getHeight());
 			 auto colorAttachment = Texture2D::Create(window.getWidth(), window.getHeight(), TextureFormat::RGB16F);
+			 auto depthAttachment = Texture2D::Create(window.getWidth(), window.getHeight(), TextureFormat::DEPTH);
 			 fbo->attachTexture(colorAttachment);
-			 fbo->attachRenderBuffer(TextureFormat::DEPTH);
+			 fbo->attachTexture(depthAttachment);
+			 //fbo->attachRenderBuffer(TextureFormat::DEPTH);
 			
 			 float dataQuad[] =
 			 {
@@ -137,9 +139,9 @@ public:
 			quad->setIndexBuffer(quadIndexBuffer);
 		
 			quadShader = Shader::Create("Quad", "QuadVertex.glsl", "QuadFragment.glsl");
-			quadShader->setTextureSlots({ "screenTexture" });
+			quadShader->setTextureSlots({ "screenTexture", "depthTexture" });
 		
-			renderable = { CullingMode::Back, RenderLayer::Opaque, quad, quadShader, {colorAttachment}, Math::CreateModelMatrix(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)) };
+			renderable = { CullingMode::Back, quad, quadShader, {colorAttachment, depthAttachment}, Math::CreateModelMatrix(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)) };
 
 		
 		// Maak een entity en voeg components toe
@@ -158,19 +160,14 @@ public:
 			//ecsCoordinator->addComponent<Material>(entity, { CullingMode::None, RenderLayer::Transparent, cloudShader, {computeTexture} });
 
 			entity = ecsCoordinator->createEntity("Test Entity");
-			ecsCoordinator->addComponent<Transform>(entity, { glm::vec3(0, 0, 5), glm::vec3(0, 0, 0), glm::vec3(2, 2, 2) });
+			ecsCoordinator->addComponent<Transform>(entity, { glm::vec3(0, 0, 10), glm::vec3(0, 0, 0), glm::vec3(2, 2, 2) });
 			ecsCoordinator->addComponent<Mesh>(entity, { vao });
-			ecsCoordinator->addComponent<Material>(entity, { CullingMode::Back, RenderLayer::Opaque, standardShader, {texture} });
+			ecsCoordinator->addComponent<Material>(entity, { CullingMode::Back, standardShader, {texture} });
 
 			entity = ecsCoordinator->createEntity("Test Entity");
-			ecsCoordinator->addComponent<Transform>(entity, { glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(2, 2, 2) });
+			ecsCoordinator->addComponent<Transform>(entity, { glm::vec3(0, 0, 5), glm::vec3(0, 0, 0), glm::vec3(2, 2, 2) });
 			ecsCoordinator->addComponent<Mesh>(entity, { vao });
-			ecsCoordinator->addComponent<Material>(entity, { CullingMode::Back, RenderLayer::Opaque, standardShader, {texture} });
-
-			// entity = ecsCoordinator->createEntity("Test Entity2");
-			// ecsCoordinator->addComponent<Transform>(entity, { glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1) });
-			// ecsCoordinator->addComponent<Mesh>(entity, { quad });
-			// ecsCoordinator->addComponent<Material>(entity, { CullingMode::Back, RenderLayer::Opaque, quadShader, {texture} });
+			ecsCoordinator->addComponent<Material>(entity, { CullingMode::Back, standardShader, {texture} });
 		
 			camera = ecsCoordinator->createEntity("Camera");
 			ecsCoordinator->addComponent<Transform>(camera, { glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1) });

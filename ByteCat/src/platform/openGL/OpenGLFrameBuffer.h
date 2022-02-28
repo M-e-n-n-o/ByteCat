@@ -25,7 +25,7 @@ namespace BC
 
 			bool isComplete() const override;
 			
-			void attachTexture(std::shared_ptr<Texture2D> texture) override;
+			void attachTexture(std::shared_ptr<Texture2D> texture, unsigned int slot) override;
 			void attachRenderBuffer(const TextureFormat& format) override;
 		};
 	}

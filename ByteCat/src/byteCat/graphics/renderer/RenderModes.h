@@ -10,9 +10,9 @@ namespace BC
 		FrontAndBack
 	};
 
-	enum class RenderLayer
-	{
-		Opaque,
-		Transparent
-	};
+	// enum class RenderLayer
+	// {
+	// 	Opaque,
+	// 	Transparent
+	// };
 }

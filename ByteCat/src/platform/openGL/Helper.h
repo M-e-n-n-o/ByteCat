@@ -12,8 +12,8 @@ namespace BC
 		{
 			switch (format)
 			{
-			case TextureFormat::DEPTH:			return GL_DEPTH_COMPONENT;
-			case TextureFormat::DEPTH_STENCIL:	return GL_DEPTH_STENCIL;
+			case TextureFormat::DEPTH:			return GL_DEPTH_COMPONENT32;
+			case TextureFormat::DEPTH_STENCIL:	return GL_DEPTH24_STENCIL8;
 			case TextureFormat::R:				return GL_RED;
 			case TextureFormat::RG:				return GL_RG;
 			case TextureFormat::RGB16F:			return GL_RGB16F;

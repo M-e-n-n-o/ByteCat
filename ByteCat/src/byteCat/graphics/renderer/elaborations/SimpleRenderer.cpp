@@ -10,20 +10,20 @@ namespace BC
 
 	void SimpleRenderer::submit(const Renderable& renderable)
 	{
-		switch (renderable.renderLayer)
-		{
-		case RenderLayer::Opaque:
-			{
-				m_entities.emplace(m_entities.begin() + m_transparentIndex, renderable);
-				m_transparentIndex++;
-				break;
-			}
-		case RenderLayer::Transparent:
-			{
+		// switch (renderable.renderLayer)
+		// {
+		// case RenderLayer::Opaque:
+		// 	{
+		// 		m_entities.emplace(m_entities.begin() + m_transparentIndex, renderable);
+		// 		m_transparentIndex++;
+		// 		break;
+		// 	}
+		// case RenderLayer::Transparent:
+		// 	{
 				m_entities.push_back(renderable);
-				break;
-			}
-		}
+		// 		break;
+		// 	}
+		// }
 	}
 
 	void SimpleRenderer::setSceneData(const SceneData& sceneData)
@@ -62,7 +62,7 @@ namespace BC
 			m_rendererAPI->draw(entity.vao);
 		}
 
-		m_transparentIndex = 0;
+		// m_transparentIndex = 0;
 		m_entities.clear();
 	}
 

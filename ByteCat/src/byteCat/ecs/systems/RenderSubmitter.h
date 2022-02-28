@@ -35,7 +35,7 @@ namespace BC
 				auto& material = m_coordinator->getComponent<Material>(entity);
 
 				glm::mat4 modelMatrix = Math::CreateModelMatrix(transform.position, transform.rotation, transform.scale);
-				Renderer::Submit({ material.cullingMode, material.renderLayer, mesh.vao, material.shader, material.textures, modelMatrix, onRenderRenderable });
+				Renderer::Submit({ material.cullingMode, mesh.vao, material.shader, material.textures, modelMatrix, onRenderRenderable });
 			}
 		}
 	};

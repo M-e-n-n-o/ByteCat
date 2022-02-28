@@ -14,6 +14,7 @@ in v2f
 } input;
 
 uniform sampler2D screenTexture;
+uniform sampler2D depthTexture;
 
 float dBox(vec3 point, vec3 scale)
 {
@@ -50,13 +51,15 @@ void main()
 	vec3 ro = input.cameraPos;
 	vec3 rd = normalize(input.viewVector);
 
-	vec4 col = vec4(vec3(0), 1);
+	vec4 col = texture(screenTexture, input.uv);
 
 	float distance = rayMarch(ro, rd);
 	if (distance < MAX_DISTANCE)
 	{
-		col.rgb = texture(screenTexture, input.uv).rgb;
+		col.rgb = vec3(0);
 	}
+
+	col.rgb = texture(depthTexture, input.uv).rgb;
 
 	fragColor = col;
 }
