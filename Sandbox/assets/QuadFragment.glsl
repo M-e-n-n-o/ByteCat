@@ -27,11 +27,8 @@ uniform float densityMultiplier;
 float sampleDensity(vec3 point)
 {
 	vec3 uvw = point * cloudScale * 0.001 + cloudOffset * 0.01;
-
-	//return texture(cloudNoise, uvw).r;
-
 	vec4 shape = texture(cloudNoise, uvw);
-	return max(0, shape.r - densityThreshold) * densityMultiplier;
+	return (max(0, shape.r - densityThreshold) * densityMultiplier);
 }
 
 float linearizeDepth(float d,float zNear,float zFar)
@@ -39,7 +36,7 @@ float linearizeDepth(float d,float zNear,float zFar)
     return zNear * zFar / (zFar + d * (zNear - zFar));
 }
 
-// x = distanceToBox, y = distinceTraveldInsideBox
+// x = distanceToBox, y = distinceTravelledInsideBox
 vec2 rayBoxDist(vec3 boundsMin, vec3 boundsMax, vec3 rayOrigin, vec3 rayDir)
 {
 	vec3 t0 = (boundsMin - rayOrigin) / rayDir;

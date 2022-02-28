@@ -88,37 +88,6 @@ float map(float value, float min1, float max1, float min2, float max2)
   return min2 + (value - min1) * (max2 - min2) / (max1 - min1);
 }
 
-float distanceToClosestPoint(vec3 pos, vec3 points[3])
-{
-	float smallestDistance = 10000;
-	for (int i = 0; i < 3; i++)
-	{
-		float distance = length(pos - points[i]);
-		smallestDistance = min(smallestDistance, distance);
-	}
-
-	return smallestDistance;
-}
-
-float rand(float n){return fract(sin(n) * 43758.5453123);}
-
-float noise(float p){
-	float fl = floor(p);
-  float fc = fract(p);
-	return mix(rand(fl), rand(fl + 1.0), fc);
-}
-
-vec3[10] getRandomPoints()
-{
-	vec3 points[10];
-	for(int i = 0; i < 10; i++)
-	{
-		points[i] = vec3(noise(5 + i), noise(1 + i), noise(8 + i));
-	}
-
-	return points;
-}
-
 void main() 
 {
 	vec4 pixel = vec4(1.0, 0.0, 0.0, 1.0);
@@ -131,17 +100,6 @@ void main()
 	float z = map(pixel_coords.z, 0, 128, 0, 64);
 
 	pixel.rgb = vec3(snoiseFractal(vec3(x, y, z)));
-
-//	vec3 points[10] = getRandomPoints();
-//
-//	vec3 points2[3];
-//	points2[0] = vec3(0, 0, 0);
-//	points2[1] = vec3(64, 64, 64);
-//	points2[2] = vec3(256, 256, 256);
-//
-//	float distance = distanceToClosestPoint(pixel_coords, points2);
-//
-//	pixel.rgb = vec3(0);
   
 	// output to a specific pixel in the image
 	imageStore(img_output, pixel_coords, pixel);

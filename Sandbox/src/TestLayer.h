@@ -143,7 +143,7 @@ public:
 			quadShader->loadVector3("boxMin", glm::vec3(0, 0, 0));
 			quadShader->loadVector3("boxMax", glm::vec3(10, 5, 10));
 		
-			quadShader->loadFloat("numSteps", 200);
+			quadShader->loadFloat("numSteps", 50);
 		
 			quadShader->loadVector3("cloudOffset", glm::vec3(0, 0 ,0));
 			quadShader->loadFloat("cloudScale", 10);
@@ -195,11 +195,6 @@ public:
 		{
 			ecsCoordinator->getComponent<Transform>(entity).scale.y -= Time::GetDeltaTime();
 		}
-
-		static float x = 0;
-		x += Time::GetDeltaTime();
-		
-		quadShader->loadVector3("cloudOffset", glm::vec3(x, 0, 0));
 	}
 
 	void onRender() override
