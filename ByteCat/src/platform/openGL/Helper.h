@@ -17,6 +17,7 @@ namespace BC
 			case TextureFormat::R:				return GL_RED;
 			case TextureFormat::RG:				return GL_RG;
 			case TextureFormat::RGB16F:			return GL_RGB16F;
+			case TextureFormat::RGBA8:			return GL_RGBA8;
 			case TextureFormat::RGBA16F:		return GL_RGBA16F;
 			}
 
@@ -32,6 +33,7 @@ namespace BC
 			case TextureFormat::R:				return GL_RED;
 			case TextureFormat::RG:				return GL_RG;
 			case TextureFormat::RGB16F:			return GL_RGB;
+			case TextureFormat::RGBA8:			return GL_RGBA;
 			case TextureFormat::RGBA16F:		return GL_RGBA;
 			}
 

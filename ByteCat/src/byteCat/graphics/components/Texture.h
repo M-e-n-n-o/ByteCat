@@ -15,6 +15,7 @@ namespace BC
 		R,
 		RG,
 		RGB16F,
+		RGBA8,
 		RGBA16F
 	};
 	

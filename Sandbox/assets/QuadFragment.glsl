@@ -16,6 +16,13 @@ uniform sampler3D cloudNoise;
 uniform sampler2D screenTexture;
 uniform sampler2D depthTexture;
 
+uniform vec3 lightPos;
+uniform vec3 lightColor;
+uniform float numStepsLight;
+uniform float lightAbsorptionThroughCloud;
+uniform float lightAbsorptionTowardSun;
+uniform float darknessThreshold;
+
 uniform vec3 boxMin;
 uniform vec3 boxMax;
 uniform float numSteps;
@@ -24,6 +31,11 @@ uniform float cloudScale;
 uniform float densityThreshold;
 uniform float densityMultiplier;
 
+float linearizeDepth(float d,float zNear,float zFar)
+{
+    return zNear * zFar / (zFar + d * (zNear - zFar));
+}
+
 float sampleDensity(vec3 point)
 {
 	vec3 uvw = point * cloudScale * 0.001 + cloudOffset * 0.01;
@@ -31,12 +43,7 @@ float sampleDensity(vec3 point)
 	return (max(0, shape.r - densityThreshold) * densityMultiplier);
 }
 
-float linearizeDepth(float d,float zNear,float zFar)
-{
-    return zNear * zFar / (zFar + d * (zNear - zFar));
-}
-
-// x = distanceToBox, y = distinceTravelledInsideBox
+// x = distanceToBox, y = distinceFromFrontToBackOfBox
 vec2 rayBoxDist(vec3 boundsMin, vec3 boundsMax, vec3 rayOrigin, vec3 rayDir)
 {
 	vec3 t0 = (boundsMin - rayOrigin) / rayDir;
@@ -52,6 +59,24 @@ vec2 rayBoxDist(vec3 boundsMin, vec3 boundsMax, vec3 rayOrigin, vec3 rayDir)
 	return vec2(dstToBox, dstInsideBox);
 }
 
+float lightMarch(vec3 point)
+{
+	vec3 toLight = normalize(lightPos - point);
+	float dstInsideBox = rayBoxDist(boxMin, boxMax, point, 1 / toLight).y;
+
+	float stepSize = dstInsideBox / numStepsLight;
+	float totalDensity = 0;
+
+	for (int step = 0; step < numStepsLight; step++)
+	{
+		point += toLight * stepSize;
+		totalDensity += max(0, sampleDensity(point) * stepSize);
+	}
+
+	float transmittance = exp(-totalDensity * lightAbsorptionTowardSun);
+	return darknessThreshold + transmittance * (1 - darknessThreshold);
+}
+
 void main()
 {
 	vec3 ro = input.cameraPos;
@@ -59,25 +84,49 @@ void main()
 
 	float depth = linearizeDepth(texture(depthTexture, input.uv).r, NEAR, FAR);
 
-	vec4 col = texture(screenTexture, input.uv);
-
 	vec2 rayBoxInfo = rayBoxDist(boxMin, boxMax, ro, rd);
 	float dstToBox = rayBoxInfo.x;
 	float dstInsideBox = rayBoxInfo.y;
+
+//	float cosAngle = max(dot(rd, lightPos) / 5, 0.4);
 
 	float dstTravelled = 0;
 	float stepSize = dstInsideBox / numSteps;
 	float dstLimit = min(depth - dstToBox, dstInsideBox);
 
 	float totalDensity = 0;
+	float transmittance = 1;
+	vec3 lightEnergy = vec3(0);
 	while (dstTravelled < dstLimit)
 	{
 		vec3 rayPos = ro + rd * (dstToBox + dstTravelled);
-		totalDensity += sampleDensity(rayPos) * stepSize;
+
+		float density = sampleDensity(rayPos);
+		if (density > 0)
+		{
+			float lightTransmittance = lightMarch(rayPos);
+			lightEnergy += density * stepSize * transmittance * lightTransmittance; // * cosAngle;
+			transmittance *= exp(-density * stepSize * lightAbsorptionThroughCloud);
+
+			if (transmittance < 0.01)
+			{
+				break;
+			}
+		}
+
+		totalDensity += density;
 		dstTravelled += stepSize;
 	}
 
-	float transmittance = exp(-totalDensity);
+//	if (totalDensity == 0)
+//	{
+//		fragColor = texture(screenTexture, input.uv);
+//		return;
+//	}
 
-	fragColor = col * transmittance;
+	vec3 screenColor = texture(screenTexture, input.uv).rgb;
+	vec3 cloudColor = lightEnergy * lightColor;
+	vec3 col = screenColor * transmittance * cloudColor;
+
+	fragColor = vec4(screenColor * cloudColor, 1);
 }

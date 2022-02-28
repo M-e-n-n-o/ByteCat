@@ -66,6 +66,7 @@ namespace BC
 			case TextureFormat::R:
 			case TextureFormat::RG:
 			case TextureFormat::RGB16F:
+			case TextureFormat::RGBA8:
 			case TextureFormat::RGBA16F:
 				glBindTexture(GL_TEXTURE_2D, texture->getId());
 				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + slot, GL_TEXTURE_2D, texture->getId(), 0);

@@ -9,12 +9,6 @@ using namespace BC;
 class TestLayer : public Layer
 {
 	std::shared_ptr<EcsCoordinator> ecsCoordinator;
-	Entity entity;
-
-	// std::shared_ptr<ComputeShader> computeShader;
-	// std::shared_ptr<Texture3D> computeTexture;
-
-	Entity camera;
 	
 	std::shared_ptr<FrameBuffer> fbo;
 	std::shared_ptr<Shader> quadShader;
@@ -32,9 +26,9 @@ public:
 
 		
 		// Maak een shader
-			auto cloudShader = Shader::Create("Cloud shader", "VolumetricRayMarchVertex.glsl", "VolumetricRayMarchFragment.glsl");
-			cloudShader->setTextureSlots({ "noiseTexture" });
-			cloudShader->loadVector3("sunPos", glm::vec3(0, 100, 0));
+			//auto cloudShader = Shader::Create("Cloud shader", "VolumetricRayMarchVertex.glsl", "VolumetricRayMarchFragment.glsl");
+			//cloudShader->setTextureSlots({ "noiseTexture" });
+			//cloudShader->loadVector3("sunPos", glm::vec3(0, 100, 0));
 
 			auto standardShader = Shader::Create("Standard", "StandardVertex.glsl", "StandardFragment.glsl");
 			standardShader->setTextureSlots({ "tex" });
@@ -140,17 +134,25 @@ public:
 		
 			quadShader = Shader::Create("Quad", "QuadVertex.glsl", "QuadFragment.glsl");
 			quadShader->setTextureSlots({ "cloudNoise", "screenTexture", "depthTexture" });
-			quadShader->loadVector3("boxMin", glm::vec3(0, 0, 0));
-			quadShader->loadVector3("boxMax", glm::vec3(10, 5, 10));
+		
+			quadShader->loadVector3("boxMin", glm::vec3(-20, -5, -20));
+			quadShader->loadVector3("boxMax", glm::vec3(50, 10, 50));
 		
 			quadShader->loadFloat("numSteps", 50);
 		
 			quadShader->loadVector3("cloudOffset", glm::vec3(0, 0 ,0));
 			quadShader->loadFloat("cloudScale", 10);
-			quadShader->loadFloat("densityThreshold", 0);
-			quadShader->loadFloat("densityMultiplier", 1);
+			quadShader->loadFloat("densityThreshold", 0.5);
+			quadShader->loadFloat("densityMultiplier", 10);
 
-			auto cloudTexture = Texture3D::Create(128, 128, 128, TextureFormat::RGBA16F);
+			quadShader->loadVector3("lightPos", glm::vec3(0, 10, 0));
+			quadShader->loadVector3("lightColor", glm::vec3(1, 0, 0));
+			quadShader->loadFloat("numStepsLight", 15);
+			quadShader->loadFloat("lightAbsorptionThroughCloud", 0.85f);
+			quadShader->loadFloat("lightAbsorptionTowardSun", 0.94f);
+			quadShader->loadFloat("darknessThreshold", 0.07f);
+		
+			auto cloudTexture = Texture3D::Create(128, 128, 128, TextureFormat::RGBA8);
 
 			auto computeShader = ComputeShader::Create("Test Compute", "TestCompute.glsl");
 			computeShader->setOutputTexture(cloudTexture);
@@ -162,39 +164,29 @@ public:
 		
 		// Maak een entity en voeg components toe
 			auto texture = Texture2D::Create("wall.jpg");
-		
-			//entity = ecsCoordinator->createEntity("Cloud Entity");
-			//ecsCoordinator->addComponent<Transform>(entity, { glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(5, 5, 5) });
-			//ecsCoordinator->addComponent<Mesh>(entity, { vao });
-			//ecsCoordinator->addComponent<Material>(entity, { CullingMode::None, RenderLayer::Transparent, cloudShader, {computeTexture} });
 
-			entity = ecsCoordinator->createEntity("Test Entity");
+			auto entity = ecsCoordinator->createEntity("Test Entity");
 			ecsCoordinator->addComponent<Transform>(entity, { glm::vec3(0, 0, 10), glm::vec3(0, 0, 0), glm::vec3(2, 2, 2) });
 			ecsCoordinator->addComponent<Mesh>(entity, { vao });
 			ecsCoordinator->addComponent<Material>(entity, { CullingMode::Back, standardShader, {texture} });
 
-			entity = ecsCoordinator->createEntity("Test Entity");
-			ecsCoordinator->addComponent<Transform>(entity, { glm::vec3(0, 0, 5), glm::vec3(0, 0, 0), glm::vec3(2, 2, 2) });
-			ecsCoordinator->addComponent<Mesh>(entity, { vao });
-			ecsCoordinator->addComponent<Material>(entity, { CullingMode::Back, standardShader, {texture} });
+			auto entity2 = ecsCoordinator->createEntity("Test Entity");
+			ecsCoordinator->addComponent<Transform>(entity2, { glm::vec3(0, 0, 5), glm::vec3(0, 0, 0), glm::vec3(2, 2, 2) });
+			ecsCoordinator->addComponent<Mesh>(entity2, { vao });
+			ecsCoordinator->addComponent<Material>(entity2, { CullingMode::Back, standardShader, {texture} });
 		
-			camera = ecsCoordinator->createEntity("Camera");
-			ecsCoordinator->addComponent<Transform>(camera, { glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1) });
+			auto camera = ecsCoordinator->createEntity("Camera");
+			ecsCoordinator->addComponent<Transform>(camera, { glm::vec3(0, 15, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1) });
 			ecsCoordinator->addComponent<Camera>(camera, { 70, 0.1f, 1000.0f });
 			ecsCoordinator->setBehaviour<CameraBehaviour>(camera);
 	}
 
 	void onUpdate() override
 	{
-		if (Input::IsKeyPressed(KeyCode::R))
-		{
-			ecsCoordinator->getComponent<Transform>(entity).scale.y += Time::GetDeltaTime();
-		}
-
-		if (Input::IsKeyPressed(KeyCode::T))
-		{
-			ecsCoordinator->getComponent<Transform>(entity).scale.y -= Time::GetDeltaTime();
-		}
+		static float x = 0;
+		x += Time::GetDeltaTime() / 2;
+		
+		quadShader->loadVector3("cloudOffset", glm::vec3(x, 0, 0));
 	}
 
 	void onRender() override
@@ -222,6 +214,46 @@ public:
 
 				Input::GetMouseVelocity();
 			}
+
+			static float densityThreshold = 0.5;
+			if (keyEvent->getKeyCode() == KeyCode::R) {
+				densityThreshold += 0.1;
+			} if (keyEvent->getKeyCode() == KeyCode::T) {
+				densityThreshold -= 0.1;
+			}
+			quadShader->loadFloat("densityThreshold", densityThreshold);
+
+			static float densityMultiplier = 10;
+			if (keyEvent->getKeyCode() == KeyCode::Y) {
+				densityMultiplier += 1;
+			} if (keyEvent->getKeyCode() == KeyCode::U) {
+				densityMultiplier -= 1;
+			}
+			quadShader->loadFloat("densityMultiplier", densityMultiplier);
+
+			static float lightAbsorptionThroughCloud = 0.85;
+			if (keyEvent->getKeyCode() == KeyCode::F) {
+				lightAbsorptionThroughCloud += 0.05;
+			} if (keyEvent->getKeyCode() == KeyCode::G) {
+				lightAbsorptionThroughCloud -= 0.05;
+			}
+			quadShader->loadFloat("lightAbsorptionThroughCloud", lightAbsorptionThroughCloud);
+
+			static float lightAbsorptionTowardSun = 0.94;
+			if (keyEvent->getKeyCode() == KeyCode::H) {
+				lightAbsorptionTowardSun += 0.05;
+			} if (keyEvent->getKeyCode() == KeyCode::J) {
+				lightAbsorptionTowardSun -= 0.05;
+			}
+			quadShader->loadFloat("lightAbsorptionTowardSun", lightAbsorptionTowardSun);
+
+			static float darknessThreshold = 0.94;
+			if (keyEvent->getKeyCode() == KeyCode::K) {
+				darknessThreshold += 0.05;
+			} if (keyEvent->getKeyCode() == KeyCode::L) {
+				darknessThreshold -= 0.05;
+			}
+			quadShader->loadFloat("darknessThreshold", darknessThreshold);
 		}
 	}
 };
