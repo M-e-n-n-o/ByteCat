@@ -11,8 +11,8 @@ class TestLayer : public Layer
 	std::shared_ptr<EcsCoordinator> ecsCoordinator;
 	Entity entity;
 
-	std::shared_ptr<ComputeShader> computeShader;
-	std::shared_ptr<Texture3D> computeTexture;
+	// std::shared_ptr<ComputeShader> computeShader;
+	// std::shared_ptr<Texture3D> computeTexture;
 
 	Entity camera;
 	
@@ -139,26 +139,29 @@ public:
 			quad->setIndexBuffer(quadIndexBuffer);
 		
 			quadShader = Shader::Create("Quad", "QuadVertex.glsl", "QuadFragment.glsl");
-			quadShader->setTextureSlots({ "screenTexture", "depthTexture" });
-			quadShader->loadVector3("boxPos", glm::vec3(3, 0, 0));
-			quadShader->loadVector3("boxScale", glm::vec3(1, 1, 2));
-			quadShader->loadVector3("cloudOffset", glm::vec3(0, 0 ,0));
-			quadShader->loadFloat("cloudScale", 1);
-			quadShader->loadFloat("densityThreshold", 1);
-			quadShader->loadFloat("densityMultiplier", 1);
+			quadShader->setTextureSlots({ "cloudNoise", "screenTexture", "depthTexture" });
+			quadShader->loadVector3("boxMin", glm::vec3(0, 0, 0));
+			quadShader->loadVector3("boxMax", glm::vec3(10, 5, 10));
 		
-			renderable = { CullingMode::Back, quad, quadShader, {colorAttachment, depthAttachment}, Math::CreateModelMatrix(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)) };
+			quadShader->loadFloat("numSteps", 200);
+		
+			quadShader->loadVector3("cloudOffset", glm::vec3(0, 0 ,0));
+			quadShader->loadFloat("cloudScale", 10);
+			quadShader->loadFloat("densityThreshold", 0);
+			quadShader->loadFloat("densityMultiplier", 1);
+
+			auto cloudTexture = Texture3D::Create(128, 128, 128, TextureFormat::RGBA16F);
+
+			auto computeShader = ComputeShader::Create("Test Compute", "TestCompute.glsl");
+			computeShader->setOutputTexture(cloudTexture);
+			computeShader->compute(cloudTexture->getWidth(), cloudTexture->getHeight(), 64);
+			computeShader->wait();
+		
+			renderable = { CullingMode::Back, quad, quadShader, {cloudTexture, colorAttachment, depthAttachment}, Math::CreateModelMatrix(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)) };
 
 		
 		// Maak een entity en voeg components toe
 			auto texture = Texture2D::Create("wall.jpg");
-
-			//computeTexture = Texture3D::Create(128, 128, 128, TextureFormat::RGBA16F);
-
-			//computeShader = ComputeShader::Create("Test Compute", "TestCompute.glsl");
-			//computeShader->setOutputTexture(computeTexture);
-			//computeShader->compute(computeTexture->getWidth(), computeTexture->getHeight(), 64);
-			//computeShader->wait();
 		
 			//entity = ecsCoordinator->createEntity("Cloud Entity");
 			//ecsCoordinator->addComponent<Transform>(entity, { glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(5, 5, 5) });
@@ -192,6 +195,11 @@ public:
 		{
 			ecsCoordinator->getComponent<Transform>(entity).scale.y -= Time::GetDeltaTime();
 		}
+
+		static float x = 0;
+		x += Time::GetDeltaTime();
+		
+		quadShader->loadVector3("cloudOffset", glm::vec3(x, 0, 0));
 	}
 
 	void onRender() override
