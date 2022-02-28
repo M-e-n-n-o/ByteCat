@@ -96,7 +96,7 @@ void main()
 
 	float totalDensity = 0;
 	float transmittance = 1;
-	vec3 lightEnergy = vec3(0);
+	vec3 lightEnergy = vec3(0.1);
 	while (dstTravelled < dstLimit)
 	{
 		vec3 rayPos = ro + rd * (dstToBox + dstTravelled);
@@ -118,15 +118,9 @@ void main()
 		dstTravelled += stepSize;
 	}
 
-//	if (totalDensity == 0)
-//	{
-//		fragColor = texture(screenTexture, input.uv);
-//		return;
-//	}
-
 	vec3 screenColor = texture(screenTexture, input.uv).rgb;
 	vec3 cloudColor = lightEnergy * lightColor;
-	vec3 col = screenColor * transmittance * cloudColor;
+	vec3 col = mix(screenColor, cloudColor, 0.5) * transmittance;
 
-	fragColor = vec4(screenColor * cloudColor, 1);
+	fragColor = vec4(col, 1);
 }
