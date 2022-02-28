@@ -25,6 +25,9 @@ namespace BC
 		template<typename T, typename... Args>
 		void setBehaviour(const Entity& entity, EcsCoordinator* coordinator, Args&... args);
 
+		template<typename T>
+		void enableBehaviour(const Entity& entity, bool enabled);
+
 		void updateBehaviours();
 
 		const char* getName(const Entity& entity);
@@ -55,5 +58,14 @@ namespace BC
 		
 		m_behaviours[entity] = behaviour;
 		m_behaviours[entity]->onAttach();
+	}
+
+	template <typename T>
+	void EntityManager::enableBehaviour(const Entity& entity, bool enabled)
+	{
+		if (m_behaviours[entity] != nullptr)
+		{
+			m_behaviours[entity]->m_enabled = enabled;
+		}
 	}
 }

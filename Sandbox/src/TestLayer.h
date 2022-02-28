@@ -9,6 +9,8 @@ using namespace BC;
 class TestLayer : public Layer
 {
 	std::shared_ptr<EcsCoordinator> ecsCoordinator;
+
+	Entity camera;
 	
 	std::shared_ptr<FrameBuffer> fbo;
 	std::shared_ptr<Shader> quadShader;
@@ -146,7 +148,7 @@ public:
 			quadShader->loadFloat("densityMultiplier", 10);
 
 			quadShader->loadVector3("lightPos", glm::vec3(0, 10, 0));
-			quadShader->loadVector3("lightColor", glm::vec3(1, 0, 0));
+			quadShader->loadVector3("lightColor", glm::vec3(1, 1, 1));
 			quadShader->loadFloat("numStepsLight", 15);
 			quadShader->loadFloat("lightAbsorptionThroughCloud", 0.85f);
 			quadShader->loadFloat("lightAbsorptionTowardSun", 0.94f);
@@ -175,8 +177,8 @@ public:
 			ecsCoordinator->addComponent<Mesh>(entity2, { vao });
 			ecsCoordinator->addComponent<Material>(entity2, { CullingMode::Back, standardShader, {texture} });
 		
-			auto camera = ecsCoordinator->createEntity("Camera");
-			ecsCoordinator->addComponent<Transform>(camera, { glm::vec3(0, 15, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1) });
+			camera = ecsCoordinator->createEntity("Camera");
+			ecsCoordinator->addComponent<Transform>(camera, { glm::vec3(0, 20, -10), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1) });
 			ecsCoordinator->addComponent<Camera>(camera, { 70, 0.1f, 1000.0f });
 			ecsCoordinator->setBehaviour<CameraBehaviour>(camera);
 	}
@@ -202,58 +204,76 @@ public:
 		fbo->bind();
 	}
 
+	inline static bool captured = false;
+
+	void onGuiRender() override
+	{
+		if (captured)
+		{
+			ImGui::Begin("Settings");
+			
+			ImGui::Text("Cloud Settings");
+			{
+				static float cloudScale = 10;
+				ImGui::DragFloat("Scale", &cloudScale, 0.1);
+				quadShader->loadFloat("cloudScale", cloudScale);
+
+				static float minPos[3] = { -20, -5, -20 };
+				ImGui::DragFloat3("Min position", minPos, 0.1);
+				quadShader->loadVector3("boxMin", glm::vec3(minPos[0], minPos[1], minPos[2]));
+
+				static float maxPos[3] = { 50, 10, 50 };
+				ImGui::DragFloat3("Max position", maxPos, 0.1);
+				quadShader->loadVector3("boxMax", glm::vec3(maxPos[0], maxPos[1], maxPos[2]));
+				
+				static float densityThreshold = 0.5;
+				ImGui::SliderFloat("Density threshold", &densityThreshold, 0, 1);
+				quadShader->loadFloat("densityThreshold", densityThreshold);
+
+				static float densityMultiplier = 10;
+				ImGui::DragFloat("Density multiplier", &densityMultiplier, 0.01);
+				quadShader->loadFloat("densityMultiplier", densityMultiplier);
+			}
+
+			ImGui::Text("Light Settings");
+			{
+				static float sunPos[3] = { 0, 10, 0 };
+				ImGui::DragFloat3("Sun position", sunPos);				
+				quadShader->loadVector3("lightPos", glm::vec3(sunPos[0], sunPos[1], sunPos[2]));
+
+				static float sunCol[3] = { 1, 1, 1 };
+				ImGui::SliderFloat3("Sun color", sunCol, 0, 1);
+				quadShader->loadVector3("lightColor", glm::vec3(sunCol[0], sunCol[1], sunCol[2]));
+
+				static float lightAbsorptionThroughCloud = 0.85;
+				ImGui::DragFloat("Light absorption through cloud", &lightAbsorptionThroughCloud, 0.01);
+				quadShader->loadFloat("lightAbsorptionThroughCloud", lightAbsorptionThroughCloud);
+
+				static float lightAbsorptionTowardSun = 0.94;
+				ImGui::DragFloat("Light absorption towards sun", &lightAbsorptionTowardSun, 0.01);
+				quadShader->loadFloat("lightAbsorptionTowardSun", lightAbsorptionTowardSun);
+
+				static float darknessThreshold = 0.07;
+				ImGui::SliderFloat("Darkness Threshold", &darknessThreshold, 0, 1);
+				quadShader->loadFloat("darknessThreshold", darknessThreshold);
+			}
+			
+			ImGui::End();
+		}
+	}
+
 	void onEvent(Event& event) override
 	{
 		if (KeyPressedEvent* keyEvent = dynamic_cast<KeyPressedEvent*>(&event); keyEvent != nullptr)
 		{
 			if (keyEvent->getKeyCode() == KeyCode::Escape)
 			{
-				static bool captured = true;
 				Application::GetInstance().getWindow().captureMouse(captured);
+				ecsCoordinator->enableBehaviour<CameraBehaviour>(camera, captured);
 				captured = !captured;
-
+				
 				Input::GetMouseVelocity();
 			}
-
-			static float densityThreshold = 0.5;
-			if (keyEvent->getKeyCode() == KeyCode::R) {
-				densityThreshold += 0.1;
-			} if (keyEvent->getKeyCode() == KeyCode::T) {
-				densityThreshold -= 0.1;
-			}
-			quadShader->loadFloat("densityThreshold", densityThreshold);
-
-			static float densityMultiplier = 10;
-			if (keyEvent->getKeyCode() == KeyCode::Y) {
-				densityMultiplier += 1;
-			} if (keyEvent->getKeyCode() == KeyCode::U) {
-				densityMultiplier -= 1;
-			}
-			quadShader->loadFloat("densityMultiplier", densityMultiplier);
-
-			static float lightAbsorptionThroughCloud = 0.85;
-			if (keyEvent->getKeyCode() == KeyCode::F) {
-				lightAbsorptionThroughCloud += 0.05;
-			} if (keyEvent->getKeyCode() == KeyCode::G) {
-				lightAbsorptionThroughCloud -= 0.05;
-			}
-			quadShader->loadFloat("lightAbsorptionThroughCloud", lightAbsorptionThroughCloud);
-
-			static float lightAbsorptionTowardSun = 0.94;
-			if (keyEvent->getKeyCode() == KeyCode::H) {
-				lightAbsorptionTowardSun += 0.05;
-			} if (keyEvent->getKeyCode() == KeyCode::J) {
-				lightAbsorptionTowardSun -= 0.05;
-			}
-			quadShader->loadFloat("lightAbsorptionTowardSun", lightAbsorptionTowardSun);
-
-			static float darknessThreshold = 0.94;
-			if (keyEvent->getKeyCode() == KeyCode::K) {
-				darknessThreshold += 0.05;
-			} if (keyEvent->getKeyCode() == KeyCode::L) {
-				darknessThreshold -= 0.05;
-			}
-			quadShader->loadFloat("darknessThreshold", darknessThreshold);
 		}
 	}
 };

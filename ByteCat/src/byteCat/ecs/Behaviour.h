@@ -13,6 +13,8 @@ namespace BC
 	protected:
 		EcsCoordinator* m_coordinator;
 		Entity m_entity = -1;
+
+		bool m_enabled = true;
 	
 	public:		
 		virtual ~Behaviour() = default;

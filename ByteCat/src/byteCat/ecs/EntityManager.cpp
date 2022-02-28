@@ -59,7 +59,10 @@ namespace BC
 			auto behaviour = m_behaviours[entity];
 			if (behaviour != nullptr)
 			{
-				behaviour->onUpdate();
+				if (behaviour->m_enabled)
+				{
+					behaviour->onUpdate();
+				}
 			}
 		}
 	}

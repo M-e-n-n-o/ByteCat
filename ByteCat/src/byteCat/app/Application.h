@@ -3,6 +3,7 @@
 #include "byteCat/input/events/m_event.h"
 #include "byteCat/graphics/Window.h"
 #include "byteCat/app/Layer.h"
+#include "byteCat/imgui/ImGuiLayer.h"
 #include "byteCat/input/events/ApplicationEvent.h"
 
 namespace BC
@@ -21,6 +22,7 @@ namespace BC
 
 		Layer* m_logicLayer;
 		Layer* m_timeLayer;
+		ImGuiLayer* m_imguiLayer;
 		
 		Window* m_window;
 

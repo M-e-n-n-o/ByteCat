@@ -30,6 +30,8 @@ namespace BC
 		virtual void onRender() {}
 		// Gets called after the rendering takes place
 		virtual void onRenderComplete() {}
+		// Gets called when you can rener imgui stuff
+		virtual void onGuiRender() {}
 		// Gets called every time an event occurs in the application
 		virtual void onEvent(Event& event) {}
 

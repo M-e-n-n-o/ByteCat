@@ -39,6 +39,12 @@ namespace BC
 			m_entityManager->setBehaviour<T>(entity, this, args...);
 		}
 
+		template<typename T>
+		void enableBehaviour(const Entity& entity, bool enabled)
+		{
+			m_entityManager->enableBehaviour<T>(entity, enabled);
+		}
+
 		void updateBehaviours()
 		{
 			m_entityManager->updateBehaviours();

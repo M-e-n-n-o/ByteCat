@@ -3,6 +3,7 @@
 #include "byteCat/ecs/SceneManager.h"
 #include "byteCat/graphics/renderer/Renderer.h"
 #include "byteCat/graphics/renderer/elaborations/SimpleRenderer.h"
+#include "byteCat/imgui/ImGuiLayer.h"
 #include "byteCat/utils/Time.h"
 
 namespace BC
@@ -28,6 +29,8 @@ namespace BC
         pushLayer(m_logicLayer);
         m_timeLayer = new Time();
         pushLayer(m_timeLayer);
+        m_imguiLayer = new ImGuiLayer();
+        pushLayer(m_imguiLayer);
 	}
 
     Application::~Application()
@@ -51,13 +54,11 @@ namespace BC
                 continue;
             }
 
-            // Updating
             for (Layer* layer : m_layerStack)
             {
                 if (layer->m_enabled) { layer->onUpdate(); }
             }
 
-            // Rendering
             for (Layer* layer : m_layerStack)
             {
                 if (layer->m_enabled) { layer->onRender(); }
@@ -68,6 +69,16 @@ namespace BC
             for (Layer* layer : m_layerStack)
             {
                 if (layer->m_enabled) { layer->onRenderComplete(); }
+            }
+
+            if (m_imguiLayer->m_enabled)
+            {
+                m_imguiLayer->begin();
+                for (Layer* layer : m_layerStack)
+                {
+                    if (layer->m_enabled) { layer->onGuiRender(); }
+                }
+                m_imguiLayer->end();
             }
         }
     }
