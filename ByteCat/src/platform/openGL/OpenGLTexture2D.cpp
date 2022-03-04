@@ -14,7 +14,16 @@ namespace BC
 			m_width = width;
 			m_height = height;
 			m_format = format;
-			m_channels = 3;
+
+			switch (format)
+			{
+			case TextureFormat::R: m_channels = 1; break;
+			case TextureFormat::RG: m_channels = 2; break;
+			case TextureFormat::RGB16F: m_channels = 3; break;
+			case TextureFormat::RGBA8:
+			case TextureFormat::RGBA16F: m_channels = 4; break;
+			default: m_channels = 3;
+			}
 
 			if (format == TextureFormat::AUTO)
 			{
@@ -90,17 +99,48 @@ namespace BC
 			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 			//glBindTexture(GL_TEXTURE_2D, 0);
 
-			stbi_image_free(imgData);
+			m_textureData = imgData;
+			//stbi_image_free(imgData);
 		}
 
 		OpenGLTexture2D::~OpenGLTexture2D()
 		{
 			glDeleteTextures(1, &m_id);
+
+			if (m_textureData != nullptr)
+			{
+				stbi_image_free(m_textureData);
+			}
 		}
 
 		void OpenGLTexture2D::bind(unsigned textureUnit) const
 		{
 			glBindTextureUnit(textureUnit, m_id);
+		}
+
+		unsigned char OpenGLTexture2D::getValue(unsigned channel, unsigned x, unsigned y) const
+		{
+			if (channel + 1 > m_channels)
+			{
+				LOG_ERROR("Channel {0} does not exist in the image, total channels is {1}", channel, m_channels);
+				return -1;
+			}
+
+			if (m_textureData == nullptr)
+			{
+				LOG_ERROR("Could not get the texture data");
+				return -1;
+			}
+
+			unsigned char* pixelOffset = m_textureData + (x + m_height * y) * m_channels;
+
+			if (&pixelOffset[channel] == nullptr)
+			{
+				LOG_ERROR("Given x, y ({0}, {1}) coordinates were out of range when reading from the texture data", x, y);
+				return -1;
+			}
+
+			return pixelOffset[channel];
 		}
 	}
 }

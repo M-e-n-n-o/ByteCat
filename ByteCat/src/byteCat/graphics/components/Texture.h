@@ -44,6 +44,9 @@ namespace BC
 		virtual TextureFormat getFormat() const override = 0;
 		virtual unsigned int getId() const override = 0;
 
+		virtual unsigned char* getTextureData() const = 0;
+		virtual unsigned char getValue(unsigned channel, unsigned x, unsigned y) const = 0;
+
 		static std::shared_ptr<Texture2D> Create(unsigned int width, unsigned int height, const TextureFormat& format);
 		static std::shared_ptr<Texture2D> Create(const std::string& filePath, float mipmapLOD = 0);
 		static std::shared_ptr<Texture2D> Create(const std::string& filePath, const TextureFormat& format, float mipmapLOD = 0);
