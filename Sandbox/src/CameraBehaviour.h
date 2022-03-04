@@ -12,10 +12,10 @@ private:
 
 	const float speed = 5;
 
-public:
+public:	
 	void onAttach() override
 	{
-		transform = &m_coordinator->getComponent<Transform>(m_entity);
+		transform = m_coordinator->getComponent<Transform>(m_entity);
 	}
 
 	void onUpdate() override

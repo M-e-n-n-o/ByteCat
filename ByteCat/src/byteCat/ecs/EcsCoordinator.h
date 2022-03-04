@@ -33,10 +33,10 @@ namespace BC
 			m_systemManager->entityDestroyed(entity);
 		}
 
-		template<class T, typename... Args>
-		void setBehaviour(const Entity& entity, Args&... args)
+		template<class T>
+		void setBehaviour(const Entity& entity, const T& behaviour)
 		{
-			m_entityManager->setBehaviour<T>(entity, this, args...);
+			m_entityManager->setBehaviour<T>(entity, this, behaviour);
 		}
 
 		Behaviour* getBehaviour(const Entity& entity)
@@ -63,7 +63,7 @@ namespace BC
 		// This method will automatically register the component if it hasnt been yet
 		template<typename T>
 		void addComponent(const Entity& entity, const T& component)
-		{
+		{			
 			m_componentManager->addComponent<T>(entity, component);
 
 			auto signature = m_entityManager->getSignature(entity);
@@ -86,7 +86,7 @@ namespace BC
 		}
 
 		template<typename T>
-		T& getComponent(const Entity& entity)
+		T* getComponent(const Entity& entity)
 		{
 			return m_componentManager->getComponent<T>(entity);
 		}

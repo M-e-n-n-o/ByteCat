@@ -13,7 +13,7 @@ namespace BC
 		std::unordered_map<const char*, std::shared_ptr<BaseComponentArray>> m_componentArrays;
 		
 		ComponentType m_nextComponentType = 0;
-
+	
 	public:
 		template<typename T>
 		void registerComponent()
@@ -84,7 +84,7 @@ namespace BC
 		}
 
 		template<typename T>
-		T& getComponent(const Entity& entity)
+		T* getComponent(const Entity& entity)
 		{
 			return getComponentArray<T>(false)->getData(entity);
 		}

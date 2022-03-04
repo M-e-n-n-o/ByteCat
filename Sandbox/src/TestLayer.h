@@ -158,8 +158,8 @@ public:
 		
 			camera = ecsCoordinator->createEntity("Camera");
 			ecsCoordinator->addComponent<Transform>(camera, { glm::vec3(0, -20, -10), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1) });
-			ecsCoordinator->addComponent<Camera>(camera, { 70, 0.1f, 1000.0f });
-			ecsCoordinator->setBehaviour<CameraBehaviour>(camera);
+			ecsCoordinator->addComponent<PerspectiveCamera>(camera, { 70, 0.1f, 1000.0f });
+			ecsCoordinator->setBehaviour<CameraBehaviour>(camera, {});
 	}
 
 	void onUpdate() override

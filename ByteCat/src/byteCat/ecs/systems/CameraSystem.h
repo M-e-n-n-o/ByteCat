@@ -1,5 +1,4 @@
 #pragma once
-#include <glm/ext/matrix_clip_space.hpp>
 #include "byteCat/app/Application.h"
 #include "byteCat/ecs/System.h"
 #include "byteCat/ecs/components/Camera.h"
@@ -19,14 +18,12 @@ namespace BC
 			
 			for (auto& entity : m_entities)
 			{				
-				auto& transform = m_coordinator->getComponent<Transform>(entity);
-				auto& camera = m_coordinator->getComponent<Camera>(entity);
-
-				glm::mat4 projectionMatrix = glm::perspective(glm::radians(camera.fov), aspect, camera.nearPlane, camera.farPlane);
+				auto transform = m_coordinator->getComponent<Transform>(entity);
+				auto camera = m_coordinator->getComponent<Camera>(entity);
 				
 				Renderer::SetSceneData({
-						Math::CreateViewMatrix(transform.position, transform.rotation),
-						projectionMatrix });
+						Math::CreateViewMatrix(transform->position, transform->rotation),
+						camera->getProjectionMatrix(aspect) });
 			}
 		}
 

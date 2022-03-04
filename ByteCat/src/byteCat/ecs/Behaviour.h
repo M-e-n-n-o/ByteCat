@@ -16,7 +16,7 @@ namespace BC
 
 		bool m_enabled = true;
 	
-	public:		
+	public:
 		virtual ~Behaviour() = default;
 
 		virtual void onAttach() {}

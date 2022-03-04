@@ -22,8 +22,8 @@ namespace BC
 		Entity& createEntity(const char* name);
 		void destroyEntity(const Entity& entity);
 
-		template<class T, typename... Args>
-		void setBehaviour(const Entity& entity, EcsCoordinator* coordinator, Args&... args);
+		template<class T>
+		void setBehaviour(const Entity& entity, EcsCoordinator* coordinator, const T& behaviour);
 		
 		Behaviour* getBehaviour(const Entity& entity);
 
@@ -35,8 +35,8 @@ namespace BC
 		Dependencies& getSignature(const Entity& entity);
 	};
 
-	template <class T, typename ... Args>
-	void EntityManager::setBehaviour(const Entity& entity, EcsCoordinator* coordinator, Args&... args)
+	template <class T>
+	void EntityManager::setBehaviour(const Entity& entity, EcsCoordinator* coordinator, const T& behaviour)
 	{
 		if (entity > MAX_ENTITIES)
 		{
@@ -51,11 +51,11 @@ namespace BC
 			m_behaviours[entity] = nullptr;
 		}
 
-		Behaviour* behaviour = new T(args...);
-		behaviour->m_entity = entity;
-		behaviour->m_coordinator = coordinator;
+		Behaviour* newBehaviour = new T(behaviour);
+		newBehaviour->m_entity = entity;
+		newBehaviour->m_coordinator = coordinator;
 		
-		m_behaviours[entity] = behaviour;
+		m_behaviours[entity] = newBehaviour;
 		m_behaviours[entity]->onAttach();
 	}
 }

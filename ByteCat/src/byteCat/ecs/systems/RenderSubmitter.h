@@ -26,16 +26,16 @@ namespace BC
 		void onUpdate() override
 		{
 			Entity camera = SceneManager::GetActiveScene()->getMainCamera();			
-			m_cameraPos = m_coordinator->getComponent<Transform>(camera).position;
+			m_cameraPos = m_coordinator->getComponent<Transform>(camera)->position;
 			
 			for (auto& entity : m_entities)
 			{
-				auto& transform = m_coordinator->getComponent<Transform>(entity);
-				auto& mesh = m_coordinator->getComponent<Mesh>(entity);
-				auto& material = m_coordinator->getComponent<Material>(entity);
+				auto transform = m_coordinator->getComponent<Transform>(entity);
+				auto mesh = m_coordinator->getComponent<Mesh>(entity);
+				auto material = m_coordinator->getComponent<Material>(entity);
 
-				glm::mat4 modelMatrix = Math::CreateModelMatrix(transform.position, transform.rotation, transform.scale);
-				Renderer::Submit({ material.cullingMode, mesh.vao, material.shader, material.textures, modelMatrix, onRenderRenderable });
+				glm::mat4 modelMatrix = Math::CreateModelMatrix(transform->position, transform->rotation, transform->scale);
+				Renderer::Submit({ material->cullingMode, mesh->vao, material->shader, material->textures, modelMatrix, onRenderRenderable });
 			}
 		}
 	};
