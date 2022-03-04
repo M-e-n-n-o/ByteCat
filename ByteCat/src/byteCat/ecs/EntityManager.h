@@ -22,11 +22,10 @@ namespace BC
 		Entity& createEntity(const char* name);
 		void destroyEntity(const Entity& entity);
 
-		template<typename T, typename... Args>
+		template<class T, typename... Args>
 		void setBehaviour(const Entity& entity, EcsCoordinator* coordinator, Args&... args);
-
-		template<typename T>
-		void enableBehaviour(const Entity& entity, bool enabled);
+		
+		Behaviour* getBehaviour(const Entity& entity);
 
 		void updateBehaviours();
 
@@ -36,7 +35,7 @@ namespace BC
 		Dependencies& getSignature(const Entity& entity);
 	};
 
-	template <typename T, typename ... Args>
+	template <class T, typename ... Args>
 	void EntityManager::setBehaviour(const Entity& entity, EcsCoordinator* coordinator, Args&... args)
 	{
 		if (entity > MAX_ENTITIES)
@@ -58,14 +57,5 @@ namespace BC
 		
 		m_behaviours[entity] = behaviour;
 		m_behaviours[entity]->onAttach();
-	}
-
-	template <typename T>
-	void EntityManager::enableBehaviour(const Entity& entity, bool enabled)
-	{
-		if (m_behaviours[entity] != nullptr)
-		{
-			m_behaviours[entity]->m_enabled = enabled;
-		}
 	}
 }

@@ -33,16 +33,15 @@ namespace BC
 			m_systemManager->entityDestroyed(entity);
 		}
 
-		template<typename T, typename... Args>
+		template<class T, typename... Args>
 		void setBehaviour(const Entity& entity, Args&... args)
 		{
 			m_entityManager->setBehaviour<T>(entity, this, args...);
 		}
 
-		template<typename T>
-		void enableBehaviour(const Entity& entity, bool enabled)
+		Behaviour* getBehaviour(const Entity& entity)
 		{
-			m_entityManager->enableBehaviour<T>(entity, enabled);
+			return m_entityManager->getBehaviour(entity);
 		}
 
 		void updateBehaviours()

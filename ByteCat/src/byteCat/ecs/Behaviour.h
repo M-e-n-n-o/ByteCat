@@ -22,5 +22,7 @@ namespace BC
 		virtual void onAttach() {}
 		virtual void onUpdate() {}
 		virtual void onDetach() {}
+
+		void setEnabled(bool enabled) { m_enabled = enabled; }
 	};
 }

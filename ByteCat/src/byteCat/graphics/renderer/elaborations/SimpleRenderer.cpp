@@ -33,7 +33,7 @@ namespace BC
 
 	void SimpleRenderer::renderFrame()
 	{
-		m_rendererAPI->clearColor(glm::vec4(0.2f, 0.3f, 0.3f, 1.0f));
+		m_rendererAPI->clearColor(glm::vec4(0.69, 1, 1, 1));
 		m_rendererAPI->clearBuffers();
 
 		for (int i = 0; i < m_entities.size(); i++)

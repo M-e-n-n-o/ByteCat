@@ -52,6 +52,11 @@ namespace BC
 		--m_entityCount;
 	}
 
+	Behaviour* EntityManager::getBehaviour(const Entity& entity)
+	{
+		return m_behaviours[entity];
+	}
+
 	void EntityManager::updateBehaviours()
 	{
 		for (int entity = 0; entity < MAX_ENTITIES; entity++)

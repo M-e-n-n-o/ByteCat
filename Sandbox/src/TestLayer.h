@@ -133,7 +133,7 @@ public:
 			cloudShader->loadFloat("numSteps", 50);
 			cloudShader->loadFloat("numStepsLight", 15);
 		
-			auto cloudTexture = Texture3D::Create(128, 128, 128, TextureFormat::RGBA8);
+			auto cloudTexture = Texture3D::Create(64, 64, 64, TextureFormat::RGBA8);
 
 			auto computeShader = ComputeShader::Create("Test Compute", "TestCompute.glsl");
 			computeShader->setOutputTexture(cloudTexture);
@@ -248,7 +248,7 @@ public:
 			if (keyEvent->getKeyCode() == KeyCode::Escape)
 			{
 				Application::GetInstance().getWindow().captureMouse(captured);
-				ecsCoordinator->enableBehaviour<CameraBehaviour>(camera, captured);
+				ecsCoordinator->getBehaviour(camera)->setEnabled(captured);
 				captured = !captured;
 				
 				Input::GetMouseVelocity();
