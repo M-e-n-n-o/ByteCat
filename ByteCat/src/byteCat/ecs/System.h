@@ -4,7 +4,7 @@
 
 namespace BC
 {
-	class EcsCoordinator;						
+	class EcsCoordinator;	
 	
 	class System
 	{

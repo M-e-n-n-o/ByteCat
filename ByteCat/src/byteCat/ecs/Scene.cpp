@@ -1,11 +1,6 @@
 #include "bcpch.h"
 #include "byteCat/ecs/Scene.h"
-
 #include "byteCat/ecs/components/Mesh.h"
-#include "byteCat/ecs/components/Material.h"
-#include "byteCat/ecs/components/Transform.h"
-#include "byteCat/ecs/components/Camera.h"
-
 #include "byteCat/ecs/systems/RenderSubmitter.h"
 
 namespace BC
@@ -17,18 +12,9 @@ namespace BC
 
 	void Scene::registerDefaultSystems()
 	{
-		m_ecsCoordinator->registerSystem<RenderSubmitter>();
-		Dependencies signatureRenderSubmitter;
-		signatureRenderSubmitter.set(m_ecsCoordinator->getComponentType<Transform>());
-		signatureRenderSubmitter.set(m_ecsCoordinator->getComponentType<Mesh>());
-		signatureRenderSubmitter.set(m_ecsCoordinator->getComponentType<Material>());
-		m_ecsCoordinator->setSystemSignature<RenderSubmitter>(signatureRenderSubmitter);
+		RenderSubmitter::Register(m_ecsCoordinator);
 
-		m_cameraSystem = m_ecsCoordinator->registerSystem<CameraSystem>();
-		Dependencies signatureCameraSystem;
-		signatureCameraSystem.set(m_ecsCoordinator->getComponentType<Transform>());
-		signatureCameraSystem.set(m_ecsCoordinator->getComponentType<Camera>());
-		m_ecsCoordinator->setSystemSignature<CameraSystem>(signatureCameraSystem);
+		CameraSystem::Register(m_ecsCoordinator);
 	}
 
 	void Scene::onUpdate()

@@ -1,6 +1,7 @@
 #pragma once
 #include "byteCat/ecs/SceneManager.h"
 #include "byteCat/ecs/System.h"
+#include "byteCat/ecs/components/Material.h"
 #include "byteCat/graphics/renderer/Renderer.h"
 #include "byteCat/utils/Math.h"
 #include "byteCat/utils/Time.h"
@@ -25,8 +26,11 @@ namespace BC
 		
 		void onUpdate() override
 		{
-			Entity camera = SceneManager::GetActiveScene()->getMainCamera();			
-			m_cameraPos = m_coordinator->getComponent<Transform>(camera)->position;
+			Entity camera = SceneManager::GetActiveScene()->getMainCamera();
+			if (camera != -1)
+			{
+				m_cameraPos = m_coordinator->getComponent<Transform>(camera)->position;
+			}
 
 			for (auto& entity : m_entities)
 			{
@@ -37,6 +41,16 @@ namespace BC
 				glm::mat4 modelMatrix = Math::CreateModelMatrix(transform->position, transform->rotation, transform->scale);
 				Renderer::Submit({ material->cullingMode, mesh->vao, material->shader, material->textures, modelMatrix, onRenderRenderable });
 			}
+		}
+
+		static void Register(std::shared_ptr<EcsCoordinator>& coordinator)
+		{
+			coordinator->registerSystem<RenderSubmitter>();
+			Dependencies signature;
+			signature.set(coordinator->getComponentType<Transform>());
+			signature.set(coordinator->getComponentType<Mesh>());
+			signature.set(coordinator->getComponentType<Material>());
+			coordinator->setSystemSignature<RenderSubmitter>(signature);
 		}
 	};
 }
