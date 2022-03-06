@@ -11,9 +11,9 @@ namespace BC
 
 		Mesh() = default;
 		Mesh(const std::shared_ptr<VertexArray>& vao)
-			: vao(vao)
-		{
-		}
+			: vao(vao) {}
+		
+		virtual ~Mesh() = default;
 		
 		TYPE_NAME("Mesh")
 	};

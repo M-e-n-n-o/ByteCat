@@ -27,7 +27,7 @@ namespace BC
 		{
 			Entity camera = SceneManager::GetActiveScene()->getMainCamera();			
 			m_cameraPos = m_coordinator->getComponent<Transform>(camera)->position;
-			
+
 			for (auto& entity : m_entities)
 			{
 				auto transform = m_coordinator->getComponent<Transform>(entity);

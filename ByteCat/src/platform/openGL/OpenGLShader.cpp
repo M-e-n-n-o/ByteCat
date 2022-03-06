@@ -41,6 +41,8 @@ namespace BC
 				//LOG_TEXT_LONG(infoLog);
 			}
 
+			LOG_INFO("Succesfully compiled shader program: {0}", name);
+
 			glDeleteShader(vertexShaderID);
 			glDeleteShader(fragmentShaderID);
 		}

@@ -43,6 +43,7 @@
 #include "byteCat/ecs/components/Transform.h"
 #include "byteCat/ecs/components/Material.h"
 #include "byteCat/ecs/components/Mesh.h"
+#include "byteCat/ecs/components/Terrain.h"
 
 #include "byteCat/utils/Math.h"
 

@@ -34,6 +34,8 @@ namespace BC
 				//LOG_TEXT_LONG(infoLog);
 			}
 
+			LOG_INFO("Succesfully compiled compute shader: {0}", name);
+
 			// Compute shader debug info
 			// int work_grp_cnt[3];
 			// glGetIntegeri_v(GL_MAX_COMPUTE_WORK_GROUP_COUNT, 0, &work_grp_cnt[0]);

@@ -2,7 +2,6 @@
 #include <ByteCat.h>
 
 #include "CameraBehaviour.h"
-#include "glm/gtc/matrix_access.hpp"
 
 using namespace BC;
 
@@ -151,15 +150,24 @@ public:
 			ecsCoordinator->addComponent<Mesh>(entity, { vao });
 			ecsCoordinator->addComponent<Material>(entity, { CullingMode::Back, standardShader, {texture} });
 
-			auto entity2 = ecsCoordinator->createEntity("Test Entity");
-			ecsCoordinator->addComponent<Transform>(entity2, { glm::vec3(0, 0, 5), glm::vec3(0, 0, 0), glm::vec3(2, 2, 2) });
-			ecsCoordinator->addComponent<Mesh>(entity2, { vao });
-			ecsCoordinator->addComponent<Material>(entity2, { CullingMode::Back, standardShader, {texture} });
+			// auto entity2 = ecsCoordinator->createEntity("Test Entity2");
+			// ecsCoordinator->addComponent<Transform>(entity2, { glm::vec3(0, 0, 5), glm::vec3(0, 0, 0), glm::vec3(2, 2, 2) });
+			// ecsCoordinator->addComponent<Mesh>(entity2, { vao });
+			// ecsCoordinator->addComponent<Material>(entity2, { CullingMode::Back, standardShader, {texture} });
 		
 			camera = ecsCoordinator->createEntity("Camera");
 			ecsCoordinator->addComponent<Transform>(camera, { glm::vec3(0, -20, -10), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1) });
 			ecsCoordinator->addComponent<PerspectiveCamera>(camera, { 70, 0.1f, 1000.0f });
 			ecsCoordinator->setBehaviour<CameraBehaviour>(camera, {});
+
+		
+			auto heightMap = Texture2D::Create("Heightmap.png");
+			auto terrainShader = Shader::Create("Terrain shader", "TerrainVertex.glsl", "TerrainFragment.glsl");
+		
+			auto terrain = ecsCoordinator->createEntity("Terrain");
+			ecsCoordinator->addComponent<Transform>(terrain, { glm::vec3(0, -50, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1) });
+			ecsCoordinator->addComponent<Terrain>(terrain, {heightMap, 800, 50});
+			ecsCoordinator->addComponent<Material>(terrain, { CullingMode::Back, terrainShader });
 	}
 
 	void onUpdate() override
