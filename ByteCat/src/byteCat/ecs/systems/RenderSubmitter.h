@@ -43,14 +43,13 @@ namespace BC
 			}
 		}
 
-		static void Register(std::shared_ptr<EcsCoordinator>& coordinator)
+		static Dependencies GetDependencies(EcsCoordinator* coordinator)
 		{
-			coordinator->registerSystem<RenderSubmitter>();
 			Dependencies signature;
 			signature.set(coordinator->getComponentType<Transform>());
 			signature.set(coordinator->getComponentType<Mesh>());
 			signature.set(coordinator->getComponentType<Material>());
-			coordinator->setSystemSignature<RenderSubmitter>(signature);
+			return signature;
 		}
 	};
 }

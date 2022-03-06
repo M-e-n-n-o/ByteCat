@@ -37,13 +37,12 @@ namespace BC
 			return -1;
 		}
 
-		static void Register(std::shared_ptr<EcsCoordinator>& coordinator)
+		static Dependencies GetDependencies(EcsCoordinator* coordinator)
 		{
-			coordinator->registerSystem<CameraSystem>();
 			Dependencies signature;
 			signature.set(coordinator->getComponentType<Transform>());
 			signature.set(coordinator->getComponentType<Camera>());
-			coordinator->setSystemSignature<CameraSystem>(signature);
+			return signature;
 		}
 	};
 }

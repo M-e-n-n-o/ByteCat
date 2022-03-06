@@ -78,11 +78,11 @@ namespace BC
 		{
 			m_componentManager->removeComponent<T>(entity);
 
-			auto signature = m_entityManager->getSignature(entity);
-			signature.set(m_componentManager->getComponentType<T>(false), false);
-			m_entityManager->setSignature(entity, signature);
+			auto dependencies = m_entityManager->getSignature(entity);
+			dependencies.set(m_componentManager->getComponentType<T>(false), false);
+			m_entityManager->setSignature(entity, dependencies);
 
-			m_systemManager->entitySignatureChanged(entity, signature);
+			m_systemManager->entitySignatureChanged(entity, dependencies);
 		}
 
 		template<typename T>
@@ -101,13 +101,12 @@ namespace BC
 		template<typename T>
 		std::shared_ptr<T> registerSystem()
 		{
-			return m_systemManager->registerSystem<T>(this);
-		}
+			auto system = m_systemManager->registerSystem<T>(this);
 
-		template<typename T>
-		void setSystemSignature(Dependencies signature)
-		{
+			Dependencies signature = T::GetDependencies(this);
 			m_systemManager->setSignature<T>(signature);
+			
+			return system;
 		}
 
 		void updateSystems()

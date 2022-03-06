@@ -12,9 +12,8 @@ namespace BC
 
 	void Scene::registerDefaultSystems()
 	{
-		RenderSubmitter::Register(m_ecsCoordinator);
-
-		CameraSystem::Register(m_ecsCoordinator);
+		m_ecsCoordinator->registerSystem<RenderSubmitter>();
+		m_ecsCoordinator->registerSystem<CameraSystem>();
 	}
 
 	void Scene::onUpdate()
