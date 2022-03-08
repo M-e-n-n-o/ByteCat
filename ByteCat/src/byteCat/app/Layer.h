@@ -1,6 +1,6 @@
 #pragma once
 
-#include "byteCat/input/events/m_event.h"
+#include "byteCat/input/events/Event.h"
 
 namespace BC
 {
