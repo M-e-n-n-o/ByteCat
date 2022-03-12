@@ -96,7 +96,7 @@ void main()
 
 	float totalDensity = 0;
 	float transmittance = 1;
-	vec3 lightEnergy = vec3(0.1);
+	vec3 lightEnergy = vec3(0);
 	while (dstTravelled < dstLimit)
 	{
 		vec3 rayPos = ro + rd * (dstToBox + dstTravelled);

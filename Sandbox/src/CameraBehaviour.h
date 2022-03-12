@@ -10,7 +10,7 @@ class CameraBehaviour : public Behaviour
 private:
 	Transform* transform = nullptr;
 
-	const float speed = 5;
+	const float speed = 10;
 
 public:	
 	void onAttach() override
