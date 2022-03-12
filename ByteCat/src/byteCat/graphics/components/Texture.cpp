@@ -3,6 +3,7 @@
 #include "byteCat/graphics/renderer/Renderer.h"
 #include "platform/openGL/OpenGLTexture2D.h"
 #include "platform/openGL/OpenGLTexture3D.h"
+#include "platform/openGL/OpenGLTextureCube.h"
 
 namespace BC
 {
@@ -48,6 +49,18 @@ namespace BC
 		{
 		case GraphicsAPI::None:		LOG_CRITICAL("No Graphics API selected!"); return nullptr;
 		case GraphicsAPI::OpenGL:	return std::make_shared<Platform::OpenGLTexture3D>(width, height, depth, format);
+		}
+
+		LOG_CRITICAL("Unsupported Graphics API selected!");
+		return nullptr;
+	}
+
+	std::shared_ptr<TextureCube> TextureCube::Create(std::initializer_list<std::string> textures, const TextureFormat& format)
+	{
+		switch (Renderer::GetAPI())
+		{
+		case GraphicsAPI::None:		LOG_CRITICAL("No Graphics API selected!"); return nullptr;
+		case GraphicsAPI::OpenGL:	return std::make_shared<Platform::OpenGLTextureCube>(textures, format);
 		}
 
 		LOG_CRITICAL("Unsupported Graphics API selected!");

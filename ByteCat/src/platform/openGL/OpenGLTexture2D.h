@@ -15,7 +15,7 @@ namespace BC
 			int m_channels;
 			TextureFormat m_format;
 
-			unsigned char* m_textureData = nullptr;
+			// unsigned char* m_textureData = nullptr;
 			
 		public:
 			OpenGLTexture2D(unsigned int width, unsigned int height, const TextureFormat& format);
@@ -30,8 +30,8 @@ namespace BC
 			TextureFormat getFormat() const override { return m_format; }
 			unsigned getId() const override { return m_id; }
 
-			unsigned char* getTextureData() const override { return m_textureData; }
-			unsigned char getValue(unsigned channel, unsigned x, unsigned y) const override;
+			// unsigned char* getTextureData() const override { return m_textureData; }
+			// unsigned char getValue(unsigned channel, unsigned x, unsigned y) const override;
 		};
 	}
 }

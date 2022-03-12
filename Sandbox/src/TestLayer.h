@@ -166,8 +166,10 @@ public:
 		
 			auto terrain = ecsCoordinator->createEntity("Terrain");
 			ecsCoordinator->addComponent<Transform>(terrain, { glm::vec3(0, -50, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1) });
-			ecsCoordinator->addComponent<Terrain>(terrain, {heightMap, 800, 50});
 			ecsCoordinator->addComponent<Material>(terrain, { CullingMode::Back, terrainShader });
+
+
+			//auto cubeTexture = TextureCube::Create({"test", "asdasd"});
 	}
 
 	void onUpdate() override
