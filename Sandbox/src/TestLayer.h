@@ -10,6 +10,7 @@ class TestLayer : public Layer
 	std::shared_ptr<EcsCoordinator> ecsCoordinator;
 
 	Entity camera;
+	Entity skyboxEntity;
 	
 	std::shared_ptr<FrameBuffer> fbo;
 	std::shared_ptr<Shader> cloudShader;
@@ -26,7 +27,7 @@ public:
 			ecsCoordinator = scene->getEcsCoordinator();
 
 		// Cube data
-			float data[] =
+			float dataCube[] =
 			{
 				// Vertex pos		Texture coords
 				0.5, -0.5, 0.5,		0, 0,
@@ -62,7 +63,7 @@ public:
 				0.5, -0.5, 0.5,		1, 0
 			};
 
-			unsigned indices[] =
+			unsigned indicesCube[] =
 			{
 				0, 2, 3,
 				0, 3, 1,
@@ -83,15 +84,15 @@ public:
 				20, 22, 23
 			};
 			
-			auto vao = VertexArray::Create();
+			auto cubeVao = VertexArray::Create();
 		
-			auto vbo = VertexBuffer::Create(data, sizeof(data));
-			BufferLayout layout = { { ShaderDataType::Float3, "vertexPos" }, {ShaderDataType::Float2, "texCoord"} };
-			vbo->setLayout(layout);
-			vao->addVertexBuffer(vbo);
+			auto cubeVbo = VertexBuffer::Create(dataCube, sizeof(dataCube));
+			BufferLayout layoutCube = { { ShaderDataType::Float3, "vertexPos" }, {ShaderDataType::Float2, "texCoord"} };
+			cubeVbo->setLayout(layoutCube);
+			cubeVao->addVertexBuffer(cubeVbo);
 
-			auto ebo = IndexBuffer::Create(indices, sizeof(indices));
-			vao->setIndexBuffer(ebo);
+			auto cubeEbo = IndexBuffer::Create(indicesCube, sizeof(indicesCube));
+			cubeVao->setIndexBuffer(cubeEbo);
 
 			auto standardShader = Shader::Create("Standard", "StandardVertex.glsl", "StandardFragment.glsl");
 			standardShader->setTextureSlots({ "tex" });
@@ -104,7 +105,6 @@ public:
 			 auto depthAttachment = Texture2D::Create(window.getWidth(), window.getHeight(), TextureFormat::DEPTH);
 			 fbo->attachTexture(colorAttachment);
 			 fbo->attachTexture(depthAttachment);
-			 //fbo->attachRenderBuffer(TextureFormat::DEPTH);
 			
 			 float dataQuad[] =
 			 {
@@ -141,35 +141,29 @@ public:
 		
 			renderable = { CullingMode::Back, quad, cloudShader, {cloudTexture, colorAttachment, depthAttachment}, Math::CreateModelMatrix(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)) };
 
-		
-		// Entities + components aanmaken
-			auto texture = Texture2D::Create("wall.jpg");
+		// Skybox cubemap
+			auto skyboxTexture = TextureCube::Create({ "skybox/right.jpg", "skybox/left.jpg", "skybox/top.jpg", "skybox/bottom.jpg", "skybox/front.jpg", "skybox/back.jpg" });
 
+			auto skyboxShader = Shader::Create("SkyboxShader", "skybox/SkyboxVertex.glsl", "skybox/SkyboxFragment.glsl");
+			skyboxShader->setTextureSlots({ "skybox" });
+		
+		
+		// Entities + components aanmaken		
+			auto texture = Texture2D::Create("wall.jpg");
 			auto entity = ecsCoordinator->createEntity("Test Entity");
 			ecsCoordinator->addComponent<Transform>(entity, { glm::vec3(0, 0, 10), glm::vec3(0, 0, 0), glm::vec3(2, 2, 2) });
-			ecsCoordinator->addComponent<Mesh>(entity, { vao });
+			ecsCoordinator->addComponent<Mesh>(entity, { cubeVao });
 			ecsCoordinator->addComponent<Material>(entity, { CullingMode::Back, standardShader, {texture} });
-
-			// auto entity2 = ecsCoordinator->createEntity("Test Entity2");
-			// ecsCoordinator->addComponent<Transform>(entity2, { glm::vec3(0, 0, 5), glm::vec3(0, 0, 0), glm::vec3(2, 2, 2) });
-			// ecsCoordinator->addComponent<Mesh>(entity2, { vao });
-			// ecsCoordinator->addComponent<Material>(entity2, { CullingMode::Back, standardShader, {texture} });
 		
 			camera = ecsCoordinator->createEntity("Camera");
 			ecsCoordinator->addComponent<Transform>(camera, { glm::vec3(0, -20, -10), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1) });
 			ecsCoordinator->addComponent<PerspectiveCamera>(camera, { 70, 0.1f, 1000.0f });
 			ecsCoordinator->setBehaviour<CameraBehaviour>(camera, {});
 
-		
-			auto heightMap = Texture2D::Create("Heightmap.png");
-			auto terrainShader = Shader::Create("Terrain shader", "TerrainVertex.glsl", "TerrainFragment.glsl");
-		
-			auto terrain = ecsCoordinator->createEntity("Terrain");
-			ecsCoordinator->addComponent<Transform>(terrain, { glm::vec3(0, -50, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1) });
-			ecsCoordinator->addComponent<Material>(terrain, { CullingMode::Back, terrainShader });
-
-
-			//auto cubeTexture = TextureCube::Create({"test", "asdasd"});
+			skyboxEntity = ecsCoordinator->createEntity("Skybox Entity");
+			ecsCoordinator->addComponent<Transform>(skyboxEntity, { glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(100, 100, 100) });
+			ecsCoordinator->addComponent<Mesh>(skyboxEntity, { cubeVao });
+			ecsCoordinator->addComponent<Material>(skyboxEntity, { CullingMode::Front, skyboxShader, {skyboxTexture} });
 	}
 
 	void onUpdate() override
@@ -178,6 +172,9 @@ public:
 		x += Time::GetDeltaTime() / 2;
 		
 		cloudShader->loadVector3("cloudOffset", glm::vec3(x, 0, 0));
+
+		auto cameraPos = ecsCoordinator->getComponent<Transform>(camera)->position;
+		ecsCoordinator->getComponent<Transform>(skyboxEntity)->position = cameraPos;
 	}
 
 	void onRender() override

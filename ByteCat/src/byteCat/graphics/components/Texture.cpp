@@ -55,12 +55,12 @@ namespace BC
 		return nullptr;
 	}
 
-	std::shared_ptr<TextureCube> TextureCube::Create(std::initializer_list<std::string> textures, const TextureFormat& format)
+	std::shared_ptr<TextureCube> TextureCube::Create(std::initializer_list<std::string> faces, const TextureFormat& format)
 	{
 		switch (Renderer::GetAPI())
 		{
 		case GraphicsAPI::None:		LOG_CRITICAL("No Graphics API selected!"); return nullptr;
-		case GraphicsAPI::OpenGL:	return std::make_shared<Platform::OpenGLTextureCube>(textures, format);
+		case GraphicsAPI::OpenGL:	return std::make_shared<Platform::OpenGLTextureCube>(faces, format);
 		}
 
 		LOG_CRITICAL("Unsupported Graphics API selected!");

@@ -80,9 +80,7 @@ namespace BC
 		virtual unsigned getChannels() const override = 0;
 		virtual TextureFormat getFormat() const override = 0;
 		virtual unsigned getId() const override = 0;
-
-		virtual const std::vector<std::shared_ptr<Texture2D>>& getTextures() = 0;
 		
-		static std::shared_ptr<TextureCube> Create(std::initializer_list<std::string> textures, const TextureFormat& format = TextureFormat::RGB16F);
+		static std::shared_ptr<TextureCube> Create(std::initializer_list<std::string> faces, const TextureFormat& format = TextureFormat::RGB16F);
 	};
 }

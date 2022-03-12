@@ -19,7 +19,7 @@ namespace BC
 
         Renderer::SetAPI(GraphicsAPI::OpenGL);
 		      
-        WindowSettings setting = { "ByteCat Engine", 1280, 720, false };
+        WindowSettings setting = { "ByteCat Engine", 1280, 720, true };
         m_window = Window::Create(setting);
         m_window->setEventListener(this);
         
