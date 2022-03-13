@@ -39,7 +39,7 @@ namespace BC
 		virtual ~ComputeShader() = default;
 
 		virtual void compute(unsigned numberOfGroupsX, unsigned numberOfGroupsY, unsigned numberOfGroupsZ) = 0;
-		virtual void wait() = 0;
+		virtual void waitToFinish() = 0;
 
 		virtual void setOutputTexture(std::shared_ptr<Texture> texture, unsigned int textureUnit = 0) = 0;
 		

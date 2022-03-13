@@ -50,8 +50,8 @@ namespace BC
 
 	/// <summary>
 	/// Use this class to automatic handle events in the correct way.
-	/// \n\n
-	/// Example:\n
+	/// 
+	/// Example:
 	/// dispatcher.dispatch<<EventType>>(BC_BIND_EVENT_FN(<Function pointer>));
 	/// </summary>
 	class EventDispatcher

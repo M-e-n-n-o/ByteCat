@@ -67,7 +67,7 @@ namespace BC
 			glDispatchCompute(numberOfGroupsX, numberOfGroupsY, numberOfGroupsZ);
 		}
 
-		void OpenGLComputeShader::wait()
+		void OpenGLComputeShader::waitToFinish()
 		{
 			glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);
 		}

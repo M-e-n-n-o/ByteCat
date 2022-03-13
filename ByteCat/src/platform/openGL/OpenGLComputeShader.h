@@ -17,7 +17,7 @@ namespace BC
 			~OpenGLComputeShader();
 
 			void compute(unsigned numberOfGroupsX, unsigned numberOfGroupsY, unsigned numberOfGroupsZ) override;
-			void wait() override;
+			void waitToFinish() override;
 			
 			void setOutputTexture(std::shared_ptr<Texture> texture, unsigned int textureUnit) override;
 			

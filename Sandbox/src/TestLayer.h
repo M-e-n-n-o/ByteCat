@@ -134,10 +134,10 @@ public:
 		
 			auto cloudTexture = Texture3D::Create(128, 128, 128, TextureFormat::RGBA8);
 		
-			auto computeShader = ComputeShader::Create("Test Compute", "TestCompute.glsl");
+			auto computeShader = ComputeShader::Create("Cloud Noise Compute", "CloudNoiseCompute.glsl");
 			computeShader->setOutputTexture(cloudTexture);
 			computeShader->compute(cloudTexture->getWidth(), cloudTexture->getHeight(), 64);
-			computeShader->wait();
+			computeShader->waitToFinish();
 		
 			renderable = { CullingMode::Back, quad, cloudShader, {cloudTexture, colorAttachment, depthAttachment}, Math::CreateModelMatrix(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)) };
 		
@@ -151,7 +151,7 @@ public:
 		// Entities + components aanmaken		
 			auto texture = Texture2D::Create("wall.jpg");
 			auto entity = ecsCoordinator->createEntity("Test Entity");
-			ecsCoordinator->addComponent<Transform>(entity, { glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(50, 50, 50) });
+			ecsCoordinator->addComponent<Transform>(entity, { glm::vec3(0, 50, 0), glm::vec3(0, 0, 0), glm::vec3(5, 5, 5) });
 			ecsCoordinator->addComponent<Mesh>(entity, { cubeVao });
 			ecsCoordinator->addComponent<Material>(entity, { CullingMode::None, rayMarchShader, {texture} });
 		
@@ -161,7 +161,7 @@ public:
 			ecsCoordinator->addComponent<Material>(skyboxEntity, { CullingMode::Front, skyboxShader, {skyboxTexture} });
 		
 			camera = ecsCoordinator->createEntity("Camera");		
-			ecsCoordinator->addComponent<Transform>(camera, { glm::vec3(0, -20, -10), glm::vec3(0, 90, 0), glm::vec3(1, 1, 1) });
+			ecsCoordinator->addComponent<Transform>(camera, { glm::vec3(0, 50, -5), glm::vec3(0, 90, 0), glm::vec3(1, 1, 1) });
 			ecsCoordinator->addComponent<PerspectiveCamera>(camera, { 70, 0.1f, 1000.0f });
 			ecsCoordinator->setBehaviour<CameraBehaviour>(camera, {});
 	}
@@ -202,11 +202,11 @@ public:
 			cloudShader->bind();
 			ImGui::Text("Cloud Settings");
 			{
-				static float cloudScale = 5;
+				static float cloudScale = 2.5;
 				ImGui::DragFloat("Scale", &cloudScale, 0.1);
 				cloudShader->loadFloat("cloudScale", cloudScale);
 			
-				static float minPos[3] = { -100, 0, -100 };
+				static float minPos[3] = { -100, -20, -100 };
 				ImGui::DragFloat3("Min position", minPos, 0.1);
 				cloudShader->loadVector3("boxMin", glm::vec3(minPos[0], minPos[1], minPos[2]));
 			

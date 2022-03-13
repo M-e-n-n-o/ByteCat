@@ -10,7 +10,7 @@ in v2f
     vec2 uv;
 	vec3 cameraPos;
     vec3 viewVector;
-} input;
+} i;
 
 uniform sampler3D cloudNoise;
 uniform sampler2D screenTexture;
@@ -45,8 +45,9 @@ float sampleDensity(vec3 point)
 
 	// Fade away at the corners of the box
     float dstFromEdgeX = min(edgeFadeDistance, min(point.x - boxMin.x, boxMax.x - point.x));
+	float dstFromEdgeY = min(edgeFadeDistance, min(point.y - boxMin.y, boxMax.y - point.y));
     float dstFromEdgeZ = min(edgeFadeDistance, min(point.z - boxMin.z, boxMax.z - point.z));
-    float edgeWeight = min(dstFromEdgeZ, dstFromEdgeX) / edgeFadeDistance;
+    float edgeWeight = min(min(dstFromEdgeX, dstFromEdgeY), dstFromEdgeZ) / edgeFadeDistance;
 
 	return density * edgeWeight;
 }
@@ -87,10 +88,10 @@ float lightMarch(vec3 point)
 
 void main()
 {
-	vec3 ro = input.cameraPos;
-	vec3 rd = normalize(input.viewVector);
+	vec3 ro = i.cameraPos;
+	vec3 rd = normalize(i.viewVector);
 
-	float depth = linearizeDepth(texture(depthTexture, input.uv).r, NEAR, FAR);
+	float depth = linearizeDepth(texture(depthTexture, i.uv).r, NEAR, FAR);
 
 	vec2 rayBoxInfo = rayBoxDist(boxMin, boxMax, ro, rd);
 	float dstToBox = rayBoxInfo.x;
@@ -128,7 +129,7 @@ void main()
 		dstTravelled += stepSize;
 	}
 
-	vec3 screenColor = texture(screenTexture, input.uv).rgb;
+	vec3 screenColor = texture(screenTexture, i.uv).rgb;
 	screenColor *= 2; // Color correction
 
 	vec3 cloudColor = lightEnergy * lightColor;

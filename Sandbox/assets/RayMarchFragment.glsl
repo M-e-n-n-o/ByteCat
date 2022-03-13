@@ -23,11 +23,11 @@ float getDistance(vec3 point)
 //
 //	return max(-distance, distanceCircle);
 
-	point = point + vec3(0, 20, 0);
+	point = point - vec3(0, 50, 0);
 
 	const float Bailout = 2;
 
-	float power = 10 * (sin(_time / 15) * 5);
+	float power = 10 * (sin(_time / 15) * 3);
 
 	vec3 z = point;
 	float dr = 1.0;

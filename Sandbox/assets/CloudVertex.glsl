@@ -8,7 +8,7 @@ out v2f
     vec2 uv;
     vec3 cameraPos;
     vec3 viewVector;
-} output;
+} o;
 
 uniform vec3 _cameraPos;
 uniform mat4 _viewMatrix;
@@ -17,12 +17,12 @@ uniform mat4 _modelMatrix;
 
 void main()
 {
-    output.uv = aTexCoords;
+    o.uv = aTexCoords;
 
     vec3 viewVector = (inverse(_projectionMatrix) * vec4(aTexCoords * 2 - 1, 0, 1)).xyz;
-    output.viewVector = (inverse(_viewMatrix) * vec4(viewVector, 0)).xyz;
+    o.viewVector = (inverse(_viewMatrix) * vec4(viewVector, 0)).xyz;
 
-    output.cameraPos = (inverse(_viewMatrix) * vec4(_cameraPos, 1)).xyz;
+    o.cameraPos = (inverse(_viewMatrix) * vec4(_cameraPos, 1)).xyz;
 
     gl_Position = vec4(aPos, 0.0, 1.0);
 } 
