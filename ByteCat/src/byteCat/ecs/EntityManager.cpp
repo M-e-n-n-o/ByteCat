@@ -13,7 +13,7 @@ namespace BC
 		}
 	}
 
-	Entity& EntityManager::createEntity(const char* name)
+	Entity EntityManager::createEntity(const char* name)
 	{
 		if (m_entityCount >= MAX_ENTITIES)
 		{

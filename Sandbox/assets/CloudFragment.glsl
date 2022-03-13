@@ -22,6 +22,7 @@ uniform float numStepsLight;
 uniform float lightAbsorptionThroughCloud;
 uniform float lightAbsorptionTowardSun;
 uniform float darknessThreshold;
+uniform float edgeFadeDistance;
 
 uniform vec3 boxMin;
 uniform vec3 boxMax;
@@ -40,7 +41,14 @@ float sampleDensity(vec3 point)
 {
 	vec3 uvw = point * cloudScale * 0.001 + cloudOffset * 0.01;
 	vec4 shape = texture(cloudNoise, uvw);
-	return (max(0, shape.r - densityThreshold) * densityMultiplier);
+	float density = (max(0, shape.r - densityThreshold) * densityMultiplier);
+
+	// Fade away at the corners of the box
+    float dstFromEdgeX = min(edgeFadeDistance, min(point.x - boxMin.x, boxMax.x - point.x));
+    float dstFromEdgeZ = min(edgeFadeDistance, min(point.z - boxMin.z, boxMax.z - point.z));
+    float edgeWeight = min(dstFromEdgeZ, dstFromEdgeX) / edgeFadeDistance;
+
+	return density * edgeWeight;
 }
 
 // x = distanceToBox, y = distinceFromFrontToBackOfBox
@@ -88,8 +96,6 @@ void main()
 	float dstToBox = rayBoxInfo.x;
 	float dstInsideBox = rayBoxInfo.y;
 
-	// float cosAngle = max(dot(rd, normalize(lightPos)), 0.4);
-
 	float dstTravelled = 0;
 	float stepSize = dstInsideBox / numSteps;
 	float dstLimit = min(depth - dstToBox, dstInsideBox);
@@ -97,15 +103,19 @@ void main()
 	float totalDensity = 0;
 	float transmittance = 1;
 	vec3 lightEnergy = vec3(0);
+
+	// Stop when you hit the end of the box or hit something else in the scene
 	while (dstTravelled < dstLimit)
 	{
 		vec3 rayPos = ro + rd * (dstToBox + dstTravelled);
 
 		float density = sampleDensity(rayPos);
+
+		// Is there a cloud at this point?
 		if (density > 0)
 		{
 			float lightTransmittance = lightMarch(rayPos);
-			lightEnergy += density * stepSize * transmittance * lightTransmittance; // * cosAngle;
+			lightEnergy += density * stepSize * transmittance * lightTransmittance;
 			transmittance *= exp(-density * stepSize * lightAbsorptionThroughCloud);
 
 			if (transmittance < 0.01)
@@ -119,9 +129,10 @@ void main()
 	}
 
 	vec3 screenColor = texture(screenTexture, input.uv).rgb;
-	vec3 cloudColor = lightEnergy * lightColor;
-	vec3 col = mix(screenColor, cloudColor, 0.5) * transmittance;
-	//vec3 col = screenColor * transmittance * cloudColor;
+	screenColor *= 2; // Color correction
 
+	vec3 cloudColor = lightEnergy * lightColor;
+
+	vec3 col = mix(screenColor, cloudColor, 0.5) * transmittance;
 	fragColor = vec4(col, 1);
 }

@@ -154,16 +154,16 @@ public:
 			ecsCoordinator->addComponent<Transform>(entity, { glm::vec3(0, 0, 10), glm::vec3(0, 0, 0), glm::vec3(2, 2, 2) });
 			ecsCoordinator->addComponent<Mesh>(entity, { cubeVao });
 			ecsCoordinator->addComponent<Material>(entity, { CullingMode::Back, standardShader, {texture} });
-		
-			camera = ecsCoordinator->createEntity("Camera");
-			ecsCoordinator->addComponent<Transform>(camera, { glm::vec3(0, -20, -10), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1) });
-			ecsCoordinator->addComponent<PerspectiveCamera>(camera, { 70, 0.1f, 1000.0f });
-			ecsCoordinator->setBehaviour<CameraBehaviour>(camera, {});
 
-			skyboxEntity = ecsCoordinator->createEntity("Skybox Entity");
+			skyboxEntity = ecsCoordinator->createEntity("Skybox Entity");		
 			ecsCoordinator->addComponent<Transform>(skyboxEntity, { glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1000, 1000, 1000) });
 			ecsCoordinator->addComponent<Mesh>(skyboxEntity, { cubeVao });
 			ecsCoordinator->addComponent<Material>(skyboxEntity, { CullingMode::Front, skyboxShader, {skyboxTexture} });
+		
+			camera = ecsCoordinator->createEntity("Camera");		
+			ecsCoordinator->addComponent<Transform>(camera, { glm::vec3(0, -20, -10), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1) });
+			ecsCoordinator->addComponent<PerspectiveCamera>(camera, { 70, 0.1f, 1000.0f });
+			ecsCoordinator->setBehaviour<CameraBehaviour>(camera, {});
 	}
 
 	void onUpdate() override
@@ -219,6 +219,10 @@ public:
 				static float densityMultiplier = 0.26f;
 				ImGui::DragFloat("Density multiplier", &densityMultiplier, 0.01);
 				cloudShader->loadFloat("densityMultiplier", densityMultiplier);
+
+				static float edgeFadeDistance = 30;
+				ImGui::DragFloat("Edge fade distance", &edgeFadeDistance, 0.1);
+				cloudShader->loadFloat("edgeFadeDistance", edgeFadeDistance);
 			}
 
 			ImGui::Text("Light Settings");

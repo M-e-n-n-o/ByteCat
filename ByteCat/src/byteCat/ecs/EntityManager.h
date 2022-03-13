@@ -19,7 +19,7 @@ namespace BC
 	public:
 		EntityManager();
 
-		Entity& createEntity(const char* name);
+		Entity createEntity(const char* name);
 		void destroyEntity(const Entity& entity);
 
 		template<class T>

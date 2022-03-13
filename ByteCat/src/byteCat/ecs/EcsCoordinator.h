@@ -21,7 +21,7 @@ namespace BC
 			m_systemManager = std::make_unique<SystemManager>();
 		}
 
-		Entity& createEntity(const char* name)
+		Entity createEntity(const char* name)
 		{
 			return m_entityManager->createEntity(name);
 		}
