@@ -94,7 +94,7 @@ public:
 			auto cubeEbo = IndexBuffer::Create(indicesCube, sizeof(indicesCube));
 			cubeVao->setIndexBuffer(cubeEbo);
 
-			auto standardShader = Shader::Create("Standard", "StandardVertex.glsl", "StandardFragment.glsl");
+			auto standardShader = Shader::Create("Standard", "RayMarchVertex.glsl", "RayMarchFragment.glsl");
 			standardShader->setTextureSlots({ "tex" });
 
 
@@ -151,9 +151,9 @@ public:
 		// Entities + components aanmaken		
 			auto texture = Texture2D::Create("wall.jpg");
 			auto entity = ecsCoordinator->createEntity("Test Entity");
-			ecsCoordinator->addComponent<Transform>(entity, { glm::vec3(0, 0, 10), glm::vec3(0, 0, 0), glm::vec3(2, 2, 2) });
+			ecsCoordinator->addComponent<Transform>(entity, { glm::vec3(0, 0, 10), glm::vec3(0, 0, 0), glm::vec3(30, 30, 30) });
 			ecsCoordinator->addComponent<Mesh>(entity, { cubeVao });
-			ecsCoordinator->addComponent<Material>(entity, { CullingMode::Back, standardShader, {texture} });
+			ecsCoordinator->addComponent<Material>(entity, { CullingMode::None, standardShader, {texture} });
 
 			skyboxEntity = ecsCoordinator->createEntity("Skybox Entity");		
 			ecsCoordinator->addComponent<Transform>(skyboxEntity, { glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1000, 1000, 1000) });

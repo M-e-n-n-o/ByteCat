@@ -26,7 +26,7 @@ void main()
 
 	// World space
 //	output.originPos = _cameraPos;
-//	output.hitPos = (modelMatrix * vec4(vertexPos, 1.0)).xyz;
+//	output.hitPos = (_modelMatrix * vec4(vertexPos, 1.0)).xyz;
 					
 	gl_Position = _projectionMatrix * _viewMatrix * _modelMatrix * vec4(vertexPos, 1.0);
 }
