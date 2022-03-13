@@ -13,7 +13,7 @@ namespace BC
 	void Scene::registerDefaultSystems()
 	{
 		m_ecsCoordinator->registerSystem<RenderSubmitter>();
-		m_ecsCoordinator->registerSystem<CameraSystem>();
+		m_cameraSystem = m_ecsCoordinator->registerSystem<CameraSystem>();
 	}
 
 	void Scene::onUpdate()

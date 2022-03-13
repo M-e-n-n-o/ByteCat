@@ -28,11 +28,13 @@ namespace BC
 		}
 
 		Entity getMainCamera()
-		{
+		{			
 			for (auto& entity : m_entities)
 			{
 				return entity;
 			}
+
+			LOG_WARN("No main camera could be found");
 
 			return -1;
 		}

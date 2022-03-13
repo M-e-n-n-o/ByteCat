@@ -9,6 +9,8 @@ class TestLayer : public Layer
 {
 	std::shared_ptr<EcsCoordinator> ecsCoordinator;
 
+	std::shared_ptr<Shader> rayMarchShader;
+	
 	Entity camera;
 	Entity skyboxEntity;
 	
@@ -23,9 +25,9 @@ public:
 			auto scene = SceneManager::CreateScene("TestScene");
 			scene->registerDefaultSystems();
 			SceneManager::ActivateScene(scene);
-
+		
 			ecsCoordinator = scene->getEcsCoordinator();
-
+		
 		// Cube data
 			float dataCube[] =
 			{
@@ -33,36 +35,36 @@ public:
 				0.5, -0.5, 0.5,		0, 0,
 				-0.5, -0.5, 0.5,    1, 0,
 				0.5, 0.5, 0.5,		0, 1,
-
+		
 				-0.5, 0.5, 0.5,		1, 1,
 				0.5, 0.5, -0.5,		0, 1,
 				-0.5, 0.5, -0.5,	1, 1,
-
+		
 				0.5, -0.5, -0.5,	0, 1,
 				-0.5, -0.5, -0.5,	1, 1,
 				0.5, 0.5, 0.5,		0, 0,
-
+		
 				-0.5, 0.5, 0.5,		1, 0,
 				0.5, 0.5, -0.5,		0, 0,
 				-0.5, 0.5, -0.5,	1, 0,
-
+		
 				0.5, -0.5, -0.5,	0, 0,
 				0.5, -0.5, 0.5,		0, 1,
 				-0.5, -0.5, 0.5,	1, 1,
-
+		
 				-0.5, -0.5, -0.5,	1, 0,
 				-0.5, -0.5, 0.5,	0, 0,
 				-0.5, 0.5, 0.5,		0, 1,
-
+		
 				-0.5, 0.5, -0.5,	1, 1,
 				-0.5, -0.5, -0.5,	1, 0,
 				0.5, -0.5, -0.5,	0, 0,
-
+		
 				0.5, 0.5, -0.5,		0, 1,
 				0.5, 0.5, 0.5,		1, 1,
 				0.5, -0.5, 0.5,		1, 0
 			};
-
+		
 			unsigned indicesCube[] =
 			{
 				0, 2, 3,
@@ -90,14 +92,12 @@ public:
 			BufferLayout layoutCube = { { ShaderDataType::Float3, "vertexPos" }, {ShaderDataType::Float2, "texCoord"} };
 			cubeVbo->setLayout(layoutCube);
 			cubeVao->addVertexBuffer(cubeVbo);
-
+		
 			auto cubeEbo = IndexBuffer::Create(indicesCube, sizeof(indicesCube));
 			cubeVao->setIndexBuffer(cubeEbo);
-
-			auto standardShader = Shader::Create("Standard", "RayMarchVertex.glsl", "RayMarchFragment.glsl");
-			standardShader->setTextureSlots({ "tex" });
-
-
+		
+			rayMarchShader = Shader::Create("RayMarch", "RayMarchVertex.glsl", "RayMarchFragment.glsl");
+		
 		// Framebuffer + cloud spul
 			 auto& window = Application::GetInstance().getWindow();
 			 fbo = FrameBuffer::Create("Test", window.getWidth(), window.getHeight());
@@ -133,17 +133,17 @@ public:
 			cloudShader->loadFloat("numStepsLight", 10);
 		
 			auto cloudTexture = Texture3D::Create(128, 128, 128, TextureFormat::RGBA8);
-
+		
 			auto computeShader = ComputeShader::Create("Test Compute", "TestCompute.glsl");
 			computeShader->setOutputTexture(cloudTexture);
 			computeShader->compute(cloudTexture->getWidth(), cloudTexture->getHeight(), 64);
 			computeShader->wait();
 		
 			renderable = { CullingMode::Back, quad, cloudShader, {cloudTexture, colorAttachment, depthAttachment}, Math::CreateModelMatrix(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)) };
-
+		
 		// Skybox cubemap
 			auto skyboxTexture = TextureCube::Create({ "skybox/right.jpg", "skybox/left.jpg", "skybox/top.jpg", "skybox/bottom.jpg", "skybox/front.jpg", "skybox/back.jpg" });
-
+		
 			auto skyboxShader = Shader::Create("SkyboxShader", "skybox/SkyboxVertex.glsl", "skybox/SkyboxFragment.glsl");
 			skyboxShader->setTextureSlots({ "skybox" });
 		
@@ -151,17 +151,17 @@ public:
 		// Entities + components aanmaken		
 			auto texture = Texture2D::Create("wall.jpg");
 			auto entity = ecsCoordinator->createEntity("Test Entity");
-			ecsCoordinator->addComponent<Transform>(entity, { glm::vec3(0, 0, 10), glm::vec3(0, 0, 0), glm::vec3(30, 30, 30) });
+			ecsCoordinator->addComponent<Transform>(entity, { glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(50, 50, 50) });
 			ecsCoordinator->addComponent<Mesh>(entity, { cubeVao });
-			ecsCoordinator->addComponent<Material>(entity, { CullingMode::None, standardShader, {texture} });
-
+			ecsCoordinator->addComponent<Material>(entity, { CullingMode::None, rayMarchShader, {texture} });
+		
 			skyboxEntity = ecsCoordinator->createEntity("Skybox Entity");		
 			ecsCoordinator->addComponent<Transform>(skyboxEntity, { glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1000, 1000, 1000) });
 			ecsCoordinator->addComponent<Mesh>(skyboxEntity, { cubeVao });
 			ecsCoordinator->addComponent<Material>(skyboxEntity, { CullingMode::Front, skyboxShader, {skyboxTexture} });
 		
 			camera = ecsCoordinator->createEntity("Camera");		
-			ecsCoordinator->addComponent<Transform>(camera, { glm::vec3(0, -20, -10), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1) });
+			ecsCoordinator->addComponent<Transform>(camera, { glm::vec3(0, -20, -10), glm::vec3(0, 90, 0), glm::vec3(1, 1, 1) });
 			ecsCoordinator->addComponent<PerspectiveCamera>(camera, { 70, 0.1f, 1000.0f });
 			ecsCoordinator->setBehaviour<CameraBehaviour>(camera, {});
 	}
@@ -169,14 +169,15 @@ public:
 	void onUpdate() override
 	{
 		static float x = 0;
-		x += Time::GetDeltaTime() / 2;
-		
-		cloudShader->loadVector3("cloudOffset", glm::vec3(x, 0, 0));
+		x += Time::GetDeltaTime() / 1;
 
+		cloudShader->bind();
+		cloudShader->loadVector3("cloudOffset", glm::vec3(x, 0, 0));
+	
 		auto cameraPos = ecsCoordinator->getComponent<Transform>(camera)->position;
 		ecsCoordinator->getComponent<Transform>(skyboxEntity)->position = cameraPos;
 	}
-
+	
 	void onRender() override
 	{
 		Renderer::RenderFrame();
@@ -184,30 +185,31 @@ public:
 		
 		Renderer::Submit(renderable);
 	}
-
+	
 	void onRenderComplete() override
 	{
 		fbo->bind();
 	}
-
+	
 	inline static bool captured = false;
-
+	
 	void onGuiRender() override
 	{
 		if (captured)
 		{
 			ImGui::Begin("Settings");
 			
+			cloudShader->bind();
 			ImGui::Text("Cloud Settings");
 			{
 				static float cloudScale = 5;
 				ImGui::DragFloat("Scale", &cloudScale, 0.1);
 				cloudShader->loadFloat("cloudScale", cloudScale);
-
+			
 				static float minPos[3] = { -100, 0, -100 };
 				ImGui::DragFloat3("Min position", minPos, 0.1);
 				cloudShader->loadVector3("boxMin", glm::vec3(minPos[0], minPos[1], minPos[2]));
-
+			
 				static float maxPos[3] = { 100, 30, 100 };
 				ImGui::DragFloat3("Max position", maxPos, 0.1);
 				cloudShader->loadVector3("boxMax", glm::vec3(maxPos[0], maxPos[1], maxPos[2]));
@@ -215,34 +217,34 @@ public:
 				static float densityThreshold = 0.52f;
 				ImGui::SliderFloat("Density threshold", &densityThreshold, 0, 1);
 				cloudShader->loadFloat("densityThreshold", densityThreshold);
-
+			
 				static float densityMultiplier = 0.26f;
 				ImGui::DragFloat("Density multiplier", &densityMultiplier, 0.01);
 				cloudShader->loadFloat("densityMultiplier", densityMultiplier);
-
+			
 				static float edgeFadeDistance = 30;
 				ImGui::DragFloat("Edge fade distance", &edgeFadeDistance, 0.1);
 				cloudShader->loadFloat("edgeFadeDistance", edgeFadeDistance);
 			}
-
+			
 			ImGui::Text("Light Settings");
 			{
 				static float sunPos[3] = { 0, 500, 0 };
 				ImGui::DragFloat3("Sun position", sunPos);				
 				cloudShader->loadVector3("lightPos", glm::vec3(sunPos[0], sunPos[1], sunPos[2]));
-
+			
 				static float sunCol[3] = { 1, 1, 1 };
 				ImGui::SliderFloat3("Sun color", sunCol, 0, 1);
 				cloudShader->loadVector3("lightColor", glm::vec3(sunCol[0], sunCol[1], sunCol[2]));
-
+			
 				static float lightAbsorptionThroughCloud = 0.37f;
 				ImGui::DragFloat("Light absorption through cloud", &lightAbsorptionThroughCloud, 0.01);
 				cloudShader->loadFloat("lightAbsorptionThroughCloud", lightAbsorptionThroughCloud);
-
+			
 				static float lightAbsorptionTowardSun = 1.25f;
 				ImGui::DragFloat("Light absorption towards sun", &lightAbsorptionTowardSun, 0.01);
 				cloudShader->loadFloat("lightAbsorptionTowardSun", lightAbsorptionTowardSun);
-
+			
 				static float darknessThreshold = 0;
 				ImGui::SliderFloat("Darkness Threshold", &darknessThreshold, 0, 1);
 				cloudShader->loadFloat("darknessThreshold", darknessThreshold);
@@ -251,7 +253,7 @@ public:
 			ImGui::End();
 		}
 	}
-
+	
 	void onEvent(Event& event) override
 	{
 		if (KeyPressedEvent* keyEvent = dynamic_cast<KeyPressedEvent*>(&event); keyEvent != nullptr)

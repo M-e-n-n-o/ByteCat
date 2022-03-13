@@ -45,6 +45,8 @@ namespace BC
 
 			glDeleteShader(vertexShaderID);
 			glDeleteShader(fragmentShaderID);
+
+			glUseProgram(m_programID);
 		}
 
 		OpenGLShader::~OpenGLShader()
