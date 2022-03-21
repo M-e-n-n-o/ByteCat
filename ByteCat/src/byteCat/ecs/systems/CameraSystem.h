@@ -28,15 +28,17 @@ namespace BC
 		}
 
 		Entity getMainCamera()
-		{			
+		{
+			if (m_entities.size() <= 0)
+			{
+				LOG_WARN("No main camera could be found");
+				return -1;
+			}
+			
 			for (auto& entity : m_entities)
 			{
 				return entity;
 			}
-
-			LOG_WARN("No main camera could be found");
-
-			return -1;
 		}
 
 		static Dependencies GetDependencies(EcsCoordinator* coordinator)

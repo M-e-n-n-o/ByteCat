@@ -1,6 +1,5 @@
 #pragma once
 #include <glad/glad.h>
-#include <fstream>
 #include "byteCat/Log.h"
 #include "byteCat/graphics/components/Texture.h"
 
@@ -38,21 +37,6 @@ namespace BC
 			}
 
 			return -1;
-		}
-
-		static std::string ReadFileIntoString(const std::string& path) {
-			std::ifstream input_file(path);
-
-			if (!input_file.is_open()) {
-				LOG_ERROR("Could not open the shader file: {0}", path);
-				return "";
-			}
-
-			std::string text = std::string((std::istreambuf_iterator<char>(input_file)), std::istreambuf_iterator<char>());
-
-			input_file.close();
-
-			return text;
 		}
 	}
 }

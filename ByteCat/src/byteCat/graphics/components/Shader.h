@@ -31,6 +31,7 @@ namespace BC
 		virtual const std::string& getName() const = 0;
 
 		static std::shared_ptr<Shader> Create(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc, bool isFilePath = true);
+		static std::shared_ptr<Shader> Create(const std::string& name, const std::string& vertexSrc, const std::string& geometrySrc, const std::string& fragmentSrc, bool isFilePath = true)
 	};
 
 	class ComputeShader

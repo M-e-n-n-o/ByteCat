@@ -3,7 +3,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include "platform/openGL/OpenGLShader.h"
 #include "byteCat/utils/Macro.h"
-#include "platform/openGL/Helper.h"
+#include "byteCat/utils/FileIO.h"
 
 namespace BC
 {
@@ -17,10 +17,10 @@ namespace BC
 			if (isFilePath)
 			{
 				vertexShader.insert(0, BC_ASSETS_FOLDER);
-				vertexShader = ReadFileIntoString(vertexShader);
+				vertexShader = FileIO::ReadFileIntoString(vertexShader);
 				
 				fragmentShader.insert(0, BC_ASSETS_FOLDER);
-				fragmentShader = ReadFileIntoString(fragmentShader);
+				fragmentShader = FileIO::ReadFileIntoString(fragmentShader);
 			}
 			
 			const unsigned int vertexShaderID = loadShader(vertexShader, GL_VERTEX_SHADER);
@@ -35,15 +35,60 @@ namespace BC
 			int success;
 			char infoLog[512];
 			glGetProgramiv(m_programID, GL_LINK_STATUS, &success);
-			if (!success) {
-				//glGetProgramInfoLog(programID, 512, NULL, infoLog);
+			if (!success) 
+			{
 				LOG_CRITICAL("Could not link shader program: {0}", name);
-				//LOG_TEXT_LONG(infoLog);
 			}
 
 			LOG_INFO("Succesfully compiled shader program: {0}", name);
 
 			glDeleteShader(vertexShaderID);
+			glDeleteShader(fragmentShaderID);
+
+			glUseProgram(m_programID);
+		}
+
+		OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& geometrySrc, const std::string& fragmentSrc, bool isFilePath)
+		{
+			std::string vertexShader = vertexSrc;
+			std::string geometryShader = geometrySrc;
+			std::string fragmentShader = fragmentSrc;
+
+			if (isFilePath)
+			{
+				vertexShader.insert(0, BC_ASSETS_FOLDER);
+				vertexShader = FileIO::ReadFileIntoString(vertexShader);
+
+				geometryShader.insert(0, BC_ASSETS_FOLDER);
+				geometryShader = FileIO::ReadFileIntoString(geometryShader);
+				
+				fragmentShader.insert(0, BC_ASSETS_FOLDER);
+				fragmentShader = FileIO::ReadFileIntoString(fragmentShader);
+			}
+
+			const unsigned int vertexShaderID = loadShader(vertexShader, GL_VERTEX_SHADER);
+			const unsigned int geometryShaderID = loadShader(geometryShader, GL_GEOMETRY_SHADER);
+			const unsigned int fragmentShaderID = loadShader(fragmentShader, GL_FRAGMENT_SHADER);
+
+			m_programID = glCreateProgram();
+			glAttachShader(m_programID, vertexShaderID);
+			glAttachShader(m_programID, geometryShaderID);
+			glAttachShader(m_programID, fragmentShaderID);
+
+			glLinkProgram(m_programID);
+
+			int success;
+			char infoLog[512];
+			glGetProgramiv(m_programID, GL_LINK_STATUS, &success);
+			if (!success) 
+			{
+				LOG_CRITICAL("Could not link shader program: {0}", name);
+			}
+
+			LOG_INFO("Succesfully compiled shader program: {0}", name);
+
+			glDeleteShader(vertexShaderID);
+			glDeleteShader(geometryShaderID);
 			glDeleteShader(fragmentShaderID);
 
 			glUseProgram(m_programID);
@@ -144,7 +189,7 @@ namespace BC
 
 		void OpenGLShader::setTextureSlots(std::initializer_list<const char*> textureNames)
 		{
-			bind();
+			glUseProgram(m_programID);
 
 			int i = 0;
 			for (auto& texture : textureNames)

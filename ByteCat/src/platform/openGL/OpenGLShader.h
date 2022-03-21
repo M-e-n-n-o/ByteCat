@@ -15,6 +15,7 @@ namespace BC
 			
 		public:
 			OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc, bool isFilePath);
+			OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& geometrySrc, const std::string& fragmentSrc, bool isFilePath);
 			~OpenGLShader();
 			
 			void bind() const override;
