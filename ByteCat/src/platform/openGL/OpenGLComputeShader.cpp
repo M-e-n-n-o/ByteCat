@@ -3,6 +3,7 @@
 #include "byteCat/utils/Macro.h"
 #include "platform/openGL/OpenGLComputeShader.h"
 #include "platform/openGL/Helper.h"
+#include "byteCat/utils/FileIO.h"
 
 namespace BC
 {
@@ -15,7 +16,7 @@ namespace BC
 			if (isFilePath)
 			{
 				computeShader.insert(0, BC_ASSETS_FOLDER);
-				computeShader = ReadFileIntoString(computeShader);
+				computeShader = FileIO::ReadFileIntoString(computeShader);
 			}
 
 			const unsigned int computeShaderID = loadShader(computeShader, GL_COMPUTE_SHADER);
@@ -28,13 +29,14 @@ namespace BC
 			int success;
 			char infoLog[512];
 			glGetProgramiv(m_programID, GL_LINK_STATUS, &success);
-			if (!success) {
+			if (!success) 
+			{
 				//glGetProgramInfoLog(programID, 512, NULL, infoLog);
 				LOG_CRITICAL("Could not link shader program: {0}", name);
 				//LOG_TEXT_LONG(infoLog);
 			}
 
-			LOG_INFO("Succesfully compiled compute shader: {0}", name);
+			LOG_INFO("Finished compiling compute shader: {0}", name);
 
 			// Compute shader debug info
 			// int work_grp_cnt[3];

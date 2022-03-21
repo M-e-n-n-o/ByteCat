@@ -1,13 +1,8 @@
-#version 330 core
-
-in vec2 passTexCoord;
+#version 450 core
 
 out vec4 fragColor;
 
-uniform sampler2D tex;
-
 void main()
 {
-	vec4 tex = texture(tex, vec2(passTexCoord));
-	fragColor = tex + vec4(0, 0.3, 0, 0);
+	fragColor = vec4(0.5, 0.5, 0.5, 1);
 }

@@ -40,7 +40,7 @@ namespace BC
 				LOG_CRITICAL("Could not link shader program: {0}", name);
 			}
 
-			LOG_INFO("Succesfully compiled shader program: {0}", name);
+			LOG_INFO("Finished compiling shader program: {0}", name);
 
 			glDeleteShader(vertexShaderID);
 			glDeleteShader(fragmentShaderID);
@@ -85,7 +85,7 @@ namespace BC
 				LOG_CRITICAL("Could not link shader program: {0}", name);
 			}
 
-			LOG_INFO("Succesfully compiled shader program: {0}", name);
+			LOG_INFO("Finished compiling shader program: {0}", name);
 
 			glDeleteShader(vertexShaderID);
 			glDeleteShader(geometryShaderID);

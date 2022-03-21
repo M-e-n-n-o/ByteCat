@@ -96,7 +96,9 @@ public:
 			auto cubeEbo = IndexBuffer::Create(indicesCube, sizeof(indicesCube));
 			cubeVao->setIndexBuffer(cubeEbo);
 		
-			rayMarchShader = Shader::Create("RayMarch", "RayMarchVertex.glsl", "RayMarchFragment.glsl");
+			rayMarchShader = Shader::Create("RayMarch", "RayMarchVertex.glsl", "RayMarchFragment.glsl", true);
+
+			auto geometryShader = Shader::Create("GeometryTest", "GrassVertex.glsl", "GrassGeometry.glsl", "GrassFragment.glsl", true);
 		
 		// Framebuffer + cloud spul
 			 auto& window = Application::GetInstance().getWindow();
@@ -127,7 +129,7 @@ public:
 			auto quadIndexBuffer = IndexBuffer::Create(indicesQuad, sizeof(indicesQuad));
 			quad->setIndexBuffer(quadIndexBuffer);
 		
-			cloudShader = Shader::Create("Cloud shader", "CloudVertex.glsl", "CloudFragment.glsl");
+			cloudShader = Shader::Create("Cloud shader", "CloudVertex.glsl", "CloudFragment.glsl", true);
 			cloudShader->setTextureSlots({ "cloudNoise", "screenTexture", "depthTexture" });
 			cloudShader->loadFloat("numSteps", 20);
 			cloudShader->loadFloat("numStepsLight", 10);
@@ -144,16 +146,22 @@ public:
 		// Skybox cubemap
 			auto skyboxTexture = TextureCube::Create({ "skybox/right.jpg", "skybox/left.jpg", "skybox/top.jpg", "skybox/bottom.jpg", "skybox/front.jpg", "skybox/back.jpg" });
 		
-			auto skyboxShader = Shader::Create("SkyboxShader", "skybox/SkyboxVertex.glsl", "skybox/SkyboxFragment.glsl");
+			auto skyboxShader = Shader::Create("SkyboxShader", "skybox/SkyboxVertex.glsl", "skybox/SkyboxFragment.glsl", true);
 			skyboxShader->setTextureSlots({ "skybox" });
 		
 		
 		// Entities + components aanmaken		
 			auto texture = Texture2D::Create("wall.jpg");
+		
 			auto entity = ecsCoordinator->createEntity("Test Entity");
 			ecsCoordinator->addComponent<Transform>(entity, { glm::vec3(0, 50, 0), glm::vec3(0, 0, 0), glm::vec3(5, 5, 5) });
 			ecsCoordinator->addComponent<Mesh>(entity, { cubeVao });
-			ecsCoordinator->addComponent<Material>(entity, { CullingMode::None, rayMarchShader, {texture} });
+			ecsCoordinator->addComponent<Material>(entity, { CullingMode::None, rayMarchShader });
+
+			auto entity2 = ecsCoordinator->createEntity("Test Entity2");
+			ecsCoordinator->addComponent<Transform>(entity2, { glm::vec3(0, 40, 0), glm::vec3(0, 0, 0), glm::vec3(5, 5, 5) });
+			ecsCoordinator->addComponent<Mesh>(entity2, { cubeVao });
+			ecsCoordinator->addComponent<Material>(entity2, { CullingMode::Back, geometryShader });
 		
 			skyboxEntity = ecsCoordinator->createEntity("Skybox Entity");		
 			ecsCoordinator->addComponent<Transform>(skyboxEntity, { glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1000, 1000, 1000) });
