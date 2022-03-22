@@ -2,9 +2,16 @@
 
 out vec4 fragColor;
 
-in float layer;
+in g2f
+{
+	vec2 uv;
+	float layer;
+} i;
+
+uniform sampler2D tex;
 
 void main()
 {
-	fragColor = vec4(0.2 * layer, 0.5, 0.5, 1);
+	fragColor = texture(tex, i.uv);
+	//fragColor = vec4(0.2 * i.layer, 0.5, 0.5, 1);
 }

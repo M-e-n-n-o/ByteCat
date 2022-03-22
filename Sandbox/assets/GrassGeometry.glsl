@@ -5,7 +5,16 @@
 layout (triangles) in;
 layout (triangle_strip, max_vertices = 3 * LAYERS) out;
 
-out float layer;
+in v2g
+{
+    vec2 uv;
+} _i[];
+
+out g2f
+{
+    vec2 uv;
+    float layer;
+} o;
 
 const float distanceBetweenLayer = 0.2;
 
@@ -27,15 +36,18 @@ void main()
     for (int i = 0; i < LAYERS; i++)
     {
         gl_Position = extend(gl_in[0].gl_Position, getNormal(), i * distanceBetweenLayer);
-        layer = i;
+        o.uv = _i[0].uv;
+        o.layer = i;
         EmitVertex();
 
         gl_Position = extend(gl_in[1].gl_Position, getNormal(), i * distanceBetweenLayer);
-        layer = i;
+        o.uv = _i[1].uv;
+        o.layer = i;
         EmitVertex();
 
         gl_Position = extend(gl_in[2].gl_Position, getNormal(), i * distanceBetweenLayer);
-        layer = i;
+        o.uv = _i[2].uv;
+        o.layer = i;
         EmitVertex();
 
         EndPrimitive();
