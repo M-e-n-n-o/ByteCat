@@ -98,8 +98,8 @@ public:
 		
 			rayMarchShader = Shader::Create("RayMarch", "RayMarchVertex.glsl", "RayMarchFragment.glsl", true);
 
-			auto geometryShader = Shader::Create("GeometryTest", "GrassVertex.glsl", "GrassGeometry.glsl", "GrassFragment.glsl", true);
-			geometryShader->setTextureSlots({ "tex" });
+			auto grassShader = Shader::Create("Grass", "GrassVertex.glsl", "GrassGeometry.glsl", "GrassFragment.glsl", true);
+			grassShader->setTextureSlots({ "noise", "windNoise" });
 		
 		// Framebuffer + cloud spul
 			 auto& window = Application::GetInstance().getWindow();
@@ -152,17 +152,18 @@ public:
 		
 		
 		// Entities + components aanmaken		
-			auto texture = Texture2D::Create("wall.jpg");
-		
-			auto entity = ecsCoordinator->createEntity("Test Entity");
-			ecsCoordinator->addComponent<Transform>(entity, { glm::vec3(0, 50, 0), glm::vec3(0, 0, 0), glm::vec3(5, 5, 5) });
-			ecsCoordinator->addComponent<Mesh>(entity, { cubeVao });
-			ecsCoordinator->addComponent<Material>(entity, { CullingMode::None, rayMarchShader });
+			auto mandelbrot = ecsCoordinator->createEntity("Test Entity");
+			ecsCoordinator->addComponent<Transform>(mandelbrot, { glm::vec3(0, 50, 0), glm::vec3(0, 0, 0), glm::vec3(5, 5, 5) });
+			ecsCoordinator->addComponent<Mesh>(mandelbrot, { cubeVao });
+			ecsCoordinator->addComponent<Material>(mandelbrot, { CullingMode::None, rayMarchShader });
 
-			auto entity2 = ecsCoordinator->createEntity("Test Entity2");
-			ecsCoordinator->addComponent<Transform>(entity2, { glm::vec3(0, 40, 0), glm::vec3(0, 0, 0), glm::vec3(5, 5, 5) });
-			ecsCoordinator->addComponent<Mesh>(entity2, { cubeVao });
-			ecsCoordinator->addComponent<Material>(entity2, { CullingMode::Back, geometryShader, {texture} });
+			auto rgbNoise = Texture2D::Create("rgbNoise.png");
+			auto windNoise = Texture2D::Create("windNoise.png");
+		
+			auto grass = ecsCoordinator->createEntity("Test Entity2");
+			ecsCoordinator->addComponent<Transform>(grass, { glm::vec3(0, 40, 0), glm::vec3(-90, 0, 0), glm::vec3(5, 5, 5) });
+			ecsCoordinator->addComponent<Mesh>(grass, { quad });
+			ecsCoordinator->addComponent<Material>(grass, { CullingMode::Back, grassShader, {rgbNoise, windNoise} });
 		
 			skyboxEntity = ecsCoordinator->createEntity("Skybox Entity");		
 			ecsCoordinator->addComponent<Transform>(skyboxEntity, { glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1000, 1000, 1000) });

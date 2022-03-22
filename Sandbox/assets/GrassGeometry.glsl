@@ -1,6 +1,6 @@
 #version 450 core
 
-#define LAYERS 5
+#define LAYERS 10
 
 layout (triangles) in;
 layout (triangle_strip, max_vertices = 3 * LAYERS) out;
@@ -13,10 +13,10 @@ in v2g
 out g2f
 {
     vec2 uv;
-    float layer;
+    float height;
 } o;
 
-const float distanceBetweenLayer = 0.2;
+const float distanceBetweenLayer = 0.5;
 
 vec3 getNormal()
 {
@@ -31,24 +31,22 @@ vec4 extend(vec4 position, vec3 normal, float magnitude)
     return position + vec4(direction, 0.0);
 }
 
-void main() 
+void main()
 {
-    for (int i = 0; i < LAYERS; i++)
+    for(int i = 0; i < LAYERS; i++)
     {
-        gl_Position = extend(gl_in[0].gl_Position, getNormal(), i * distanceBetweenLayer);
-        o.uv = _i[0].uv;
-        o.layer = i;
-        EmitVertex();
+        float layers = (LAYERS - 1);
+        float height = (i / layers) * distanceBetweenLayer;
 
-        gl_Position = extend(gl_in[1].gl_Position, getNormal(), i * distanceBetweenLayer);
-        o.uv = _i[1].uv;
-        o.layer = i;
-        EmitVertex();
+        for (int j = 0; j < 3; j++)
+        {
+            gl_Position = extend(gl_in[j].gl_Position, getNormal(), height);
 
-        gl_Position = extend(gl_in[2].gl_Position, getNormal(), i * distanceBetweenLayer);
-        o.uv = _i[2].uv;
-        o.layer = i;
-        EmitVertex();
+            o.uv = _i[j].uv;
+            o.height = height;
+
+            EmitVertex();
+        }
 
         EndPrimitive();
     }

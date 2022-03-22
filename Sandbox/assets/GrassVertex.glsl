@@ -15,5 +15,6 @@ uniform mat4 _projectionMatrix;
 void main()
 {
 	o.uv = texCoord;
+
 	gl_Position = _projectionMatrix * _viewMatrix * _modelMatrix * vec4(vertexPos, 1.0);
 }
