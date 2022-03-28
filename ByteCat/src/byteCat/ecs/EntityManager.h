@@ -31,7 +31,7 @@ namespace BC
 
 		const char* getName(const Entity& entity);
 
-		void setDependencies(const Entity& entity, Dependencies signature);
+		void setDependencies(const Entity& entity, Dependencies dependencies);
 		Dependencies& getDependencies(const Entity& entity);
 	};
 

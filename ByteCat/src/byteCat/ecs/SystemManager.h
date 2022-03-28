@@ -31,7 +31,7 @@ namespace BC
 		}
 
 		template<typename T>
-		void setDependencies(const Dependencies& signature)
+		void setDependencies(const Dependencies& dependencies)
 		{
 			const char* typeName = typeid(T).name();
 
@@ -41,7 +41,7 @@ namespace BC
 				return;
 			}
 
-			m_dependencies.insert({ typeName, signature });
+			m_dependencies.insert({ typeName, dependencies });
 		}
 
 		void entityDestroyed(const Entity& entity)
@@ -53,7 +53,7 @@ namespace BC
 			}
 		}
 
-		void entitySignatureChanged(const Entity& entity, Dependencies entitySignature)
+		void entitySignatureChanged(const Entity& entity, Dependencies entityDependencies)
 		{
 			for (auto const& pair : m_systems)
 			{
@@ -61,7 +61,7 @@ namespace BC
 				auto const& system = pair.second;
 				auto const& systemSignature = m_dependencies[type];
 
-				if ((entitySignature & systemSignature) == systemSignature)
+				if ((entityDependencies & systemSignature) == systemSignature)
 				{
 					system->m_entities.insert(entity);
 				} else

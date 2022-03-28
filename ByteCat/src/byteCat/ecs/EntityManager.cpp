@@ -77,7 +77,7 @@ namespace BC
 		return m_names[entity];
 	}
 
-	void EntityManager::setDependencies(const Entity& entity, Dependencies signature)
+	void EntityManager::setDependencies(const Entity& entity, Dependencies dependencies)
 	{
 		if (entity > MAX_ENTITIES)
 		{
@@ -85,7 +85,7 @@ namespace BC
 			return;
 		}
 
-		m_dependencies[entity] = signature;
+		m_dependencies[entity] = dependencies;
 	}
 
 	Dependencies& EntityManager::getDependencies(const Entity& entity)

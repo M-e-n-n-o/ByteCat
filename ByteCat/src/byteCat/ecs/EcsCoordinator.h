@@ -66,11 +66,11 @@ namespace BC
 		{			
 			m_componentManager->addComponent<T>(entity, component);
 
-			auto signature = m_entityManager->getDependencies(entity);
-			signature.set(m_componentManager->getComponentType<T>(false), true);
-			m_entityManager->setDependencies(entity, signature);
+			auto dependencies = m_entityManager->getDependencies(entity);
+			dependencies.set(m_componentManager->getComponentType<T>(false), true);
+			m_entityManager->setDependencies(entity, dependencies);
 
-			m_systemManager->entitySignatureChanged(entity, signature);
+			m_systemManager->entitySignatureChanged(entity, dependencies);
 		}
 
 		template<typename T>
