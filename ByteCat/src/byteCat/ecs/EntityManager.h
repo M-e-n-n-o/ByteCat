@@ -10,7 +10,7 @@ namespace BC
 	{
 	private:
 		std::queue<Entity> m_entities;
-		std::array<Dependencies, MAX_ENTITIES> m_signatures;
+		std::array<Dependencies, MAX_ENTITIES> m_dependencies;
 		std::array<Behaviour*, MAX_ENTITIES> m_behaviours;
 		std::array<const char*, MAX_ENTITIES> m_names;
 
@@ -31,8 +31,8 @@ namespace BC
 
 		const char* getName(const Entity& entity);
 
-		void setSignature(const Entity& entity, Dependencies signature);
-		Dependencies& getSignature(const Entity& entity);
+		void setDependencies(const Entity& entity, Dependencies signature);
+		Dependencies& getDependencies(const Entity& entity);
 	};
 
 	template <class T>

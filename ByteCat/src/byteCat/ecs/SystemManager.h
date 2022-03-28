@@ -9,7 +9,7 @@ namespace BC
 	class SystemManager
 	{
 	private:
-		std::unordered_map<const char*, Dependencies> m_signatures;
+		std::unordered_map<const char*, Dependencies> m_dependencies;
 		std::unordered_map<const char*, std::shared_ptr<System>> m_systems{};
 
 	public:
@@ -31,7 +31,7 @@ namespace BC
 		}
 
 		template<typename T>
-		void setSignature(const Dependencies& signature)
+		void setDependencies(const Dependencies& signature)
 		{
 			const char* typeName = typeid(T).name();
 
@@ -41,7 +41,7 @@ namespace BC
 				return;
 			}
 
-			m_signatures.insert({ typeName, signature });
+			m_dependencies.insert({ typeName, signature });
 		}
 
 		void entityDestroyed(const Entity& entity)
@@ -59,7 +59,7 @@ namespace BC
 			{
 				auto const& type = pair.first;
 				auto const& system = pair.second;
-				auto const& systemSignature = m_signatures[type];
+				auto const& systemSignature = m_dependencies[type];
 
 				if ((entitySignature & systemSignature) == systemSignature)
 				{

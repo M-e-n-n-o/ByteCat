@@ -41,7 +41,7 @@ namespace BC
 			return;
 		}
 
-		m_signatures[entity].reset();
+		m_dependencies[entity].reset();
 		
 		delete m_behaviours[entity];
 		m_behaviours[entity] = nullptr;
@@ -77,7 +77,7 @@ namespace BC
 		return m_names[entity];
 	}
 
-	void EntityManager::setSignature(const Entity& entity, Dependencies signature)
+	void EntityManager::setDependencies(const Entity& entity, Dependencies signature)
 	{
 		if (entity > MAX_ENTITIES)
 		{
@@ -85,16 +85,16 @@ namespace BC
 			return;
 		}
 
-		m_signatures[entity] = signature;
+		m_dependencies[entity] = signature;
 	}
 
-	Dependencies& EntityManager::getSignature(const Entity& entity)
+	Dependencies& EntityManager::getDependencies(const Entity& entity)
 	{
 		if (entity > MAX_ENTITIES)
 		{
 			LOG_WARN("Given entity {0} out of range", entity);
 		}
 
-		return m_signatures[entity];
+		return m_dependencies[entity];
 	}
 }

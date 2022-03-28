@@ -66,9 +66,9 @@ namespace BC
 		{			
 			m_componentManager->addComponent<T>(entity, component);
 
-			auto signature = m_entityManager->getSignature(entity);
+			auto signature = m_entityManager->getDependencies(entity);
 			signature.set(m_componentManager->getComponentType<T>(false), true);
-			m_entityManager->setSignature(entity, signature);
+			m_entityManager->setDependencies(entity, signature);
 
 			m_systemManager->entitySignatureChanged(entity, signature);
 		}
@@ -78,9 +78,9 @@ namespace BC
 		{
 			m_componentManager->removeComponent<T>(entity);
 
-			auto dependencies = m_entityManager->getSignature(entity);
+			auto dependencies = m_entityManager->getDependencies(entity);
 			dependencies.set(m_componentManager->getComponentType<T>(false), false);
-			m_entityManager->setSignature(entity, dependencies);
+			m_entityManager->setDependencies(entity, dependencies);
 
 			m_systemManager->entitySignatureChanged(entity, dependencies);
 		}
@@ -103,8 +103,8 @@ namespace BC
 		{
 			auto system = m_systemManager->registerSystem<T>(this);
 
-			Dependencies signature = T::GetDependencies(this);
-			m_systemManager->setSignature<T>(signature);
+			Dependencies dependencies = T::GetDependencies(this);
+			m_systemManager->setDependencies<T>(dependencies);
 			
 			return system;
 		}
