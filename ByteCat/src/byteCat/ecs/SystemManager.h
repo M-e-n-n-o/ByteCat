@@ -59,9 +59,9 @@ namespace BC
 			{
 				auto const& type = pair.first;
 				auto const& system = pair.second;
-				auto const& systemSignature = m_dependencies[type];
+				auto const& systemDependencies = m_dependencies[type];
 
-				if ((entityDependencies & systemSignature) == systemSignature)
+				if ((entityDependencies & systemDependencies) == systemDependencies)
 				{
 					system->m_entities.insert(entity);
 				} else
