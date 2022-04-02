@@ -18,7 +18,6 @@ project "Sandbox"
 		"../ByteCat/vendor/spdlog/include",
 		"../ByteCat/src",
 		"../ByteCat/vendor",
-		"%{Libs.Lua}/src",
 		"%{Libs.GLM}"
 	}
 
@@ -31,12 +30,6 @@ project "Sandbox"
 
 	filter "system:windows"
 		systemversion "latest"
-
-		postbuildcommands
-		{
-			("mkdir ..\\bin\\" .. outputdir .. "\\Sandbox\\res"),
-			("ROBOCOPY ./res ../bin/" .. outputdir .. "/Sandbox/res /E")
-		}
 
 		defines
 		{
@@ -54,8 +47,7 @@ project "Sandbox"
 			"pthread",
 			"GLFW",
 			"GLAD",
-			"ImGui",
-			"Lua"
+			"ImGui"
 		}
 
 		postbuildcommands

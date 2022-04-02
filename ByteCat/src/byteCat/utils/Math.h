@@ -1,15 +1,15 @@
 #pragma once
-
-#include <glm/gtc/matrix_transform.hpp>
+#include <glm/glm.hpp>
 
 namespace BC
 {
-	/*
-	 * This namespace holds all the special functions which
-	 * can be used when building an application with the ByteCat Engine.
-	 */
-	namespace Utils
+	class Math
 	{
+	public:
+		static glm::mat4 CreateModelMatrix(const glm::vec3& pos, const glm::vec3& rot, const glm::vec3& scale);
 
-	}
+		static glm::mat4 CreateViewMatrix(const glm::vec3& pos, const glm::vec3& rot);
+
+		static float RandomBetween(float smallNumber, float bigNumber);
+	};
 }

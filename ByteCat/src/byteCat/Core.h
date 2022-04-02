@@ -1,7 +1,5 @@
 #pragma once
 
-#include <iostream>
-
 #ifdef BC_PLATFORM_WINDOWS
 	#ifdef BC_CORE
 		#define BC_CORE_ACCESS
@@ -18,7 +16,6 @@
 	#define BC_PLATFORM_NONE
 	#error ByteCat does not support your platform right now :(
 #endif
-
 
 #ifdef BC_DEBUG
 	#define BC_ENABLE_LOG
@@ -38,10 +35,5 @@
 #elif BC_DIST
 	#define BC_DEBUG_BREAK
 #endif
-
-
-#define BIT(x) (1 << x)
-
-#define BC_BIND_EVENT_FN(fn) [this](auto&&... args) -> decltype(auto) { return this->fn(std::forward<decltype(args)>(args)...); }
 
 int main(int argc, char** argv);

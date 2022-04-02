@@ -1,7 +1,7 @@
 #pragma once
 
 #include "bcpch.h"
-#include "byteCat/Core.h"
+#include "byteCat/utils/Macro.h"
 
 namespace BC
 {
@@ -23,14 +23,14 @@ namespace BC
 		EventCatMouseButton		= BIT(4)
 	};
 
-#define EVENT_CLASS_TYPE(type) static EventType getStaticType() { return EventType::type; }\
+	#define EVENT_CLASS_TYPE(type) static EventType getStaticType() { return EventType::type; }\
 								virtual EventType getEventType() const override { return getStaticType(); }\
 								virtual const char* getName() const override { return #type; }
 
-	/*
-	 * Class Event:
-	 *		This class represents an Event (input) for a ByteCat application
-	 */
+
+	/// <summary>
+	/// This class represents an Event (input) for a ByteCat application.
+	/// </summary>
 	class Event
 	{
 	public:
@@ -48,28 +48,27 @@ namespace BC
 		}
 	};
 
-	/*
-	 * Class EventDispatcher:
-	 *		Use this class to automatic handle events in the correct way.
-	 *
-	 *		Usage:
-	 *		dispatcher.dispatch<<EventType>>(BC_BIND_EVENT_FN(<Function pointer>));
-	 */
+	/// <summary>
+	/// Use this class to automatic handle events in the correct way.
+	/// 
+	/// Example:
+	/// dispatcher.dispatch<<EventType>>(BC_BIND_EVENT_FN(<Function pointer>));
+	/// </summary>
 	class EventDispatcher
 	{
 	private:
-		Event& event;
+		Event& m_event;
 		
 	public:
-		EventDispatcher(Event& event): event(event){}
+		EventDispatcher(Event& event): m_event(event){}
 
 		// F will be deduced by the compiler
 		template<class T, typename F>
 		bool dispatch(const F& func)
 		{
-			if (event.getEventType() == T::getStaticType())
+			if (m_event.getEventType() == T::getStaticType())
 			{
-				event.handled |= func(static_cast<T&>(event));
+				m_event.handled |= func(static_cast<T&>(m_event));
 				return true;
 			}
 			return false;
