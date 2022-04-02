@@ -5,7 +5,7 @@ namespace BC
 {
 	LayerStack::~LayerStack()
 	{		
-		for (Layer* layer : layers)
+		for (Layer* layer : m_layers)
 		{
 			delete layer;
 		}
@@ -15,8 +15,8 @@ namespace BC
 	{
 		LOG_INFO("Adding a new layer to the application: {0}", layer->getName());
 
-		layers.emplace(layers.begin() + layerInsertIndex, layer);
-		layerInsertIndex++;
+		m_layers.emplace(m_layers.begin() + m_layerInsertIndex, layer);
+		m_layerInsertIndex++;
 		layer->onAttach();
 	}
 
@@ -24,7 +24,7 @@ namespace BC
 	{
 		LOG_INFO("Adding a new overlay to the application: {0}", overlay->getName());
 
-		layers.emplace_back(overlay);
+		m_layers.emplace_back(overlay);
 		overlay->onAttach();
 	}
 

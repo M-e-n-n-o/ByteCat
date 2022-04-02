@@ -17,7 +17,6 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 include "ByteCat/vendor/GLFW"
 include "ByteCat/vendor/imgui"
 include "ByteCat/vendor/Glad"
-include "ByteCat/vendor/lua"
 
 -- ByteCat projects
 include "ByteCat"

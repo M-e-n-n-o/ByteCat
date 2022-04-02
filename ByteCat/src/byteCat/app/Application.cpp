@@ -1,105 +1,87 @@
 #include "bcpch.h"
 #include "byteCat/app/Application.h"
-
-#include "byteCat/entity-system/Material.h"
-#include "byteCat/entity-system/renderers/Mesh.h"
-#include "byteCat/entity-system/cameras/PerspectiveCamera.h"
-#include "byteCat/render/Renderer.h"
-
+#include "byteCat/ecs/SceneManager.h"
+#include "byteCat/graphics/renderer/Renderer.h"
+#include "byteCat/graphics/renderer/elaborations/SimpleRenderer.h"
+#include "byteCat/imgui/ImGuiLayer.h"
+#include "byteCat/utils/Time.h"
 
 namespace BC
-{	
-    Application* Application::instance = nullptr;
+{
+    Application* Application::s_instance = nullptr;
 	
-	Application::Application() : isRunning(false)
+	Application::Application() : m_isRunning(false)
 	{
-        LOG_ASSERT(!instance, "Application already exists!");
-        instance = this;
+        LOG_ASSERT(!s_instance, "Application already exists!");
+        s_instance = this;
 		
         LOG_INFO("ByteCat engine is starting...");
-		
-        WindowSetting setting = { "ByteCat Engine", 1280, 720, false };
-        window = Window::Create(setting);
-        window->setEventListener(this);
 
-        gameLayer = new GameLayer();
-        pushLayer(gameLayer);
-		
-        imGuiLayer = new ImGuiLayer();
-        pushOverlay(imGuiLayer);
+        Renderer::SetAPI(GraphicsAPI::OpenGL);
+		      
+        WindowSettings setting = { "ByteCat Engine", 1280, 720, true };
+        m_window = Window::Create(setting);
+        m_window->setEventListener(this);
+        
+        Renderer::Init(new SimpleRenderer());
 
-        Renderer::Init();
+        m_logicLayer = new SceneManager();
+        pushLayer(m_logicLayer);
+        m_timeLayer = new Time();
+        pushLayer(m_timeLayer);
+        m_imguiLayer = new ImGuiLayer();
+        pushLayer(m_imguiLayer);
 	}
 
     Application::~Application()
     {
-        Renderer::Shutdown();
         LOG_INFO("ByteCat engine is closing...");
-    }
 
-    void Application::start()
-    {
-        if (isRunning)
-        {
-            LOG_WARN("Cannot run the main game loop synchronous");
-            return;
-        }
-        isRunning = true;
-        isMinimized = false;
-		
-        run();
+        Renderer::Shutdown();
+        delete m_window;
     }
 	
-	void Application::run()
-	{	
-		while (isRunning)
-		{
-            delta = window->update();
-			
-            if (isMinimized) { continue; }
-			
-		 	// Updating
-	        for (Layer* layer : layerStack)
-	        {
-				if (layer->enabled) { layer->onUpdate(); }
-	        }
+    void Application::start()
+    {		
+        m_isRunning = true;
 
-			
-            // Rendering
-            if (std::shared_ptr<GameObject> camera = gameLayer->GetCamera())
+        while (m_isRunning)
+        {
+            m_window->update();
+
+            if (m_window->isMinimized())
             {
-                Renderer::BeginScene(camera->getComponent<Camera>()->getViewMatrix(), camera->getComponent<Camera>()->getProjectionMatrix());
-
-            	// OnRender
-                for (Layer* layer : layerStack)
-                {
-                    if (layer->enabled) { layer->onRender(); }
-                }
-            	
-                for (std::shared_ptr<GameObject>& gameObject : gameLayer->getGameObjects())
-                {
-                    if (gameObject->isEnabled) { Renderer::Submit(gameObject); }
-                }
-
-                Renderer::EndScene();
-            } else
-            {
-                LOG_WARN("No camera has been set");
+                continue;
             }
-		 	
-		 	
-		 	// ImGui Rendering
-            if (imGuiLayer->enabled)
+
+            for (Layer* layer : m_layerStack)
             {
-                imGuiLayer->begin();
-                for (Layer* layer : layerStack)
-				{
-					if (layer->enabled) { layer->onImGuiRender(); }
-                }
-				imGuiLayer->end();
+                if (layer->m_enabled) { layer->onUpdate(); }
             }
-		}
-	}
+
+            for (Layer* layer : m_layerStack)
+            {
+                if (layer->m_enabled) { layer->onRender(); }
+            }
+
+            Renderer::RenderFrame();
+
+            for (Layer* layer : m_layerStack)
+            {
+                if (layer->m_enabled) { layer->onRenderComplete(); }
+            }
+
+            if (m_imguiLayer->m_enabled)
+            {
+                m_imguiLayer->begin();
+                for (Layer* layer : m_layerStack)
+                {
+                    if (layer->m_enabled) { layer->onGuiRender(); }
+                }
+                m_imguiLayer->end();
+            }
+        }
+    }
 
     void Application::onEvent(Event& event)
     {		
@@ -107,11 +89,11 @@ namespace BC
         dispatcher.dispatch<WindowCloseEvent>(BC_BIND_EVENT_FN(Application::onWindowClose));
         dispatcher.dispatch<WindowResizeEvent>(BC_BIND_EVENT_FN(Application::onWindowResize));
 		
-        for (auto it = layerStack.end(); it != layerStack.begin();)
+        for (auto it = m_layerStack.end(); it != m_layerStack.begin();)
         {
             --it;
         	
-            if ((*it)->enabled)
+            if ((*it)->m_enabled)
             {
                 (*it)->onEvent(event);
                 if (event.handled)
@@ -124,34 +106,25 @@ namespace BC
 
     bool Application::onWindowClose(WindowCloseEvent& event)
     {
-        isRunning = false;
+        m_isRunning = false;
         return true;
     }
 
     bool Application::onWindowResize(WindowResizeEvent& event)
     {
-		if (event.getWidth() == 0 || event.getHeight() == 0)
-		{
-            isMinimized = true;
-            return false;
-		}
-
-        isMinimized = false;
-
-        window->resize(event.getWidth(), event.getHeight());
-        Renderer::OnWindowResize(event.getWidth(), event.getHeight());
-        gameLayer->onWindowResize(event.getWidth(), event.getHeight());
-
+        m_window->resize(event.getWidth(), event.getHeight());
+        Renderer::SetViewport(0, 0, event.getWidth(), event.getHeight());
+    	
         return true;
     }
 
     void Application::pushLayer(Layer* layer)
     {
-        layerStack.pushLayer(layer);
+        m_layerStack.pushLayer(layer);
     }
 
     void Application::pushOverlay(Layer* overlay)
     {
-        layerStack.pushOverlay(overlay);
+        m_layerStack.pushOverlay(overlay);
     }
 }

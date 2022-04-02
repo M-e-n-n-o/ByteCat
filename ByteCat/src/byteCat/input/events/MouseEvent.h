@@ -8,14 +8,14 @@ namespace BC
 	class MouseMovedEvent : public Event
 	{
 	private:
-		float mouseX;
-		float mouseY;
+		float m_mouseX;
+		float m_mouseY;
 
 	public:
-		MouseMovedEvent(const float x, const float y) : mouseX(x), mouseY(y) {}
+		MouseMovedEvent(const float x, const float y) : m_mouseX(x), m_mouseY(y) {}
 
-		float getMouseX() const { return mouseX; }
-		float getMouseY() const { return mouseY; }
+		float getMouseX() const { return m_mouseX; }
+		float getMouseY() const { return m_mouseY; }
 
 		EVENT_CLASS_TYPE(MouseMoved)
 		int getCategoryFlags() const override { return EventCatMouse | EventCatInput; }
@@ -25,14 +25,14 @@ namespace BC
 	class MouseScrolledEvent : public Event
 	{
 	private:
-		float offsetX;
-		float offsetY;
+		float m_offsetX;
+		float m_offsetY;
 
 	public:
-		MouseScrolledEvent(const float x, const float y) : offsetX(x), offsetY(y) {}
+		MouseScrolledEvent(const float x, const float y) : m_offsetX(x), m_offsetY(y) {}
 
-		float getOffsetX() const { return offsetX; }
-		float getOffsetY() const { return offsetY; }
+		float getOffsetX() const { return m_offsetX; }
+		float getOffsetY() const { return m_offsetY; }
 
 		EVENT_CLASS_TYPE(MouseScrolled)
 		int getCategoryFlags() const override { return EventCatMouse | EventCatInput; }
@@ -42,12 +42,12 @@ namespace BC
 	class MouseButtonEvent : public Event
 	{
 	protected:
-		MouseCode mouseCode;
+		MouseCode m_mouseCode;
 
-		MouseButtonEvent(const MouseCode mouseCode) : mouseCode(mouseCode) {}
+		MouseButtonEvent(const MouseCode mouseCode) : m_mouseCode(mouseCode) {}
 
 	public:
-		MouseCode getMouseButton() const { return mouseCode; }
+		MouseCode getMouseButton() const { return m_mouseCode; }
 		
 		int getCategoryFlags() const override { return EventCatMouse | EventCatInput | EventCatMouseButton; }
 	};
