@@ -35,6 +35,7 @@
 #include "byteCat/graphics/components/Texture.h"
 #include "byteCat/graphics/components/FrameBuffer.h"
 #include "byteCat/graphics/renderer/Renderer.h"
+#include "byteCat/graphics/renderer/elaborations/SimpleRenderer.h"
 
 #include "byteCat/ecs/Entity.h"
 #include "byteCat/ecs/EcsCoordinator.h"

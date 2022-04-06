@@ -15,7 +15,7 @@ namespace BC
 			bool m_isMinimized = false;
 			
 		public:
-			WinLinWindow(WindowSettings& setting);
+			WinLinWindow(const WindowSettings& setting);
 			~WinLinWindow() { shutdown(); }
 
 			// Swap the buffers, poll the events

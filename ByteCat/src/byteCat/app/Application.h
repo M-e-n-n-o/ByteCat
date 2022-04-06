@@ -17,19 +17,19 @@ namespace BC
 	{
 	private:	
 		static Application* s_instance;
-		
+	
 		LayerStack m_layerStack;
-
 		Layer* m_logicLayer;
 		Layer* m_timeLayer;
 		ImGuiLayer* m_imguiLayer;
-		
-		Window* m_window;
 
 		bool m_isRunning;
-		
+
 		friend int ::main(int argc, char** argv);
-		
+
+	protected:
+		Window* m_window;
+	
 	public:		
 		Application();
 		virtual ~Application();

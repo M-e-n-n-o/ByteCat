@@ -48,6 +48,6 @@ namespace BC
 		// Sets the eventlistener of the incoming events
 		virtual void setEventListener(EventListener* newListener) = 0;
 
-		static Window* Create(WindowSettings& setting);
+		static Window* Create(const WindowSettings& setting);
 	};
 }

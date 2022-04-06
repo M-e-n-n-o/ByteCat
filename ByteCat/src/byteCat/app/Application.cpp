@@ -2,7 +2,6 @@
 #include "byteCat/app/Application.h"
 #include "byteCat/ecs/SceneManager.h"
 #include "byteCat/graphics/renderer/Renderer.h"
-#include "byteCat/graphics/renderer/elaborations/SimpleRenderer.h"
 #include "byteCat/imgui/ImGuiLayer.h"
 #include "byteCat/utils/Time.h"
 
@@ -16,14 +15,16 @@ namespace BC
         s_instance = this;
 		
         LOG_INFO("ByteCat engine is starting...");
+	}
 
-        Renderer::SetAPI(GraphicsAPI::OpenGL);
-		      
-        WindowSettings setting = { "ByteCat Engine", 1280, 720, true };
-        m_window = Window::Create(setting);
-        m_window->setEventListener(this);
-        
-        Renderer::Init(new SimpleRenderer());
+    Application::~Application()
+    {
+        LOG_INFO("ByteCat engine is closing...");
+    }
+	
+    void Application::start()
+    {
+        m_isRunning = true;
 
         m_logicLayer = new SceneManager();
         pushLayer(m_logicLayer);
@@ -31,19 +32,6 @@ namespace BC
         pushLayer(m_timeLayer);
         m_imguiLayer = new ImGuiLayer();
         pushLayer(m_imguiLayer);
-	}
-
-    Application::~Application()
-    {
-        LOG_INFO("ByteCat engine is closing...");
-
-        Renderer::Shutdown();
-        delete m_window;
-    }
-	
-    void Application::start()
-    {		
-        m_isRunning = true;
 
         while (m_isRunning)
         {
