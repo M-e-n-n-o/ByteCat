@@ -14,7 +14,7 @@ namespace BC
 	{
 	private:		
 		inline static bool s_isInit = false;
-		inline static bool s_hasRenderer = false;
+		inline static bool s_hasSubmissionRenderer = false;
 		
 		inline static SubmissionRenderer* s_submissionRenderer = nullptr;
 

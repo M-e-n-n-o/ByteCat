@@ -137,7 +137,7 @@ namespace BC
 		s_submissionRenderer = renderer;
 		s_submissionRenderer->init(s_rendererAPI);
 
-		s_hasRenderer = true;
+		s_hasSubmissionRenderer = true;
 	}
 
 	void Renderer::Shutdown()
@@ -211,7 +211,7 @@ namespace BC
 	{
 		CHECK_INIT
 
-		if (!s_hasRenderer)
+		if (!s_hasSubmissionRenderer)
 		{
 			LOG_ERROR("No submission renderer has been set!");
 			return;
@@ -224,7 +224,7 @@ namespace BC
 	{
 		CHECK_INIT
 
-		if (!s_hasRenderer)
+		if (!s_hasSubmissionRenderer)
 		{
 			LOG_ERROR("No submission renderer has been set!");
 			return;
@@ -237,7 +237,7 @@ namespace BC
 	{
 		CHECK_INIT
 
-		if (!s_hasRenderer)
+		if (!s_hasSubmissionRenderer)
 		{
 			return;
 		}
