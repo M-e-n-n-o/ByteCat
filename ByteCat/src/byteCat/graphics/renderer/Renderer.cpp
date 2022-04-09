@@ -3,13 +3,14 @@
 
 namespace BC
 {
-	#define CHECK_INIT if(!s_isInit) return;
+	#define CHECK_INIT if(!s_hasRenderer) return;
 
 	void Renderer::SetAPI(const GraphicsAPI& api)
 	{
 		if (s_graphicsAPI == GraphicsAPI::None)
 		{
 			s_graphicsAPI = api;
+			s_rendererAPI = RendererAPI::Create(s_graphicsAPI);
 		}
 	}
 	
@@ -28,19 +29,21 @@ namespace BC
 			return;
 		}
 
-		if (!s_isInit)
+		if (!s_hasRenderer)
 		{
-			s_isInit = true;
+			s_hasRenderer = true;
 
+			// const char* name = typeid(renderer).name();
+			// LOG_INFO("Setting renderer to: {0}", name);
+			
 			s_activeRenderer = renderer;
-			s_rendererAPI = RendererAPI::Create(s_graphicsAPI);
 			s_activeRenderer->init(s_rendererAPI);
 		}
 	}
 
 	void Renderer::SetRenderer(BaseRenderer* renderer)
 	{
-		if (renderer == nullptr || !s_isInit)
+		if (renderer == nullptr || !s_hasRenderer)
 		{
 			delete renderer;
 			return;
@@ -53,6 +56,9 @@ namespace BC
 			return;
 		}
 
+		// const char* name = typeid(renderer).name();
+		// LOG_INFO("Setting renderer to: {0}", name);
+
 		delete s_activeRenderer;
 		s_activeRenderer = renderer;
 		s_activeRenderer->init(s_rendererAPI);
@@ -62,6 +68,29 @@ namespace BC
 	{
 		delete s_rendererAPI;
 		delete s_activeRenderer;
+	}
+
+	void Renderer::SetViewport(unsigned x, unsigned y, unsigned width, unsigned height)
+	{
+		CHECK_INIT
+
+		s_rendererAPI->setViewport(x, y, width, height);
+	}
+
+	void Renderer::Clear(const glm::vec3& color)
+	{
+	}
+
+	void Renderer::SetColor(const glm::vec4& color)
+	{
+	}
+
+	void Renderer::DrawRectangle(const glm::vec3& position, const glm::vec3& scale)
+	{
+	}
+
+	void Renderer::DrawImage(const glm::vec3& position, const glm::vec3& scale, std::shared_ptr<Texture2D> texture)
+	{
 	}
 
 	void Renderer::Submit(const Renderable& renderable)
@@ -78,17 +107,10 @@ namespace BC
 		s_activeRenderer->setSceneData(sceneData);
 	}
 
-	void Renderer::RenderFrame()
+	void Renderer::RenderSubmissions()
 	{
 		CHECK_INIT
 
-		s_activeRenderer->renderFrame();
-	}
-
-	void Renderer::SetViewport(unsigned x, unsigned y, unsigned width, unsigned height)
-	{
-		CHECK_INIT
-
-		s_rendererAPI->setViewport(x, y, width, height);
+		s_activeRenderer->renderSubmissions();
 	}
 }

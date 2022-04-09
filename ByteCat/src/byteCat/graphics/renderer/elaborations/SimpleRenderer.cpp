@@ -31,7 +31,7 @@ namespace BC
 		m_sceneData = sceneData;
 	}
 
-	void SimpleRenderer::renderFrame()
+	void SimpleRenderer::renderSubmissions()
 	{
 		m_rendererAPI->clearColor(glm::vec4(0.69, 1, 1, 1));
 		m_rendererAPI->clearBuffers();

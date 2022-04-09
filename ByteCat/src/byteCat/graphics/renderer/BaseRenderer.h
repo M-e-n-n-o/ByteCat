@@ -17,7 +17,7 @@ namespace BC
 		virtual void init(RendererAPI* rendererAPI) = 0;
 		virtual void submit(const Renderable& renderable) = 0;
 		virtual void setSceneData(const SceneData& sceneData) = 0;
-		virtual void renderFrame() = 0;
+		virtual void renderSubmissions() = 0;
 
 		virtual const std::string& getName() const = 0;
 

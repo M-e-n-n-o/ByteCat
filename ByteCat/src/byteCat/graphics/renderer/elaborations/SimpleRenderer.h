@@ -17,7 +17,7 @@ namespace BC
 		void init(RendererAPI* rendererAPI) override;
 		void submit(const Renderable& renderable) override;
 		void setSceneData(const SceneData& sceneData) override;
-		void renderFrame() override;
+		void renderSubmissions() override;
 		
 		bool supports(const GraphicsAPI& api) override;
 		

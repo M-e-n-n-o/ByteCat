@@ -190,7 +190,7 @@ public:
 	
 	void onRender() override
 	{
-		Renderer::RenderFrame();
+		Renderer::RenderSubmissions();
 		fbo->unbind();
 		
 		Renderer::Submit(renderable);
