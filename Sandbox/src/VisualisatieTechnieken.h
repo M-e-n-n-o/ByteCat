@@ -28,11 +28,12 @@ public:
 			Application::GetInstance().pushLayer(new SceneManager);
 		
 			auto scene = SceneManager::CreateScene("TestScene");
-			scene->registerDefaultSystems();
 			SceneManager::ActivateScene(scene);
 		
 			ecsCoordinator = scene->getEcsCoordinator();
-		
+			ecsCoordinator->registerSystem<RenderSubmitter>();
+			ecsCoordinator->registerSystem<CameraSystem>();
+			
 		// Cube data
 			float dataCube[] =
 			{

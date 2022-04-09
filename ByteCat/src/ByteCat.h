@@ -37,6 +37,8 @@
 #include "byteCat/graphics/renderer/Renderer.h"
 #include "byteCat/graphics/renderer/submissionRenderers/SimpleRenderer.h"
 
+#include "byteCat/ecs/systems/CameraSystem.h"
+#include "byteCat/ecs/systems/RenderSubmitter.h"
 #include "byteCat/ecs/Entity.h"
 #include "byteCat/ecs/EcsCoordinator.h"
 #include "byteCat/ecs/Behaviour.h"

@@ -15,12 +15,8 @@ namespace BC
 	
 	public:
 		Scene(const std::string& name);
-
-		void registerDefaultSystems();
 		
 		void onUpdate();
-
-		Entity getMainCamera();
 		
 		std::string& getName() { return m_name; }
 		std::shared_ptr<EcsCoordinator> getEcsCoordinator() const { return m_ecsCoordinator; }

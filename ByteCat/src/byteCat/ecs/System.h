@@ -19,5 +19,6 @@ namespace BC
 		virtual ~System() = default;
 
 		virtual void onUpdate() {}
+		virtual void onEntitiesChanged() {}
 	};
 }

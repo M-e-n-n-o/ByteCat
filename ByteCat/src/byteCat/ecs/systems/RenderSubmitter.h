@@ -1,7 +1,9 @@
 #pragma once
 #include "byteCat/ecs/SceneManager.h"
 #include "byteCat/ecs/System.h"
+#include "byteCat/ecs/EcsCoordinator.h"
 #include "byteCat/ecs/components/Material.h"
+#include "byteCat/ecs/components/Mesh.h"
 #include "byteCat/graphics/renderer/Renderer.h"
 #include "byteCat/utils/Math.h"
 #include "byteCat/utils/Time.h"
@@ -26,7 +28,7 @@ namespace BC
 		
 		void onUpdate() override
 		{
-			Entity camera = SceneManager::GetActiveScene()->getMainCamera();
+			Entity camera = m_coordinator->getSystem<CameraSystem>()->getMainCamera();
 			if (camera != -1)
 			{
 				m_cameraPos = m_coordinator->getComponent<Transform>(camera)->position;

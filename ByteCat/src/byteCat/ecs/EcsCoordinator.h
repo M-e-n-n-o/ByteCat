@@ -70,7 +70,7 @@ namespace BC
 			dependencies.set(m_componentManager->getComponentType<T>(false), true);
 			m_entityManager->setDependencies(entity, dependencies);
 
-			m_systemManager->entitySignatureChanged(entity, dependencies);
+			m_systemManager->entityDependenciesChanged(entity, dependencies);
 		}
 
 		template<typename T>
@@ -82,7 +82,7 @@ namespace BC
 			dependencies.set(m_componentManager->getComponentType<T>(false), false);
 			m_entityManager->setDependencies(entity, dependencies);
 
-			m_systemManager->entitySignatureChanged(entity, dependencies);
+			m_systemManager->entityDependenciesChanged(entity, dependencies);
 		}
 
 		template<typename T>
@@ -107,6 +107,12 @@ namespace BC
 			m_systemManager->setDependencies<T>(dependencies);
 			
 			return system;
+		}
+
+		template<class T>
+		std::shared_ptr<T> getSystem()
+		{
+			return m_systemManager->getSystem<T>();
 		}
 
 		void updateSystems()
