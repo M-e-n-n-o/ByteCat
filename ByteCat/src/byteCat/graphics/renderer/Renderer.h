@@ -1,7 +1,7 @@
 #pragma once
 #include "byteCat/graphics/renderer/RendererAPI.h"
 #include "byteCat/graphics/renderer/RenderData.h"
-#include "byteCat/graphics/renderer/BaseRenderer.h"
+#include "byteCat/graphics/renderer/SubmissionRenderer.h"
 
 namespace BC
 {	
@@ -16,7 +16,7 @@ namespace BC
 		inline static bool s_isInit = false;
 		inline static bool s_hasRenderer = false;
 		
-		inline static BaseRenderer* s_activeRenderer = nullptr;
+		inline static SubmissionRenderer* s_submissionRenderer = nullptr;
 
 		inline static GraphicsAPI s_graphicsAPI = GraphicsAPI::None;
 		inline static RendererAPI* s_rendererAPI = nullptr;
@@ -26,7 +26,7 @@ namespace BC
 		static GraphicsAPI& GetAPI() { return s_graphicsAPI; }
 		
 		static void Init();
-		static void SetRenderer(BaseRenderer* renderer);
+		static void SetSubmissionRenderer(SubmissionRenderer* renderer);
 		
 		static void Shutdown();
 
@@ -38,7 +38,7 @@ namespace BC
 		static void DrawRectangle(const glm::vec2& position, float rotation, const glm::vec2& scale);
 		static void DrawImage(const glm::vec2& position, float rotation, const glm::vec2& scale, const std::shared_ptr<Texture2D>& texture);
 		
-		// Elaboration renderer commands
+		// Submission renderer commands
 		static void Submit(const Renderable& renderable);
 		static void SetSceneData(const SceneData& sceneData);
 		static void RenderSubmissions();

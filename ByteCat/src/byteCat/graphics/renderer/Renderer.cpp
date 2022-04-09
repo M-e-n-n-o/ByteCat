@@ -111,7 +111,7 @@ namespace BC
 		}
 	}
 
-	void Renderer::SetRenderer(BaseRenderer* renderer)
+	void Renderer::SetSubmissionRenderer(SubmissionRenderer* renderer)
 	{
 		if (renderer == nullptr)
 		{
@@ -121,21 +121,21 @@ namespace BC
 
 		if (!s_isInit)
 		{
-			LOG_ERROR("Initialize the renderer before setting the base renderer!");
+			LOG_ERROR("Initialize the renderer before setting the submission renderer!");
 			delete renderer;
 			return;
 		}
 
 		if (!renderer->supports(s_graphicsAPI))
 		{
-			LOG_ERROR("{0} does not support the selected graphics API!", renderer->getName());
+			LOG_ERROR("Submission renderer: {0} does not support the selected graphics API!", renderer->getName());
 			delete renderer;
 			return;
 		}
 		
-		delete s_activeRenderer;
-		s_activeRenderer = renderer;
-		s_activeRenderer->init(s_rendererAPI);
+		delete s_submissionRenderer;
+		s_submissionRenderer = renderer;
+		s_submissionRenderer->init(s_rendererAPI);
 
 		s_hasRenderer = true;
 	}
@@ -143,7 +143,7 @@ namespace BC
 	void Renderer::Shutdown()
 	{
 		delete s_rendererAPI;
-		delete s_activeRenderer;
+		delete s_submissionRenderer;
 	}
 
 	void Renderer::SetViewport(unsigned x, unsigned y, unsigned width, unsigned height)
@@ -213,11 +213,11 @@ namespace BC
 
 		if (!s_hasRenderer)
 		{
-			LOG_ERROR("No base renderer has been set!");
+			LOG_ERROR("No submission renderer has been set!");
 			return;
 		}
 		
-		s_activeRenderer->submit(renderable);
+		s_submissionRenderer->submit(renderable);
 	}
 
 	void Renderer::SetSceneData(const SceneData& sceneData)
@@ -226,11 +226,11 @@ namespace BC
 
 		if (!s_hasRenderer)
 		{
-			LOG_ERROR("No base renderer has been set!");
+			LOG_ERROR("No submission renderer has been set!");
 			return;
 		}
 
-		s_activeRenderer->setSceneData(sceneData);
+		s_submissionRenderer->setSceneData(sceneData);
 	}
 
 	void Renderer::RenderSubmissions()
@@ -242,6 +242,6 @@ namespace BC
 			return;
 		}
 		
-		s_activeRenderer->renderSubmissions();
+		s_submissionRenderer->renderSubmissions();
 	}
 }

@@ -21,8 +21,8 @@ class VisualisatieTechnieken : public Layer
 public:
 	VisualisatieTechnieken() : Layer("UserLayer")
 	{
-		// Zet een renderer
-			Renderer::SetRenderer(new SimpleRenderer());
+		// Zet een submission renderer
+			Renderer::SetSubmissionRenderer(new SimpleRenderer());
 		
 		// Maak een nieuwe scene
 			Application::GetInstance().pushLayer(new SceneManager);

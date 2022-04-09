@@ -1,9 +1,9 @@
 #pragma once
-#include "byteCat/graphics/renderer/BaseRenderer.h"
+#include "byteCat/graphics/renderer/SubmissionRenderer.h"
 
 namespace BC
 {
-	class SimpleRenderer : public BaseRenderer
+	class SimpleRenderer : public SubmissionRenderer
 	{
 	private:
 		std::vector<Renderable> m_entities;

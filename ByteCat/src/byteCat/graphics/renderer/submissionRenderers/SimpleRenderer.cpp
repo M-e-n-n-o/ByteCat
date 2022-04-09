@@ -1,5 +1,5 @@
 #include "bcpch.h"
-#include "byteCat/graphics/renderer/elaborations/SimpleRenderer.h"
+#include "byteCat/graphics/renderer/submissionRenderers/SimpleRenderer.h"
 
 namespace BC
 {
