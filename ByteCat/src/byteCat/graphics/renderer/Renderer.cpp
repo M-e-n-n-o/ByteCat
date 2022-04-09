@@ -84,7 +84,6 @@ namespace BC
 	
 	
 	#define CHECK_INIT if(!s_isInit) { LOG_ERROR("The renderer has not been initialized yet!"); return; }
-	#define CHECK_RENDERER if(!s_hasRenderer) { return; }
 
 	void Renderer::SetAPI(const GraphicsAPI& api)
 	{
@@ -211,7 +210,12 @@ namespace BC
 	void Renderer::Submit(const Renderable& renderable)
 	{
 		CHECK_INIT
-		CHECK_RENDERER
+
+		if (!s_hasRenderer)
+		{
+			LOG_ERROR("No base renderer has been set!");
+			return;
+		}
 		
 		s_activeRenderer->submit(renderable);
 	}
@@ -219,7 +223,12 @@ namespace BC
 	void Renderer::SetSceneData(const SceneData& sceneData)
 	{
 		CHECK_INIT
-		CHECK_RENDERER
+
+		if (!s_hasRenderer)
+		{
+			LOG_ERROR("No base renderer has been set!");
+			return;
+		}
 
 		s_activeRenderer->setSceneData(sceneData);
 	}
@@ -227,8 +236,12 @@ namespace BC
 	void Renderer::RenderSubmissions()
 	{
 		CHECK_INIT
-		CHECK_RENDERER
 
+		if (!s_hasRenderer)
+		{
+			return;
+		}
+		
 		s_activeRenderer->renderSubmissions();
 	}
 }
