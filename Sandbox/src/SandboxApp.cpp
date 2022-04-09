@@ -1,5 +1,6 @@
 #include <ByteCat.h>
-#include "TestLayer.h"
+#include "VisualisatieTechnieken.h"
+#include "GraphicsTest.h"
 
 using namespace BC;
 
@@ -15,9 +16,9 @@ public:
         m_window = Window::Create(settings);
         m_window->setEventListener(this);
 
-        Renderer::Init(new SimpleRenderer());
+        Renderer::Init();
 		
-		pushLayer(new TestLayer());
+		pushLayer(new GraphicsTest());
 	}
 
 	// The end of your application

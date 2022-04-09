@@ -5,7 +5,7 @@
 
 using namespace BC;
 
-class TestLayer : public Layer
+class VisualisatieTechnieken : public Layer
 {
 	std::shared_ptr<EcsCoordinator> ecsCoordinator;
 
@@ -19,9 +19,14 @@ class TestLayer : public Layer
 	Renderable renderable;
 
 public:
-	TestLayer() : Layer("UserLayer")
-	{		
+	VisualisatieTechnieken() : Layer("UserLayer")
+	{
+		// Zet een renderer
+			Renderer::SetRenderer(new SimpleRenderer());
+		
 		// Maak een nieuwe scene
+			Application::GetInstance().pushLayer(new SceneManager);
+		
 			auto scene = SceneManager::CreateScene("TestScene");
 			scene->registerDefaultSystems();
 			SceneManager::ActivateScene(scene);

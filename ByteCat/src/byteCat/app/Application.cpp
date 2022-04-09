@@ -26,12 +26,9 @@ namespace BC
     {
         m_isRunning = true;
 
-        m_logicLayer = new SceneManager();
-        pushLayer(m_logicLayer);
-        m_timeLayer = new Time();
-        pushLayer(m_timeLayer);
         m_imguiLayer = new ImGuiLayer();
         pushLayer(m_imguiLayer);
+        pushLayer(new Time());
 
         while (m_isRunning)
         {
