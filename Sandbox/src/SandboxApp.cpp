@@ -7,7 +7,7 @@ using namespace BC;
 class Sandbox : public Application
 {
 public:
-	// The init of your application
+	// The start of your application
 	Sandbox(): Application()
 	{
         Renderer::SetAPI(GraphicsAPI::OpenGL);
@@ -18,7 +18,7 @@ public:
 
         Renderer::Init();
 		
-		pushLayer(new VisualisatieTechnieken());
+		pushLayer(new GraphicsTest());
 	}
 
 	// The end of your application
