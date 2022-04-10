@@ -28,6 +28,8 @@
 		#define LOG_ASSERT(x, ...)		{ if(!(x)) { LOG_ERROR("Assertion Failed: {0}", __VA_ARGS__); BC_DEBUG_BREAK; } }
 	#endif
 #else
+	#include <iostream>
+
 	// Empty log/assert macros
 	#define LOG_TEXT_LONG(x)
 	#define LOG_INFO(...)

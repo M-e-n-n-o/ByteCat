@@ -43,10 +43,7 @@ namespace BC
 		{
 			vec4 col = color;
 
-			if (useTex)
-			{
-				col *= texture(tex, PassTexCoord);
-			}
+			col *= mix(col, texture(tex, PassTexCoord), useTex);
 	
 			FragColor = col;
 		}
@@ -57,7 +54,7 @@ namespace BC
 
 		static void InitBasicGraphics()
 		{
-			basicShader = Shader::Create("Basic 2D shader", vertexShader, fragmentShader, false);
+			basicShader = Shader::Create("Renderer simple 2D", vertexShader, fragmentShader, false);
 			basicShader->setTextureSlots({ "tex" });
 
 			basicVao = VertexArray::Create();
@@ -153,14 +150,14 @@ namespace BC
 		{
 			CHECK_INIT
 
-				s_rendererAPI->setViewport(x, y, width, height);
+			s_rendererAPI->setViewport(x, y, width, height);
 		}
 
 		void Renderer::Clear(const glm::vec4& color)
 		{
 			CHECK_INIT
 
-				s_rendererAPI->clearColor(color);
+			s_rendererAPI->clearColor(color);
 			s_rendererAPI->clearBuffers();
 		}
 
@@ -168,7 +165,7 @@ namespace BC
 		{
 			CHECK_INIT
 
-				basicShader->bind();
+			basicShader->bind();
 			basicShader->loadVector4("color", color);
 		}
 
@@ -176,7 +173,7 @@ namespace BC
 		{
 			CHECK_INIT
 
-				const glm::mat4 modelMatrix = Utils::Math::CreateModelMatrix({ position.x, position.y, -1 }, { 0, 0, rotation }, { scale.x, scale.y, 1 });
+			const glm::mat4 modelMatrix = Utils::Math::CreateModelMatrix({ position.x, position.y, -1 }, { 0, 0, rotation }, { scale.x, scale.y, 1 });
 
 			auto& window = App::Application::GetInstance().getWindow();
 			float aspect = (window.getWidth() * 1.0f) / (window.getHeight() * 1.0f);
@@ -194,7 +191,7 @@ namespace BC
 		{
 			CHECK_INIT
 
-				const glm::mat4 modelMatrix = Utils::Math::CreateModelMatrix({ position.x, position.y, -1 }, { 0, 0, rotation }, { scale.x, scale.y, 1 });
+			const glm::mat4 modelMatrix = Utils::Math::CreateModelMatrix({ position.x, position.y, -1 }, { 0, 0, rotation }, { scale.x, scale.y, 1 });
 
 			auto& window = App::Application::GetInstance().getWindow();
 			float aspect = (window.getWidth() * 1.0f) / (window.getHeight() * 1.0f);
@@ -214,11 +211,11 @@ namespace BC
 		{
 			CHECK_INIT
 
-				if (!s_hasSubmissionRenderer)
-				{
-					LOG_ERROR("No submission renderer has been set!");
-					return;
-				}
+			if (!s_hasSubmissionRenderer)
+			{
+				LOG_ERROR("No submission renderer has been set!");
+				return;
+			}
 
 			s_submissionRenderer->submit(renderable);
 		}
@@ -227,11 +224,11 @@ namespace BC
 		{
 			CHECK_INIT
 
-				if (!s_hasSubmissionRenderer)
-				{
-					LOG_ERROR("No submission renderer has been set!");
-					return;
-				}
+			if (!s_hasSubmissionRenderer)
+			{
+				LOG_ERROR("No submission renderer has been set!");
+				return;
+			}
 
 			s_submissionRenderer->setSceneData(sceneData);
 		}
@@ -240,10 +237,10 @@ namespace BC
 		{
 			CHECK_INIT
 
-				if (!s_hasSubmissionRenderer)
-				{
-					return;
-				}
+			if (!s_hasSubmissionRenderer)
+			{
+				return;
+			}
 
 			s_submissionRenderer->renderSubmissions();
 		}
