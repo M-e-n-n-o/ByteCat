@@ -181,7 +181,7 @@ namespace BC
 			basicShader->bind();
 			basicShader->loadInt("useTex", false);
 			basicShader->loadMatrix4("_modelMatrix", modelMatrix);
-			basicShader->loadMatrix4("_projectionMatrix", glm::ortho(-1.0f * aspect, 1.0f * aspect, -1.0f, 1.0f, 0.01f, 10.0f));
+			basicShader->loadMatrix4("_projectionMatrix", glm::ortho(-1.0f * aspect, 1.0f * aspect, -1.0f, 1.0f, 0.1f, 1.1f));
 
 			basicVao->bind();
 			s_rendererAPI->draw(basicVao);
@@ -199,7 +199,7 @@ namespace BC
 			basicShader->bind();
 			basicShader->loadInt("useTex", true);
 			basicShader->loadMatrix4("_modelMatrix", modelMatrix);
-			basicShader->loadMatrix4("_projectionMatrix", glm::ortho(-1.0f * aspect, 1.0f * aspect, -1.0f, 1.0f, 0.01f, 10.0f));
+			basicShader->loadMatrix4("_projectionMatrix", glm::ortho(-1.0f * aspect, 1.0f * aspect, -1.0f, 1.0f, 0.1f, 1.1f));
 
 			texture->bind(0);
 
