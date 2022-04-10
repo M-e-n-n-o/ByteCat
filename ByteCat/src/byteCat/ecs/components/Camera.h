@@ -32,8 +32,20 @@ namespace BC
 
 	struct OrtographicCamera : Camera
 	{
-		OrtographicCamera() = default;
+		float left;
+		float right;
+		float top;
+		float bottom;
+		float nearPlane;
+		float farPlane;
 		
-		glm::mat4 getProjectionMatrix(float aspectRatio) override { return glm::mat4(1); }
+		OrtographicCamera() = default;
+		OrtographicCamera(float left, float right, float top, float bottom, float nearPlane, float farPlane)
+			: left(left), right(right), top(top), bottom(bottom), nearPlane(nearPlane), farPlane(farPlane) {}
+		
+		glm::mat4 getProjectionMatrix(float aspectRatio) override
+		{
+			return glm::ortho(left * aspectRatio, right * aspectRatio, bottom, top, nearPlane, farPlane);
+		}
 	};
 }

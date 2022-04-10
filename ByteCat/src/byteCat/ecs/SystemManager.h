@@ -50,10 +50,11 @@ namespace BC
 			{
 				auto const& system = pair.second;
 				system->m_entities.erase(entity);
+				system->onEntitiesChanged();
 			}
 		}
 
-		void entitySignatureChanged(const Entity& entity, Dependencies entityDependencies)
+		void entityDependenciesChanged(const Entity& entity, Dependencies entityDependencies)
 		{
 			for (auto const& pair : m_systems)
 			{
@@ -64,9 +65,11 @@ namespace BC
 				if ((entityDependencies & systemDependencies) == systemDependencies)
 				{
 					system->m_entities.insert(entity);
+					system->onEntitiesChanged();
 				} else
 				{
 					system->m_entities.erase(entity);
+					system->onEntitiesChanged();
 				}
 			}
 		}
@@ -79,6 +82,23 @@ namespace BC
 				
 				system->onUpdate();
 			}
+		}
+
+		template<class T>
+		std::shared_ptr<T> getSystem()
+		{
+			const char* typeName = typeid(T).name();
+			
+			for (auto& pair : m_systems)
+			{
+				if (typeName == pair.first)
+				{
+					return std::static_pointer_cast<T>(pair.second);
+				}
+			}
+
+			LOG_WARN("Requested system could not be found: {0}", typeName);
+			return nullptr;
 		}
 	};
 }

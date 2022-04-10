@@ -1,9 +1,9 @@
 #pragma once
-#include "byteCat/graphics/renderer/BaseRenderer.h"
+#include "byteCat/graphics/renderer/SubmissionRenderer.h"
 
 namespace BC
 {
-	class SimpleRenderer : public BaseRenderer
+	class SimpleRenderer : public SubmissionRenderer
 	{
 	private:
 		std::vector<Renderable> m_entities;
@@ -17,7 +17,7 @@ namespace BC
 		void init(RendererAPI* rendererAPI) override;
 		void submit(const Renderable& renderable) override;
 		void setSceneData(const SceneData& sceneData) override;
-		void renderFrame() override;
+		void renderSubmissions() override;
 		
 		bool supports(const GraphicsAPI& api) override;
 		

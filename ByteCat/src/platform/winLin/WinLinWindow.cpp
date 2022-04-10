@@ -13,7 +13,7 @@ namespace BC
 		static GLFWwindow* nativeWindow;
 		static EventListener* eventListener;
 		
-		WinLinWindow::WinLinWindow(WindowSettings& setting)
+		WinLinWindow::WinLinWindow(const WindowSettings& setting)
 		{
 			LOG_INFO("Trying to create a Windows/Linux window");
 

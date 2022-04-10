@@ -5,7 +5,7 @@
 
 using namespace BC;
 
-class TestLayer : public Layer
+class VisualisatieTechnieken : public Layer
 {
 	std::shared_ptr<EcsCoordinator> ecsCoordinator;
 
@@ -19,15 +19,21 @@ class TestLayer : public Layer
 	Renderable renderable;
 
 public:
-	TestLayer() : Layer("UserLayer")
-	{		
+	VisualisatieTechnieken() : Layer("UserLayer")
+	{
+		// Zet een submission renderer
+			Renderer::SetSubmissionRenderer(new SimpleRenderer());
+		
 		// Maak een nieuwe scene
+			Application::GetInstance().pushLayer(new SceneManager);
+		
 			auto scene = SceneManager::CreateScene("TestScene");
-			scene->registerDefaultSystems();
 			SceneManager::ActivateScene(scene);
 		
 			ecsCoordinator = scene->getEcsCoordinator();
-		
+			ecsCoordinator->registerSystem<RenderSubmitter>();
+			ecsCoordinator->registerSystem<CameraSystem>();
+			
 		// Cube data
 			float dataCube[] =
 			{
@@ -190,7 +196,7 @@ public:
 	
 	void onRender() override
 	{
-		Renderer::RenderFrame();
+		Renderer::RenderSubmissions();
 		fbo->unbind();
 		
 		Renderer::Submit(renderable);

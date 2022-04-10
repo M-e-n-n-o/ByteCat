@@ -7,7 +7,7 @@
 
 namespace BC
 {
-	Window* Window::Create(WindowSettings& setting)
+	Window* Window::Create(const WindowSettings& setting)
 	{
 		#if defined(BC_PLATFORM_WINDOWS) || defined(BC_PLATFORM_LINUX)
 			LOG_INFO("Detected Windows/Linux platform");
