@@ -9,7 +9,7 @@ namespace BC
 {
 	namespace Platform
 	{
-		OpenGLTexture2D::OpenGLTexture2D(unsigned width, unsigned height, const TextureFormat& format)
+		OpenGLTexture2D::OpenGLTexture2D(unsigned width, unsigned height, const Graphics::TextureFormat& format)
 		{
 			m_width = width;
 			m_height = height;
@@ -17,15 +17,15 @@ namespace BC
 
 			switch (format)
 			{
-			case TextureFormat::R: m_channels = 1; break;
-			case TextureFormat::RG: m_channels = 2; break;
-			case TextureFormat::RGB16F: m_channels = 3; break;
-			case TextureFormat::RGBA8:
-			case TextureFormat::RGBA16F: m_channels = 4; break;
+			case Graphics::TextureFormat::R: m_channels = 1; break;
+			case Graphics::TextureFormat::RG: m_channels = 2; break;
+			case Graphics::TextureFormat::RGB16F: m_channels = 3; break;
+			case Graphics::TextureFormat::RGBA8:
+			case Graphics::TextureFormat::RGBA16F: m_channels = 4; break;
 			default: m_channels = 3;
 			}
 
-			if (format == TextureFormat::AUTO)
+			if (format == Graphics::TextureFormat::AUTO)
 			{
 				LOG_ERROR("Cannot auto format an empty texture!");
 				return;
@@ -42,7 +42,7 @@ namespace BC
 			//BindTexture(GL_TEXTURE_2D, 0);
 		}
 
-		OpenGLTexture2D::OpenGLTexture2D(const std::string& filePath, const TextureFormat& format, float mipmapLOD)
+		OpenGLTexture2D::OpenGLTexture2D(const std::string& filePath, const Graphics::TextureFormat& format, float mipmapLOD)
 		{
 			std::string finalPath = filePath;
 			finalPath.insert(0, BC_ASSETS_FOLDER);
@@ -65,14 +65,14 @@ namespace BC
 			int dataFormat = 0;
 			if (m_channels == 4)
 			{
-				m_format = TextureFormat::RGBA16F;
-				internalFormat = TextureFormatToOpenGLInternalFormat(TextureFormat::RGBA16F);
+				m_format = Graphics::TextureFormat::RGBA16F;
+				internalFormat = TextureFormatToOpenGLInternalFormat(Graphics::TextureFormat::RGBA16F);
 				dataFormat = GL_RGBA;
 			}
 			else if (m_channels == 3)
 			{
-				m_format = TextureFormat::RGB16F;
-				internalFormat = TextureFormatToOpenGLInternalFormat(TextureFormat::RGB16F);
+				m_format = Graphics::TextureFormat::RGB16F;
+				internalFormat = TextureFormatToOpenGLInternalFormat(Graphics::TextureFormat::RGB16F);
 				dataFormat = GL_RGB;
 			} else
 			{
@@ -81,7 +81,7 @@ namespace BC
 				return;
 			}
 
-			if (format != TextureFormat::AUTO)
+			if (format != Graphics::TextureFormat::AUTO)
 			{
 				m_format = format;
 				internalFormat = TextureFormatToOpenGLInternalFormat(format);

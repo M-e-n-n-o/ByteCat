@@ -2,18 +2,18 @@
 #include <GLFW/glfw3.h>
 #include "platform/winLin/WinLinWindow.h"
 
-#include "byteCat/input/events/ApplicationEvent.h"
-#include "byteCat/input/events/KeyEvent.h"
-#include "byteCat/input/events/MouseEvent.h"
+#include "byteCat/inputs/events/ApplicationEvent.h"
+#include "byteCat/inputs/events/KeyEvent.h"
+#include "byteCat/inputs/events/MouseEvent.h"
 
 namespace BC
 {
 	namespace Platform
 	{
 		static GLFWwindow* nativeWindow;
-		static EventListener* eventListener;
+		static Inputs::EventListener* eventListener;
 		
-		WinLinWindow::WinLinWindow(const WindowSettings& setting)
+		WinLinWindow::WinLinWindow(const Graphics::WindowSettings& setting)
 		{
 			LOG_INFO("Trying to create a Windows/Linux window");
 
@@ -44,7 +44,7 @@ namespace BC
 
 			LOG_INFO("Created a Windows/Linux window with title: {0}, width: {1}, height: {2} and vSync: {3}", m_windowSetting.title, m_windowSetting.width, m_windowSetting.height, m_windowSetting.vSync);
 
-			m_context = GraphicsContext::Create(nativeWindow);
+			m_context = Graphics::GraphicsContext::Create(nativeWindow);
 			m_context->init(m_windowSetting.width, m_windowSetting.height);
 
 			setVsync(m_windowSetting.vSync);
@@ -52,13 +52,13 @@ namespace BC
 
 			glfwSetWindowSizeCallback(nativeWindow, [](GLFWwindow* window, int width, int height)
 				{
-					WindowResizeEvent event(width, height);
+					Inputs::WindowResizeEvent event(width, height);
 					eventListener->onEvent(event);
 				});
 
 			glfwSetWindowCloseCallback(nativeWindow, [](GLFWwindow* window)
 				{
-					WindowCloseEvent event;
+					Inputs::WindowCloseEvent event;
 					eventListener->onEvent(event);
 				});
 
@@ -68,21 +68,21 @@ namespace BC
 					{
 					case GLFW_PRESS:
 					{
-						KeyPressedEvent event(static_cast<KeyCode>(key), false);
+						Inputs::KeyPressedEvent event(static_cast<Inputs::KeyCode>(key), false);
 						eventListener->onEvent(event);
 						break;
 					}
 
 					case GLFW_RELEASE:
 					{
-						KeyReleasedEvent event(static_cast<KeyCode>(key));
+						Inputs::KeyReleasedEvent event(static_cast<Inputs::KeyCode>(key));
 						eventListener->onEvent(event);
 						break;
 					}
 
 					case GLFW_REPEAT:
 					{
-						KeyPressedEvent event(static_cast<KeyCode>(key), true);
+						Inputs::KeyPressedEvent event(static_cast<Inputs::KeyCode>(key), true);
 						eventListener->onEvent(event);
 						break;
 					}
@@ -91,7 +91,7 @@ namespace BC
 
 			glfwSetCharCallback(nativeWindow, [](GLFWwindow* window, unsigned int keycode)
 				{
-					KeyTypedEvent event(static_cast<KeyCode>(keycode));
+					Inputs::KeyTypedEvent event(static_cast<Inputs::KeyCode>(keycode));
 					eventListener->onEvent(event);
 				});
 
@@ -101,13 +101,13 @@ namespace BC
 					{
 					case GLFW_PRESS:
 					{
-						MouseButtonPressedEvent event(static_cast<MouseCode>(button));
+						Inputs::MouseButtonPressedEvent event(static_cast<Inputs::MouseCode>(button));
 						eventListener->onEvent(event);
 						break;
 					}
 					case GLFW_RELEASE:
 					{
-						MouseButtonReleasedEvent event(static_cast<MouseCode>(button));
+						Inputs::MouseButtonReleasedEvent event(static_cast<Inputs::MouseCode>(button));
 						eventListener->onEvent(event);
 						break;
 					}
@@ -116,13 +116,13 @@ namespace BC
 
 			glfwSetScrollCallback(nativeWindow, [](GLFWwindow* window, double xOffset, double yOffset)
 				{
-					MouseScrolledEvent event((float)xOffset, (float)yOffset);
+					Inputs::MouseScrolledEvent event((float)xOffset, (float)yOffset);
 					eventListener->onEvent(event);
 				});
 
 			glfwSetCursorPosCallback(nativeWindow, [](GLFWwindow* window, double xPos, double yPos)
 				{
-					MouseMovedEvent event((float)xPos, (float)yPos);
+					Inputs::MouseMovedEvent event((float)xPos, (float)yPos);
 					eventListener->onEvent(event);
 				});
 		}
@@ -202,7 +202,7 @@ namespace BC
 			return (void*) nativeWindow;
 		}
 
-		void WinLinWindow::setEventListener(EventListener* newListener)
+		void WinLinWindow::setEventListener(Inputs::EventListener* newListener)
 		{
 			eventListener = newListener;
 		}

@@ -3,6 +3,8 @@
 #include "GraphicsTest.h"
 
 using namespace BC;
+using namespace App;
+using namespace Graphics;
 
 class Sandbox : public Application
 {
@@ -29,7 +31,7 @@ public:
 	}
 };
 
-Application* BC::CreateApplication()
+Application* App::CreateApplication()
 {
 	return new Sandbox();
 }

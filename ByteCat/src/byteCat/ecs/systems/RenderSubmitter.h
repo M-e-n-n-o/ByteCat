@@ -1,4 +1,5 @@
 #pragma once
+#include "byteCat/app/Time.h"
 #include "byteCat/ecs/SceneManager.h"
 #include "byteCat/ecs/System.h"
 #include "byteCat/ecs/EcsCoordinator.h"
@@ -6,52 +7,54 @@
 #include "byteCat/ecs/components/Mesh.h"
 #include "byteCat/graphics/renderer/Renderer.h"
 #include "byteCat/utils/Math.h"
-#include "byteCat/utils/Time.h"
 
 namespace BC
 {
-	class RenderSubmitter : public System
+	namespace Ecs
 	{
-	private:
-		inline static glm::vec3 m_cameraPos;
-		
-	public:
-		static void onRenderRenderable(const Renderable& renderable)
+		class RenderSubmitter : public System
 		{
-			renderable.shader->loadVector3("_cameraPos", m_cameraPos);
+		private:
+			inline static glm::vec3 m_cameraPos;
 
-			static float time = Time::GetDeltaTime();
-			time += Time::GetDeltaTime();			
-			renderable.shader->loadFloat("_time", time);
-			if (time > 10000) { time = 0; }
-		}
-		
-		void onUpdate() override
-		{
-			Entity camera = m_coordinator->getSystem<CameraSystem>()->getMainCamera();
-			if (camera != -1)
+		public:
+			static void onRenderRenderable(const Graphics::Renderable& renderable)
 			{
-				m_cameraPos = m_coordinator->getComponent<Transform>(camera)->position;
+				renderable.shader->loadVector3("_cameraPos", m_cameraPos);
+
+				static float time = App::Time::GetDeltaTime();
+				time += App::Time::GetDeltaTime();
+				renderable.shader->loadFloat("_time", time);
+				if (time > 10000) { time = 0; }
 			}
 
-			for (auto& entity : m_entities)
+			void onUpdate() override
 			{
-				auto transform = m_coordinator->getComponent<Transform>(entity);
-				auto mesh = m_coordinator->getComponent<Mesh>(entity);
-				auto material = m_coordinator->getComponent<Material>(entity);
+				Entity camera = m_coordinator->getSystem<CameraSystem>()->getMainCamera();
+				if (camera != -1)
+				{
+					m_cameraPos = m_coordinator->getComponent<Transform>(camera)->position;
+				}
 
-				glm::mat4 modelMatrix = Math::CreateModelMatrix(transform->position, transform->rotation, transform->scale);
-				Renderer::Submit({ material->cullingMode, mesh->vao, material->shader, material->textures, modelMatrix, onRenderRenderable });
+				for (auto& entity : m_entities)
+				{
+					auto transform = m_coordinator->getComponent<Transform>(entity);
+					auto mesh = m_coordinator->getComponent<Mesh>(entity);
+					auto material = m_coordinator->getComponent<Material>(entity);
+
+					glm::mat4 modelMatrix = Utils::Math::CreateModelMatrix(transform->position, transform->rotation, transform->scale);
+					Graphics::Renderer::Submit({ material->cullingMode, mesh->vao, material->shader, material->textures, modelMatrix, onRenderRenderable });
+				}
 			}
-		}
 
-		static Dependencies GetDependencies(EcsCoordinator* coordinator)
-		{
-			Dependencies signature;
-			signature.set(coordinator->getComponentType<Transform>());
-			signature.set(coordinator->getComponentType<Mesh>());
-			signature.set(coordinator->getComponentType<Material>());
-			return signature;
-		}
-	};
+			static Dependencies GetDependencies(EcsCoordinator* coordinator)
+			{
+				Dependencies signature;
+				signature.set(coordinator->getComponentType<Transform>());
+				signature.set(coordinator->getComponentType<Mesh>());
+				signature.set(coordinator->getComponentType<Material>());
+				return signature;
+			}
+		};
+	}
 }

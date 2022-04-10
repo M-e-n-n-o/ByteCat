@@ -6,7 +6,7 @@ namespace BC
 {
 	namespace Platform
 	{
-		class OpenGLGraphicsContext : public GraphicsContext
+		class OpenGLGraphicsContext : public Graphics::GraphicsContext
 		{
 		private:
 			GLFWwindow* m_window;

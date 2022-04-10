@@ -17,10 +17,10 @@ namespace BC
 			if (isFilePath)
 			{
 				vertexShader.insert(0, BC_ASSETS_FOLDER);
-				vertexShader = FileIO::ReadFileIntoString(vertexShader);
+				vertexShader = Utils::FileIO::ReadFileIntoString(vertexShader);
 				
 				fragmentShader.insert(0, BC_ASSETS_FOLDER);
-				fragmentShader = FileIO::ReadFileIntoString(fragmentShader);
+				fragmentShader = Utils::FileIO::ReadFileIntoString(fragmentShader);
 			}
 			
 			const unsigned int vertexShaderID = loadShader(vertexShader, GL_VERTEX_SHADER);
@@ -57,13 +57,13 @@ namespace BC
 			if (isFilePath)
 			{
 				vertexShader.insert(0, BC_ASSETS_FOLDER);
-				vertexShader = FileIO::ReadFileIntoString(vertexShader);
+				vertexShader = Utils::FileIO::ReadFileIntoString(vertexShader);
 
 				geometryShader.insert(0, BC_ASSETS_FOLDER);
-				geometryShader = FileIO::ReadFileIntoString(geometryShader);
+				geometryShader = Utils::FileIO::ReadFileIntoString(geometryShader);
 				
 				fragmentShader.insert(0, BC_ASSETS_FOLDER);
-				fragmentShader = FileIO::ReadFileIntoString(fragmentShader);
+				fragmentShader = Utils::FileIO::ReadFileIntoString(fragmentShader);
 			}
 
 			const unsigned int vertexShaderID = loadShader(vertexShader, GL_VERTEX_SHADER);

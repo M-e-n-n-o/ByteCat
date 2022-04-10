@@ -1,53 +1,56 @@
 #pragma once
 #include "byteCat/app/LayerStack.h"
-#include "byteCat/input/events/Event.h"
+#include "byteCat/inputs/events/Event.h"
 #include "byteCat/graphics/Window.h"
 #include "byteCat/app/Layer.h"
 #include "byteCat/imgui/ImGuiLayer.h"
-#include "byteCat/input/events/ApplicationEvent.h"
+#include "byteCat/inputs/events/ApplicationEvent.h"
 
 namespace BC
-{
-	/// <summary>
-	/// This class represents the whole ByteCat application itself.
-	/// When starting this class the application starts.
-	///	Inherit from this class in the users application to make a ByteCat application.
-	/// </summary>
-	class Application : public EventListener
+{	
+	namespace App
 	{
-	private:	
-		static Application* s_instance;
-	
-		LayerStack m_layerStack;
-		ImGuiLayer* m_imguiLayer;
+		/// <summary>
+		/// This class represents the whole ByteCat application itself.
+		/// When starting this class the application starts.
+		///	Inherit from this class in the users application to make a ByteCat application.
+		/// </summary>
+		class Application : public Inputs::EventListener
+		{
+		private:
+			static Application* s_instance;
 
-		bool m_isRunning;
+			LayerStack m_layerStack;
+			Imgui::ImGuiLayer* m_imguiLayer;
 
-		friend int ::main(int argc, char** argv);
+			bool m_isRunning;
 
-	protected:
-		Window* m_window;
-	
-	public:		
-		Application();
-		virtual ~Application();
+			//friend int ::main(int argc, char** argv);
 
-		// Call this function to push a new layer to the LayerStack
-		void pushLayer(Layer* layer);
-		// Call this function to push a new overlay to the LayerStack
-		void pushOverlay(Layer* overlay);
+		protected:
+			Graphics::Window* m_window;
 
-		Window& getWindow() const { return *m_window; }
-		static Application& GetInstance() { return *s_instance; }
-	
-	private:
-		void start();
+		public:
+			Application();
+			virtual ~Application();
 
-		void onEvent(Event& event) override;
-		bool onWindowClose(WindowCloseEvent& event);
-		bool onWindowResize(WindowResizeEvent& event);
-	};
+			void start();
+			
+			// Call this function to push a new layer to the LayerStack
+			void pushLayer(Layer* layer);
+			// Call this function to push a new overlay to the LayerStack
+			void pushOverlay(Layer* overlay);
 
-	// Need to be defined in the users application
-	Application* CreateApplication();
+			Graphics::Window& getWindow() const { return *m_window; }
+			static Application& GetInstance() { return *s_instance; }
+
+		private:
+			void onEvent(Inputs::Event& event) override;
+			bool onWindowClose(Inputs::WindowCloseEvent& event);
+			bool onWindowResize(Inputs::WindowResizeEvent& event);
+		};
+
+		// Need to be defined in the users application
+		Application* CreateApplication();
+	}
 }

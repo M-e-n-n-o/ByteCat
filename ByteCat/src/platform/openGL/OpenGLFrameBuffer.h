@@ -5,7 +5,7 @@ namespace BC
 {
 	namespace Platform
 	{
-		class OpenGLFrameBuffer : public FrameBuffer
+		class OpenGLFrameBuffer : public Graphics::FrameBuffer
 		{
 		private:
 			unsigned int m_id;
@@ -25,8 +25,8 @@ namespace BC
 
 			bool isComplete() const override;
 			
-			void attachTexture(std::shared_ptr<Texture2D> texture, unsigned int slot) override;
-			void attachRenderBuffer(const TextureFormat& format) override;
+			void attachTexture(std::shared_ptr<Graphics::Texture2D> texture, unsigned int slot) override;
+			void attachRenderBuffer(const Graphics::TextureFormat& format) override;
 		};
 	}
 }

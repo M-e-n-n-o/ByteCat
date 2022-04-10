@@ -2,17 +2,20 @@
 
 namespace BC
 {
-	enum class CullingMode
+	namespace Graphics
 	{
-		None,
-		Front,
-		Back,
-		FrontAndBack
-	};
+		enum class CullingMode
+		{
+			None,
+			Front,
+			Back,
+			FrontAndBack
+		};
 
-	// enum class RenderLayer
-	// {
-	// 	Opaque,
-	// 	Transparent
-	// };
+		// enum class RenderLayer
+		// {
+		// 	Opaque,
+		// 	Transparent
+		// };
+	}
 }

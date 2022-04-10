@@ -3,98 +3,101 @@
 
 namespace BC
 {
-	EntityManager::EntityManager()
+	namespace Ecs
 	{
-		for (Entity entity = 0; entity < MAX_ENTITIES; ++entity)
+		EntityManager::EntityManager()
 		{
-			m_entities.push(entity);
-			m_behaviours[entity] = nullptr;
-			m_names[entity] = nullptr;
+			for (Entity entity = 0; entity < MAX_ENTITIES; ++entity)
+			{
+				m_entities.push(entity);
+				m_behaviours[entity] = nullptr;
+				m_names[entity] = nullptr;
+			}
 		}
-	}
 
-	Entity EntityManager::createEntity(const char* name)
-	{
-		if (m_entityCount >= MAX_ENTITIES)
+		Entity EntityManager::createEntity(const char* name)
 		{
-			LOG_WARN("Max entitiy count reached");
-			
-			Entity id = -1;
+			if (m_entityCount >= MAX_ENTITIES)
+			{
+				LOG_WARN("Max entitiy count reached");
+
+				Entity id = -1;
+				return id;
+			}
+
+			Entity id = m_entities.front();
+			m_entities.pop();
+
+			m_names[m_entityCount] = name;
+
+			++m_entityCount;
+
 			return id;
 		}
 
-		Entity id = m_entities.front();
-		m_entities.pop();
-
-		m_names[m_entityCount] = name;
-		
-		++m_entityCount;
-
-		return id;
-	}
-
-	void EntityManager::destroyEntity(const Entity& entity)
-	{
-		if (entity > MAX_ENTITIES)
+		void EntityManager::destroyEntity(const Entity& entity)
 		{
-			LOG_WARN("Given entity {0} out of range", entity);
-			return;
+			if (entity > MAX_ENTITIES)
+			{
+				LOG_WARN("Given entity {0} out of range", entity);
+				return;
+			}
+
+			m_dependencies[entity].reset();
+
+			delete m_behaviours[entity];
+			m_behaviours[entity] = nullptr;
+
+			m_names[entity] = nullptr;
+
+			m_entities.push(entity);
+			--m_entityCount;
 		}
 
-		m_dependencies[entity].reset();
-		
-		delete m_behaviours[entity];
-		m_behaviours[entity] = nullptr;
-
-		m_names[entity] = nullptr;
-
-		m_entities.push(entity);
-		--m_entityCount;
-	}
-
-	Behaviour* EntityManager::getBehaviour(const Entity& entity)
-	{
-		return m_behaviours[entity];
-	}
-
-	void EntityManager::updateBehaviours()
-	{
-		for (int entity = 0; entity < MAX_ENTITIES; entity++)
+		Behaviour* EntityManager::getBehaviour(const Entity& entity)
 		{
-			auto behaviour = m_behaviours[entity];
-			if (behaviour != nullptr)
+			return m_behaviours[entity];
+		}
+
+		void EntityManager::updateBehaviours()
+		{
+			for (int entity = 0; entity < MAX_ENTITIES; entity++)
 			{
-				if (behaviour->m_enabled)
+				auto behaviour = m_behaviours[entity];
+				if (behaviour != nullptr)
 				{
-					behaviour->onUpdate();
+					if (behaviour->m_enabled)
+					{
+						behaviour->onUpdate();
+					}
 				}
 			}
 		}
-	}
 
-	const char* EntityManager::getName(const Entity& entity)
-	{
-		return m_names[entity];
-	}
-
-	void EntityManager::setDependencies(const Entity& entity, Dependencies dependencies)
-	{
-		if (entity > MAX_ENTITIES)
+		const char* EntityManager::getName(const Entity& entity)
 		{
-			LOG_WARN("Given entity {0} out of range", entity);
-			return;
+			return m_names[entity];
 		}
 
-		m_dependencies[entity] = dependencies;
-	}
-
-	Dependencies& EntityManager::getDependencies(const Entity& entity)
-	{
-		if (entity > MAX_ENTITIES)
+		void EntityManager::setDependencies(const Entity& entity, Dependencies dependencies)
 		{
-			LOG_WARN("Given entity {0} out of range", entity);
+			if (entity > MAX_ENTITIES)
+			{
+				LOG_WARN("Given entity {0} out of range", entity);
+				return;
+			}
+
+			m_dependencies[entity] = dependencies;
 		}
 
-		return m_dependencies[entity];
+		Dependencies& EntityManager::getDependencies(const Entity& entity)
+		{
+			if (entity > MAX_ENTITIES)
+			{
+				LOG_WARN("Given entity {0} out of range", entity);
+			}
+
+			return m_dependencies[entity];
+		}
 	}
 }

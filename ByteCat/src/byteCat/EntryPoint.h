@@ -3,7 +3,7 @@
 #include "byteCat/app/Application.h"
 
 // This is defined on the users side
-extern BC::Application* BC::CreateApplication();
+extern BC::App::Application* CreateApplication();
 
 // The start of the whole application
 int main(int argc, char** argv)
@@ -17,9 +17,9 @@ int main(int argc, char** argv)
 #elif defined(BC_DIST)
 	LOG_INFO("DISTRIBUTION BUILD");
 #endif
-	
-	auto app = BC::CreateApplication();
+
+	auto app = BC::App::CreateApplication();
 	app->start();
-	
+
 	delete app;
 }

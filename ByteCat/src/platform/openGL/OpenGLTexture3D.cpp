@@ -7,14 +7,14 @@ namespace BC
 {
 	namespace Platform
 	{
-		OpenGLTexture3D::OpenGLTexture3D(unsigned width, unsigned height, unsigned depth, const TextureFormat& format)
+		OpenGLTexture3D::OpenGLTexture3D(unsigned width, unsigned height, unsigned depth, const Graphics::TextureFormat& format)
 		{
 			m_width = width;
 			m_height = height;
 			m_format = format;
 			m_channels = 3;
 
-			if (format == TextureFormat::AUTO)
+			if (format == Graphics::TextureFormat::AUTO)
 			{
 				LOG_ERROR("Cannot auto format an empty texture!");
 				return;

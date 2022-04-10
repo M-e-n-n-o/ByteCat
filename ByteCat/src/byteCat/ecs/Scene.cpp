@@ -3,14 +3,17 @@
 
 namespace BC
 {
-	Scene::Scene(const std::string& name): m_name(name)
+	namespace Ecs
 	{
-		m_ecsCoordinator = std::make_shared<EcsCoordinator>();
-	}
+		Scene::Scene(const std::string& name) : m_name(name)
+		{
+			m_ecsCoordinator = std::make_shared<EcsCoordinator>();
+		}
 
-	void Scene::onUpdate()
-	{
-		m_ecsCoordinator->updateBehaviours();
-		m_ecsCoordinator->updateSystems();
+		void Scene::onUpdate()
+		{
+			m_ecsCoordinator->updateBehaviours();
+			m_ecsCoordinator->updateSystems();
+		}
 	}
 }

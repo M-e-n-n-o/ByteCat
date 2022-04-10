@@ -5,26 +5,29 @@
 
 namespace BC
 {
-	struct Renderable
+	namespace Graphics
 	{
-		CullingMode cullingMode;
-		// RenderLayer renderLayer;
-		
-		std::shared_ptr<VertexArray> vao;
-		std::shared_ptr<Shader> shader;
+		struct Renderable
+		{
+			CullingMode cullingMode;
+			// RenderLayer renderLayer;
 
-		// Put in order of texture unit!
-		std::vector<std::shared_ptr<Texture>> textures;
-		
-		glm::mat4 modelMatrix;
+			std::shared_ptr<VertexArray> vao;
+			std::shared_ptr<Shader> shader;
 
-		std::function<void(const Renderable&)> onRender;
-	};
+			// Put in order of texture unit!
+			std::vector<std::shared_ptr<Texture>> textures;
+
+			glm::mat4 modelMatrix;
+
+			std::function<void(const Renderable&)> onRender;
+		};
 
 
-	struct SceneData
-	{
-		glm::mat4 viewMatrix;
-		glm::mat4 projectionMatrix;
-	};
+		struct SceneData
+		{
+			glm::mat4 viewMatrix;
+			glm::mat4 projectionMatrix;
+		};
+	}
 }

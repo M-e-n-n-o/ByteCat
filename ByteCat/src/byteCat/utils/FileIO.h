@@ -2,9 +2,12 @@
 
 namespace BC
 {
-	class FileIO
+	namespace Utils
 	{
-	public:
-		static std::string ReadFileIntoString(const std::string& path);
-	};
+		class FileIO
+		{
+		public:
+			static std::string ReadFileIntoString(const std::string& path);
+		};
+	}
 }

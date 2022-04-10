@@ -7,13 +7,16 @@
 
 namespace BC
 {
-	Window* Window::Create(const WindowSettings& setting)
+	namespace Graphics
 	{
-		#if defined(BC_PLATFORM_WINDOWS) || defined(BC_PLATFORM_LINUX)
+		Window* Window::Create(const WindowSettings& setting)
+		{
+#if defined(BC_PLATFORM_WINDOWS) || defined(BC_PLATFORM_LINUX)
 			LOG_INFO("Detected Windows/Linux platform");
 			return new Platform::WinLinWindow(setting);
-		#else
+#else
 			LOG_CRITICAL("Platform not supported yet :(");
-		#endif
+#endif
+		}
 	}
 }

@@ -6,15 +6,18 @@
 
 namespace BC
 {
-	GraphicsContext* GraphicsContext::Create(void* window)
-	{		
-		switch (Renderer::GetAPI())
+	namespace Graphics
+	{
+		GraphicsContext* GraphicsContext::Create(void* window)
 		{
-		case GraphicsAPI::None:		LOG_CRITICAL("No Graphics API selected!");		return nullptr;
-		case GraphicsAPI::OpenGL:	LOG_INFO("Detected OpenGL as Graphics API");	return new Platform::OpenGLGraphicsContext((GLFWwindow*)window);
-		}
+			switch (Renderer::GetAPI())
+			{
+			case GraphicsAPI::None:		LOG_CRITICAL("No Graphics API selected!");		return nullptr;
+			case GraphicsAPI::OpenGL:	LOG_INFO("Detected OpenGL as Graphics API");	return new Platform::OpenGLGraphicsContext((GLFWwindow*)window);
+			}
 
-		LOG_CRITICAL("Unsupported Graphics API selected!");
-		return nullptr;
+			LOG_CRITICAL("Unsupported Graphics API selected!");
+			return nullptr;
+		}
 	}
 }

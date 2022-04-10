@@ -60,15 +60,15 @@ namespace BC
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 		}
 
-		void OpenGLRendererAPI::draw(std::shared_ptr<VertexArray> vao, unsigned indexCount)
+		void OpenGLRendererAPI::draw(std::shared_ptr<Graphics::VertexArray> vao, unsigned indexCount)
 		{
 			unsigned int count = indexCount ? indexCount : vao->getIndexBuffer()->getCount();
 			glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);
 		}
 
-		void OpenGLRendererAPI::setCullingMode(const CullingMode& mode)
+		void OpenGLRendererAPI::setCullingMode(const Graphics::CullingMode& mode)
 		{
-			static CullingMode currentMode = CullingMode::Back;
+			static Graphics::CullingMode currentMode = Graphics::CullingMode::Back;
 
 			if (mode == currentMode)
 			{
@@ -77,10 +77,10 @@ namespace BC
 			
 			switch (mode)
 			{
-			case CullingMode::None:			glDisable(GL_CULL_FACE); break;
-			case CullingMode::Front:		glEnable(GL_CULL_FACE); glCullFace(GL_FRONT); break;
-			case CullingMode::Back:			glEnable(GL_CULL_FACE); glCullFace(GL_BACK); break;
-			case CullingMode::FrontAndBack: glEnable(GL_CULL_FACE); glCullFace(GL_FRONT_AND_BACK); break;
+			case Graphics::CullingMode::None:			glDisable(GL_CULL_FACE); break;
+			case Graphics::CullingMode::Front:		glEnable(GL_CULL_FACE); glCullFace(GL_FRONT); break;
+			case Graphics::CullingMode::Back:			glEnable(GL_CULL_FACE); glCullFace(GL_BACK); break;
+			case Graphics::CullingMode::FrontAndBack: glEnable(GL_CULL_FACE); glCullFace(GL_FRONT_AND_BACK); break;
 			}
 
 			currentMode = mode;

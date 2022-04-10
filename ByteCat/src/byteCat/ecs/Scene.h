@@ -5,20 +5,23 @@
 
 namespace BC
 {
-	class Scene
+	namespace Ecs
 	{
-	private:
-		std::string m_name;
-		std::shared_ptr<EcsCoordinator> m_ecsCoordinator;
+		class Scene
+		{
+		private:
+			std::string m_name;
+			std::shared_ptr<EcsCoordinator> m_ecsCoordinator;
 
-		std::shared_ptr<CameraSystem> m_cameraSystem;
-	
-	public:
-		Scene(const std::string& name);
-		
-		void onUpdate();
-		
-		std::string& getName() { return m_name; }
-		std::shared_ptr<EcsCoordinator> getEcsCoordinator() const { return m_ecsCoordinator; }
-	};
+			std::shared_ptr<CameraSystem> m_cameraSystem;
+
+		public:
+			Scene(const std::string& name);
+
+			void onUpdate();
+
+			std::string& getName() { return m_name; }
+			std::shared_ptr<EcsCoordinator> getEcsCoordinator() const { return m_ecsCoordinator; }
+		};
+	}
 }

@@ -30,7 +30,7 @@ namespace BC
 				style.Colors[ImGuiCol_WindowBg].w = 1.0f;
 			}
 
-			GLFWwindow* window = static_cast<GLFWwindow*>(Application::GetInstance().getWindow().getNativeWindow());
+			GLFWwindow* window = static_cast<GLFWwindow*>(App::Application::GetInstance().getWindow().getNativeWindow());
 
 			ImGui_ImplGlfw_InitForOpenGL(window, true);
 			ImGui_ImplOpenGL3_Init("#version 450");
@@ -53,7 +53,7 @@ namespace BC
 		void OpenGLImGuiRenderer::end()
 		{
 			ImGuiIO& io = ImGui::GetIO();
-			auto& window = Application::GetInstance().getWindow();
+			auto& window = App::Application::GetInstance().getWindow();
 			io.DisplaySize = ImVec2(window.getWidth(), window.getHeight());
 
 			// Rendering

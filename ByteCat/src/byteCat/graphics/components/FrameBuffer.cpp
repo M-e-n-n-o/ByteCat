@@ -5,15 +5,18 @@
 
 namespace BC
 {
-	std::shared_ptr<FrameBuffer> FrameBuffer::Create(const std::string& name, unsigned width, unsigned height)
+	namespace Graphics
 	{
-		switch (Renderer::GetAPI())
+		std::shared_ptr<FrameBuffer> FrameBuffer::Create(const std::string& name, unsigned width, unsigned height)
 		{
-		case GraphicsAPI::None:		LOG_CRITICAL("No Graphics API selected!"); return nullptr;
-		case GraphicsAPI::OpenGL:	return std::make_shared<Platform::OpenGLFrameBuffer>(name, width, height);
-		}
+			switch (Renderer::GetAPI())
+			{
+			case GraphicsAPI::None:		LOG_CRITICAL("No Graphics API selected!"); return nullptr;
+			case GraphicsAPI::OpenGL:	return std::make_shared<Platform::OpenGLFrameBuffer>(name, width, height);
+			}
 
-		LOG_CRITICAL("Unsupported Graphics API selected!");
-		return nullptr;
+			LOG_CRITICAL("Unsupported Graphics API selected!");
+			return nullptr;
+		}
 	}
 }

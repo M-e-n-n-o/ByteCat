@@ -3,13 +3,16 @@
 
 namespace BC
 {
-	class Math
+	namespace Utils
 	{
-	public:
-		static glm::mat4 CreateModelMatrix(const glm::vec3& pos, const glm::vec3& rot, const glm::vec3& scale);
+		class Math
+		{
+		public:
+			static glm::mat4 CreateModelMatrix(const glm::vec3& pos, const glm::vec3& rot, const glm::vec3& scale);
 
-		static glm::mat4 CreateViewMatrix(const glm::vec3& pos, const glm::vec3& rot);
+			static glm::mat4 CreateViewMatrix(const glm::vec3& pos, const glm::vec3& rot);
 
-		static float RandomBetween(float smallNumber, float bigNumber);
-	};
+			static float RandomBetween(float smallNumber, float bigNumber);
+		};
+	}
 }

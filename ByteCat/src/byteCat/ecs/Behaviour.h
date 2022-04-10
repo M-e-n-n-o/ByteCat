@@ -3,26 +3,29 @@
 
 namespace BC
 {
-	class EcsCoordinator;
-	
-	class Behaviour
+	namespace Ecs
 	{
-	private:
-		friend class EntityManager;
-	
-	protected:
-		EcsCoordinator* m_coordinator;
-		Entity m_entity = -1;
+		class EcsCoordinator;
 
-		bool m_enabled = true;
-	
-	public:
-		virtual ~Behaviour() = default;
+		class Behaviour
+		{
+		private:
+			friend class EntityManager;
 
-		virtual void onAttach() {}
-		virtual void onUpdate() {}
-		virtual void onDetach() {}
+		protected:
+			EcsCoordinator* m_coordinator;
+			Entity m_entity = -1;
 
-		void setEnabled(bool enabled) { m_enabled = enabled; }
-	};
+			bool m_enabled = true;
+
+		public:
+			virtual ~Behaviour() = default;
+
+			virtual void onAttach() {}
+			virtual void onUpdate() {}
+			virtual void onDetach() {}
+
+			void setEnabled(bool enabled) { m_enabled = enabled; }
+		};
+	}
 }

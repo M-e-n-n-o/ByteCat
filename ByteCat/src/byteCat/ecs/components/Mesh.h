@@ -5,16 +5,19 @@
 
 namespace BC
 {
-	struct Mesh : Component
+	namespace Ecs
 	{
-		std::shared_ptr<VertexArray> vao;
+		struct Mesh : Component
+		{
+			std::shared_ptr<Graphics::VertexArray> vao;
 
-		Mesh() = default;
-		Mesh(const std::shared_ptr<VertexArray>& vao)
-			: vao(vao) {}
-		
-		virtual ~Mesh() = default;
-		
-		TYPE_NAME("Mesh")
-	};
+			Mesh() = default;
+			Mesh(const std::shared_ptr<Graphics::VertexArray>& vao)
+				: vao(vao) {}
+
+			virtual ~Mesh() = default;
+
+			TYPE_NAME("Mesh")
+		};
+	}
 }

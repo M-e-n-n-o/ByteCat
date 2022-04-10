@@ -32,7 +32,7 @@ namespace BC
 
 		void OpenGLFrameBuffer::unbind() const
 		{
-			auto& window = Application::GetInstance().getWindow();
+			auto& window = App::Application::GetInstance().getWindow();
 			
 			glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
@@ -49,25 +49,25 @@ namespace BC
 			return false;
 		}
 
-		void OpenGLFrameBuffer::attachTexture(std::shared_ptr<Texture2D> texture, unsigned int slot)
+		void OpenGLFrameBuffer::attachTexture(std::shared_ptr<Graphics::Texture2D> texture, unsigned int slot)
 		{
 			switch (texture->getFormat())
 			{
-			case TextureFormat::DEPTH:			
+			case Graphics::TextureFormat::DEPTH:			
 				glBindTexture(GL_TEXTURE_2D, texture->getId());
 				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, texture->getId(), 0);
 				return;
 				
-			case TextureFormat::DEPTH_STENCIL:	
+			case Graphics::TextureFormat::DEPTH_STENCIL:	
 				glBindTexture(GL_TEXTURE_2D, texture->getId());
 				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, texture->getId(), 0);
 				return;
 				
-			case TextureFormat::R:
-			case TextureFormat::RG:
-			case TextureFormat::RGB16F:
-			case TextureFormat::RGBA8:
-			case TextureFormat::RGBA16F:
+			case Graphics::TextureFormat::R:
+			case Graphics::TextureFormat::RG:
+			case Graphics::TextureFormat::RGB16F:
+			case Graphics::TextureFormat::RGBA8:
+			case Graphics::TextureFormat::RGBA16F:
 				glBindTexture(GL_TEXTURE_2D, texture->getId());
 				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + slot, GL_TEXTURE_2D, texture->getId(), 0);
 				return;
@@ -76,20 +76,20 @@ namespace BC
 			LOG_WARN("Could not attach the texture to the frame buffer");
 		}
 
-		void OpenGLFrameBuffer::attachRenderBuffer(const TextureFormat& format)
+		void OpenGLFrameBuffer::attachRenderBuffer(const Graphics::TextureFormat& format)
 		{
 			glGenRenderbuffers(1, &m_renderBufferId);
 			glBindRenderbuffer(GL_RENDERBUFFER, m_renderBufferId);
 
 			switch (format)
 			{
-			case TextureFormat::DEPTH:			
+			case Graphics::TextureFormat::DEPTH:			
 				glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, m_width, m_height);
 				glBindRenderbuffer(GL_RENDERBUFFER, 0);
 				glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_renderBufferId);
 				return;
 				
-			case TextureFormat::DEPTH_STENCIL:	
+			case Graphics::TextureFormat::DEPTH_STENCIL:	
 				glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_STENCIL, m_width, m_height);
 				glBindRenderbuffer(GL_RENDERBUFFER, 0);
 				glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, m_renderBufferId);

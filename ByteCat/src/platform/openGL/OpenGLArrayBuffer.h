@@ -5,11 +5,11 @@ namespace BC
 {
 	namespace Platform
 	{
-		class OpenGLVertexBuffer : public VertexBuffer
+		class OpenGLVertexBuffer : public Graphics::VertexBuffer
 		{
 		private:
 			unsigned int m_id;
-			BufferLayout m_layout;
+			Graphics::BufferLayout m_layout;
 
 		public:
 			OpenGLVertexBuffer(unsigned int size);
@@ -21,11 +21,11 @@ namespace BC
 			
 			void setData(const void* data, unsigned size) override;
 			
-			const BufferLayout& getLayout() const override { return m_layout; }
-			void setLayout(const BufferLayout& layout) override { this->m_layout = layout; }
+			const Graphics::BufferLayout& getLayout() const override { return m_layout; }
+			void setLayout(const Graphics::BufferLayout& layout) override { this->m_layout = layout; }
 		};
 		
-		class OpenGLIndexBuffer : public IndexBuffer
+		class OpenGLIndexBuffer : public Graphics::IndexBuffer
 		{
 		private:
 			unsigned int m_id;

@@ -17,17 +17,18 @@
 
 #include "byteCat/app/Application.h"
 #include "byteCat/app/Layer.h"
+#include "byteCat/app/Time.h"
 
 #include "byteCat/Log.h"
 
-#include "byteCat/input/events/Event.h"
-#include "byteCat/input/events/ApplicationEvent.h"
-#include "byteCat/input/events/KeyEvent.h"
-#include "byteCat/input/events/MouseEvent.h"
-#include "byteCat/input/KeyCodes.h"
-#include "byteCat/input/MouseCodes.h"
-#include "byteCat/input/Gamepad.h"
-#include "byteCat/input/Input.h"
+#include "byteCat/inputs/events/Event.h"
+#include "byteCat/inputs/events/ApplicationEvent.h"
+#include "byteCat/inputs/events/KeyEvent.h"
+#include "byteCat/inputs/events/MouseEvent.h"
+#include "byteCat/inputs/KeyCodes.h"
+#include "byteCat/inputs/MouseCodes.h"
+#include "byteCat/inputs/Gamepad.h"
+#include "byteCat/inputs/input.h"
 
 #include "byteCat/graphics/components/VertexArray.h"
 #include "byteCat/graphics/components/ArrayBuffer.h"

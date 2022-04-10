@@ -5,7 +5,7 @@ namespace BC
 {
 	namespace Platform
 	{
-		class OpenGLRendererAPI : public RendererAPI
+		class OpenGLRendererAPI : public Graphics::RendererAPI
 		{
 		public:
 			OpenGLRendererAPI();
@@ -14,10 +14,10 @@ namespace BC
 			void setViewport(unsigned x, unsigned y, unsigned width, unsigned height) override;
 			void clearColor(const glm::vec4& color) override;
 			void clearBuffers() override;
-			void draw(std::shared_ptr<VertexArray> vao, unsigned indexCount) override;
+			void draw(std::shared_ptr<Graphics::VertexArray> vao, unsigned indexCount) override;
 
 		private:
-			void setCullingMode(const CullingMode& mode) override;
+			void setCullingMode(const Graphics::CullingMode& mode) override;
 		};
 	}
 }

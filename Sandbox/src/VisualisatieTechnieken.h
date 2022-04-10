@@ -4,6 +4,10 @@
 #include "CameraBehaviour.h"
 
 using namespace BC;
+using namespace Ecs;
+using namespace Graphics;
+using namespace Utils;
+using namespace Inputs;
 
 class VisualisatieTechnieken : public Layer
 {

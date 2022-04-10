@@ -5,7 +5,7 @@ namespace BC
 {
 	namespace Platform
 	{
-		class OpenGLShader : public Shader
+		class OpenGLShader : public Graphics::Shader
 		{
 		private:
 			std::string m_name;

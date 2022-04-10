@@ -1,35 +1,39 @@
 #pragma once
+#include <memory>
 #include "byteCat/app/Layer.h"
 
 namespace BC
 {
-	class ImGuiRenderer
+	namespace Imgui
 	{
-	public:
-		virtual ~ImGuiRenderer() = default;
+		class ImGuiRenderer
+		{
+		public:
+			virtual ~ImGuiRenderer() = default;
 
-		virtual void enable() = 0;
-		virtual void disable() = 0;
-		
-		virtual void begin() = 0;
-		virtual void end() = 0;
+			virtual void enable() = 0;
+			virtual void disable() = 0;
 
-		static std::shared_ptr<ImGuiRenderer> Create();
-	};
-	
-	class ImGuiLayer : public Layer
-	{
-	private:
-		std::shared_ptr<ImGuiRenderer> m_renderer;
-		
-	public:
-		ImGuiLayer();
-		~ImGuiLayer() = default;
+			virtual void begin() = 0;
+			virtual void end() = 0;
 
-		void begin();
-		void end();
+			static std::shared_ptr<ImGuiRenderer> Create();
+		};
 
-		void onAttach() override;
-		void onDetach() override;
-	};
+		class ImGuiLayer : public App::Layer
+		{
+		private:
+			std::shared_ptr<ImGuiRenderer> m_renderer;
+
+		public:
+			ImGuiLayer();
+			~ImGuiLayer() = default;
+
+			void begin();
+			void end();
+
+			void onAttach() override;
+			void onDetach() override;
+		};
+	}
 }

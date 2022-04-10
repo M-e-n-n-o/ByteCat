@@ -5,7 +5,7 @@ namespace BC
 {
 	namespace Platform
 	{
-		class OpenGLUniformBuffer : public UniformBuffer
+		class OpenGLUniformBuffer : public Graphics::UniformBuffer
 		{
 		private:
 			unsigned int m_id;

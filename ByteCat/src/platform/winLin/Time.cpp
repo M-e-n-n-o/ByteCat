@@ -2,17 +2,20 @@
 
 #if defined(BC_PLATFORM_WINDOWS) || defined(BC_PLATFORM_LINUX)
 
-	#include "byteCat/utils/Time.h"
+	#include "byteCat/app/Time.h"
 	#include "GLFW/glfw3.h"
 
 	namespace BC
 	{
-		void Time::onUpdate()
+		namespace App
 		{
-			const double currentTime = glfwGetTime();
-			static double lastFrameTime = 0;
-			s_deltaTime = (currentTime - lastFrameTime);
-			lastFrameTime = currentTime;
+			void Time::onUpdate()
+			{
+				const double currentTime = glfwGetTime();
+				static double lastFrameTime = 0;
+				s_deltaTime = (currentTime - lastFrameTime);
+				lastFrameTime = currentTime;
+			}
 		}
 	}
 

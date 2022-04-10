@@ -2,6 +2,7 @@
 #include <ByteCat.h>
 
 using namespace BC;
+using namespace App;
 
 class GraphicsTest : public Layer
 {

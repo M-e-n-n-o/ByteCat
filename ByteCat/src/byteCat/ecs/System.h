@@ -4,21 +4,24 @@
 
 namespace BC
 {
-	class EcsCoordinator;	
-	
-	class System
+	namespace Ecs
 	{
-	private:
-		friend class SystemManager;
-	
-	protected:
-		EcsCoordinator* m_coordinator;
-		std::set<Entity> m_entities;
-		
-	public:
-		virtual ~System() = default;
+		class EcsCoordinator;
 
-		virtual void onUpdate() {}
-		virtual void onEntitiesChanged() {}
-	};
+		class System
+		{
+		private:
+			friend class SystemManager;
+
+		protected:
+			EcsCoordinator* m_coordinator;
+			std::set<Entity> m_entities;
+
+		public:
+			virtual ~System() = default;
+
+			virtual void onUpdate() {}
+			virtual void onEntitiesChanged() {}
+		};
+	}
 }

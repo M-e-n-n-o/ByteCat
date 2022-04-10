@@ -1,21 +1,21 @@
 #pragma once
 #include <ByteCat.h>
 
-#include "byteCat/utils/Time.h"
-
 using namespace BC;
+using namespace App;
+using namespace Inputs;
 
-class CameraBehaviour : public Behaviour
+class CameraBehaviour : public Ecs::Behaviour
 {
 private:
-	Transform* transform = nullptr;
+	Ecs::Transform* transform = nullptr;
 
 	const float speed = 10;
 
 public:	
 	void onAttach() override
 	{
-		transform = m_coordinator->getComponent<Transform>(m_entity);
+		transform = m_coordinator->getComponent<Ecs::Transform>(m_entity);
 	}
 
 	void onUpdate() override

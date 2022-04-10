@@ -6,118 +6,121 @@
 
 namespace BC
 {
-	class EcsCoordinator
+	namespace Ecs
 	{
-	private:
-		std::unique_ptr<ComponentManager> m_componentManager;
-		std::unique_ptr<EntityManager> m_entityManager;
-		std::unique_ptr<SystemManager> m_systemManager;
-
-	public:
-		EcsCoordinator()
+		class EcsCoordinator
 		{
-			m_componentManager = std::make_unique<ComponentManager>();
-			m_entityManager = std::make_unique<EntityManager>();
-			m_systemManager = std::make_unique<SystemManager>();
-		}
+		private:
+			std::unique_ptr<ComponentManager> m_componentManager;
+			std::unique_ptr<EntityManager> m_entityManager;
+			std::unique_ptr<SystemManager> m_systemManager;
 
-		Entity createEntity(const char* name)
-		{
-			return m_entityManager->createEntity(name);
-		}
+		public:
+			EcsCoordinator()
+			{
+				m_componentManager = std::make_unique<ComponentManager>();
+				m_entityManager = std::make_unique<EntityManager>();
+				m_systemManager = std::make_unique<SystemManager>();
+			}
 
-		void destroyEntity(const Entity& entity)
-		{
-			m_entityManager->destroyEntity(entity);
-			m_componentManager->entityDestroyed(entity);
-			m_systemManager->entityDestroyed(entity);
-		}
+			Entity createEntity(const char* name)
+			{
+				return m_entityManager->createEntity(name);
+			}
 
-		template<class T>
-		void setBehaviour(const Entity& entity, const T& behaviour)
-		{
-			m_entityManager->setBehaviour<T>(entity, this, behaviour);
-		}
+			void destroyEntity(const Entity& entity)
+			{
+				m_entityManager->destroyEntity(entity);
+				m_componentManager->entityDestroyed(entity);
+				m_systemManager->entityDestroyed(entity);
+			}
 
-		Behaviour* getBehaviour(const Entity& entity)
-		{
-			return m_entityManager->getBehaviour(entity);
-		}
+			template<class T>
+			void setBehaviour(const Entity& entity, const T& behaviour)
+			{
+				m_entityManager->setBehaviour<T>(entity, this, behaviour);
+			}
 
-		void updateBehaviours()
-		{
-			m_entityManager->updateBehaviours();
-		}
+			Behaviour* getBehaviour(const Entity& entity)
+			{
+				return m_entityManager->getBehaviour(entity);
+			}
 
-		const char* getEntityName(const Entity& entity)
-		{
-			return m_entityManager->getName(entity);
-		}
+			void updateBehaviours()
+			{
+				m_entityManager->updateBehaviours();
+			}
 
-		template<typename T>
-		void registerComponent()
-		{
-			m_componentManager->registerComponent<T>();
-		}
+			const char* getEntityName(const Entity& entity)
+			{
+				return m_entityManager->getName(entity);
+			}
 
-		// This method will automatically register the component if it hasnt been yet
-		template<typename T>
-		void addComponent(const Entity& entity, const T& component)
-		{			
-			m_componentManager->addComponent<T>(entity, component);
+			template<typename T>
+			void registerComponent()
+			{
+				m_componentManager->registerComponent<T>();
+			}
 
-			auto dependencies = m_entityManager->getDependencies(entity);
-			dependencies.set(m_componentManager->getComponentType<T>(false), true);
-			m_entityManager->setDependencies(entity, dependencies);
+			// This method will automatically register the component if it hasnt been yet
+			template<typename T>
+			void addComponent(const Entity& entity, const T& component)
+			{
+				m_componentManager->addComponent<T>(entity, component);
 
-			m_systemManager->entityDependenciesChanged(entity, dependencies);
-		}
+				auto dependencies = m_entityManager->getDependencies(entity);
+				dependencies.set(m_componentManager->getComponentType<T>(false), true);
+				m_entityManager->setDependencies(entity, dependencies);
 
-		template<typename T>
-		void removeComponent(const Entity& entity)
-		{
-			m_componentManager->removeComponent<T>(entity);
+				m_systemManager->entityDependenciesChanged(entity, dependencies);
+			}
 
-			auto dependencies = m_entityManager->getDependencies(entity);
-			dependencies.set(m_componentManager->getComponentType<T>(false), false);
-			m_entityManager->setDependencies(entity, dependencies);
+			template<typename T>
+			void removeComponent(const Entity& entity)
+			{
+				m_componentManager->removeComponent<T>(entity);
 
-			m_systemManager->entityDependenciesChanged(entity, dependencies);
-		}
+				auto dependencies = m_entityManager->getDependencies(entity);
+				dependencies.set(m_componentManager->getComponentType<T>(false), false);
+				m_entityManager->setDependencies(entity, dependencies);
 
-		template<typename T>
-		T* getComponent(const Entity& entity)
-		{
-			return m_componentManager->getComponent<T>(entity);
-		}
+				m_systemManager->entityDependenciesChanged(entity, dependencies);
+			}
 
-		// This method will automatically register the component if it hasnt been yet
-		template<typename T>
-		ComponentType& getComponentType()
-		{
-			return m_componentManager->getComponentType<T>(true);
-		}
+			template<typename T>
+			T* getComponent(const Entity& entity)
+			{
+				return m_componentManager->getComponent<T>(entity);
+			}
 
-		template<typename T>
-		std::shared_ptr<T> registerSystem()
-		{
-			auto system = m_systemManager->registerSystem<T>(this);
+			// This method will automatically register the component if it hasnt been yet
+			template<typename T>
+			ComponentType& getComponentType()
+			{
+				return m_componentManager->getComponentType<T>(true);
+			}
 
-			Dependencies dependencies = T::GetDependencies(this);
-			m_systemManager->setDependencies<T>(dependencies);
-			
-			return system;
-		}
+			template<typename T>
+			std::shared_ptr<T> registerSystem()
+			{
+				auto system = m_systemManager->registerSystem<T>(this);
 
-		template<class T>
-		std::shared_ptr<T> getSystem()
-		{
-			return m_systemManager->getSystem<T>();
-		}
+				Dependencies dependencies = T::GetDependencies(this);
+				m_systemManager->setDependencies<T>(dependencies);
 
-		void updateSystems()
-		{
-			m_systemManager->updateSystems();
-		}
-	};
+				return system;
+			}
+
+			template<class T>
+			std::shared_ptr<T> getSystem()
+			{
+				return m_systemManager->getSystem<T>();
+			}
+
+			void updateSystems()
+			{
+				m_systemManager->updateSystems();
+			}
+		};
+	}
 }

@@ -8,7 +8,7 @@ namespace BC
 {
 	namespace Platform
 	{
-		OpenGLTextureCube::OpenGLTextureCube(const std::vector<std::string>& faces, const TextureFormat& format)
+		OpenGLTextureCube::OpenGLTextureCube(const std::vector<std::string>& faces, const Graphics::TextureFormat& format)
 		{
 			m_format = format;
 

@@ -4,62 +4,65 @@
 
 namespace BC
 {
-    struct CommandWrapper
+    namespace Utils
     {
-        template <typename T>
-        CommandWrapper(T&& obj): m_wrappedObject(std::make_shared<Command<T>>(std::forward<T>(obj))) { }
-
-        struct CommandBase
+        struct CommandWrapper
         {
-            virtual ~CommandBase() = default;
-            virtual void operator()() const = 0;
-        };
+            template <typename T>
+            CommandWrapper(T&& obj) : m_wrappedObject(std::make_shared<Command<T>>(std::forward<T>(obj))) { }
 
-        template<typename T>
-        struct Command : CommandBase
-        {
-            Command(const T& t): m_wrappedObject(t) {}
-
-            ~Command() = default;
-
-            void operator()() const override
+            struct CommandBase
             {
-                return m_wrappedObject();
+                virtual ~CommandBase() = default;
+                virtual void operator()() const = 0;
+            };
+
+            template<typename T>
+            struct Command : CommandBase
+            {
+                Command(const T& t) : m_wrappedObject(t) {}
+
+                ~Command() = default;
+
+                void operator()() const override
+                {
+                    return m_wrappedObject();
+                }
+
+                T m_wrappedObject;
+            };
+
+            void operator()() const
+            {
+                return (*m_wrappedObject)();
             }
-            
-            T m_wrappedObject;
+
+            std::shared_ptr<CommandBase> m_wrappedObject;
         };
 
-        void operator()() const
+
+        class CommandExecutor
         {
-            return (*m_wrappedObject)();
-        }
+        private:
+            ThreadSafeQueue<CommandWrapper>* m_commands;
 
-        std::shared_ptr<CommandBase> m_wrappedObject;
-    };
+            std::atomic<bool> m_isRunning = false;
+            std::atomic<bool> m_isMultithreaded = false;
 
-	
-	class CommandExecutor
-	{
-	private:			
-        ThreadSafeQueue<CommandWrapper>* m_commands;
+            std::thread::id m_commandExecutorThread;
 
-        std::atomic<bool> m_isRunning = false;
-        std::atomic<bool> m_isMultithreaded = false;
+            std::mutex m_mutex;
+            std::condition_variable m_condition;
 
-        std::thread::id m_commandExecutorThread;
+        public:
+            CommandExecutor(bool multithreaded);
+            ~CommandExecutor();
 
-        std::mutex m_mutex;
-        std::condition_variable m_condition;
-	
-	public:
-        CommandExecutor(bool multithreaded);
-        ~CommandExecutor();
+            void pushCommand(const CommandWrapper& wrappedCommand);
 
-        void pushCommand(const CommandWrapper& wrappedCommand);
+            void sync();
 
-        void sync();
-
-        void shutdown();
-	};
+            void shutdown();
+        };
+    }
 }

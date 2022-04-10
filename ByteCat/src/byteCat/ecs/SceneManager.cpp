@@ -3,70 +3,73 @@
 
 namespace BC
 {
-	std::shared_ptr<Scene> SceneManager::CreateScene(const std::string& name)
+	namespace Ecs
 	{
-		auto scene = std::make_shared<Scene>(name);
-		s_scenes.push_back(scene);
-		return scene;
-	}
-
-	void SceneManager::ActivateScene(std::shared_ptr<Scene> scene)
-	{
-		for (int i = 0; i < s_scenes.size(); i++)
+		std::shared_ptr<Scene> SceneManager::CreateScene(const std::string& name)
 		{
-			if (s_scenes[i] == scene)
+			auto scene = std::make_shared<Scene>(name);
+			s_scenes.push_back(scene);
+			return scene;
+		}
+
+		void SceneManager::ActivateScene(std::shared_ptr<Scene> scene)
+		{
+			for (int i = 0; i < s_scenes.size(); i++)
 			{
-				s_activeScene = i;
+				if (s_scenes[i] == scene)
+				{
+					s_activeScene = i;
+					return;
+				}
+			}
+		}
+
+		void SceneManager::RemoveScene(std::shared_ptr<Scene> scene)
+		{
+			for (int i = 0; i < s_scenes.size(); i++)
+			{
+				if (s_scenes[i] == scene)
+				{
+					s_scenes.erase(s_scenes.begin() + i);
+					s_activeScene = -1;
+					return;
+				}
+			}
+		}
+
+		void SceneManager::onUpdate()
+		{
+			if (s_activeScene == -1)
+			{
+				LOG_ERROR("No active scene selected!");
 				return;
 			}
-		}
-	}
 
-	void SceneManager::RemoveScene(std::shared_ptr<Scene> scene)
-	{
-		for (int i = 0; i < s_scenes.size(); i++)
+			s_scenes[s_activeScene]->onUpdate();
+		}
+
+		std::shared_ptr<Scene> SceneManager::GetScene(const std::string& name)
 		{
-			if (s_scenes[i] == scene)
+			for (int i = 0; i < s_scenes.size(); i++)
 			{
-				s_scenes.erase(s_scenes.begin() + i);
-				s_activeScene = -1;
-				return;
+				if (s_scenes[i]->getName() == name)
+				{
+					return s_scenes[i];
+				}
 			}
-		}
-	}
 
-	void SceneManager::onUpdate()
-	{
-		if (s_activeScene == -1)
-		{
-			LOG_ERROR("No active scene selected!");
-			return;
+			return nullptr;
 		}
-		
-		s_scenes[s_activeScene]->onUpdate();
-	}
 
-	std::shared_ptr<Scene> SceneManager::GetScene(const std::string& name)
-	{
-		for (int i = 0; i < s_scenes.size(); i++)
+		std::shared_ptr<Scene> SceneManager::GetActiveScene()
 		{
-			if (s_scenes[i]->getName() == name)
+			if (s_activeScene != -1)
 			{
-				return s_scenes[i];
+				return s_scenes[s_activeScene];
 			}
+
+			LOG_ERROR("No active scene!");
+			return nullptr;
 		}
-
-		return nullptr;
-	}
-
-	std::shared_ptr<Scene> SceneManager::GetActiveScene()
-	{
-		if (s_activeScene != -1)
-		{
-			return s_scenes[s_activeScene];
-		}
-
-		LOG_ERROR("No active scene!");
-		return nullptr;
 	}
 }

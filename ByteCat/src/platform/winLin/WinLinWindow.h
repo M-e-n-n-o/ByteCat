@@ -6,16 +6,16 @@ namespace BC
 {
 	namespace Platform
 	{
-		class WinLinWindow : public Window
+		class WinLinWindow : public Graphics::Window
 		{
 		private:
-			WindowSettings m_windowSetting;
-			GraphicsContext* m_context;
+			Graphics::WindowSettings m_windowSetting;
+			Graphics::GraphicsContext* m_context;
 			
 			bool m_isMinimized = false;
 			
 		public:
-			WinLinWindow(const WindowSettings& setting);
+			WinLinWindow(const Graphics::WindowSettings& setting);
 			~WinLinWindow() { shutdown(); }
 
 			// Swap the buffers, poll the events
@@ -41,7 +41,7 @@ namespace BC
 			// Returns the native window
 			void* getNativeWindow() const override;
 
-			void setEventListener(EventListener* newListener) override;
+			void setEventListener(Inputs::EventListener* newListener) override;
 		};
 	}
 }

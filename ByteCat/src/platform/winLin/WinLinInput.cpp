@@ -4,27 +4,29 @@
 
 	#include "GLFW/glfw3.h"
 	#include "byteCat/app/Application.h"
-	#include "byteCat/input/Input.h"
+	#include "byteCat/inputs/input.h"
 
-	namespace BC
+namespace BC
+{
+	namespace Inputs
 	{
 		bool Input::IsKeyPressed(KeyCode key)
 		{
-			auto* window = Application::GetInstance().getWindow().getNativeWindow();
+			auto* window = App::Application::GetInstance().getWindow().getNativeWindow();
 			const auto state = glfwGetKey(static_cast<GLFWwindow*>(window), static_cast<int32_t>(key));
 			return state == GLFW_PRESS || state == GLFW_REPEAT;
 		}
 
 		bool Input::IsMouseButtonPressed(MouseCode button)
 		{
-			auto* window = Application::GetInstance().getWindow().getNativeWindow();
+			auto* window = App::Application::GetInstance().getWindow().getNativeWindow();
 			const auto state = glfwGetMouseButton(static_cast<GLFWwindow*>(window), static_cast<int32_t>(button));
 			return state == GLFW_PRESS;
 		}
 
 		glm::vec2 Input::GetMousePos()
 		{
-			auto* window = Application::GetInstance().getWindow().getNativeWindow();
+			auto* window = App::Application::GetInstance().getWindow().getNativeWindow();
 			double xpos, ypos;
 			glfwGetCursorPos(static_cast<GLFWwindow*>(window), &xpos, &ypos);
 			return { (float)xpos, (float)ypos };
@@ -36,16 +38,16 @@
 
 			const glm::vec2 current = GetMousePos();
 			const glm::vec2 velocity = current - previous;
-			
+
 			previous = current;
-			
+
 			return velocity;
 		}
 
 		std::vector<Gamepad> Input::GetActiveGamepads()
 		{
 			std::vector<Gamepad> gamepads;
-			
+
 			for (int i = 0; i < 16; i++)
 			{
 				if (glfwJoystickIsGamepad(i))
@@ -85,5 +87,6 @@
 			return 0;
 		}
 	}
+}
 
 #endif

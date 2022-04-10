@@ -5,7 +5,7 @@ namespace BC
 {
 	namespace Platform
 	{
-		class OpenGLImGuiRenderer : public ImGuiRenderer
+		class OpenGLImGuiRenderer : public Imgui::ImGuiRenderer
 		{
 		public:
 			OpenGLImGuiRenderer() = default;

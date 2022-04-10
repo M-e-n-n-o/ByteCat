@@ -4,31 +4,34 @@
 
 namespace BC
 {
-	void RendererAPI::SetCullingMode(const CullingMode& mode)
+	namespace Graphics
 	{
-		if (s_instance != nullptr)
+		void RendererAPI::SetCullingMode(const CullingMode& mode)
 		{
-			s_instance->setCullingMode(mode);
-		}
-	}
-
-	RendererAPI* RendererAPI::Create(const GraphicsAPI& api)
-	{
-		static bool createdRendererAPI = false;
-		
-		if (!createdRendererAPI)
-		{
-			createdRendererAPI = true;
-			
-			switch (api)
+			if (s_instance != nullptr)
 			{
-			case GraphicsAPI::None:		LOG_CRITICAL("GraphicsAPI::None is not a supported Graphics API"); return nullptr;
-			case GraphicsAPI::OpenGL:	LOG_INFO("Creating an OpenGL renderer"); s_instance = new Platform::OpenGLRendererAPI();
+				s_instance->setCullingMode(mode);
+			}
+		}
+
+		RendererAPI* RendererAPI::Create(const GraphicsAPI& api)
+		{
+			static bool createdRendererAPI = false;
+
+			if (!createdRendererAPI)
+			{
+				createdRendererAPI = true;
+
+				switch (api)
+				{
+				case GraphicsAPI::None:		LOG_CRITICAL("GraphicsAPI::None is not a supported Graphics API"); return nullptr;
+				case GraphicsAPI::OpenGL:	LOG_INFO("Creating an OpenGL renderer"); s_instance = new Platform::OpenGLRendererAPI();
+				}
+
+				return s_instance;
 			}
 
-			return s_instance;
+			return nullptr;
 		}
-
-		return nullptr;
 	}
 }

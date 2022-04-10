@@ -6,7 +6,7 @@ namespace BC
 {
 	namespace Platform
 	{
-		class OpenGLComputeShader : public ComputeShader
+		class OpenGLComputeShader : public Graphics::ComputeShader
 		{
 		private:
 			std::string m_name;
@@ -19,7 +19,7 @@ namespace BC
 			void compute(unsigned numberOfGroupsX, unsigned numberOfGroupsY, unsigned numberOfGroupsZ) override;
 			void waitToFinish() override;
 			
-			void setOutputTexture(std::shared_ptr<Texture> texture, unsigned int textureUnit) override;
+			void setOutputTexture(std::shared_ptr<Graphics::Texture> texture, unsigned int textureUnit) override;
 			
 			const std::string& getName() const override { return m_name; }
 

@@ -16,7 +16,7 @@ namespace BC
 			if (isFilePath)
 			{
 				computeShader.insert(0, BC_ASSETS_FOLDER);
-				computeShader = FileIO::ReadFileIntoString(computeShader);
+				computeShader = Utils::FileIO::ReadFileIntoString(computeShader);
 			}
 
 			const unsigned int computeShaderID = loadShader(computeShader, GL_COMPUTE_SHADER);
@@ -74,7 +74,7 @@ namespace BC
 			glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);
 		}
 
-		void OpenGLComputeShader::setOutputTexture(std::shared_ptr<Texture> texture, unsigned int textureUnit)
+		void OpenGLComputeShader::setOutputTexture(std::shared_ptr<Graphics::Texture> texture, unsigned int textureUnit)
 		{
 			glBindImageTexture(textureUnit, texture->getId(), 0, GL_FALSE, 0, GL_WRITE_ONLY, TextureFormatToOpenGLInternalFormat(texture->getFormat()));
 		}

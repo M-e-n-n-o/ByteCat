@@ -6,21 +6,21 @@ namespace BC
 {
 	namespace Platform
 	{
-		static GLenum ShaderDataTypeToOpenGLBaseType(ShaderDataType type)
+		static GLenum ShaderDataTypeToOpenGLBaseType(Graphics::ShaderDataType type)
 		{
 			switch (type)
 			{
-			case ShaderDataType::Float:    return GL_FLOAT;
-			case ShaderDataType::Float2:   return GL_FLOAT;
-			case ShaderDataType::Float3:   return GL_FLOAT;
-			case ShaderDataType::Float4:   return GL_FLOAT;
-			case ShaderDataType::Mat3:     return GL_FLOAT;
-			case ShaderDataType::Mat4:     return GL_FLOAT;
-			case ShaderDataType::Int:      return GL_INT;
-			case ShaderDataType::Int2:     return GL_INT;
-			case ShaderDataType::Int3:     return GL_INT;
-			case ShaderDataType::Int4:     return GL_INT;
-			case ShaderDataType::Bool:     return GL_BOOL;
+			case Graphics::ShaderDataType::Float:    return GL_FLOAT;
+			case Graphics::ShaderDataType::Float2:   return GL_FLOAT;
+			case Graphics::ShaderDataType::Float3:   return GL_FLOAT;
+			case Graphics::ShaderDataType::Float4:   return GL_FLOAT;
+			case Graphics::ShaderDataType::Mat3:     return GL_FLOAT;
+			case Graphics::ShaderDataType::Mat4:     return GL_FLOAT;
+			case Graphics::ShaderDataType::Int:      return GL_INT;
+			case Graphics::ShaderDataType::Int2:     return GL_INT;
+			case Graphics::ShaderDataType::Int3:     return GL_INT;
+			case Graphics::ShaderDataType::Int4:     return GL_INT;
+			case Graphics::ShaderDataType::Bool:     return GL_BOOL;
 			}
 
 			LOG_CRITICAL("Unknown ShaderDataType!");
@@ -47,7 +47,7 @@ namespace BC
 			glBindVertexArray(0);
 		}
 
-		void OpenGLVertexArray::setIndexBuffer(std::shared_ptr<IndexBuffer> buffer)
+		void OpenGLVertexArray::setIndexBuffer(std::shared_ptr<Graphics::IndexBuffer> buffer)
 		{
 			glBindVertexArray(m_id);
 			buffer->bind();
@@ -55,7 +55,7 @@ namespace BC
 			indexBuffer = buffer;
 		}
 
-		void OpenGLVertexArray::addVertexBuffer(std::shared_ptr<VertexBuffer> buffer)
+		void OpenGLVertexArray::addVertexBuffer(std::shared_ptr<Graphics::VertexBuffer> buffer)
 		{
 			if (buffer->getLayout().getElements().empty())
 			{
@@ -70,10 +70,10 @@ namespace BC
 			{
 				switch (element.type)
 				{
-				case ShaderDataType::Float:
-				case ShaderDataType::Float2:
-				case ShaderDataType::Float3:
-				case ShaderDataType::Float4:
+				case Graphics::ShaderDataType::Float:
+				case Graphics::ShaderDataType::Float2:
+				case Graphics::ShaderDataType::Float3:
+				case Graphics::ShaderDataType::Float4:
 				{
 					glEnableVertexAttribArray(m_vboIndex);
 					glVertexAttribPointer(m_vboIndex, element.getComponentCount(), ShaderDataTypeToOpenGLBaseType(element.type),
@@ -81,11 +81,11 @@ namespace BC
 					m_vboIndex++;
 					break;
 				}
-				case ShaderDataType::Int:
-				case ShaderDataType::Int2:
-				case ShaderDataType::Int3:
-				case ShaderDataType::Int4:
-				case ShaderDataType::Bool:
+				case Graphics::ShaderDataType::Int:
+				case Graphics::ShaderDataType::Int2:
+				case Graphics::ShaderDataType::Int3:
+				case Graphics::ShaderDataType::Int4:
+				case Graphics::ShaderDataType::Bool:
 				{
 					glEnableVertexAttribArray(m_vboIndex);
 					glVertexAttribIPointer(m_vboIndex, element.getComponentCount(), ShaderDataTypeToOpenGLBaseType(element.type),
@@ -93,8 +93,8 @@ namespace BC
 					m_vboIndex++;
 					break;
 				}
-				case ShaderDataType::Mat3:
-				case ShaderDataType::Mat4:
+				case Graphics::ShaderDataType::Mat3:
+				case Graphics::ShaderDataType::Mat4:
 				{
 					unsigned int count = element.getComponentCount();
 					for (unsigned int i = 0; i < count; i++)
