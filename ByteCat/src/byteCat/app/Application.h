@@ -1,4 +1,5 @@
 #pragma once
+#include "byteCat/Core.h"
 #include "byteCat/app/LayerStack.h"
 #include "byteCat/inputs/events/Event.h"
 #include "byteCat/graphics/Window.h"
@@ -25,7 +26,7 @@ namespace BC
 
 			bool m_isRunning;
 
-			//friend int ::main(int argc, char** argv);
+			friend int ::main(int argc, char** argv);
 
 		protected:
 			Graphics::Window* m_window;
@@ -33,8 +34,6 @@ namespace BC
 		public:
 			Application();
 			virtual ~Application();
-
-			void start();
 			
 			// Call this function to push a new layer to the LayerStack
 			void pushLayer(Layer* layer);
@@ -45,6 +44,8 @@ namespace BC
 			static Application& GetInstance() { return *s_instance; }
 
 		private:
+			void start();
+			
 			void onEvent(Inputs::Event& event) override;
 			bool onWindowClose(Inputs::WindowCloseEvent& event);
 			bool onWindowResize(Inputs::WindowResizeEvent& event);

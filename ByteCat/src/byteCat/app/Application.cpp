@@ -25,12 +25,7 @@ namespace BC
         }
 
         void Application::start()
-        {
-            if (m_isRunning)
-            {
-                return;
-            }
-        	
+        {        	
             m_isRunning = true;
 
             m_imguiLayer = new Imgui::ImGuiLayer();
