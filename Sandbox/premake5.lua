@@ -52,7 +52,7 @@ project "Sandbox"
 
 		postbuildcommands
 		{
-			("cp -R ./res ../bin/" .. outputdir .. "/Sandbox")
+			("cp -R ./assets ../bin/" .. outputdir .. "/Sandbox")
 		}
 
 		defines
