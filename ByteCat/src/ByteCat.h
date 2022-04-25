@@ -28,7 +28,7 @@
 #include "byteCat/inputs/KeyCodes.h"
 #include "byteCat/inputs/MouseCodes.h"
 #include "byteCat/inputs/Gamepad.h"
-#include "byteCat/inputs/input.h"
+#include "byteCat/inputs/Input.h"
 
 #include "byteCat/graphics/components/VertexArray.h"
 #include "byteCat/graphics/components/ArrayBuffer.h"

@@ -4,7 +4,7 @@
 
 	#include "GLFW/glfw3.h"
 	#include "byteCat/app/Application.h"
-	#include "byteCat/inputs/input.h"
+	#include "byteCat/inputs/Input.h"
 
 namespace BC
 {

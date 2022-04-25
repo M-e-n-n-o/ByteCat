@@ -7,16 +7,16 @@ namespace BC
 	{
 		std::string FileIO::ReadFileIntoString(const std::string& path)
 		{
-			std::ifstream input_file(path);
+			std::ifstream inputStream(path, std::ios::in);
 
-			if (!input_file.is_open()) {
-				LOG_ERROR("Could not open the file: {0}", path);
+			if (!inputStream.is_open()) {
+				LOG_ERROR("Could not open file: {0}", path);
 				return "";
 			}
 
-			std::string text = std::string((std::istreambuf_iterator<char>(input_file)), std::istreambuf_iterator<char>());
+			std::string text = std::string((std::istreambuf_iterator<char>(inputStream)), std::istreambuf_iterator<char>());
 
-			input_file.close();
+			inputStream.close();
 
 			return text;
 		}
