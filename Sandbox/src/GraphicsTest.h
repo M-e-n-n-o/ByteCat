@@ -24,4 +24,9 @@ public:
 		Renderer::SetColor({ 0, 1, 0, 1 });
 		Renderer::DrawRectangle({ -1, 0 }, 10, { 1, 1 });
 	}
+
+	void onGuiRender() override
+	{
+		ImGui::ShowDemoWindow();
+	}
 };
