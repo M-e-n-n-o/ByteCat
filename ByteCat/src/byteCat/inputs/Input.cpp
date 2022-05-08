@@ -16,12 +16,12 @@ namespace BC
 			}
 		}
 
-		void Input::StartListening(std::shared_ptr<EventCallback> callback)
+		void Input::StartListening(const std::shared_ptr<EventCallback>& callback)
 		{
 			s_callbacks.push_back(callback);
 		}
 		
-		void Input::StopListening(std::shared_ptr<EventCallback> toDelete)
+		void Input::StopListening(const std::shared_ptr<EventCallback>& toDelete)
 		{
 			s_callbacks.erase(std::remove_if(s_callbacks.begin(), s_callbacks.end(), [&toDelete](const std::shared_ptr<EventCallback>& other)
 			{
