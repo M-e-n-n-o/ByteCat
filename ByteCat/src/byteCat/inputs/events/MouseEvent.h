@@ -7,7 +7,15 @@ namespace BC
 {
 	namespace Inputs
 	{
-		class MouseMovedEvent : public Event
+		class MouseEvent : public Event
+		{
+		public:
+			virtual EventType getEventType() const override = 0;
+			virtual const char* getName() const override = 0;
+			virtual int getCategoryFlags() const override = 0;
+		};
+		
+		class MouseMovedEvent : public MouseEvent
 		{
 		private:
 			float m_mouseX;
@@ -24,7 +32,7 @@ namespace BC
 		};
 
 
-		class MouseScrolledEvent : public Event
+		class MouseScrolledEvent : public MouseEvent
 		{
 		private:
 			float m_offsetX;
@@ -41,13 +49,13 @@ namespace BC
 		};
 
 
-		class MouseButtonEvent : public Event
+		class MouseButtonEvent : public MouseEvent
 		{
 		protected:
 			MouseCode m_mouseCode;
 
 			MouseButtonEvent(const MouseCode mouseCode) : m_mouseCode(mouseCode) {}
-
+			virtual ~MouseButtonEvent() = default;
 		public:
 			MouseCode getMouseButton() const { return m_mouseCode; }
 

@@ -14,7 +14,8 @@ namespace BC
 
 		protected:
 			KeyEvent(const KeyCode keyCode) : keyCode(keyCode) {}
-
+			virtual ~KeyEvent() = default;
+		
 		public:
 			KeyCode getKeyCode() const { return keyCode; }
 			int getCategoryFlags() const override { return EventCatInput | EventCatKeyboard; }

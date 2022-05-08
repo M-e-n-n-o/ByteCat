@@ -4,6 +4,7 @@
 #include "byteCat/graphics/renderer/Renderer.h"
 #include "byteCat/imgui/ImGuiLayer.h"
 #include "byteCat/app/Time.h"
+#include "byteCat/inputs/Input.h"
 
 namespace BC
 {
@@ -89,6 +90,8 @@ namespace BC
                     }
                 }
             }
+
+            Inputs::Input::HandleEvent(event);
         }
 
         bool Application::onWindowClose(Inputs::WindowCloseEvent& event)
