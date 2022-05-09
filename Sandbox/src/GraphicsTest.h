@@ -7,7 +7,11 @@ using namespace App;
 class GraphicsTest : public Layer
 {
 	std::shared_ptr<Texture2D> texture;
-	
+
+	int id0;
+	int id1;
+	int id2;
+
 public:
 
 	static void test(const Event& event)
@@ -34,13 +38,14 @@ public:
 
 		Input::AddCustomKeyCode("jump", KeyCode::Space);
 
-		Input::StartListening(std::make_shared<MouseCallback>(EventType::MouseScrolled, test2));
-		Input::StartListening(std::make_shared<KeyCallback>(KeyCode::W, test));
-		Input::StartListening(std::make_shared<KeyCallback>(KeyCode::A, test));
+		id0 = Input::StartListening(std::make_shared<MouseCallback>(EventType::MouseScrolled, test2));
+		
+		id1 = Input::StartListening(std::make_shared<KeyCallback>(KeyCode::W, test));
+		id2 = Input::StartListening(std::make_shared<KeyCallback>(KeyCode::A, test));
 	}
 
 	void onUpdate() override
-	{
+	{		
 		Renderer::Clear({ 1, 0, 0, 1 });
 
 		Renderer::SetColor({ 1, 1, 1, 1 });
@@ -56,7 +61,7 @@ public:
 
 		if (Input::IsKeyPressed(KeyCode::K))
 		{
-			Input::StopListening(std::make_shared<KeyCallback>(KeyCode::W, test));
+			Input::StopListening(id1);
 		}
 	}
 

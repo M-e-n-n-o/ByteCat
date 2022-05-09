@@ -16,17 +16,19 @@ namespace BC
 			}
 		}
 
-		void Input::StartListening(const std::shared_ptr<EventCallback>& callback)
+		int Input::StartListening(const std::shared_ptr<EventCallback>& callback)
 		{
 			s_callbacks.push_back(callback);
+			return s_callbacks.size() - 1;
 		}
 		
-		void Input::StopListening(const std::shared_ptr<EventCallback>& toDelete)
-		{
-			s_callbacks.erase(std::remove_if(s_callbacks.begin(), s_callbacks.end(), [&toDelete](const std::shared_ptr<EventCallback>& other)
+		void Input::StopListening(int& id)
+		{			
+			if (id < s_callbacks.size() && id >= 0)
 			{
-				return *other == *toDelete;
-			}), s_callbacks.end());
+				s_callbacks.erase(s_callbacks.begin() + id);
+				id = -1;
+			}
 		}
 
 		void Input::AddCustomKeyCode(const std::string& name, const KeyCode& code)

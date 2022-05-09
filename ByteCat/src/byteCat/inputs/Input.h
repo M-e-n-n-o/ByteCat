@@ -23,11 +23,11 @@ namespace BC
 			// All the new events used to call callbacks with will need to be received here
 			static void HandleEvent(const Event& event);
 
-			// Call this function to add a callback to a specified key code
-			static void StartListening(const std::shared_ptr<EventCallback>& callback);
+			// Call this function to add a callback to a specified key code, returns the id of the callback
+			static int StartListening(const std::shared_ptr<EventCallback>& callback);
 			
-			// Call this function to remove a callback from a specified key code
-			static void StopListening(const std::shared_ptr<EventCallback>& toDelete);
+			// Call this function to remove a callback
+			static void StopListening(int& id);
 
 			// Call this function to add a new custom key binding to the input system
 			static void AddCustomKeyCode(const std::string& name, const KeyCode& code);
