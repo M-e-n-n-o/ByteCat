@@ -10,7 +10,9 @@ namespace BC
 		/// <summary>
 		/// This abstraction of the renderer holds the active renderer
 		/// and GraphicsAPI. After telling this class to render something it will
-		/// direct the request through to the active renderer.
+		/// direct the request through to the submission renderer.
+		///
+		/// To draw simple 2D geometry without much hassle it is recommended to use the Renderer2D
 		/// </summary>
 		class Renderer
 		{
@@ -28,17 +30,13 @@ namespace BC
 			static GraphicsAPI& GetAPI() { return s_graphicsAPI; }
 
 			static void Init();
+			static RendererAPI* GetRenderer() { return s_rendererAPI; }
+			
 			static void SetSubmissionRenderer(SubmissionRenderer* renderer);
 
 			static void Shutdown();
 
 			static void SetViewport(unsigned int x, unsigned int y, unsigned int width, unsigned int height);
-
-			// Basic renderer commands
-			static void Clear(const glm::vec4& color);
-			static void SetColor(const glm::vec4& color);
-			static void DrawRectangle(const glm::vec2& position, float rotation, const glm::vec2& scale);
-			static void DrawImage(const glm::vec2& position, float rotation, const glm::vec2& scale, const std::shared_ptr<Texture2D>& texture);
 
 			// Submission renderer commands
 			static void Submit(const Renderable& renderable);

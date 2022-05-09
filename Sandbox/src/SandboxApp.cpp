@@ -11,7 +11,7 @@ class Sandbox : public Application
 public:
 	// The start of your application
 	Sandbox(): Application()
-	{
+	{		
         Renderer::SetAPI(GraphicsAPI::OpenGL);
 		
         WindowSettings settings = { "Sandbox App", 1280, 720, true };
