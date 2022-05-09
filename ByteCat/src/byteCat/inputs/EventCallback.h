@@ -23,7 +23,7 @@ namespace BC
 			KeyCode code;
 
 			KeyCallback(KeyCode code, void (*callback)(const Event&)) : EventCallback(callback), code(code) {}
-
+			
 			bool operator==(const Event& event) const override
 			{
 				if (event.isInCategory(EventCatKeyboard))

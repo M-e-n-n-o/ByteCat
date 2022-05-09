@@ -16,9 +16,9 @@ namespace BC
 			}
 		}
 
-		int Input::StartListening(const std::shared_ptr<EventCallback>& callback)
+		int Input::StartListening(EventCallback* callback)
 		{
-			s_callbacks.push_back(callback);
+			s_callbacks.push_back(std::shared_ptr<EventCallback>(callback));
 			return s_callbacks.size() - 1;
 		}
 		

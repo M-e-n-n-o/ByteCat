@@ -24,7 +24,7 @@ namespace BC
 			static void HandleEvent(const Event& event);
 
 			// Call this function to add a callback to a specified key code, returns the id of the callback
-			static int StartListening(const std::shared_ptr<EventCallback>& callback);
+			static int StartListening(EventCallback* callback);
 			
 			// Call this function to remove a callback
 			static void StopListening(int& id);

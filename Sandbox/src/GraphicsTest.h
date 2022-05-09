@@ -38,10 +38,10 @@ public:
 
 		Input::AddCustomKeyCode("jump", KeyCode::Space);
 
-		id0 = Input::StartListening(std::make_shared<MouseCallback>(EventType::MouseScrolled, test2));
+		id0 = Input::StartListening(new MouseCallback(EventType::MouseScrolled, test2));
 		
-		id1 = Input::StartListening(std::make_shared<KeyCallback>(KeyCode::W, test));
-		id2 = Input::StartListening(std::make_shared<KeyCallback>(KeyCode::A, test));
+		id1 = Input::StartListening(new KeyCallback(KeyCode::W, test));
+		id2 = Input::StartListening(new KeyCallback(KeyCode::A, test));
 	}
 
 	void onUpdate() override
