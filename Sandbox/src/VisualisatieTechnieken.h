@@ -190,15 +190,15 @@ public:
 	{
 		static float x = 0;
 		x += Time::GetDeltaTime() / 1;
-
+		
 		cloudShader->bind();
 		cloudShader->loadVector3("cloudOffset", glm::vec3(x, 0, 0));
-	
+		
 		auto cameraPos = ecsCoordinator->getComponent<Transform>(camera)->position;
 		ecsCoordinator->getComponent<Transform>(skyboxEntity)->position = cameraPos;
 	}
 	
-	void onRender() override
+	void beforeRender() override
 	{
 		Renderer::RenderSubmissions();
 		fbo->unbind();
@@ -212,7 +212,7 @@ public:
 	}
 	
 	inline static bool captured = false;
-	
+
 	void onGuiRender() override
 	{
 		if (captured)

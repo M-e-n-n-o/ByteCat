@@ -49,7 +49,7 @@ namespace BC
 
                 for (Layer* layer : m_layerStack)
                 {
-                    if (layer->m_enabled) { layer->onRender(); }
+                    if (layer->m_enabled) { layer->beforeRender(); }
                 }
 
                 Graphics::Renderer::RenderSubmissions();

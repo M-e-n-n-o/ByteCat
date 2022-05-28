@@ -30,7 +30,7 @@ namespace BC
 			// Gets called every game loop before the rendering
 			virtual void onUpdate() {}
 			// Gets called right before the rendering takes place
-			virtual void onRender() {}
+			virtual void beforeRender() {}
 			// Gets called after the rendering takes place
 			virtual void onRenderComplete() {}
 			// Gets called when you can rener imgui stuff

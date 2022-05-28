@@ -22,22 +22,22 @@ public:
 	{		
 		glm::vec3 movement = glm::vec3(0, 0, 0);
 
-		if (Input::IsKeyPressed(KeyCode::W))
+		if (Input::IsPressed(KeyCode::W))
 			movement.z += speed;
 
-		if (Input::IsKeyPressed(KeyCode::S))
+		if (Input::IsPressed(KeyCode::S))
 			movement.z -= speed;
 
-		if (Input::IsKeyPressed(KeyCode::D))
+		if (Input::IsPressed(KeyCode::D))
 			movement.x += speed;
 
-		if (Input::IsKeyPressed(KeyCode::A))
+		if (Input::IsPressed(KeyCode::A))
 			movement.x -= speed;
 
-		if (Input::IsKeyPressed(KeyCode::Space))
+		if (Input::IsPressed(KeyCode::Space))
 			movement.y += speed;
 
-		if (Input::IsKeyPressed(KeyCode::LeftShift))
+		if (Input::IsPressed(KeyCode::LeftShift))
 			movement.y -= speed;
 
 		auto mouseVelocity = (Input::GetMouseVelocity() * 0.1f);

@@ -10,14 +10,14 @@ namespace BC
 {
 	namespace Inputs
 	{
-		bool Input::IsKeyPressed(KeyCode key)
+		bool Input::IsPressed(const KeyCode& key)
 		{
 			auto* window = App::Application::GetInstance().getWindow().getNativeWindow();
 			const auto state = glfwGetKey(static_cast<GLFWwindow*>(window), static_cast<int32_t>(key));
 			return state == GLFW_PRESS || state == GLFW_REPEAT;
 		}
 
-		bool Input::IsMouseButtonPressed(MouseCode button)
+		bool Input::IsPressed(const MouseCode& button)
 		{
 			auto* window = App::Application::GetInstance().getWindow().getNativeWindow();
 			const auto state = glfwGetMouseButton(static_cast<GLFWwindow*>(window), static_cast<int32_t>(button));
@@ -60,7 +60,7 @@ namespace BC
 			return gamepads;
 		}
 
-		bool Input::IsGamepadButtonPressed(GamepadButton button, GamepadID id)
+		bool Input::IsPressed(const GamepadButton& button, const GamepadID& id)
 		{
 			GLFWgamepadstate state;
 
@@ -75,7 +75,7 @@ namespace BC
 			return false;
 		}
 
-		float Input::GetGamepadAxis(GamepadAxis axis, GamepadID id)
+		float Input::GetGamepadAxis(const GamepadAxis& axis, const GamepadID& id)
 		{
 			GLFWgamepadstate state;
 

@@ -31,12 +31,13 @@ namespace BC
 			}
 		}
 
-		void Input::AddCustomKeyCode(const std::string& name, const KeyCode& code)
+		void Input::AddCustomKeyCode(const std::string& name, const CodeType& code)
 		{
-			s_customKeyCodes.insert({name, code});
+			s_customKeyCodes.insert({ name, std::vector<CodeType>() });
+			s_customKeyCodes[name].push_back(code);
 		}
 
-		bool Input::IsKeyPressed(const std::string& customKey)
+		bool Input::IsPressed(const std::string& customKey)
 		{
 			const auto value = s_customKeyCodes.find(customKey);
 			
@@ -46,7 +47,24 @@ namespace BC
 				return false;
 			}
 
-			return IsKeyPressed(value->second);
+			for (const auto& code : value->second)
+			{
+				bool isActive = false;
+				switch (code.type)
+				{
+				case 0:		isActive = IsPressed(code.code.keyCode); break;
+				case 1:		isActive = IsPressed(code.code.mouseCode); break;
+				case 2:		isActive = IsPressed(code.code.gamepadButton); break;
+				default:	LOG_WARN("CodeType was not detected!"); break;
+				}
+				
+				if (isActive)
+				{
+					return true;
+				}
+			}
+			
+			return false;
 		}
 	}
 }

@@ -3,6 +3,35 @@
 
 using namespace BC;
 using namespace App;
+using namespace Inputs;
+
+class CustomEvent : public Event
+{
+public:
+	CustomEvent() = default;
+	
+	EventType getEventType() const override { return EventType::Custom; }
+	const char* getName() const override { return "Custom event"; }
+	int getCategoryFlags() const override { return EventCatApplication; }
+};
+
+class CustomEventCallback : public EventCallback
+{
+public:
+	CustomEventCallback(void(* callback)(const Event&))
+		: EventCallback(callback)
+	{
+		
+	}
+
+	bool operator==(const Event& event) const override
+	{
+		if (const CustomEvent* e = dynamic_cast<const CustomEvent*>(&event); e != nullptr)
+		{
+			return true;
+		}
+	}
+};
 
 class GraphicsTest : public Layer
 {
@@ -13,7 +42,6 @@ class GraphicsTest : public Layer
 	int id2;
 
 public:
-
 	static void test(const Event& event)
 	{
 		const KeyEvent* keyEvent = static_cast<const KeyEvent*>(&event);
@@ -37,8 +65,12 @@ public:
 		texture = Texture2D::Create("wall.jpg");
 
 		Input::AddCustomKeyCode("jump", KeyCode::Space);
+		Input::AddCustomKeyCode("jump", KeyCode::S);
+		Input::AddCustomKeyCode("jump", MouseCode::ButtonLeft);
+		Input::AddCustomKeyCode("jump", GamepadButton::A);
 
-		id0 = Input::StartListening(new MouseCallback(EventType::MouseScrolled, test2));
+		//id0 = Input::StartListening(new MouseCallback(EventType::MouseScrolled, test2));
+		id0 = Input::StartListening(new CustomEventCallback(test2));
 		
 		id1 = Input::StartListening(new KeyCallback(KeyCode::W, test));
 		id2 = Input::StartListening(new KeyCallback(KeyCode::A, test));
@@ -54,12 +86,12 @@ public:
 		Renderer2D::SetColor({ 0, 1, 0, 1 });
 		Renderer2D::DrawRectangle({ -1, 0 }, 10, { 1, 1 });
 
-		if (Input::IsKeyPressed("jump"))
+		if (Input::IsPressed("jump"))
 		{
 			LOG_INFO("Jump");
 		}
 
-		if (Input::IsKeyPressed(KeyCode::K))
+		if (Input::IsPressed(KeyCode::K))
 		{
 			Input::StopListening(id1);
 		}
@@ -67,6 +99,15 @@ public:
 
 	void onGuiRender() override
 	{
-		ImGui::ShowDemoWindow();
+		// ImGui::ShowDemoWindow();
+
+		ImGui::Begin("Test");
+		ImGui::Text("Hoi");
+		ImGui::End();
+	}
+
+	void onEvent(Event& event) override
+	{
+		Input::HandleEvent(CustomEvent());
 	}
 };
