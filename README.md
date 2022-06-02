@@ -4,6 +4,12 @@ Welcome to the ByteCat graphics engine!
 !! This graphics engine is still in a very early stage in development !!
 
 
+# 🚀 Future plans
+The ultimate goal for this project is to build an acutal usable and enjoyable to work with graphics engine  
+with a simple and easy to navigate user interface. Aside from this the ByteCat engine should always be  
+very easy to work with as a regular software engineer and for this reason will stay very code focussed.
+
+
 # 🏃 Getting started
 ByteCat is currently only supported and tested for Windows and Linux.  
 For Windows users, using Visual Studio as development environment is recommended!
@@ -19,12 +25,6 @@ If the repository was cloned non-recursively previously, use the following comma
 Start by downloading the newest version of premake from: https://premake.github.io.  
 After that you only have to build the project by running premke from the root folder of ByteCat.  
 For more information about running premake see: https://premake.github.io/docs/Building-Premake
-
-
-# 🚀 Future plans
-The ultimate goal for this project is to build an acutal usable and enjoyable to work with graphics engine  
-with a simple and easy to navigate user interface. Aside from this the ByteCat engine should always be  
-very easy to work with as a software engineer and for this reason will be very code focussed.
 
 
 # 📽️ Already created projects in ByteCat
