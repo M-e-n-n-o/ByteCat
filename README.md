@@ -1,5 +1,6 @@
 # ByteCat
-[![License](https://img.shields.io/github/license/M-e-n-n-o/ByteCat.svg)](https://github.com/M-e-n-n-o/ByteCat/LICENSE)  
+[![License](https://img.shields.io/github/license/M-e-n-n-o/ByteCat.svg)](https://github.com/M-e-n-n-o/ByteCat/blob/main/LICENSE)  
+
 Welcome to the ByteCat graphics engine!
 
 !! This project is still in a very early stage of development !!
