@@ -9,15 +9,15 @@ ByteCat is currently only supported and tested for Windows and Linux.
 For Windows users, using Visual Studio as development environment is recommended!
 
 ### Cloning the repository
-Start by cloning the repository with the command:
+Start by cloning the repository with the command:  
 ``` git clone --recursive https://github.com/M-e-n-n-o/ByteCat ``` 
 
 If the repository was cloned non-recursively previously, use the following command to clone the submodules:  
 ```git submodule update --init``` 
 
 ### Setting up Build system
-Start by downloading the newest version of premake from: https://premake.github.io.
-After that you only have to build the project by running premke from the root folder of ByteCat.
+Start by downloading the newest version of premake from: https://premake.github.io.  
+After that you only have to build the project by running premke from the root folder of ByteCat.  
 For more information about running premake see: https://premake.github.io/docs/Building-Premake
 
 
