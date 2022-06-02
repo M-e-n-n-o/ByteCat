@@ -9,6 +9,8 @@ The ultimate goal for this project is to build an acutal usable and enjoyable to
 with a simple and easy to navigate user interface. Aside from this the ByteCat engine should always be  
 very easy to work with as a regular software engineer and for this reason will stay very code focussed.
 
+A few other big goals for this project are to add solid VR and Vulkan support!
+
 
 # 🏃 Getting started
 ByteCat is currently only supported and tested for Windows and Linux.  
