@@ -1,7 +1,7 @@
 # ByteCat
 Welcome to the ByteCat graphics engine!
 
-!! This graphics engine is still in a very early stage in development !!
+!! This project is still in a very early stage of development !!
 
 
 # 🚀 Future plans
