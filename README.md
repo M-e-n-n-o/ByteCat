@@ -26,9 +26,12 @@ If the repository was cloned non-recursively previously, use the following comma
 ```git submodule update --init``` 
 
 ### Setting up the build system
-Start by downloading the newest version of premake from: https://premake.github.io.  
-After that you only have to build the project by running premke from the root folder of ByteCat.  
-For more information about running premake see: https://premake.github.io/docs/Using-Premake
+Start by downloading the newest version of premake from:  
+https://premake.github.io  
+
+After that you only have to run premake from the root folder of ByteCat which will generate all the necessary  
+project files for you. For more information about running premake see:  
+https://premake.github.io/docs/Using-Premake
 
 
 # 📽️ Already created projects in ByteCat
