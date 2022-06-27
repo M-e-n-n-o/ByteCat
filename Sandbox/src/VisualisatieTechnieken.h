@@ -214,7 +214,7 @@ public:
 	inline static bool captured = false;
 
 	void onGuiRender() override
-	{
+	{		
 		if (captured)
 		{
 			ImGui::Begin("Settings");

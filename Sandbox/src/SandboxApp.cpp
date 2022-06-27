@@ -20,7 +20,7 @@ public:
 
         Renderer::Init();
 		
-		pushLayer(new GraphicsTest());
+		pushLayer(new VisualisatieTechnieken());
 	}
 
 	// The end of your application
