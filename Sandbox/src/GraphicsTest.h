@@ -60,7 +60,7 @@ public:
 		LOG_INFO("jaa");
 	}
 	
-	GraphicsTest() : Layer("UserLayer")
+	GraphicsTest() : Layer("Graphics Test")
 	{
 		texture = Texture2D::Create("wall.jpg");
 

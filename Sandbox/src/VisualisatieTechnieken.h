@@ -1,7 +1,7 @@
 #pragma once
 #include <ByteCat.h>
 
-#include "CameraBehaviour.h"
+#include "Spectator.h"
 
 using namespace BC;
 using namespace Ecs;
@@ -23,7 +23,7 @@ class VisualisatieTechnieken : public Layer
 	Renderable renderable;
 
 public:
-	VisualisatieTechnieken() : Layer("UserLayer")
+	VisualisatieTechnieken() : Layer("Visualisatie Technieken")
 	{
 		// Zet een submission renderer
 			Renderer::SetSubmissionRenderer(new SimpleRenderer());
