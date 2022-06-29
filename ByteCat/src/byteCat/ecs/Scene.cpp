@@ -12,7 +12,6 @@ namespace BC
 
 		void Scene::onUpdate()
 		{
-			m_ecsCoordinator->updateBehaviours();
 			m_ecsCoordinator->updateSystems();
 		}
 	}

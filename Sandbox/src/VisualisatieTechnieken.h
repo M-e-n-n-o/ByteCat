@@ -37,6 +37,7 @@ public:
 			ecsCoordinator = scene->getEcsCoordinator();
 			ecsCoordinator->registerSystem<RenderSubmitter>();
 			ecsCoordinator->registerSystem<CameraSystem>();
+			ecsCoordinator->registerSystem<SpectatorSystem>();
 			
 		// Cube data
 			float dataCube[] =
@@ -183,7 +184,7 @@ public:
 			camera = ecsCoordinator->createEntity("Camera");		
 			ecsCoordinator->addComponent<Transform>(camera, { glm::vec3(0, 50, -5), glm::vec3(0, 90, 0), glm::vec3(1, 1, 1) });
 			ecsCoordinator->addComponent<PerspectiveCamera>(camera, { 70, 0.1f, 1000.0f });
-			ecsCoordinator->setBehaviour<CameraBehaviour>(camera, {});
+			ecsCoordinator->addComponent<Spectator>(camera, { 10 });
 	}
 
 	void onUpdate() override
@@ -281,7 +282,6 @@ public:
 			if (keyEvent->getKeyCode() == KeyCode::Escape)
 			{
 				Application::GetInstance().getWindow().captureMouse(captured);
-				ecsCoordinator->getBehaviour(camera)->setEnabled(captured);
 				captured = !captured;
 				
 				Input::GetMouseVelocity();

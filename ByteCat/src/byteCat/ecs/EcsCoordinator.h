@@ -35,22 +35,6 @@ namespace BC
 				m_systemManager->entityDestroyed(entity);
 			}
 
-			template<class T>
-			void setBehaviour(const Entity& entity, const T& behaviour)
-			{
-				m_entityManager->setBehaviour<T>(entity, this, behaviour);
-			}
-
-			Behaviour* getBehaviour(const Entity& entity)
-			{
-				return m_entityManager->getBehaviour(entity);
-			}
-
-			void updateBehaviours()
-			{
-				m_entityManager->updateBehaviours();
-			}
-
 			const char* getEntityName(const Entity& entity)
 			{
 				return m_entityManager->getName(entity);

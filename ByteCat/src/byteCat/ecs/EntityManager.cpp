@@ -10,7 +10,6 @@ namespace BC
 			for (Entity entity = 0; entity < MAX_ENTITIES; ++entity)
 			{
 				m_entities.push(entity);
-				m_behaviours[entity] = nullptr;
 				m_names[entity] = nullptr;
 			}
 		}
@@ -45,33 +44,10 @@ namespace BC
 
 			m_dependencies[entity].reset();
 
-			delete m_behaviours[entity];
-			m_behaviours[entity] = nullptr;
-
 			m_names[entity] = nullptr;
 
 			m_entities.push(entity);
 			--m_entityCount;
-		}
-
-		Behaviour* EntityManager::getBehaviour(const Entity& entity)
-		{
-			return m_behaviours[entity];
-		}
-
-		void EntityManager::updateBehaviours()
-		{
-			for (int entity = 0; entity < MAX_ENTITIES; entity++)
-			{
-				auto behaviour = m_behaviours[entity];
-				if (behaviour != nullptr)
-				{
-					if (behaviour->m_enabled)
-					{
-						behaviour->onUpdate();
-					}
-				}
-			}
 		}
 
 		const char* EntityManager::getName(const Entity& entity)
