@@ -28,7 +28,7 @@ target_link_directories(ByteCat PUBLIC
     "ByteCat/vendor/imgui"
 )
 
-target_link_libraries(ByteCat
+target_link_libraries(ByteCat PUBLIC
     glfw
     Glad
     ImGui

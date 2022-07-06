@@ -10,9 +10,10 @@ add_subdirectory(ByteCat/vendor/imgui)
 
 add_compile_definitions(
     _CRT_SECURE_NO_WARNINGS
+    GLFW_INCLUDE_NONE
     BC_PLATFORM_WINDOWS
     BC_CORE
-    GLFW_INCLUDE_NONE
+    BC_DEBUG
 )
 
 add_subdirectory(Sandbox)
