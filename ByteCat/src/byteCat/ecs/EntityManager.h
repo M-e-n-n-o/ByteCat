@@ -2,7 +2,6 @@
 #include <bitset>
 #include <queue>
 #include "byteCat/ecs/Entity.h"
-#include "byteCat/ecs/Behaviour.h"
 
 namespace BC
 {

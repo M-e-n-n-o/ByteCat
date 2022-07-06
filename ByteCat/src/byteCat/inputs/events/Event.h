@@ -30,9 +30,10 @@ namespace BC
 								virtual const char* getName() const override { return #type; }
 
 
-		/// <summary>
-		/// This class represents an Event (input) for a ByteCat application.
-		/// </summary>
+		/**
+		 * @brief
+		 * This class represents an Event (input) for a ByteCat application.
+		 */
 		class Event
 		{
 		public:
@@ -50,12 +51,12 @@ namespace BC
 			}
 		};
 
-		/// <summary>
-		/// Use this class to automatic handle events in the correct way.
-		/// 
-		/// Example:
-		/// dispatcher.dispatch<EventType>(BC_BIND_EVENT_FN(Function pointer));
-		/// </summary>
+		/**
+		 * @brief
+		 * Use this class to automatic handle events in the correct way.
+		 * 
+		 * Example: dispatcher.dispatch<EventType>(BC_BIND_EVENT_FN(Function pointer));
+		 */
 		class EventDispatcher
 		{
 		private:
@@ -77,6 +78,11 @@ namespace BC
 			}
 		};
 
+		/**
+		 * @brief
+		 * Inherit from this class and set yourself as the listener of
+		 * a Window to receive the updates from that specific window.
+		 */
 		class EventListener
 		{
 		public:

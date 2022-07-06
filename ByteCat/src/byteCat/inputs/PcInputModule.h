@@ -28,6 +28,11 @@ namespace BC
 			CodeType(const GamepadButton& code) : type(2) { this->code.gamepadButton = code; }
 		};
 		
+		/**
+		 * @brief
+		 * The input module for PC specific inputs such as mouse, keyboard and gamepad.
+		 * Access this class via "Input<PcInputModule>" or "Input<>" if this is the standard input module of your application 
+		 */
 		class PcInputModule
 		{
 		private:

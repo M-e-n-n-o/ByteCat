@@ -43,7 +43,6 @@
 #include "byteCat/ecs/systems/RenderSubmitter.h"
 #include "byteCat/ecs/Entity.h"
 #include "byteCat/ecs/EcsCoordinator.h"
-#include "byteCat/ecs/Behaviour.h"
 #include "byteCat/ecs/SceneManager.h"
 #include "byteCat/ecs/components/Transform.h"
 #include "byteCat/ecs/components/Material.h"
@@ -53,6 +52,6 @@
 
 #include "imgui/imgui.h"
 
-// --Start of the engine--
+// -- Start of the engine --
 #include "byteCat/EntryPoint.h"
 // -----------------------

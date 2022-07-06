@@ -7,6 +7,10 @@ namespace BC
 {
 	namespace Graphics
 	{
+		/**
+		 * @brief
+		 * Use this structure to submit renderables to the renderer which it will then render
+		 */
 		struct Renderable
 		{
 			CullingMode cullingMode;
@@ -22,7 +26,6 @@ namespace BC
 
 			std::function<void(const Renderable&)> onRender;
 		};
-
 
 		struct SceneData
 		{

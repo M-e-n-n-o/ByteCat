@@ -122,7 +122,7 @@ namespace BC
 			}
 		
 			return 0;
-		}W
+		}
 	}
 }
 

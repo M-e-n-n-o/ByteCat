@@ -51,7 +51,7 @@ project "ByteCat"
 
 		defines
 		{
-			"BC_PLATFORM_WINDOWS"
+			-- "BC_PLATFORM_WINDOWS"
 		}
 
 	filter "system:linux"

@@ -11,11 +11,12 @@ namespace BC
 {	
 	namespace App
 	{
-		/// <summary>
-		/// This class represents the whole ByteCat application itself.
-		/// When starting this class the application starts.
-		///	Inherit from this class in the users application to make a ByteCat application.
-		/// </summary>
+		/**
+		 * @brief
+		 * This class represents the whole ByteCat application itself.
+		 * When starting this class the application starts.
+		 * Inherit from this class in the users application to make a ByteCat application.
+		 */
 		class Application : public Inputs::EventListener
 		{
 		private:

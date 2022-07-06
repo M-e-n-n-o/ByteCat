@@ -7,9 +7,10 @@ namespace BC
 {
 	namespace App
 	{
-		/// <summary>
-		/// This class holds all the layers in the application and updates them every frame.
-		/// </summary>
+		/**
+		 * @brief
+		 * This class holds all the layers in the application and updates them every frame.
+		 */
 		class LayerStack
 		{
 		private:

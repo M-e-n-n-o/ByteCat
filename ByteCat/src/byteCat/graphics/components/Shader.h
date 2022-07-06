@@ -6,9 +6,10 @@ namespace BC
 {
 	namespace Graphics
 	{
-		/// <summary>
-		/// This class represents a shader program which is needed to render with a VertexArray.
-		/// </summary>
+		/**
+		 * @brief
+		 * This class represents a shader program which is needed to render with a VertexArray.
+		 */
 		class Shader
 		{
 		public:

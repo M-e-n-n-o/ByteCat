@@ -7,10 +7,11 @@ namespace BC
 {
 	namespace Graphics
 	{
-		/// <summary>
-		/// Inherit from this class to create a custom Renderer. Apply this
-		/// renderer in the renderer class using the SetSubmissionRenderer() method.
-		/// </summary>
+		/**
+		 * @brief
+		 * Inherit from this class to create a custom submission Renderer. Apply this
+		 * renderer in the renderer class using the SetSubmissionRenderer() method.
+		 */
 		class SubmissionRenderer
 		{
 		public:

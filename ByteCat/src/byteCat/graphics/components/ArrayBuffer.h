@@ -103,10 +103,12 @@ namespace BC
 			}
 		};
 
-		/// <summary>
-		/// This class represents a vertex buffer which holds data about a model.
-		/// Put this class inside a VertexArray to use it.
-		/// </summary>
+		
+		/**
+		 * @brief
+		 * This class represents a vertex buffer which holds data about a model.
+		 * Put this class inside a VertexArray to use it.
+		 */
 		class VertexBuffer
 		{
 		public:
@@ -124,10 +126,11 @@ namespace BC
 			static std::shared_ptr<VertexBuffer> Create(float* vertices, unsigned int size);
 		};
 
-		/// <summary>
-		/// This specific vertex buffer holds data about the indices of a model.
-		/// Put this class inside a VertexArray to use it.
-		/// </summary>
+		/**
+		 * @brief
+		 * This specific vertex buffer holds data about the indices of a model.
+		 * Put this class inside a VertexArray to use it.
+		 */
 		class IndexBuffer
 		{
 		public:

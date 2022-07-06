@@ -7,13 +7,14 @@ namespace BC
 {
 	namespace Graphics
 	{
-		/// <summary>
-		/// This abstraction of the renderer holds the active renderer
-		/// and GraphicsAPI. After telling this class to render something it will
-		/// direct the request through to the submission renderer.
-		///
-		/// To draw simple 2D geometry without much hassle it is recommended to use the Renderer2D
-		/// </summary>
+		/**
+		 * @brief
+		 * This abstraction of the renderer holds the active renderer
+		 * and GraphicsAPI. After telling this class to render something it will
+		 * direct the request through to the submission renderer.
+		 * 
+		 * To draw simple 2D geometry without much hassle it is recommended to use the Renderer2D
+		 */
 		class Renderer
 		{
 		private:

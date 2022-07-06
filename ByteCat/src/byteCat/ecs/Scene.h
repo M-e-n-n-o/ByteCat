@@ -7,6 +7,12 @@ namespace BC
 {
 	namespace Ecs
 	{
+		/**
+		 * @brief
+		 * Use this class as a manager of the whole entity system.
+		 * This class will also create a EcsCoordinator which you can use
+		 * to add entities, components and systems to your scene.
+		 */
 		class Scene
 		{
 		private:

@@ -5,10 +5,11 @@ namespace BC
 {
 	namespace Graphics
 	{
-		/// <summary>
-		/// This renderer is used to draw simple 2D geometry without much hassle.
-		/// The Renderer still has to be initialized before you will be able to use this renderer!
-		/// </summary>
+		/**
+		 * @brief
+		 * This renderer is used to draw simple 2D geometry without much hassle.
+		 * The Renderer still has to be initialized before you will be able to use this renderer!
+		 */
 		class Renderer2D
 		{
 		private:

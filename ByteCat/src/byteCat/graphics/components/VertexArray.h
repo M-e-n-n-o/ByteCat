@@ -6,10 +6,11 @@ namespace BC
 {
 	namespace Graphics
 	{
-		/// <summary>
-		/// This class, when filled with an index buffer and vertex buffer(s),
-		/// can be rendered together with a shader.
-		/// </summary>
+		/**
+		 * @brief
+		 * This class, when filled with an index buffer and vertex buffer(s),
+		 * can be rendered together with a shader.
+		 */
 		class VertexArray
 		{
 		public:

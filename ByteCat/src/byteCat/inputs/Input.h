@@ -7,7 +7,13 @@
 namespace BC
 {
 	namespace Inputs
-	{		
+	{
+		/**
+		 * @brief
+		 * Use this class to poll inputs, start/stop listening to specific Events or send out Events to all listeners
+		 * 
+		 * @tparam InputModule The inputmodule you want to use as your input (e.g. PcInputModule, or your own module)
+		 */
 #ifdef INPUT_MODULE_PC
 		template<class InputModule = PcInputModule>
 #else

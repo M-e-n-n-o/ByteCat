@@ -14,9 +14,10 @@ namespace BC
 		};
 
 
-		/// <summary>
-		/// This generic RendererAPI directs requests to the native RendererAPI (for example: OpenGL)
-		/// </summary>
+		/**
+		 * @brief
+		 * This generic RendererAPI directs requests to the native RendererAPI (for example: OpenGL)
+		 */
 		class RendererAPI
 		{
 		private:

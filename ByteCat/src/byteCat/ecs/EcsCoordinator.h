@@ -8,6 +8,11 @@ namespace BC
 {
 	namespace Ecs
 	{
+		/**
+		 * @brief
+		 * This class manages the whole "entity component system" (ECS) system.
+		 * Use this class to create a new ECS system and to add and remove entities, components and systems
+		 */
 		class EcsCoordinator
 		{
 		private:
