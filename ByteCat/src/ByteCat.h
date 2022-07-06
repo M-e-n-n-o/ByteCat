@@ -52,7 +52,7 @@
 
 #include "byteCat/utils/Math.h"
 
-#include "imgui/imgui.h"
+#include <imgui.h>
 
 // -- Start of the engine --
 #include "byteCat/EntryPoint.h"

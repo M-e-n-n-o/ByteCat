@@ -25,7 +25,7 @@ target_include_directories(ByteCat PUBLIC
 target_link_directories(ByteCat PUBLIC
     "ByteCat/vendor/GLFW/src"
     "ByteCat/vendor/Glad"
-    "ByteCat/vendor/ImGui"
+    "ByteCat/vendor/imgui"
 )
 
 target_link_libraries(ByteCat

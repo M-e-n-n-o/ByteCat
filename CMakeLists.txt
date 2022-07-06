@@ -6,8 +6,10 @@ set(CMAKE_CXX_STANDARD 17)
 
 add_subdirectory(ByteCat/vendor/GLFW)
 add_subdirectory(ByteCat/vendor/Glad)
+add_subdirectory(ByteCat/vendor/imgui)
 
 add_compile_definitions(
+    _CRT_SECURE_NO_WARNINGS
     BC_PLATFORM_WINDOWS
     BC_CORE
     GLFW_INCLUDE_NONE
