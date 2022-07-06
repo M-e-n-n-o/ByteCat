@@ -9,6 +9,8 @@ file(GLOB_RECURSE BYTECAT_SRC_FILES CONFIGURE_DEPENDS
 
 add_library(ByteCat STATIC ${BYTECAT_SRC_FILES})
 
+target_compile_definitions(ByteCat PRIVATE BC_CORE)
+
 target_precompile_headers(ByteCat PRIVATE "src/bcpch.h")
 
 target_include_directories(ByteCat PUBLIC

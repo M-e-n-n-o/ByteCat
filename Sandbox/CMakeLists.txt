@@ -5,6 +5,7 @@ file(GLOB_RECURSE SANDBOX_SRC_FILES CONFIGURE_DEPENDS
 
 add_executable(${PROJECT_NAME} ${SANDBOX_SRC_FILES})
 
+#  add_compile_definitions(BC_CLIENT)
 target_include_directories(${PROJECT_NAME} PUBLIC
     "../ByteCat/vendor/spdlog/include"
     "../ByteCat/src"
