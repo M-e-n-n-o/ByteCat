@@ -10,9 +10,3 @@
 [submodule "ByteCat/vendor/imgui"]
 	path = ByteCat/vendor/imgui
 	url = https://github.com/CodingWithMenno/imgui
-[submodule "ByteCat/vendor/lua/src"]
-	path = ByteCat/vendor/lua/src
-	url = https://github.com/CodingWithMenno/lua
-[submodule "ByteCat/vendor/magic_enum"]
-	path = ByteCat/vendor/magic_enum
-	url = https://github.com/Neargye/magic_enum
