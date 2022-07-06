@@ -28,25 +28,25 @@ public:
 
 			glm::vec3 movement = glm::vec3(0, 0, 0);
 
-			if (Input::IsPressed(KeyCode::W))
+			if (Input<>::IsPressed(KeyCode::W))
 				movement.z += spectator->speed;
 
-			if (Input::IsPressed(KeyCode::S))
+			if (Input<>::IsPressed(KeyCode::S))
 				movement.z -= spectator->speed;
 
-			if (Input::IsPressed(KeyCode::D))
+			if (Input<>::IsPressed(KeyCode::D))
 				movement.x += spectator->speed;
 
-			if (Input::IsPressed(KeyCode::A))
+			if (Input<>::IsPressed(KeyCode::A))
 				movement.x -= spectator->speed;
 
-			if (Input::IsPressed(KeyCode::Space))
+			if (Input<>::IsPressed(KeyCode::Space))
 				movement.y += spectator->speed;
 
-			if (Input::IsPressed(KeyCode::LeftShift))
+			if (Input<>::IsPressed(KeyCode::LeftShift))
 				movement.y -= spectator->speed;
 
-			auto mouseVelocity = (Input::GetMouseVelocity() * 0.1f);
+			auto mouseVelocity = (Input<>::GetMouseVelocity() * 0.1f);
 			transform->rotation.x += mouseVelocity.y;
 			transform->rotation.y += mouseVelocity.x;
 

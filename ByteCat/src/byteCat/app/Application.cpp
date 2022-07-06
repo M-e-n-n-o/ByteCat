@@ -91,7 +91,7 @@ namespace BC
                 }
             }
 
-            Inputs::Input::HandleEvent(event);
+            Inputs::Input<>::HandleEvent(event);
         }
 
         bool Application::onWindowClose(Inputs::WindowCloseEvent& event)

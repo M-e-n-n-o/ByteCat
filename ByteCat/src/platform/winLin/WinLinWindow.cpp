@@ -1,7 +1,6 @@
 #include "bcpch.h"
 #include <GLFW/glfw3.h>
 #include "platform/winLin/WinLinWindow.h"
-
 #include "byteCat/inputs/events/ApplicationEvent.h"
 #include "byteCat/inputs/events/KeyEvent.h"
 #include "byteCat/inputs/events/MouseEvent.h"

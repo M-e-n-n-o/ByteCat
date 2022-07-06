@@ -36,4 +36,9 @@
 	#define BC_DEBUG_BREAK
 #endif
 
+#if defined(BC_PLATFORM_WINDOWS) || defined(BC_PLATFORM_LINUX)
+	#define INPUT_MODULE_PC
+#endif
+
+
 int main(int argc, char** argv);

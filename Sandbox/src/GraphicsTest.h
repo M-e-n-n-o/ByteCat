@@ -10,7 +10,7 @@ class CustomEvent : public Event
 public:
 	CustomEvent() = default;
 	
-	EventType getEventType() const override { return EventType::Custom; }
+	EventType getEventType() const override { return EventType::Other; }
 	const char* getName() const override { return "Custom event"; }
 	int getCategoryFlags() const override { return EventCatApplication; }
 };
@@ -30,6 +30,8 @@ public:
 		{
 			return true;
 		}
+
+		return false;
 	}
 };
 
@@ -61,19 +63,19 @@ public:
 	}
 	
 	GraphicsTest() : Layer("Graphics Test")
-	{
+	{		
 		texture = Texture2D::Create("wall.jpg");
 
-		Input::AddCustomKeyCode("jump", KeyCode::Space);
-		Input::AddCustomKeyCode("jump", KeyCode::S);
-		Input::AddCustomKeyCode("jump", MouseCode::ButtonLeft);
-		Input::AddCustomKeyCode("jump", GamepadButton::A);
-
-		//id0 = Input::StartListening(new MouseCallback(EventType::MouseScrolled, test2));
-		id0 = Input::StartListening(new CustomEventCallback(test2));
+		Input<>::AddCustomKeyCode("jump", KeyCode::Space);
+		Input<>::AddCustomKeyCode("jump", KeyCode::S);
+		Input<>::AddCustomKeyCode("jump", MouseCode::ButtonLeft);
+		Input<>::AddCustomKeyCode("jump", GamepadButton::A);
 		
-		id1 = Input::StartListening(new KeyCallback(KeyCode::W, test));
-		id2 = Input::StartListening(new KeyCallback(KeyCode::A, test));
+		//id0 = Input::StartListening(new MouseCallback(EventType::MouseScrolled, test2));
+		//id0 = Input<>::StartListening(new CustomEventCallback(test2));
+		
+		id1 = Input<>::StartListening(new KeyCallback(KeyCode::W, test));
+		id2 = Input<>::StartListening(new KeyCallback(KeyCode::A, test));
 	}
 
 	void onUpdate() override
@@ -86,14 +88,14 @@ public:
 		Renderer2D::SetColor({ 0, 1, 0, 1 });
 		Renderer2D::DrawRectangle({ -1, 0 }, 10, { 1, 1 });
 
-		if (Input::IsPressed("jump"))
+		if (Input<>::IsPressed("jump"))
 		{
 			LOG_INFO("Jump");
 		}
 
-		if (Input::IsPressed(KeyCode::K))
+		if (Input<>::IsPressed(KeyCode::K))
 		{
-			Input::StopListening(id1);
+			Input<>::StopListening(id1);
 		}
 	}
 
@@ -108,6 +110,6 @@ public:
 
 	void onEvent(Event& event) override
 	{
-		Input::HandleEvent(CustomEvent());
+		Input<>::HandleEvent(CustomEvent());
 	}
 };
