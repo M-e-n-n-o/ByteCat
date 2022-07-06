@@ -41,14 +41,6 @@ project "ByteCat"
 	filter "system:windows"
 		systemversion "latest"
 
-		links
-		{
-			"GLFW",
-			"Glad",
-			"ImGui",
-			"opengl32.lib"
-		}
-
 		defines
 		{
 			"BC_PLATFORM_WINDOWS"

@@ -25,7 +25,11 @@ project "Sandbox"
 
 	links
 	{
-		"ByteCat"
+		"ByteCat",
+		"GLFW",
+		"Glad",
+		"ImGui",
+		"OpenGL"
 	}
 
 	filter "system:windows"
@@ -43,21 +47,17 @@ project "Sandbox"
 		links
 		{
 			"dl",
-			"readline",
-			"pthread",
-			"GLFW",
-			"GLAD",
-			"ImGui"
-		}
-
-		postbuildcommands
-		{
-			("cp -R ./assets ../bin/" .. outputdir .. "/Sandbox")
+			"pthread"
 		}
 
 		defines
 		{
 			"BC_PLATFORM_LINUX"
+		}
+
+		postbuildcommands
+		{
+			("cp -R ./assets ../bin/" .. outputdir .. "/Sandbox")
 		}
 
 	filter "configurations:Debug"
