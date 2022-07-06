@@ -7,7 +7,7 @@ file(GLOB_RECURSE BYTECAT_SRC_FILES CONFIGURE_DEPENDS
     "vendor/glm/glm/*.inl"
 )
 
-add_library(ByteCat ${BYTECAT_SRC_FILES})
+add_library(ByteCat STATIC ${BYTECAT_SRC_FILES})
 
 target_precompile_headers(ByteCat PRIVATE "src/bcpch.h")
 
