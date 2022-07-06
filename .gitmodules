@@ -7,3 +7,6 @@
 [submodule "ByteCat/vendor/imgui"]
 	path = ByteCat/vendor/imgui
 	url = https://github.com/ocornut/imgui
+[submodule "ByteCat/vendor/glfw"]
+	path = ByteCat/vendor/glfw
+	url = https://github.com/glfw/glfw

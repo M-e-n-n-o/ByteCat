@@ -14,8 +14,8 @@ target_precompile_headers(ByteCat PRIVATE "src/bcpch.h")
 target_include_directories(ByteCat PUBLIC
     "src"
     "vendor/spdlog/include"
-    "vendor/Glad/include"
-    "vendor/GLFW/include"
+    "vendor/glad/include"
+    "vendor/glfw/include"
     "vendor/imgui"
     "vendor/glm"
     "vendor/stb_image"
@@ -23,13 +23,13 @@ target_include_directories(ByteCat PUBLIC
 
 # find_package(OpenGL)
 target_link_directories(ByteCat PUBLIC
-    "ByteCat/vendor/GLFW/src"
-    "ByteCat/vendor/Glad"
+    "ByteCat/vendor/glfw/src"
+    "ByteCat/vendor/glad"
     "ByteCat/vendor/imgui"
 )
 
 target_link_libraries(ByteCat PUBLIC
     glfw
-    Glad
+    glad
     ImGui
 )
