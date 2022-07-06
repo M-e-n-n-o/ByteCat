@@ -35,8 +35,17 @@ project "Sandbox"
 		}
 
 	filter "system:linux"
-		pic "on"
 		systemversion "latest"
+
+		links
+		{
+			"dl",
+			"pthread",
+			"OpenGL",
+			"GLFW",
+			"Glad",
+			"ImGui"
+		}
 
 		defines
 		{

@@ -38,21 +38,15 @@ project "ByteCat"
 		"%{Libs.StbImage}"
 	}
 
-	linkgroups "on"
-
-	links
-	{
-		"GLFW",
-		"Glad",
-		"ImGui"
-	}
-
 	filter "system:windows"
 		systemversion "latest"
 
 		links
 		{
-			"opengl32"
+			"opengl32",
+			"GLFW",
+			"Glad",
+			"ImGui"
 		}
 
 		defines
@@ -62,13 +56,6 @@ project "ByteCat"
 
 	filter "system:linux"
 		systemversion "latest"
-
-		links
-		{
-			"OpenGL",
-			"dl",
-			"pthread"
-		}
 
 		defines
 		{

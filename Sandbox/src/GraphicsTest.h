@@ -63,7 +63,7 @@ public:
 	}
 	
 	GraphicsTest() : Layer("Graphics Test")
-	{		
+	{
 		texture = Texture2D::Create("wall.jpg");
 
 		Input<>::AddCustomKeyCode("jump", KeyCode::Space);
