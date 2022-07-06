@@ -21,15 +21,9 @@ project "Sandbox"
 		"%{Libs.GLM}"
 	}
 
-	linkgroups "on"
-
 	links
 	{
-		"ByteCat",
-		"GLFW",
-		"Glad",
-		"ImGui",
-		"OpenGL"
+		"ByteCat"
 	}
 
 	filter "system:windows"
@@ -43,12 +37,6 @@ project "Sandbox"
 	filter "system:linux"
 		pic "on"
 		systemversion "latest"
-
-		links
-		{
-			"dl",
-			"pthread"
-		}
 
 		defines
 		{
