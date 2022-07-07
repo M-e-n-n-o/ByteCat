@@ -108,7 +108,7 @@ namespace BC
 					break;
 				}
 				default:
-					LOG_CRITICAL("Unknown ShaderDataType!");
+					LOG_ERROR("Unknown ShaderDataType!");
 				}
 			}
 

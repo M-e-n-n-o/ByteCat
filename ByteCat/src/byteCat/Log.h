@@ -16,7 +16,7 @@
 		#define LOG_INFO(...)			::BC::Log::GetCoreLogger()->info(__VA_ARGS__)
 		#define LOG_WARN(...)			::BC::Log::GetCoreLogger()->warn(__VA_ARGS__)
 		#define LOG_ERROR(...)			::BC::Log::GetCoreLogger()->error(__VA_ARGS__)
-		#define LOG_CRITICAL(x)		::BC::Log::GetCoreLogger()->critical(x)
+		#define LOG_CRITICAL(x)			::BC::Log::GetCoreLogger()->critical(x)
 		#define LOG_ASSERT(x, ...)		{ if(!(x)) { LOG_ERROR("Assertion Failed: {0}", __VA_ARGS__); BC_DEBUG_BREAK; } }
 	#endif
 
