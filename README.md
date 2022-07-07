@@ -22,7 +22,8 @@ You are always welcome to try and expand on this! :)
 Start by cloning the repository with the command:  
 ``` git clone --recursive https://github.com/M-e-n-n-o/ByteCat ``` 
 
-If the repository was cloned non-recursively (submodules were not initialized), use the following command to clone the submodules:  
+If the repository was cloned non-recursively (submodules were not initialized),   
+use the following command to clone the submodules:  
 ```git submodule update --init``` 
 
 ### Setting up the build system
