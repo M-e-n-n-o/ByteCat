@@ -31,7 +31,7 @@ elseif(UNIX)
     add_compile_definitions(BC_PLATFORM_LINUX)
 endif()
 
-add_subdirectory(Sandbox)
+add_subdirectory(App)
 add_subdirectory(ByteCat)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})

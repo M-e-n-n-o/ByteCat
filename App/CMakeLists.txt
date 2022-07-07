@@ -1,9 +1,9 @@
-file(GLOB_RECURSE SANDBOX_SRC_FILES CONFIGURE_DEPENDS
+file(GLOB_RECURSE APP_SRC_FILES CONFIGURE_DEPENDS
     "src/*.h"
     "src/*.cpp"
 )
 
-add_executable(${PROJECT_NAME} ${SANDBOX_SRC_FILES})
+add_executable(${PROJECT_NAME} ${APP_SRC_FILES})
 
 target_include_directories(${PROJECT_NAME} PUBLIC
     "../ByteCat/vendor/spdlog/include"
