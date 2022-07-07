@@ -15,7 +15,8 @@ A few other big goals for this project are to add solid Android, VR, WebGL and m
 
 
 # 🏃 Getting started
-ByteCat is currently only supported and tested for Windows and Linux. You are always welcome to try and expand on this! :)  
+ByteCat is currently only supported and tested for Windows and Linux.   
+You are always welcome to try and expand on this! :)  
 
 ### Cloning the repository
 Start by cloning the repository with the command:  
