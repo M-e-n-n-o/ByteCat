@@ -40,7 +40,6 @@ When using Linux you then have to configure the repository with the following co
 Where "{build configuration}" should be replaced by one of the following:
 - Debug
 - Release
-- RelWithDebInfo
 - MinSizeRel
 
 After the project has been configured you can build the project by running make while in your build directory:  
