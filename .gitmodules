@@ -7,3 +7,7 @@
 [submodule "ByteCat/vendor/glfw"]
 	path = ByteCat/vendor/glfw
 	url = https://github.com/glfw/glfw
+[submodule "ByteCat/vendor/imgui/imgui"]
+	path = ByteCat/vendor/imgui/imgui
+	url = https://github.com/ocornut/imgui
+	branch = docking

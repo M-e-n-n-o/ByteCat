@@ -18,16 +18,15 @@ target_include_directories(ByteCat PUBLIC
     "vendor/spdlog/include"
     "vendor/glad/include"
     "vendor/glfw/include"
-    "vendor/imgui"
+    "vendor/imgui/imgui"
     "vendor/glm"
     "vendor/stb_image"
 )
 
-# find_package(OpenGL)
 target_link_directories(ByteCat PUBLIC
     "ByteCat/vendor/glfw/src"
     "ByteCat/vendor/glad"
-    "ByteCat/vendor/imgui"
+    "ByteCat/vendor/imgui/imgui"
 )
 
 target_link_libraries(ByteCat PUBLIC
