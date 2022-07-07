@@ -30,12 +30,14 @@
 #include "byteCat/inputs/Gamepad.h"
 #include "byteCat/inputs/Input.h"
 
+#include "byteCat/graphics/Window.h"
 #include "byteCat/graphics/components/VertexArray.h"
 #include "byteCat/graphics/components/ArrayBuffer.h"
 #include "byteCat/graphics/components/Shader.h"
 #include "byteCat/graphics/components/Texture.h"
 #include "byteCat/graphics/components/FrameBuffer.h"
 #include "byteCat/graphics/renderer/Renderer.h"
+#include "byteCat/graphics/renderer/RendererAPI.h"
 #include "byteCat/graphics/renderer/Renderer2D.h"
 #include "byteCat/graphics/renderer/submissionRenderers/SimpleRenderer.h"
 
@@ -50,7 +52,7 @@
 
 #include "byteCat/utils/Math.h"
 
-#include "imgui/imgui.h"
+#include <imgui.h>
 
 // -- Start of the engine --
 #include "byteCat/EntryPoint.h"

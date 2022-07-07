@@ -32,7 +32,7 @@ namespace BC
 			if (!success) 
 			{
 				//glGetProgramInfoLog(programID, 512, NULL, infoLog);
-				LOG_CRITICAL("Could not link shader program: {0}", name);
+				LOG_ERROR("Could not link shader program: {0}", name);
 				//LOG_TEXT_LONG(infoLog);
 			}
 
@@ -105,7 +105,7 @@ namespace BC
 
 				LOG_TEXT_LONG(log.str());
 
-				LOG_CRITICAL("Could not compile shader: {0}", m_name);
+				LOG_ERROR("Could not compile shader: {0}", m_name);
 			}
 
 			return shaderID;

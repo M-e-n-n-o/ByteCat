@@ -10,14 +10,6 @@ int main(int argc, char** argv)
 {
 	BC::Log::Init();
 
-#if defined(BC_DEBUG)
-	LOG_INFO("DEBUG BUILD");
-#elif defined(BC_RELEASE)
-	LOG_INFO("RELEASE BUILD");
-#elif defined(BC_DIST)
-	LOG_INFO("DISTRIBUTION BUILD");
-#endif
-
 	auto app = BC::App::CreateApplication();
 	app->start();
 

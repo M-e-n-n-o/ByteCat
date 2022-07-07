@@ -17,6 +17,17 @@ namespace BC
             LOG_ASSERT(!s_instance, "Application already exists!");
             s_instance = this;
 
+			#if defined(BC_DEBUG)
+				LOG_ESSENTIAL("DEBUG BUILD");
+			#elif defined(BC_RELEASE)
+				LOG_ESSENTIAL("RELEASE BUILD");
+			#elif defined(BC_DIST)
+				LOG_ESSENTIAL("DISTRIBUTION BUILD");
+			#endif
+        	
+            LOG_ESSENTIAL("ByteCat version:");
+            LOG_ESSENTIAL(BC_VERSION);
+        	
             LOG_INFO("ByteCat engine is starting...");
         }
 

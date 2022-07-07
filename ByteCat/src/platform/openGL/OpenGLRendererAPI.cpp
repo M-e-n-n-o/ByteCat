@@ -6,14 +6,7 @@ namespace BC
 {
 	namespace Platform
 	{
-		void OpenGLMessageCallback(
-			unsigned source,
-			unsigned type,
-			unsigned id,
-			unsigned severity,
-			int length,
-			const char* message,
-			const void* userParam)
+		void APIENTRY OpenGLMessageCallback (GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
 		{
 			switch (severity)
 			{

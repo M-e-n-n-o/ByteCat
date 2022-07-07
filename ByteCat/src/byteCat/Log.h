@@ -12,10 +12,11 @@
 
 	// Core log/assert macros
 	#ifdef BC_CORE_ACCESS
+		#define LOG_ESSENTIAL(x)		::BC::Log::GetCoreLogger()->info(x)
 		#define LOG_INFO(...)			::BC::Log::GetCoreLogger()->info(__VA_ARGS__)
 		#define LOG_WARN(...)			::BC::Log::GetCoreLogger()->warn(__VA_ARGS__)
 		#define LOG_ERROR(...)			::BC::Log::GetCoreLogger()->error(__VA_ARGS__)
-		#define LOG_CRITICAL(...)		::BC::Log::GetCoreLogger()->critical(__VA_ARGS__)
+		#define LOG_CRITICAL(x)			::BC::Log::GetCoreLogger()->critical(x)
 		#define LOG_ASSERT(x, ...)		{ if(!(x)) { LOG_ERROR("Assertion Failed: {0}", __VA_ARGS__); BC_DEBUG_BREAK; } }
 	#endif
 
@@ -24,18 +25,19 @@
 	#define LOG_INFO(...)				::BC::Log::GetClientLogger()->info(__VA_ARGS__)
 		#define LOG_WARN(...)			::BC::Log::GetClientLogger()->warn(__VA_ARGS__)
 		#define LOG_ERROR(...)			::BC::Log::GetClientLogger()->error(__VA_ARGS__)
-		#define LOG_CRITICAL(...)		::BC::Log::GetClientLogger()->critical(__VA_ARGS__)
+		#define LOG_CRITICAL(x)		::BC::Log::GetClientLogger()->critical(x)
 		#define LOG_ASSERT(x, ...)		{ if(!(x)) { LOG_ERROR("Assertion Failed: {0}", __VA_ARGS__); BC_DEBUG_BREAK; } }
 	#endif
 #else
 	#include <iostream>
 
-	// Empty log/assert macros
+	// Only necessary logs
 	#define LOG_TEXT_LONG(x)
+	#define LOG_ESSENTIAL(x)			std::cout << (x) << std::endl
 	#define LOG_INFO(...)
 	#define LOG_WARN(...)
 	#define LOG_ERROR(...)
-	#define LOG_CRITICAL(x)				std::cerr << x << std::endl;
+	#define LOG_CRITICAL(x)				std::cerr << (x) << std::endl
 	#define LOG_ASSERT(x, ...)
 #endif
 

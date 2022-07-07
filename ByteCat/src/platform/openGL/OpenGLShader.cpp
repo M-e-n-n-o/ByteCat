@@ -37,7 +37,7 @@ namespace BC
 			glGetProgramiv(m_programID, GL_LINK_STATUS, &success);
 			if (!success) 
 			{
-				LOG_CRITICAL("Could not link shader program: {0}", name);
+				LOG_ERROR("Could not link shader program: {0}", name);
 			}
 
 			LOG_INFO("Finished compiling shader program: {0}", name);
@@ -82,7 +82,7 @@ namespace BC
 			glGetProgramiv(m_programID, GL_LINK_STATUS, &success);
 			if (!success) 
 			{
-				LOG_CRITICAL("Could not link shader program: {0}", name);
+				LOG_ERROR("Could not link shader program: {0}", name);
 			}
 
 			LOG_INFO("Finished compiling shader program: {0}", name);
@@ -246,7 +246,7 @@ namespace BC
 
 				LOG_TEXT_LONG(log.str());
 				
-				LOG_CRITICAL("Could not compile shader: {0}", m_name);
+				LOG_ERROR("Could not compile shader: {0}", m_name);
 			}
 
 			return shaderID;

@@ -4,9 +4,10 @@
 [submodule "ByteCat/vendor/glm"]
 	path = ByteCat/vendor/glm
 	url = https://github.com/g-truc/glm
-[submodule "ByteCat/vendor/GLFW"]
-	path = ByteCat/vendor/GLFW
-	url = https://github.com/CodingWithMenno/glfw
-[submodule "ByteCat/vendor/imgui"]
-	path = ByteCat/vendor/imgui
-	url = https://github.com/CodingWithMenno/imgui
+[submodule "ByteCat/vendor/glfw"]
+	path = ByteCat/vendor/glfw
+	url = https://github.com/glfw/glfw
+[submodule "ByteCat/vendor/imgui/imgui"]
+	path = ByteCat/vendor/imgui/imgui
+	url = https://github.com/ocornut/imgui
+	branch = docking

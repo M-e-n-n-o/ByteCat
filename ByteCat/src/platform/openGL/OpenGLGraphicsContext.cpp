@@ -1,6 +1,6 @@
 #include "bcpch.h"
-#include <GLFW/glfw3.h>
 #include <glad/glad.h>
+#include <GLFW/glfw3.h>
 #include "platform/openGL/OpenGLGraphicsContext.h"
 
 namespace BC
@@ -10,7 +10,7 @@ namespace BC
 		void OpenGLGraphicsContext::init(unsigned int windowWidth, unsigned int windowHeight)
 		{
 			LOG_INFO("Adding OpenGL context to window");
-			
+
 			glfwMakeContextCurrent(m_window);
 
 			if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
