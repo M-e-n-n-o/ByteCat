@@ -14,6 +14,11 @@ add_subdirectory(ByteCat/vendor/glfw)
 add_subdirectory(ByteCat/vendor/glad)
 add_subdirectory(ByteCat/vendor/imgui)
 
+add_definitions(
+    -DGLFW_BUILD_DOCS=OFF
+    -DGLFW_INSTALL=OFF
+)
+
 add_compile_definitions(
     _CRT_SECURE_NO_WARNINGS
     GLFW_INCLUDE_NONE
