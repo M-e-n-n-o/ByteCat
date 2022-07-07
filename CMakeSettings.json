@@ -4,26 +4,13 @@
             "name": "Debug",
             "generator": "Ninja",
             "configurationType": "Debug",
-            "inheritEnvironments": [
-                "msvc_x64_x64"
-            ],
+            "inheritEnvironments": [ "msvc_x64_x64" ],
             "buildRoot": "${projectDir}\\out\\build\\${name}",
             "installRoot": "${projectDir}\\out\\install\\${name}",
             "cmakeCommandArgs": "",
             "buildCommandArgs": "",
             "ctestCommandArgs": "",
-            "variables": [
-                {
-                    "name": "GLFW_INSTALL",
-                    "value": "False",
-                    "type": "BOOL"
-                },
-                {
-                    "name": "GLFW_BUILD_DOCS",
-                    "value": "False",
-                    "type": "BOOL"
-                }
-            ]
+            "variables": []
         },
         {
             "name": "Release",
@@ -34,21 +21,8 @@
             "cmakeCommandArgs": "",
             "buildCommandArgs": "",
             "ctestCommandArgs": "",
-            "inheritEnvironments": [
-                "msvc_x64_x64"
-            ],
-            "variables": [
-                {
-                    "name": "GLFW_INSTALL",
-                    "value": "False",
-                    "type": "BOOL"
-                },
-                {
-                    "name": "GLFW_BUILD_DOCS",
-                    "value": "False",
-                    "type": "BOOL"
-                }
-            ]
+            "inheritEnvironments": [ "msvc_x64_x64" ],
+            "variables": []
         },
         {
             "name": "Dist",
@@ -59,21 +33,8 @@
             "cmakeCommandArgs": "",
             "buildCommandArgs": "",
             "ctestCommandArgs": "",
-            "inheritEnvironments": [
-                "msvc_x64_x64"
-            ],
-            "variables": [
-                {
-                    "name": "GLFW_INSTALL",
-                    "value": "False",
-                    "type": "BOOL"
-                },
-                {
-                    "name": "GLFW_BUILD_DOCS",
-                    "value": "False",
-                    "type": "BOOL"
-                }
-            ]
+            "inheritEnvironments": [ "msvc_x64_x64" ],
+            "variables": []
         }
     ]
 }

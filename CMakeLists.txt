@@ -3,17 +3,19 @@ cmake_minimum_required(VERSION 3.16.3)
 project(ByteCatApplication VERSION 0.1.0)
 set(CMAKE_CXX_STANDARD 17)
 
-add_definitions(
-    -DGLFW_BUILD_DOCS=OFF
-    -DGLFW_INSTALL=OFF
-)
+# Set external library options
+set(GLFW_BUILD_DOCS OFF)
+set(GLFW_INSTALL OFF)
 
+# Add external libraries
 add_subdirectory(ByteCat/vendor/glfw)
 add_subdirectory(ByteCat/vendor/glad)
 add_subdirectory(ByteCat/vendor/imgui)
 
+# Set assets folder
 set(ASSETS_FOLDER assets/)
 
+# Add preprocessor definitions
 add_compile_definitions(
     _CRT_SECURE_NO_WARNINGS
     GLFW_INCLUDE_NONE
@@ -31,6 +33,7 @@ elseif(UNIX)
     add_compile_definitions(BC_PLATFORM_LINUX)
 endif()
 
+# Add main projects
 add_subdirectory(App)
 add_subdirectory(ByteCat)
 

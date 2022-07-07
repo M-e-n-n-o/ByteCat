@@ -9,8 +9,10 @@ file(GLOB_RECURSE BYTECAT_SRC_FILES CONFIGURE_DEPENDS
 
 add_library(ByteCat STATIC ${BYTECAT_SRC_FILES})
 
+# Give ByteCat core access to itself
 target_compile_definitions(ByteCat PRIVATE BC_CORE)
 
+# Set precompiled header
 target_precompile_headers(ByteCat PRIVATE "src/bcpch.h")
 
 target_include_directories(ByteCat PUBLIC
@@ -29,6 +31,7 @@ target_link_directories(ByteCat PUBLIC
     "ByteCat/vendor/imgui/imgui"
 )
 
+# Link external libraries
 target_link_libraries(ByteCat PUBLIC
     glfw
     glad
