@@ -1,6 +1,8 @@
 # ByteCat directories
 **/bin/
 bin-int/
+out/
+[Bb][Uu][Ii][Ll][Dd]
 
 # Files
 *.user
@@ -10,9 +12,8 @@ Makefile
 
 # Visual studio files and folders
 .vs/
+.vscode/
 **.sln
 **.vcxproj
 **.vcxproj.filters
 **.vcxproj.user
-
-[Bb][Uu][Ii][Ll][Dd]
