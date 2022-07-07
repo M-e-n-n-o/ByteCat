@@ -26,7 +26,7 @@ namespace BC
 			case ShaderDataType::Bool:     return 1;
 			}
 
-			LOG_CRITICAL("Unknown ShaderDataType!");
+			LOG_ERROR("Unknown ShaderDataType!");
 			return 0;
 		}
 
@@ -60,7 +60,7 @@ namespace BC
 				case ShaderDataType::Bool:    return 1;
 				}
 
-				LOG_CRITICAL("Unknown ShaderDataType!");
+				LOG_ERROR("Unknown ShaderDataType!");
 				return 0;
 			}
 		};
