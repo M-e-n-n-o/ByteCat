@@ -18,22 +18,46 @@ target_precompile_headers(ByteCat PRIVATE "src/bcpch.h")
 target_include_directories(ByteCat PUBLIC
     "src"
     "vendor/spdlog/include"
-    "vendor/glad/include"
-    "vendor/glfw/include"
     "vendor/imgui/imgui"
     "vendor/glm"
     "vendor/stb_image"
 )
 
 target_link_directories(ByteCat PUBLIC
-    "ByteCat/vendor/glfw/src"
-    "ByteCat/vendor/glad"
     "ByteCat/vendor/imgui/imgui"
 )
 
 # Link external libraries
 target_link_libraries(ByteCat PUBLIC
-    glfw
-    glad
     ImGui
 )
+
+if (BUILD_PC)
+    target_include_directories(ByteCat PUBLIC
+        "vendor/glad/include"
+        "vendor/glfw/include"
+    )
+
+    target_link_directories(ByteCat PUBLIC
+        "ByteCat/vendor/glfw/src"
+        "ByteCat/vendor/glad"
+    )
+
+    target_link_libraries(ByteCat PUBLIC
+        glfw
+        glad
+    )
+elseif(BUILD_MOBILE)
+    target_include_directories(ByteCat PUBLIC
+        "vendor/glfm/include"
+    )
+
+    target_link_directories(ByteCat PUBLIC
+        "ByteCat/vendor/glfm/src"
+    )
+
+    # Link external libraries
+    target_link_libraries(ByteCat PUBLIC
+        glfm
+    )
+endif()

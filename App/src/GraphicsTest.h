@@ -79,7 +79,7 @@ public:
 	}
 
 	void onUpdate() override
-	{
+	{		
 		Renderer2D::Clear({ 1, 0, 0, 1 });
 
 		Renderer2D::SetColor({ 1, 1, 1, 1 });
