@@ -1,4 +1,5 @@
 #pragma once
+#if defined(BC_PLATFORM_WINDOWS) || defined(BC_PLATFORM_LINUX)
 #include <string>
 #include "byteCat/graphics/components/Shader.h"
 
@@ -28,3 +29,4 @@ namespace BC
 		};
 	}
 }
+#endif

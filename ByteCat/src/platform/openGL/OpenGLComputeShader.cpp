@@ -1,6 +1,6 @@
+#if defined(BC_PLATFORM_WINDOWS) || defined(BC_PLATFORM_LINUX)
 #include "bcpch.h"
 #include <glad/glad.h>
-#include "byteCat/utils/Macro.h"
 #include "platform/openGL/OpenGLComputeShader.h"
 #include "platform/openGL/Helper.h"
 #include "byteCat/utils/FileIO.h"
@@ -112,3 +112,4 @@ namespace BC
 		}
 	}
 }
+#endif

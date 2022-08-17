@@ -34,7 +34,10 @@
 
 #if defined(BC_PLATFORM_WINDOWS) || defined(BC_PLATFORM_LINUX)
 	#define INPUT_MODULE_PC
+#elif defined(BC_PLATFORM_ANDROID)
+	#define INPUT_MODULE_MOBILE
 #endif
+
 
 
 int main(int argc, char** argv);

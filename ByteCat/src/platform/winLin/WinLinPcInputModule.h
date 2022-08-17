@@ -1,5 +1,4 @@
 #pragma once
-
 #ifdef INPUT_MODULE_PC
 
 #include <vector>

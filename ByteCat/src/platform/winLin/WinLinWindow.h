@@ -1,4 +1,6 @@
 #pragma once
+#if defined(BC_PLATFORM_WINDOWS) || defined(BC_PLATFORM_LINUX)
+
 #include "byteCat/graphics/Window.h"
 #include "byteCat/graphics/GraphicsContext.h"
 
@@ -45,3 +47,4 @@ namespace BC
 		};
 	}
 }
+#endif

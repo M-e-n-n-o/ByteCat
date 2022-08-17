@@ -1,4 +1,5 @@
 #pragma once
+#if defined(BC_PLATFORM_WINDOWS) || defined(BC_PLATFORM_LINUX)
 #include <GLFW/glfw3.h>
 #include "byteCat/graphics/GraphicsContext.h"
 
@@ -19,3 +20,4 @@ namespace BC
 		};
 	}
 }
+#endif

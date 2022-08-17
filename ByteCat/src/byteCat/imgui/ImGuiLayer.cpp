@@ -1,7 +1,10 @@
 #include "bcpch.h"
 #include "byteCat/imgui/ImGuiLayer.h"
 #include "byteCat/graphics/renderer/Renderer.h"
-#include "platform/openGL/OpenGLImGuiRenderer.h"
+
+#if defined(BC_PLATFORM_WINDOWS) || defined(BC_PLATFORM_LINUX)
+	#include "platform/openGL/OpenGLImGuiRenderer.h"
+#endif
 
 namespace BC
 {
@@ -37,7 +40,10 @@ namespace BC
 			switch (Graphics::Renderer::GetAPI())
 			{
 			case Graphics::GraphicsAPI::None:		LOG_CRITICAL("No Graphics API selected!"); return nullptr;
+
+#if defined(BC_PLATFORM_WINDOWS) || defined(BC_PLATFORM_LINUX)
 			case Graphics::GraphicsAPI::OpenGL:	return std::make_shared<Platform::OpenGLImGuiRenderer>();
+#endif
 			}
 
 			LOG_CRITICAL("Unsupported Graphics API selected!");

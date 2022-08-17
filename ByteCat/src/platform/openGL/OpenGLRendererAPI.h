@@ -1,4 +1,5 @@
 #pragma once
+#if defined(BC_PLATFORM_WINDOWS) || defined(BC_PLATFORM_LINUX)
 #include "byteCat/graphics/renderer/RendererAPI.h"
 
 namespace BC
@@ -21,3 +22,4 @@ namespace BC
 		};
 	}
 }
+#endif

@@ -284,7 +284,7 @@ public:
 				Application::GetInstance().getWindow().captureMouse(captured);
 				captured = !captured;
 				
-				Input<>::GetMouseVelocity();
+				//Input<>::GetMouseVelocity();
 			}
 		}
 	}

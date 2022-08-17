@@ -66,16 +66,16 @@ public:
 	{
 		texture = Texture2D::Create("wall.jpg");
 
-		Input<>::AddCustomKeyCode("jump", KeyCode::Space);
-		Input<>::AddCustomKeyCode("jump", KeyCode::S);
-		Input<>::AddCustomKeyCode("jump", MouseCode::ButtonLeft);
-		Input<>::AddCustomKeyCode("jump", GamepadButton::A);
+		// Input<>::AddCustomKeyCode("jump", KeyCode::Space);
+		// Input<>::AddCustomKeyCode("jump", KeyCode::S);
+		// Input<>::AddCustomKeyCode("jump", MouseCode::ButtonLeft);
+		// Input<>::AddCustomKeyCode("jump", GamepadButton::A);
 		
 		//id0 = Input::StartListening(new MouseCallback(EventType::MouseScrolled, test2));
 		//id0 = Input<>::StartListening(new CustomEventCallback(test2));
 		
-		id1 = Input<>::StartListening(new KeyCallback(KeyCode::W, test));
-		id2 = Input<>::StartListening(new KeyCallback(KeyCode::A, test));
+		// id1 = Input<>::StartListening(new KeyCallback(KeyCode::W, test));
+		// id2 = Input<>::StartListening(new KeyCallback(KeyCode::A, test));
 	}
 
 	void onUpdate() override
@@ -88,15 +88,15 @@ public:
 		Renderer2D::SetColor({ 0, 1, 0, 1 });
 		Renderer2D::DrawRectangle({ -1, 0 }, 10, { 1, 1 });
 
-		if (Input<>::IsPressed("jump"))
-		{
-			LOG_INFO("Jump");
-		}
-
-		if (Input<>::IsPressed(KeyCode::K))
-		{
-			Input<>::StopListening(id1);
-		}
+		// if (Input<>::IsPressed("jump"))
+		// {
+		// 	LOG_INFO("Jump");
+		// }
+		//
+		// if (Input<>::IsPressed(KeyCode::K))
+		// {
+		// 	Input<>::StopListening(id1);
+		// }
 	}
 
 	void onGuiRender() override

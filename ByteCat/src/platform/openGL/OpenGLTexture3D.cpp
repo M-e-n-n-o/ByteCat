@@ -1,3 +1,4 @@
+#if defined(BC_PLATFORM_WINDOWS) || defined(BC_PLATFORM_LINUX)
 #include "bcpch.h"
 #include <glad/glad.h>
 #include "platform/openGL/OpenGLTexture3D.h"
@@ -43,3 +44,4 @@ namespace BC
 		}
 	}
 }
+#endif

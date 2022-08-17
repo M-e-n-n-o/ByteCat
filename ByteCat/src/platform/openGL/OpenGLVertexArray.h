@@ -1,4 +1,6 @@
 #pragma once
+#if defined(BC_PLATFORM_WINDOWS) || defined(BC_PLATFORM_LINUX)
+
 #include "byteCat/graphics/components/VertexArray.h"
 
 namespace BC
@@ -29,3 +31,4 @@ namespace BC
 		};
 	}
 }
+#endif

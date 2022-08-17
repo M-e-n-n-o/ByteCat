@@ -1,3 +1,4 @@
+#if defined(BC_PLATFORM_WINDOWS) || defined(BC_PLATFORM_LINUX)
 #include "bcpch.h"
 #include <GLFW/glfw3.h>
 #include "platform/openGL/OpenGLImGuiRenderer.h"
@@ -70,3 +71,4 @@ namespace BC
 		}
 	}
 }
+#endif

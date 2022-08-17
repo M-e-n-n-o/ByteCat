@@ -1,3 +1,4 @@
+#if defined(BC_PLATFORM_WINDOWS) || defined(BC_PLATFORM_LINUX)
 #include "bcpch.h"
 #include <GLFW/glfw3.h>
 #include "platform/winLin/WinLinWindow.h"
@@ -207,3 +208,4 @@ namespace BC
 		}
 	}
 }
+#endif

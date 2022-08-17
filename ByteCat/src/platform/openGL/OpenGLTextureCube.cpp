@@ -1,7 +1,7 @@
+#if defined(BC_PLATFORM_WINDOWS) || defined(BC_PLATFORM_LINUX)
 #include "bcpch.h"
 #include <stb_image.h>
 #include <glad/glad.h>
-#include "byteCat/utils/Macro.h"
 #include "platform/openGL/OpenGLTextureCube.h"
 
 namespace BC
@@ -55,3 +55,4 @@ namespace BC
 		}
 	}
 }
+#endif

@@ -1,11 +1,9 @@
-#include "bcpch.h"
-
-#if defined(BC_PLATFORM_WINDOWS) || defined(BC_PLATFORM_LINUX)
 #ifdef INPUT_MODULE_PC
+#include "bcpch.h"
 
 #include "GLFW/glfw3.h"
 #include "byteCat/app/Application.h"
-#include "byteCat/inputs/PcInputModule.h"
+#include "platform/winLin/WinLinPcInputModule.h"
 
 namespace BC
 {
@@ -126,5 +124,4 @@ namespace BC
 	}
 }
 
-#endif
 #endif
