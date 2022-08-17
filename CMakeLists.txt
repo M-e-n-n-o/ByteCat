@@ -46,7 +46,7 @@ add_compile_definitions(
 )
 
 # Add main projects
-add_subdirectory(App)
+# add_subdirectory(App)
 add_subdirectory(ByteCat)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
