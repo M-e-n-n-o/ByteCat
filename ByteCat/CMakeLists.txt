@@ -5,6 +5,9 @@ file(GLOB_RECURSE BYTECAT_SRC_FILES CONFIGURE_DEPENDS
     "vendor/stb_image/*.cpp"
     "vendor/glm/glm/*.hpp"
     "vendor/glm/glm/*.inl"
+    "vendor/glfm/include/*.h"
+    "vendor/glfm/src/*.h"
+    "vendor/glfm/src/*.c"
 )
 
 add_library(ByteCat STATIC ${BYTECAT_SRC_FILES})
@@ -21,6 +24,7 @@ target_include_directories(ByteCat PUBLIC
     "vendor/imgui/imgui"
     "vendor/glm"
     "vendor/stb_image"
+    "vendor/glfm/include"
 )
 
 target_link_directories(ByteCat PUBLIC
@@ -48,16 +52,16 @@ if (BUILD_PC)
         glad
     )
 elseif(BUILD_MOBILE)
-    target_include_directories(ByteCat PUBLIC
-        "vendor/glfm/include"
-    )
+    # target_include_directories(ByteCat PUBLIC
+    #     "vendor/glfm/include"
+    # )
 
-    target_link_directories(ByteCat PUBLIC
-        "ByteCat/vendor/glfm/src"
-    )
+    # target_link_directories(ByteCat PUBLIC
+    #     "ByteCat/vendor/glfm/src"
+    # )
 
-    # Link external libraries
-    target_link_libraries(ByteCat PUBLIC
-        glfm
-    )
+    # # Link external libraries
+    # target_link_libraries(ByteCat PUBLIC
+    #     glfm
+    # )
 endif()

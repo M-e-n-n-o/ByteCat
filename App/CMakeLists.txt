@@ -3,7 +3,12 @@ file(GLOB_RECURSE APP_SRC_FILES CONFIGURE_DEPENDS
     "src/*.cpp"
 )
 
-add_executable(${PROJECT_NAME} ${APP_SRC_FILES})
+if (BUILD_PC)
+    add_executable(${PROJECT_NAME} ${APP_SRC_FILES})
+elseif (BUILD_MOBILE)
+    add_library(${PROJECT_NAME} STATIC ${APP_SRC_FILES})
+endif()
+
 
 target_include_directories(${PROJECT_NAME} PUBLIC
     "../ByteCat/vendor/spdlog/include"
