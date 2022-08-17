@@ -6,7 +6,7 @@ file(GLOB_RECURSE APP_SRC_FILES CONFIGURE_DEPENDS
 if (BUILD_PC)
     add_executable(${PROJECT_NAME} ${APP_SRC_FILES})
 elseif (BUILD_MOBILE)
-    add_library(${PROJECT_NAME} STATIC ${APP_SRC_FILES})
+    add_library(${PROJECT_NAME} SHARED ${APP_SRC_FILES})
 endif()
 
 

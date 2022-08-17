@@ -24,7 +24,7 @@ elseif(CMAKE_SYSTEM_NAME MATCHES "Android")
     add_compile_definitions(BC_PLATFORM_ANDROID)
 
     # Add external mobile libraries
-    # add_subdirectory(ByteCat/vendor/glfm)
+    add_subdirectory(ByteCat/vendor/glfm)
 endif()
 
 # Add external generic libraries
