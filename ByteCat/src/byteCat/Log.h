@@ -45,15 +45,13 @@ namespace BC
 {
 	class Log
 	{
-	private:
-		friend int ::main(int argc, char** argv);
-		
+	private:		
 		static std::shared_ptr<spdlog::logger> s_coreLogger;
 		static std::shared_ptr<spdlog::logger> s_clientLogger;
-
-		static void Init();
 		
 	public:
+		static void Init();
+		
 		inline static std::shared_ptr<spdlog::logger>& GetClientLogger() { return s_clientLogger; }
 	#ifdef BC_CORE_ACCESS
 		inline static std::shared_ptr<spdlog::logger>& GetCoreLogger() { return s_coreLogger; }

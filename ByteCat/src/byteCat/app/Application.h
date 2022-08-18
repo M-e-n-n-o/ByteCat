@@ -1,5 +1,4 @@
 #pragma once
-#include "byteCat/Core.h"
 #include "byteCat/app/LayerStack.h"
 #include "byteCat/inputs/events/Event.h"
 #include "byteCat/graphics/Window.h"
@@ -27,14 +26,15 @@ namespace BC
 
 			bool m_isRunning;
 
-			friend int ::main(int argc, char** argv);
-
 		protected:
 			Graphics::Window* m_window;
 
 		public:
 			Application();
 			virtual ~Application();
+
+			// This method gets automatically called, do not call yourself!
+			void start();
 			
 			// Call this function to push a new layer to the LayerStack
 			void pushLayer(Layer* layer);
@@ -45,7 +45,6 @@ namespace BC
 			static Application& GetInstance() { return *s_instance; }
 
 		private:
-			void start();
 			
 			void onEvent(Inputs::Event& event) override;
 			bool onWindowClose(Inputs::WindowCloseEvent& event);
@@ -53,6 +52,6 @@ namespace BC
 		};
 
 		// Need to be defined in the users application
-		Application* CreateApplication();
+		Application* CreateApplication(void* data);
 	}
 }

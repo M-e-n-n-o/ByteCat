@@ -52,7 +52,9 @@ namespace BC
 			// Sets the eventlistener of the incoming events
 			virtual void setEventListener(Inputs::EventListener* newListener) = 0;
 
-			static Window* Create(const WindowSettings& setting);
+			// Creates a window and automatically chooses the right platform
+			// For Android, the WindowSettings argument, doesn't do anything for now
+			static Window* Create(const WindowSettings& setting, void* appInputData);
 		};
 	}
 }

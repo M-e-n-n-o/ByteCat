@@ -10,12 +10,12 @@ class Sandbox : public Application
 {
 public:
 	// The start of your application
-	Sandbox(): Application()
-	{		
+	Sandbox(void* appInputData): Application()
+	{
         Renderer::SetAPI(GraphicsAPI::OpenGL);
 		
         WindowSettings settings = { "Sandbox App", 1280, 720, true };
-        m_window = Window::Create(settings);
+        m_window = Window::Create(settings, appInputData);
         m_window->setEventListener(this);
 
         Renderer::Init();
@@ -31,7 +31,7 @@ public:
 	}
 };
 
-Application* App::CreateApplication()
+Application* App::CreateApplication(void* data)
 {
-	return new Sandbox();
+	return new Sandbox(data);
 }

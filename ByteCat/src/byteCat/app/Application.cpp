@@ -37,7 +37,13 @@ namespace BC
         }
 
         void Application::start()
-        {        	
+        {
+            if (m_isRunning)
+            {
+                LOG_WARN("Application cannot be started again, it is already running!");
+                return;
+            }
+        	
             m_isRunning = true;
 
             m_imguiLayer = new Imgui::ImGuiLayer();
