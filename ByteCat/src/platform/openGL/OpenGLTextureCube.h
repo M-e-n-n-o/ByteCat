@@ -1,5 +1,5 @@
 #pragma once
-#if defined(BC_PLATFORM_WINDOWS) || defined(BC_PLATFORM_LINUX)
+#ifdef BC_PLATFORM_PC
 #include <vector>
 #include "byteCat/graphics/components/Texture.h"
 

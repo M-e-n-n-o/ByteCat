@@ -1,8 +1,7 @@
-#if defined(BC_PLATFORM_WINDOWS) || defined(BC_PLATFORM_LINUX)
+#ifdef BC_PLATFORM_PC
 #include "bcpch.h"
 #include <stb_image.h>
 #include <glad/glad.h>
-#include "byteCat/utils/Macro.h"
 #include "platform/openGL/OpenGLTexture2D.h"
 #include "platform/openGL/Helper.h"
 

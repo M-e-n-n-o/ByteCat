@@ -1,4 +1,4 @@
-#if defined(BC_PLATFORM_WINDOWS) || defined(BC_PLATFORM_LINUX)
+#ifdef BC_PLATFORM_PC
 #include "bcpch.h"
 #include <GLFW/glfw3.h>
 #include "platform/winLin/WinLinWindow.h"

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "byteCat/Core.h"
+#include "byteCat/Platform.h"
 #include "spdlog/spdlog.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
 

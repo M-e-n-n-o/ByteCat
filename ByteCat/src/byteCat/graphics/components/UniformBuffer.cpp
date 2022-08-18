@@ -2,7 +2,7 @@
 #include "byteCat/graphics/components/UniformBuffer.h"
 #include "byteCat/graphics/renderer/Renderer.h"
 
-#if defined(BC_PLATFORM_WINDOWS) || defined(BC_PLATFORM_LINUX)
+#ifdef BC_PLATFORM_PC
 #include "platform/openGL/OpenGLUniformBuffer.h"
 #endif
 
@@ -20,7 +20,7 @@ namespace BC
 			{
 			case GraphicsAPI::None:		LOG_CRITICAL("No Graphics API selected!"); return nullptr;
 
-#if defined(BC_PLATFORM_WINDOWS) || defined(BC_PLATFORM_LINUX)
+#ifdef BC_PLATFORM_PC
 			case GraphicsAPI::OpenGL:	return std::make_shared<Platform::OpenGLUniformBuffer>(blockName, bindingIndex, size);
 #endif
 			}
@@ -36,7 +36,7 @@ namespace BC
 			{
 			case GraphicsAPI::None:		LOG_CRITICAL("No Graphics API selected!"); return nullptr;
 
-#if defined(BC_PLATFORM_WINDOWS) || defined(BC_PLATFORM_LINUX)
+#ifdef BC_PLATFORM_PC
 			case GraphicsAPI::OpenGL:	return std::make_shared<Platform::OpenGLUniformBuffer>(blockName, bindingIndex, size, data);
 #endif
 			}

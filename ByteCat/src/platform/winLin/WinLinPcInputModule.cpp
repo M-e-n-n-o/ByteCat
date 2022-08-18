@@ -1,4 +1,4 @@
-#ifdef INPUT_MODULE_PC
+#ifdef BC_PLATFORM_PC
 #include "bcpch.h"
 
 #include "GLFW/glfw3.h"

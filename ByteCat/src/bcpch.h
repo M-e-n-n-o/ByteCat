@@ -18,7 +18,7 @@
 #include <unordered_set>
 
 #include "byteCat/Log.h"
-#include "byteCat/Core.h"
+#include "byteCat/Platform.h"
 
 #ifdef BC_PLATFORM_WINDOWS
 	#include <Windows.h>

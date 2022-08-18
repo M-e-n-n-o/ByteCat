@@ -1,7 +1,7 @@
 #include "bcpch.h"
 #include "byteCat/graphics/renderer/RendererAPI.h"
 
-#if defined(BC_PLATFORM_WINDOWS) || defined(BC_PLATFORM_LINUX)
+#ifdef BC_PLATFORM_PC
 #include "platform/openGL/OpenGLRendererAPI.h"
 #endif
 
@@ -29,7 +29,7 @@ namespace BC
 				{
 				case GraphicsAPI::None:		LOG_CRITICAL("GraphicsAPI::None is not a supported Graphics API"); return nullptr;
 
-#if defined(BC_PLATFORM_WINDOWS) || defined(BC_PLATFORM_LINUX)
+#ifdef BC_PLATFORM_PC
 				case GraphicsAPI::OpenGL:	LOG_INFO("Creating an OpenGL renderer"); s_instance = new Platform::OpenGLRendererAPI();
 #endif
 				}

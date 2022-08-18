@@ -1,5 +1,5 @@
 #pragma once
-#if defined(BC_PLATFORM_ANDROID)
+// #ifdef BC_PLATFORM_MOBILE
 
 #include "byteCat/graphics/Window.h"
 
@@ -37,4 +37,4 @@ namespace BC
 	}
 }
 
-#endif
+// #endif

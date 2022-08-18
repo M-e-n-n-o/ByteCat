@@ -3,7 +3,7 @@
 #include "byteCat/inputs/EventCallback.h"
 #include "byteCat/inputs/events/Event.h"
 
-#ifdef INPUT_MODULE_PC
+#ifdef BC_PLATFORM_PC
 #include "platform/winLin/WinLinPcInputModule.h"
 #endif
 
@@ -11,7 +11,7 @@ namespace BC
 {
 	namespace Inputs
 	{
-#ifdef INPUT_MODULE_MOBILE
+#ifdef BC_PLATFORM_MOBILE
 		class MobileInputModule {};
 #endif
 		
@@ -21,9 +21,9 @@ namespace BC
 		 * 
 		 * @tparam InputModule The inputmodule you want to use as your input (e.g. PcInputModule, or your own module)
 		 */
-#ifdef INPUT_MODULE_PC
+#ifdef BC_PLATFORM_PC
 		template<class InputModule = PcInputModule>
-#elif defined(INPUT_MODULE_MOBILE)
+#elif defined(BC_PLATFORM_MOBILE)
 		template<class InputModule = MobileInputModule>
 #else
 		template<class InputModule>

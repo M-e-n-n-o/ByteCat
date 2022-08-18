@@ -2,7 +2,7 @@
 #include "byteCat/graphics/components/ArrayBuffer.h"
 #include "byteCat/graphics/renderer/Renderer.h"
 
-#if defined(BC_PLATFORM_WINDOWS) || defined(BC_PLATFORM_LINUX)
+#ifdef BC_PLATFORM_PC
 	#include "platform/openGL/OpenGLArrayBuffer.h"
 #endif
 
@@ -16,7 +16,7 @@ namespace BC
 			{
 			case GraphicsAPI::None:		LOG_CRITICAL("No Graphics API selected!"); return nullptr;
 
-#if defined(BC_PLATFORM_WINDOWS) || defined(BC_PLATFORM_LINUX)
+#ifdef BC_PLATFORM_PC
 			case GraphicsAPI::OpenGL:	return std::make_shared<Platform::OpenGLVertexBuffer>(size);
 #endif
 			}
@@ -31,7 +31,7 @@ namespace BC
 			{
 			case GraphicsAPI::None:		LOG_CRITICAL("No Graphics API selected!"); return nullptr;
 
-#if defined(BC_PLATFORM_WINDOWS) || defined(BC_PLATFORM_LINUX)
+#ifdef BC_PLATFORM_PC
 			case GraphicsAPI::OpenGL:	return std::make_shared<Platform::OpenGLVertexBuffer>(vertices, size);
 #endif
 			}
@@ -46,7 +46,7 @@ namespace BC
 			{
 			case GraphicsAPI::None:		LOG_CRITICAL("No Graphics API selected!"); return nullptr;
 
-#if defined(BC_PLATFORM_WINDOWS) || defined(BC_PLATFORM_LINUX)
+#ifdef BC_PLATFORM_PC
 			case GraphicsAPI::OpenGL:	return std::make_shared<Platform::OpenGLIndexBuffer>(indices, count);
 #endif
 			}

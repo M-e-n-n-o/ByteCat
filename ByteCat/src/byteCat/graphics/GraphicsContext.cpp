@@ -2,7 +2,7 @@
 #include "byteCat/graphics/GraphicsContext.h"
 #include "byteCat/graphics/renderer/Renderer.h"
 
-#if defined(BC_PLATFORM_WINDOWS) || defined(BC_PLATFORM_LINUX)
+#ifdef BC_PLATFORM_PC
 	#include "platform/openGL/OpenGLGraphicsContext.h"
 #endif
 
@@ -16,7 +16,7 @@ namespace BC
 			{
 			case GraphicsAPI::None:		LOG_CRITICAL("No Graphics API selected!");		return nullptr;
 
-#if defined(BC_PLATFORM_WINDOWS) || defined(BC_PLATFORM_LINUX)
+#ifdef BC_PLATFORM_PC
 			case GraphicsAPI::OpenGL:	LOG_INFO("Detected OpenGL as Graphics API");	return new Platform::OpenGLGraphicsContext((GLFWwindow*)window);
 #endif
 			}
