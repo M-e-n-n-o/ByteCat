@@ -48,7 +48,7 @@ namespace BC
 
 			if (!renderer->supports(s_graphicsAPI))
 			{
-				LOG_ERROR("Submission renderer: {0} does not support the selected graphics API!", renderer->getName());
+				LOG_ERROR("Submission renderer: %s does not support the selected graphics API!", renderer->getName().c_str());
 				delete renderer;
 				return;
 			}

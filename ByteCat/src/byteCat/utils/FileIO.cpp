@@ -10,7 +10,7 @@ namespace BC
 			std::ifstream inputStream(path, std::ios::in);
 
 			if (!inputStream.is_open()) {
-				LOG_ERROR("Could not open file: {0}", path);
+				LOG_ERROR("Could not open file: %s", path.c_str());
 				return "";
 			}
 
