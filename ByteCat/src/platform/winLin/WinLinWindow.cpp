@@ -1,3 +1,4 @@
+#include "byteCat/app/Application.h"
 #ifdef BC_PLATFORM_PC
 #include "bcpch.h"
 #include <GLFW/glfw3.h>
@@ -47,8 +48,7 @@ namespace BC
 			m_context = Graphics::GraphicsContext::Create(nativeWindow);
 			m_context->init(m_windowSetting.width, m_windowSetting.height);
 
-			setVsync(m_windowSetting.vSync);
-
+			setVsync(m_windowSetting.vSync);			
 
 			glfwSetWindowSizeCallback(nativeWindow, [](GLFWwindow* window, int width, int height)
 				{

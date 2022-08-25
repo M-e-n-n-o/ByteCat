@@ -46,46 +46,58 @@ namespace BC
         	
             m_isRunning = true;
 
-            m_imguiLayer = new Imgui::ImGuiLayer();
-            pushLayer(m_imguiLayer);
-            pushLayer(new Time());
+            // m_imguiLayer = new Imgui::ImGuiLayer();
+            // pushLayer(m_imguiLayer);
+            // pushLayer(new Time());
 
+#ifdef BC_PLATFORM_PC
             while (m_isRunning)
             {
-                m_window->update();
-
-                if (m_window->isMinimized())
-                {
-                    continue;
-                }
-
-                for (Layer* layer : m_layerStack)
-                {
-                    if (layer->m_enabled) { layer->onUpdate(); }
-                }
-
-                for (Layer* layer : m_layerStack)
-                {
-                    if (layer->m_enabled) { layer->beforeRender(); }
-                }
-
-                Graphics::Renderer::RenderSubmissions();
-
-                for (Layer* layer : m_layerStack)
-                {
-                    if (layer->m_enabled) { layer->onRenderComplete(); }
-                }
-
-                if (m_imguiLayer->m_enabled)
-                {
-                    m_imguiLayer->begin();
-                    for (Layer* layer : m_layerStack)
-                    {
-                        if (layer->m_enabled) { layer->onGuiRender(); }
-                    }
-                    m_imguiLayer->end();
-                }
+                onFrame();
             }
+#endif
+        }
+
+        void Application::onFrame()
+        {
+            m_window->update();
+
+			if (m_window->isMinimized())
+			{
+			    return;
+			}
+
+			for (Layer* layer : m_layerStack)
+			{
+			    if (layer->m_enabled) { layer->onUpdate(); }
+			}
+
+			for (Layer* layer : m_layerStack)
+			{
+			    if (layer->m_enabled) { layer->beforeRender(); }
+			}
+
+			Graphics::Renderer::RenderSubmissions();
+
+			for (Layer* layer : m_layerStack)
+			{
+			    if (layer->m_enabled) { layer->onRenderComplete(); }
+			}
+
+			if (m_imguiLayer->m_enabled)
+			{
+			    m_imguiLayer->begin();
+			    for (Layer* layer : m_layerStack)
+			    {
+			        if (layer->m_enabled) { layer->onGuiRender(); }
+			    }
+			    m_imguiLayer->end();
+			}
+        }
+
+        void Application::stop()
+        {
+            m_isRunning = false;
         }
 
         void Application::onEvent(Inputs::Event& event)

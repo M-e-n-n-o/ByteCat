@@ -10,18 +10,15 @@
 namespace BC
 {
 	namespace Graphics
-	{
-		Window* Window::Create(const WindowSettings& setting, void* appInputData)
+	{		
+		Window* Window::Create(const WindowSettings& settings, void* appInputData)
 		{
 #ifdef BC_PLATFORM_PC
 			LOG_INFO("Detected Windows/Linux platform");
-			return new Platform::WinLinWindow(setting);
+			return new Platform::WinLinWindow(settings);
 #elif defined(BC_PLATFORM_MOBILE)
 			LOG_INFO("Detected Android platform");
-			return new Platform::AndroidWindow(appInputData);
-#else
-			LOG_CRITICAL("Platform not supported/detected :(");
-			return nullptr;
+			return new Platform::AndroidWindow(settings, appInputData);
 #endif
 		}
 	}

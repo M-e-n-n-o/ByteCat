@@ -25,7 +25,7 @@ namespace BC
 			Imgui::ImGuiLayer* m_imguiLayer;
 
 			bool m_isRunning;
-
+		
 		protected:
 			Graphics::Window* m_window;
 
@@ -35,6 +35,12 @@ namespace BC
 
 			// This method gets automatically called, do not call yourself!
 			void start();
+
+			// This method calls all the things that should be called in a frame
+			void onFrame();
+			
+			// This method stops the application
+			void stop();
 			
 			// Call this function to push a new layer to the LayerStack
 			void pushLayer(Layer* layer);

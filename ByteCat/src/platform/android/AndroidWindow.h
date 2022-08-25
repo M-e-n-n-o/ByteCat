@@ -1,5 +1,5 @@
 #pragma once
-// #ifdef BC_PLATFORM_MOBILE
+#ifdef BC_PLATFORM_MOBILE
 
 #include "byteCat/graphics/Window.h"
 
@@ -10,7 +10,7 @@ namespace BC
 		class AndroidWindow : public Graphics::Window
 		{
 		public:
-			AndroidWindow(void* display);
+			AndroidWindow(Graphics::WindowSettings settings, void* appInputData);
 			~AndroidWindow();
 			
 			void update() const override;
@@ -37,4 +37,4 @@ namespace BC
 	}
 }
 
-// #endif
+#endif

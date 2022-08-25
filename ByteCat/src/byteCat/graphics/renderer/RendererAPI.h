@@ -10,7 +10,9 @@ namespace BC
 		enum class GraphicsAPI
 		{
 			None = 0,
-			OpenGL = 1
+			
+			OpenGL,
+			OpenGLES
 		};
 
 
