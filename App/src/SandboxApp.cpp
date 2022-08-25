@@ -11,16 +11,11 @@ class Sandbox : public Application
 public:
 	// The start of your application
 	Sandbox(void* appInputData): Application()
-	{
-		LOG_INFO("Info message: %d", 5);
-		LOG_WARN("Warning message %s", "asdasd");
-		LOG_ERROR("Error message");
-		LOG_CRITICAL("Critical message");
-		
-        Renderer::SetAPI(GraphicsAPI::OpenGL);
+	{		
+        Renderer::SetAPI(GraphicsAPI::OpenGLES);
 
-		WindowSettings settings = { "Sandbox App", 1280, 720, true };
-		// WindowSettings settings = { WindowSettings::ColorFormat::RGBA8888, WindowSettings::DepthFormat::None, WindowSettings::StencilFormat::None, WindowSettings::Multisample::None };
+		// WindowSettings settings = { "Sandbox App", 1280, 720, true };
+		WindowSettings settings = { WindowSettings::ColorFormat::RGBA8888, WindowSettings::DepthFormat::None, WindowSettings::StencilFormat::None, WindowSettings::Multisample::None };
 		
         m_window = Window::Create(settings, appInputData);
         m_window->setEventListener(this);

@@ -47,13 +47,13 @@ namespace BC
 			std::string finalPath = filePath;
 			finalPath.insert(0, BC_ASSETS_FOLDER);
 
-			LOG_INFO("Loading texture2D: {0}", finalPath);
+			LOG_INFO("Loading texture2D: %s", finalPath.c_str());
 
 			stbi_set_flip_vertically_on_load(1);
 			unsigned char* imgData = stbi_load(finalPath.c_str(), &m_width, &m_height, &m_channels, 0);
 			if (!imgData)
 			{
-				LOG_ERROR("Failed to load texture2D: {0}", finalPath);
+				LOG_ERROR("Failed to load texture2D: %s", finalPath.c_str());
 				stbi_image_free(imgData);
 				return;
 			}
@@ -76,7 +76,7 @@ namespace BC
 				dataFormat = GL_RGB;
 			} else
 			{
-				LOG_ERROR("Image format not supported for texture2D: {0}", finalPath);
+				LOG_ERROR("Image format not supported for texture2D: %s", finalPath.c_str());
 				stbi_image_free(imgData);
 				return;
 			}

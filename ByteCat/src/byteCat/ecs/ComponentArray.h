@@ -36,7 +36,7 @@ namespace BC
 			{
 				if (m_entityToIndexMap.find(entity) != m_entityToIndexMap.end())
 				{
-					LOG_WARN("Cannot add component {0} to entity {1} more than once", T::GetTypeName(), entity);
+					LOG_WARN("Cannot add component %s to entity %d more than once", T::GetTypeName(), entity);
 					return;
 				}
 
@@ -51,7 +51,7 @@ namespace BC
 			{
 				if (m_entityToIndexMap.find(entity) == m_entityToIndexMap.end())
 				{
-					LOG_WARN("Cannot remove non-existent component in entity {0}", entity);
+					LOG_WARN("Cannot remove non-existent component in entity %d", entity);
 					return;
 				}
 
@@ -75,7 +75,7 @@ namespace BC
 			{
 				if (m_entityToIndexMap.find(entity) == m_entityToIndexMap.end())
 				{
-					LOG_WARN("Cannot retrieve non-existent component from entity {0}", entity);
+					LOG_WARN("Cannot retrieve non-existent component from entity %d", entity);
 				}
 
 				return m_componentArray[m_entityToIndexMap[entity]];

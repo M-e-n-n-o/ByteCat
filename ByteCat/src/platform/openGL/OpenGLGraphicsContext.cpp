@@ -21,9 +21,9 @@ namespace BC
 			}
 
 			LOG_INFO("OpenGL Graphics processor info:");
-			LOG_INFO("   Vendor:   {0}", glGetString(GL_VENDOR));
-			LOG_INFO("   Renderer: {0}", glGetString(GL_RENDERER));
-			LOG_INFO("   Version:  {0}", glGetString(GL_VERSION));
+			LOG_INFO("   Vendor:   %s", glGetString(GL_VENDOR));
+			LOG_INFO("   Renderer: %s", glGetString(GL_RENDERER));
+			LOG_INFO("   Version:  %s", glGetString(GL_VERSION));
 
 			if (GLVersion.major < 4 || (GLVersion.major == 4 && GLVersion.minor < 5))
 			{

@@ -21,7 +21,7 @@ namespace BC
 			
 			if (value == s_customKeyCodes.end())
 			{
-				LOG_ERROR("Custom key: {0} does not exist", customKey);
+				LOG_ERROR("Custom key: %s does not exist", customKey.c_str());
 				return false;
 			}
 		

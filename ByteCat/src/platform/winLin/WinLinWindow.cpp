@@ -43,7 +43,7 @@ namespace BC
 				std::exit(-1);
 			}
 
-			LOG_INFO("Created a Windows/Linux window with title: {0}, width: {1}, height: {2} and vSync: {3}", m_windowSetting.title, m_windowSetting.width, m_windowSetting.height, m_windowSetting.vSync);
+			LOG_INFO("Created a Windows/Linux window with title: %s, width: %d, height: %d and vSync: %d", m_windowSetting.title.c_str(), m_windowSetting.width, m_windowSetting.height, m_windowSetting.vSync);
 
 			m_context = Graphics::GraphicsContext::Create(nativeWindow);
 			m_context->init(m_windowSetting.width, m_windowSetting.height);
@@ -142,7 +142,7 @@ namespace BC
 			static long fps = 0;
 			if (glfwGetTime() - lastFps > 3)
 			{
-				LOG_INFO("Fps {0}", fps / 3);
+				LOG_INFO("Fps %d", fps / 3);
 				fps = 0;
 				lastFps += 3;
 			}

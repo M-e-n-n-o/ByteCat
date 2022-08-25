@@ -24,7 +24,7 @@ namespace BC
 		{
 			if (!isComplete())
 			{
-				LOG_WARN("Framebuffer {0} is not yet complete", m_name);
+				LOG_WARN("Framebuffer %s is not yet complete", m_name.c_str());
 			}
 			
 			glBindFramebuffer(GL_FRAMEBUFFER, m_id);

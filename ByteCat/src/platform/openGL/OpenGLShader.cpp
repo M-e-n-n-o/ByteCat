@@ -37,10 +37,10 @@ namespace BC
 			glGetProgramiv(m_programID, GL_LINK_STATUS, &success);
 			if (!success) 
 			{
-				LOG_ERROR("Could not link shader program: {0}", name);
+				LOG_ERROR("Could not link shader program: %s", name.c_str());
 			}
 
-			LOG_INFO("Finished compiling shader program: {0}", name);
+			LOG_INFO("Finished compiling shader program: %s", name.c_str());
 
 			glDeleteShader(vertexShaderID);
 			glDeleteShader(fragmentShaderID);
@@ -82,10 +82,10 @@ namespace BC
 			glGetProgramiv(m_programID, GL_LINK_STATUS, &success);
 			if (!success) 
 			{
-				LOG_ERROR("Could not link shader program: {0}", name);
+				LOG_ERROR("Could not link shader program: %s", name.c_str());
 			}
 
-			LOG_INFO("Finished compiling shader program: {0}", name);
+			LOG_INFO("Finished compiling shader program: %s", name.c_str());
 
 			glDeleteShader(vertexShaderID);
 			glDeleteShader(geometryShaderID);
@@ -210,7 +210,7 @@ namespace BC
 			{
 				if (uniformName.rfind("_", 0) != 0)
 				{
-					LOG_ERROR("Variable \"{0}\" not found in the shader {1}", uniformName, m_name);
+					LOG_ERROR("Variable \"%s\" not found in the shader %s", uniformName.c_str(), m_name.c_str());
 				}
 				return -1;
 			}
@@ -237,7 +237,7 @@ namespace BC
 				std::vector<GLchar> errorLog(maxLength);
 				glGetShaderInfoLog(shaderID, maxLength, &maxLength, &errorLog[0]);
 
-				LOG_ERROR("Shader error info: {0}", m_name);
+				LOG_ERROR("Shader error info: %s", m_name.c_str());
 				std::stringstream log;
 				for (std::vector<GLchar>::const_iterator i = errorLog.begin(); i != errorLog.end(); ++i)
 				{
@@ -246,7 +246,7 @@ namespace BC
 
 				LOG_TEXT_LONG(log.str());
 				
-				LOG_ERROR("Could not compile shader: {0}", m_name);
+				LOG_ERROR("Could not compile shader: %s", m_name.c_str());
 			}
 
 			return shaderID;

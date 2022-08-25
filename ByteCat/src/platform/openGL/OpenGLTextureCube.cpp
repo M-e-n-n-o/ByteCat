@@ -21,7 +21,7 @@ namespace BC
 				std::string filePath = faces[i];
 				filePath.insert(0, BC_ASSETS_FOLDER);
 
-				LOG_INFO("Loading cubemap texture face: {0}", filePath);
+				LOG_INFO("Loading cubemap texture face: %s", filePath.c_str());
 				
 				unsigned char* data = stbi_load(filePath.c_str(), &width, &height, &m_channels, 0);
 				if (data)
@@ -31,7 +31,7 @@ namespace BC
 				}
 				else
 				{
-					LOG_ERROR("Failed to load cubemap texture face: {0}", filePath);
+					LOG_ERROR("Failed to load cubemap texture face: %s", filePath.c_str());
 					stbi_image_free(data);
 					return;
 				}

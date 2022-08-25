@@ -22,7 +22,7 @@ namespace BC
 
 				if (m_systems.find(typeName) != m_systems.end())
 				{
-					LOG_WARN("Cannot register system {0} more then once", typeName);
+					LOG_WARN("Cannot register system %s more then once", typeName);
 					return nullptr;
 				}
 
@@ -39,7 +39,7 @@ namespace BC
 
 				if (m_systems.find(typeName) == m_systems.end())
 				{
-					LOG_WARN("System {0} is not registered yet", typeName);
+					LOG_WARN("System %s is not registered yet", typeName);
 					return;
 				}
 
@@ -100,7 +100,7 @@ namespace BC
 					}
 				}
 
-				LOG_WARN("Requested system could not be found: {0}", typeName);
+				LOG_WARN("Requested system could not be found: %s", typeName);
 				return nullptr;
 			}
 		};
