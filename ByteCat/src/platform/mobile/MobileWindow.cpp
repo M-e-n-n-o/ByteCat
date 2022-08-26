@@ -2,7 +2,7 @@
 #include "bcpch.h"
 #include <glfm.h>
 #include "byteCat/graphics/renderer/Renderer.h"
-#include "platform/android/AndroidWindow.h"
+#include "platform/mobile/MobileWindow.h"
 
 #include <string.h>
 
@@ -22,7 +22,7 @@ namespace BC
 		// 	return shader;
 		// }
 		
-		AndroidWindow::AndroidWindow(Graphics::WindowSettings settings, void* appInputData)
+		MobileWindow::MobileWindow(Graphics::WindowSettings settings, void* appInputData)
 		{			
 			LOG_INFO("Trying to initialize the Android window");
 			
@@ -144,55 +144,55 @@ namespace BC
 			// 	});
 		}
 
-		AndroidWindow::~AndroidWindow()
+		MobileWindow::~MobileWindow()
 		{
 		}
 
-		void AndroidWindow::update() const
+		void MobileWindow::update() const
 		{
 		}
 
-		void AndroidWindow::shutdown() const
+		void MobileWindow::shutdown() const
 		{
 		}
 
-		void AndroidWindow::resize(unsigned width, unsigned height)
+		void MobileWindow::resize(unsigned width, unsigned height)
 		{
 		}
 
-		std::string AndroidWindow::getTitle() const
+		std::string MobileWindow::getTitle() const
 		{
 		}
 
-		unsigned AndroidWindow::getWidth() const
+		unsigned MobileWindow::getWidth() const
 		{
 		}
 
-		unsigned AndroidWindow::getHeight() const
+		unsigned MobileWindow::getHeight() const
 		{
 		}
 
-		void AndroidWindow::setVsync(bool enabled)
+		void MobileWindow::setVsync(bool enabled)
 		{
 		}
 
-		bool AndroidWindow::getVsync() const
+		bool MobileWindow::getVsync() const
 		{
 		}
 
-		bool AndroidWindow::isMinimized()
+		bool MobileWindow::isMinimized()
 		{
 		}
 
-		void AndroidWindow::captureMouse(bool capture)
+		void MobileWindow::captureMouse(bool capture)
 		{
 		}
 
-		void* AndroidWindow::getNativeWindow() const
+		void* MobileWindow::getNativeWindow() const
 		{
 		}
 
-		void AndroidWindow::setEventListener(Inputs::EventListener* newListener)
+		void MobileWindow::setEventListener(Inputs::EventListener* newListener)
 		{
 		}
 	}

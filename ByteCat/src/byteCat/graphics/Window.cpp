@@ -4,7 +4,7 @@
 #ifdef BC_PLATFORM_PC
 	#include "platform/winLin/WinLinWindow.h"
 #elif defined(BC_PLATFORM_MOBILE)
-	#include "platform/android/AndroidWindow.h"
+	#include "platform/mobile/MobileWindow.h"
 #endif
 
 namespace BC
@@ -17,8 +17,8 @@ namespace BC
 			LOG_INFO("Detected Windows/Linux platform");
 			return new Platform::WinLinWindow(settings);
 #elif defined(BC_PLATFORM_MOBILE)
-			LOG_INFO("Detected Android platform");
-			return new Platform::AndroidWindow(settings, appInputData);
+			LOG_INFO("Detected Mobile platform");
+			return new Platform::MobileWindow(settings, appInputData);
 #endif
 		}
 	}
