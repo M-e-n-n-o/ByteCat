@@ -32,5 +32,13 @@ namespace BC
 
 				int getCategoryFlags() const override { return EventCatApplication; }
 		};
+
+		class WindowRenderEvent : public Event
+		{
+		public:
+			EVENT_CLASS_TYPE(WindowRender)
+			
+				int getCategoryFlags() const override { return EventCatApplication; }
+		};
 	}
 }

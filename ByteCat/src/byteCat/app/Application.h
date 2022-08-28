@@ -36,7 +36,7 @@ namespace BC
 			// This method gets automatically called, do not call yourself!
 			void start();
 
-			// This method calls all the things that should be called in a frame
+			// This method calls all the things that should be called in a frame (you should probably never have to call this yourself)
 			void onFrame();
 			
 			// This method stops the application
@@ -55,6 +55,7 @@ namespace BC
 			void onEvent(Inputs::Event& event) override;
 			bool onWindowClose(Inputs::WindowCloseEvent& event);
 			bool onWindowResize(Inputs::WindowResizeEvent& event);
+			bool onWindowRender(Inputs::WindowRenderEvent& event);
 		};
 
 		// Need to be defined in the users application

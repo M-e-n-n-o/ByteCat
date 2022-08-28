@@ -22,7 +22,9 @@
 		
   		app->start();
 
+#ifdef BC_PLATFORM_PC
   		delete app;
+#endif
 	}
 
 // #include "glfm.h"

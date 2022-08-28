@@ -1,5 +1,5 @@
 #pragma once
-// #ifdef BC_PLATFORM_MOBILE
+#ifdef BC_PLATFORM_MOBILE
 
 #include "byteCat/graphics/Window.h"
 
@@ -9,6 +9,8 @@ namespace BC
 	{
 		class MobileWindow : public Graphics::Window
 		{
+		private:
+			
 		public:
 			MobileWindow(Graphics::WindowSettings settings, void* appInputData);
 			~MobileWindow();
@@ -37,4 +39,4 @@ namespace BC
 	}
 }
 
-// #endif
+#endif

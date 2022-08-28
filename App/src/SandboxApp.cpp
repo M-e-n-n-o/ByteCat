@@ -12,10 +12,10 @@ public:
 	// The start of your application
 	Sandbox(void* appInputData): Application()
 	{		
-        Renderer::SetAPI(GraphicsAPI::OpenGL);
+        Renderer::SetAPI(GraphicsAPI::OpenGLES);
 
-		WindowSettings settings = { "Sandbox App", 1280, 720, true };
-		// WindowSettings settings = { WindowSettings::ColorFormat::RGBA8888, WindowSettings::DepthFormat::None, WindowSettings::StencilFormat::None, WindowSettings::Multisample::None };
+		// WindowSettings settings = { "Sandbox App", 1280, 720, true };
+		WindowSettings settings = { WindowSettings::ColorFormat::RGBA8888, WindowSettings::DepthFormat::None, WindowSettings::StencilFormat::None, WindowSettings::Multisample::None };
 		
         m_window = Window::Create(settings, appInputData);
         m_window->setEventListener(this);

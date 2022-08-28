@@ -10,9 +10,10 @@ namespace BC
 		{
 			None = 0,
 			Other,
-			WindowClose, WindowResize, WindowFocus, WindowLostFocus, WindowMoved,
+			WindowClose, WindowResize, WindowFocus, WindowLostFocus, WindowMoved, WindowRender,
 			KeyPressed, KeyReleased, KeyTyped,
-			MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled
+			MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled,
+			TouchHover, TouchBegan, TouchMoved, TouchEnded, TouchCancelled
 		};
 
 		enum EventCategory
@@ -22,7 +23,8 @@ namespace BC
 			EventCatInput = BIT(1),
 			EventCatKeyboard = BIT(2),
 			EventCatMouse = BIT(3),
-			EventCatMouseButton = BIT(4)
+			EventCatMouseButton = BIT(4),
+			EventCatTouch = BIT(5)
 		};
 
 #define EVENT_CLASS_TYPE(type) static EventType getStaticType() { return EventType::type; }\
