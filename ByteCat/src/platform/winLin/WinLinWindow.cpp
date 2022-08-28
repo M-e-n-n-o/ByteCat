@@ -62,6 +62,20 @@ namespace BC
 					eventListener->onEvent(event);
 				});
 
+			glfwSetWindowFocusCallback(nativeWindow, [](GLFWwindow* window, int focused)
+				{
+					if (focused)
+					{
+						Inputs::WindowOnFocusEvent event;
+						eventListener->onEvent(event);
+						return;
+					}
+
+					Inputs::WindowLostFocusEvent event;
+					eventListener->onEvent(event);
+					return;
+				});
+
 			glfwSetKeyCallback(nativeWindow, [](GLFWwindow* window, int key, int scancode, int action, int mods)
 				{
 					switch (action)

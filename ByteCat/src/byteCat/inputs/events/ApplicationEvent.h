@@ -24,7 +24,6 @@ namespace BC
 				int getCategoryFlags() const override { return EventCatApplication; }
 		};
 
-
 		class WindowCloseEvent : public Event
 		{
 		public:
@@ -38,6 +37,22 @@ namespace BC
 		public:
 			EVENT_CLASS_TYPE(WindowRender)
 			
+				int getCategoryFlags() const override { return EventCatApplication; }
+		};
+
+		class WindowOnFocusEvent : public Event
+		{
+		public:
+			EVENT_CLASS_TYPE(WindowFocus)
+
+				int getCategoryFlags() const override { return EventCatApplication; }
+		};
+
+		class WindowLostFocusEvent : public Event
+		{
+		public:
+			EVENT_CLASS_TYPE(WindowLostFocus)
+
 				int getCategoryFlags() const override { return EventCatApplication; }
 		};
 	}

@@ -12,19 +12,9 @@ namespace BC
 {	
 	namespace Platform
 	{
-		// static GLint program = 0;
-		// static GLuint vertexBuffer = 0;
-		//
-		// static GLuint compileShader(const GLenum type, const GLchar* shaderString) {
-		// 	const GLint shaderLength = (GLint)strlen(shaderString);
-		// 	GLuint shader = glCreateShader(type);
-		// 	glShaderSource(shader, 1, &shaderString, &shaderLength);
-		// 	glCompileShader(shader);
-		// 	return shader;
-		// }
-
 		static Inputs::EventListener* eventListener;
 		static GLFMDisplay* nativeWindow;
+		static bool isInFocus = true;
 		
 		MobileWindow::MobileWindow(Graphics::WindowSettings settings, void* appInputData)
 		{			
@@ -90,55 +80,24 @@ namespace BC
 					eventListener->onEvent(event);
 				});
 
-			glfmSetRenderFunc(nativeWindow, [](GLFMDisplay* display)
+			glfmSetAppFocusFunc(nativeWindow, [](GLFMDisplay* display, bool focused)
 				{
-		// 					if (program == 0) {
-		// 	const GLchar* vertexShader =
-		// 		"attribute highp vec4 position;\n"
-		// 		"void main() {\n"
-		// 		"   gl_Position = position;\n"
-		// 		"}";
-		//
-		// 	const GLchar* fragmentShader =
-		// 		"void main() {\n"
-		// 		"  gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);\n"
-		// 		"}";
-		//
-		// 	program = glCreateProgram();
-		// 	GLuint vertShader = compileShader(GL_VERTEX_SHADER, vertexShader);
-		// 	GLuint fragShader = compileShader(GL_FRAGMENT_SHADER, fragmentShader);
-		//
-		// 	glAttachShader(program, vertShader);
-		// 	glAttachShader(program, fragShader);
-		//
-		// 	glLinkProgram(program);
-		//
-		// 	glDeleteShader(vertShader);
-		// 	glDeleteShader(fragShader);
-		// }
-		// if (vertexBuffer == 0) {
-		// 	const GLfloat vertices[] = {
-		// 		 0.0,  0.5, 0.0,
-		// 		-0.5, -0.5, 0.0,
-		// 		 0.5, -0.5, 0.0,
-		// 	};
-		// 	glGenBuffers(1, &vertexBuffer);
-		// 	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-		// 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-		// }
-		//
-		// glClearColor(0.4f, 0.0f, 0.6f, 1.0f);
-		// glClear(GL_COLOR_BUFFER_BIT);
-		//
-		// glUseProgram(program);
-		// glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-		//
-		// glEnableVertexAttribArray(0);
-		// glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
-		// glDrawArrays(GL_TRIANGLES, 0, 3);
-		//
-		// glfmSwapBuffers(display);
-				
+					isInFocus = focused;
+
+					if (focused)
+					{
+						Inputs::WindowOnFocusEvent event;
+						eventListener->onEvent(event);
+						return;
+					}
+
+					Inputs::WindowLostFocusEvent event;
+					eventListener->onEvent(event);
+					return;
+				});
+			
+			glfmSetRenderFunc(nativeWindow, [](GLFMDisplay* display)
+				{				
 					Inputs::WindowRenderEvent event;
 					eventListener->onEvent(event);
 				});
@@ -214,96 +173,61 @@ namespace BC
 
 					return true;
 				});
-			
-			// glfmSetRenderFunc(display, [](GLFMDisplay* display)
-			// 	{
-			// 		if (program == 0) {
-			// 			const GLchar* vertexShader =
-			// 				"attribute highp vec4 position;\n"
-			// 				"void main() {\n"
-			// 				"   gl_Position = position;\n"
-			// 				"}";
-			//
-			// 			const GLchar* fragmentShader =
-			// 				"void main() {\n"
-			// 				"  gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);\n"
-			// 				"}";
-			//
-			// 			program = glCreateProgram();
-			// 			GLuint vertShader = compileShader(GL_VERTEX_SHADER, vertexShader);
-			// 			GLuint fragShader = compileShader(GL_FRAGMENT_SHADER, fragmentShader);
-			//
-			// 			glAttachShader(program, vertShader);
-			// 			glAttachShader(program, fragShader);
-			//
-			// 			glLinkProgram(program);
-			//
-			// 			glDeleteShader(vertShader);
-			// 			glDeleteShader(fragShader);
-			// 		}
-			// 		if (vertexBuffer == 0) {
-			// 			const GLfloat vertices[] = {
-			// 				 0.0,  0.5, 0.0,
-			// 				-0.5, -0.5, 0.0,
-			// 				 0.5, -0.5, 0.0,
-			// 			};
-			// 			glGenBuffers(1, &vertexBuffer);
-			// 			glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-			// 			glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-			// 		}
-			//
-			// 		glClearColor(0.4f, 0.0f, 0.6f, 1.0f);
-			// 		glClear(GL_COLOR_BUFFER_BIT);
-			//
-			// 		glUseProgram(program);
-			// 		glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-			//
-			// 		glEnableVertexAttribArray(0);
-			// 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
-			// 		glDrawArrays(GL_TRIANGLES, 0, 3);
-			//
-			// 		glfmSwapBuffers(display);
-			// 	});
 		}
 
 		MobileWindow::~MobileWindow()
 		{
+			// Nothing for now
 		}
 
 		void MobileWindow::update() const
 		{
+			glfmSwapBuffers(nativeWindow);
 		}
 
 		void MobileWindow::shutdown() const
 		{
+			// Nothing for now
 		}
 
 		void MobileWindow::resize(unsigned width, unsigned height)
 		{
+			// Does nothing
 		}
 
 		std::string MobileWindow::getTitle() const
 		{
+			return "";
 		}
 
 		unsigned MobileWindow::getWidth() const
 		{
+			int width, height = 0;
+			glfmGetDisplaySize(nativeWindow, &width, &height);
+			return width;
 		}
 
 		unsigned MobileWindow::getHeight() const
 		{
+			int width, height = 0;
+			glfmGetDisplaySize(nativeWindow, &width, &height);
+			return height;
 		}
 
 		void MobileWindow::setVsync(bool enabled)
 		{
+			// Does nothing
 		}
 
 		bool MobileWindow::getVsync() const
 		{
+			// Does nothing
+			return false;
 		}
 
 		bool MobileWindow::isMinimized()
 		{
+			return !isInFocus;
 		}
 
 		void MobileWindow::captureMouse(bool capture)

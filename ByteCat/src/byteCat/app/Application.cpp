@@ -60,8 +60,8 @@ namespace BC
 
         void Application::onFrame()
         {
-   //          m_window->update();
-   //
+			m_window->update();
+   
 			// if (m_window->isMinimized())
 			// {
 			//     return;
@@ -98,6 +98,10 @@ namespace BC
         void Application::stop()
         {
             m_isRunning = false;
+
+		#ifdef BC_PLATFORM_MOBILE
+            delete this;
+		#endif
         }
     	
         void Application::onEvent(Inputs::Event& event)
@@ -126,7 +130,7 @@ namespace BC
 
         bool Application::onWindowClose(Inputs::WindowCloseEvent& event)
         {
-            m_isRunning = false;
+            stop();
             return true;
         }
 
