@@ -48,11 +48,8 @@ if(BUILD_PC)
         glad
     )
 elseif(BUILD_MOBILE)
-    # find_library(log-lib log)
-    # find_library(android-lib android)
-    # find_library(EGL-lib EGL)
-    # find_library(GLESv2-lib GLESv2)
-    
+    find_library(gles GLESv3)
+
     target_include_directories(ByteCat PUBLIC
         "vendor/glfm/include"
     )
@@ -64,5 +61,6 @@ elseif(BUILD_MOBILE)
     # Link external libraries
     target_link_libraries(ByteCat PUBLIC
         glfm
+        ${gles}
     )
 endif()

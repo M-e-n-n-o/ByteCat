@@ -100,8 +100,6 @@ namespace BC
 			basicShader->setTextureSlots({ "tex" });
 			
 			basicVao = VertexArray::Create();
-
-			LOG_INFO("done");
 			
 			float data[] =
 			{
