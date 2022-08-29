@@ -2,7 +2,7 @@
 #include "byteCat/graphics/components/Shader.h"
 #include "byteCat/graphics/renderer/Renderer.h"
 
-#ifdef BC_PLATFORM_PC
+#if defined(BC_PLATFORM_PC) || defined(BC_PLATFORM_MOBILE)
 	#include "platform/openGL/OpenGLComputeShader.h"
 	#include "platform/openGL/OpenGLShader.h"
 #endif
@@ -15,10 +15,11 @@ namespace BC
 		{
 			switch (Renderer::GetAPI())
 			{
-			case GraphicsAPI::None:		LOG_CRITICAL("No Graphics API selected!"); return nullptr;
+			case GraphicsAPI::None:			LOG_CRITICAL("No Graphics API selected!"); return nullptr;
 
-#ifdef BC_PLATFORM_PC
-			case GraphicsAPI::OpenGL:	return std::make_shared<Platform::OpenGLShader>(name, vertexSrc, fragmentSrc, isFilePath);
+#if defined(BC_PLATFORM_PC) || defined(BC_PLATFORM_MOBILE)
+			case GraphicsAPI::OpenGL:
+			case GraphicsAPI::OpenGLES:		return std::make_shared<Platform::OpenGLShader>(name, vertexSrc, fragmentSrc, isFilePath);
 #endif
 			}
 
@@ -30,10 +31,11 @@ namespace BC
 		{
 			switch (Renderer::GetAPI())
 			{
-			case GraphicsAPI::None:		LOG_CRITICAL("No Graphics API selected!"); return nullptr;
+			case GraphicsAPI::None:			LOG_CRITICAL("No Graphics API selected!"); return nullptr;
 
-#ifdef BC_PLATFORM_PC
-			case GraphicsAPI::OpenGL:	return std::make_shared<Platform::OpenGLShader>(name, vertexSrc, geometrySrc, fragmentSrc, isFilePath);
+#if defined(BC_PLATFORM_PC) || defined(BC_PLATFORM_MOBILE)
+			case GraphicsAPI::OpenGL:		return std::make_shared<Platform::OpenGLShader>(name, vertexSrc, geometrySrc, fragmentSrc, isFilePath);
+			case GraphicsAPI::OpenGLES:		LOG_ERROR("Geometry shader is not supported on OpenGLES"); return nullptr;
 #endif
 			}
 
@@ -46,10 +48,10 @@ namespace BC
 		{
 			switch (Renderer::GetAPI())
 			{
-			case GraphicsAPI::None:		LOG_CRITICAL("No Graphics API selected!"); return nullptr;
+			case GraphicsAPI::None:			LOG_CRITICAL("No Graphics API selected!"); return nullptr;
 
 #ifdef BC_PLATFORM_PC
-			case GraphicsAPI::OpenGL:	return std::make_shared<Platform::OpenGLComputeShader>(name, computeSrc, isFilePath);
+			case GraphicsAPI::OpenGL:		return std::make_shared<Platform::OpenGLComputeShader>(name, computeSrc, isFilePath);
 #endif
 			}
 

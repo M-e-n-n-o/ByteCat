@@ -52,7 +52,9 @@
 
 #include "byteCat/utils/Math.h"
 
-#include <imgui.h>
+#ifdef BC_PLATFORM_PC
+	#include <imgui.h>
+#endif
 
 // -- Start of the engine --
 #include "byteCat/EntryPoint.h"

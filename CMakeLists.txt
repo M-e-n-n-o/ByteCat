@@ -23,7 +23,7 @@ if(CMAKE_SYSTEM_NAME MATCHES "Windows" OR CMAKE_SYSTEM_NAME MATCHES "Linux")
     add_subdirectory(ByteCat/vendor/glad)
 elseif(CMAKE_SYSTEM_NAME MATCHES "Android")
     set(BUILD_MOBILE ON)
-    add_compile_definitions(BC_PLATFORM_ANDROID)
+    add_compile_definitions(BC_PLATFORM_ANDROID GLFM_INCLUDE_ES3)
 
     # Add external mobile libraries
     add_subdirectory(ByteCat/vendor/glfm)

@@ -1,9 +1,14 @@
-#ifdef BC_PLATFORM_PC
+#if defined(BC_PLATFORM_PC) || defined(BC_PLATFORM_MOBILE)
 #include "bcpch.h"
-#include <glad/glad.h>
 #include <glm/gtc/type_ptr.hpp>
 #include "platform/openGL/OpenGLShader.h"
 #include "byteCat/utils/FileIO.h"
+
+#if defined(BC_PLATFORM_PC)
+	#include <glad/glad.h>
+#elif defined(BC_PLATFORM_MOBILE)
+	#include <glfm.h>
+#endif
 
 namespace BC
 {
@@ -50,6 +55,7 @@ namespace BC
 
 		OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& geometrySrc, const std::string& fragmentSrc, bool isFilePath)
 		{
+#if defined(BC_PLATFORM_PC)
 			std::string vertexShader = vertexSrc;
 			std::string geometryShader = geometrySrc;
 			std::string fragmentShader = fragmentSrc;
@@ -92,6 +98,7 @@ namespace BC
 			glDeleteShader(fragmentShaderID);
 
 			glUseProgram(m_programID);
+#endif
 		}
 
 		OpenGLShader::~OpenGLShader()
@@ -244,7 +251,7 @@ namespace BC
 					log << *i;
 				}
 
-				LOG_TEXT_LONG(log.str());
+				LOG_TEXT_LONG(log.str().c_str());
 				
 				LOG_ERROR("Could not compile shader: %s", m_name.c_str());
 			}

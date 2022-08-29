@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="android.bytecat.androidproject">
 
-    <uses-feature android:glEsVersion="0x00020000" android:required="true" />
+    <uses-feature android:glEsVersion="0x00030000" android:required="true" />
 
     <application
         android:allowBackup="true"

@@ -32,7 +32,7 @@ target_link_libraries(ByteCat PUBLIC
     ImGui
 )
 
-if (BUILD_PC)
+if(BUILD_PC)
     target_include_directories(ByteCat PUBLIC
         "vendor/glad/include"
         "vendor/glfw/include"
@@ -48,11 +48,11 @@ if (BUILD_PC)
         glad
     )
 elseif(BUILD_MOBILE)
-    find_library(log-lib log)
-    find_library(android-lib android)
-    find_library(EGL-lib EGL)
-    find_library(GLESv2-lib GLESv2)
-
+    # find_library(log-lib log)
+    # find_library(android-lib android)
+    # find_library(EGL-lib EGL)
+    # find_library(GLESv2-lib GLESv2)
+    
     target_include_directories(ByteCat PUBLIC
         "vendor/glfm/include"
     )

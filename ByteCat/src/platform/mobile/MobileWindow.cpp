@@ -74,6 +74,12 @@ namespace BC
 						api == GLFMRenderingAPIOpenGLES32 ? "ES 3.2" :
 						api == GLFMRenderingAPIOpenGLES31 ? "ES 3.1" :
 						api == GLFMRenderingAPIOpenGLES3 ? "ES 3.0" : "ES 2.0");
+
+					if (api < GLFMRenderingAPIOpenGLES3)
+					{
+						LOG_CRITICAL("ByteCat requires at least OpenGLES version 3.0");
+						std::exit(-1);
+					}
 				});
 			
 			

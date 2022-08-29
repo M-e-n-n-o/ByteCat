@@ -22,7 +22,7 @@ public:
 
         Renderer::Init();
 		
-		//pushLayer(new GraphicsTest());
+		pushLayer(new GraphicsTest());
 	}
 
 	// The end of your application

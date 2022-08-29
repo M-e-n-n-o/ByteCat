@@ -8,6 +8,7 @@ namespace BC
 {
 	namespace Graphics
 	{
+	#ifdef BC_PLATFORM_PC
 		static const std::string vertexShader = R"(
 		#version 330 core
 
@@ -48,6 +49,48 @@ namespace BC
 		}
 	)";
 
+#elif defined(BC_PLATFORM_MOBILE)
+		static const std::string vertexShader = R"(
+		#version 300 es
+
+		in highp vec3 VertexPos;
+		in mediump vec2 TexCoord;
+
+		out mediump vec2 PassTexCoord;
+	
+		uniform mediump mat4 _modelMatrix;
+		uniform mediump mat4 _projectionMatrix;
+
+		void main()
+		{
+			PassTexCoord = TexCoord;
+			gl_Position = _projectionMatrix * _modelMatrix * vec4(VertexPos, 1.0);
+		}
+	)";
+
+		static const std::string fragmentShader = R"(
+		#version 300 es
+
+		in mediump vec2 PassTexCoord;
+		
+		out highp vec4 FragColor;
+
+		uniform lowp sampler2D tex;
+		uniform lowp float useTex;
+	
+		uniform mediump vec4 color;
+
+		void main()
+		{
+			mediump vec4 col = color;
+
+			col *= mix(col, texture(tex, PassTexCoord), useTex);
+	
+			FragColor = col;
+		}
+	)";
+#endif
+
 		inline static std::shared_ptr<Shader> basicShader = nullptr;
 		inline static std::shared_ptr<VertexArray> basicVao = nullptr;
 
@@ -55,9 +98,11 @@ namespace BC
 		{
 			basicShader = Shader::Create("Renderer simple 2D", vertexShader, fragmentShader, false);
 			basicShader->setTextureSlots({ "tex" });
-
+			
 			basicVao = VertexArray::Create();
 
+			LOG_INFO("done");
+			
 			float data[] =
 			{
 				// Positions		  // Texture coords

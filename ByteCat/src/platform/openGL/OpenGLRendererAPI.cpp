@@ -1,28 +1,35 @@
-#ifdef BC_PLATFORM_PC
+#if defined(BC_PLATFORM_PC) || defined(BC_PLATFORM_MOBILE)
 #include "bcpch.h"
-#include <glad/glad.h>
 #include "platform/openGL/OpenGLRendererAPI.h"
+
+#if defined(BC_PLATFORM_PC)
+	#include <glad/glad.h>
+#elif defined(BC_PLATFORM_MOBILE)
+	#include <glfm.h>
+#endif
 
 namespace BC
 {
 	namespace Platform
 	{
-		void APIENTRY OpenGLMessageCallback (GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
-		{
-			switch (severity)
+		#if defined(BC_PLATFORM_PC)
+			void APIENTRY OpenGLMessageCallback (GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
 			{
-			case GL_DEBUG_SEVERITY_HIGH:         LOG_CRITICAL(message); return;
-			case GL_DEBUG_SEVERITY_MEDIUM:       LOG_ERROR(message); return;
-			case GL_DEBUG_SEVERITY_LOW:          LOG_WARN(message); return;
-			case GL_DEBUG_SEVERITY_NOTIFICATION: LOG_WARN(message); return;
-			}
+				switch (severity)
+				{
+				case GL_DEBUG_SEVERITY_HIGH:         LOG_CRITICAL(message); return;
+				case GL_DEBUG_SEVERITY_MEDIUM:       LOG_ERROR(message); return;
+				case GL_DEBUG_SEVERITY_LOW:          LOG_WARN(message); return;
+				case GL_DEBUG_SEVERITY_NOTIFICATION: LOG_WARN(message); return;
+				}
 
-			LOG_CRITICAL("Unknown OpenGL message severity level!");
-		}
+				LOG_CRITICAL("Unknown OpenGL message severity level!");
+			}
+		#endif
 		
 		OpenGLRendererAPI::OpenGLRendererAPI()
 		{
-			#ifdef BC_ENABLE_LOG
+			#if defined(BC_ENABLE_LOG) && defined(BC_PLATFORM_PC)
 				glEnable(GL_DEBUG_OUTPUT);
 				glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 				glDebugMessageCallback(OpenGLMessageCallback, nullptr);
@@ -72,9 +79,9 @@ namespace BC
 			switch (mode)
 			{
 			case Graphics::CullingMode::None:			glDisable(GL_CULL_FACE); break;
-			case Graphics::CullingMode::Front:		glEnable(GL_CULL_FACE); glCullFace(GL_FRONT); break;
+			case Graphics::CullingMode::Front:			glEnable(GL_CULL_FACE); glCullFace(GL_FRONT); break;
 			case Graphics::CullingMode::Back:			glEnable(GL_CULL_FACE); glCullFace(GL_BACK); break;
-			case Graphics::CullingMode::FrontAndBack: glEnable(GL_CULL_FACE); glCullFace(GL_FRONT_AND_BACK); break;
+			case Graphics::CullingMode::FrontAndBack:	glEnable(GL_CULL_FACE); glCullFace(GL_FRONT_AND_BACK); break;
 			}
 
 			currentMode = mode;

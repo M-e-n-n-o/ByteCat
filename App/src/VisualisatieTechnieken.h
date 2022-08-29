@@ -218,60 +218,60 @@ public:
 	{		
 		if (captured)
 		{
-			ImGui::Begin("Settings");
-			
-			cloudShader->bind();
-			ImGui::Text("Cloud Settings");
-			{
-				static float cloudScale = 2.5;
-				ImGui::DragFloat("Scale", &cloudScale, 0.1);
-				cloudShader->loadFloat("cloudScale", cloudScale);
-			
-				static float minPos[3] = { -100, -20, -100 };
-				ImGui::DragFloat3("Min position", minPos, 0.1);
-				cloudShader->loadVector3("boxMin", glm::vec3(minPos[0], minPos[1], minPos[2]));
-			
-				static float maxPos[3] = { 100, 30, 100 };
-				ImGui::DragFloat3("Max position", maxPos, 0.1);
-				cloudShader->loadVector3("boxMax", glm::vec3(maxPos[0], maxPos[1], maxPos[2]));
-				
-				static float densityThreshold = 0.52f;
-				ImGui::SliderFloat("Density threshold", &densityThreshold, 0, 1);
-				cloudShader->loadFloat("densityThreshold", densityThreshold);
-			
-				static float densityMultiplier = 0.26f;
-				ImGui::DragFloat("Density multiplier", &densityMultiplier, 0.01);
-				cloudShader->loadFloat("densityMultiplier", densityMultiplier);
-			
-				static float edgeFadeDistance = 30;
-				ImGui::DragFloat("Edge fade distance", &edgeFadeDistance, 0.1);
-				cloudShader->loadFloat("edgeFadeDistance", edgeFadeDistance);
-			}
-			
-			ImGui::Text("Light Settings");
-			{
-				static float sunPos[3] = { 0, 500, 0 };
-				ImGui::DragFloat3("Sun position", sunPos);				
-				cloudShader->loadVector3("lightPos", glm::vec3(sunPos[0], sunPos[1], sunPos[2]));
-			
-				static float sunCol[3] = { 1, 1, 1 };
-				ImGui::SliderFloat3("Sun color", sunCol, 0, 1);
-				cloudShader->loadVector3("lightColor", glm::vec3(sunCol[0], sunCol[1], sunCol[2]));
-			
-				static float lightAbsorptionThroughCloud = 0.37f;
-				ImGui::DragFloat("Light absorption through cloud", &lightAbsorptionThroughCloud, 0.01);
-				cloudShader->loadFloat("lightAbsorptionThroughCloud", lightAbsorptionThroughCloud);
-			
-				static float lightAbsorptionTowardSun = 1.25f;
-				ImGui::DragFloat("Light absorption towards sun", &lightAbsorptionTowardSun, 0.01);
-				cloudShader->loadFloat("lightAbsorptionTowardSun", lightAbsorptionTowardSun);
-			
-				static float darknessThreshold = 0;
-				ImGui::SliderFloat("Darkness Threshold", &darknessThreshold, 0, 1);
-				cloudShader->loadFloat("darknessThreshold", darknessThreshold);
-			}
-			
-			ImGui::End();
+			// ImGui::Begin("Settings");
+			//
+			// cloudShader->bind();
+			// ImGui::Text("Cloud Settings");
+			// {
+			// 	static float cloudScale = 2.5;
+			// 	ImGui::DragFloat("Scale", &cloudScale, 0.1);
+			// 	cloudShader->loadFloat("cloudScale", cloudScale);
+			//
+			// 	static float minPos[3] = { -100, -20, -100 };
+			// 	ImGui::DragFloat3("Min position", minPos, 0.1);
+			// 	cloudShader->loadVector3("boxMin", glm::vec3(minPos[0], minPos[1], minPos[2]));
+			//
+			// 	static float maxPos[3] = { 100, 30, 100 };
+			// 	ImGui::DragFloat3("Max position", maxPos, 0.1);
+			// 	cloudShader->loadVector3("boxMax", glm::vec3(maxPos[0], maxPos[1], maxPos[2]));
+			// 	
+			// 	static float densityThreshold = 0.52f;
+			// 	ImGui::SliderFloat("Density threshold", &densityThreshold, 0, 1);
+			// 	cloudShader->loadFloat("densityThreshold", densityThreshold);
+			//
+			// 	static float densityMultiplier = 0.26f;
+			// 	ImGui::DragFloat("Density multiplier", &densityMultiplier, 0.01);
+			// 	cloudShader->loadFloat("densityMultiplier", densityMultiplier);
+			//
+			// 	static float edgeFadeDistance = 30;
+			// 	ImGui::DragFloat("Edge fade distance", &edgeFadeDistance, 0.1);
+			// 	cloudShader->loadFloat("edgeFadeDistance", edgeFadeDistance);
+			// }
+			//
+			// ImGui::Text("Light Settings");
+			// {
+			// 	static float sunPos[3] = { 0, 500, 0 };
+			// 	ImGui::DragFloat3("Sun position", sunPos);				
+			// 	cloudShader->loadVector3("lightPos", glm::vec3(sunPos[0], sunPos[1], sunPos[2]));
+			//
+			// 	static float sunCol[3] = { 1, 1, 1 };
+			// 	ImGui::SliderFloat3("Sun color", sunCol, 0, 1);
+			// 	cloudShader->loadVector3("lightColor", glm::vec3(sunCol[0], sunCol[1], sunCol[2]));
+			//
+			// 	static float lightAbsorptionThroughCloud = 0.37f;
+			// 	ImGui::DragFloat("Light absorption through cloud", &lightAbsorptionThroughCloud, 0.01);
+			// 	cloudShader->loadFloat("lightAbsorptionThroughCloud", lightAbsorptionThroughCloud);
+			//
+			// 	static float lightAbsorptionTowardSun = 1.25f;
+			// 	ImGui::DragFloat("Light absorption towards sun", &lightAbsorptionTowardSun, 0.01);
+			// 	cloudShader->loadFloat("lightAbsorptionTowardSun", lightAbsorptionTowardSun);
+			//
+			// 	static float darknessThreshold = 0;
+			// 	ImGui::SliderFloat("Darkness Threshold", &darknessThreshold, 0, 1);
+			// 	cloudShader->loadFloat("darknessThreshold", darknessThreshold);
+			// }
+			//
+			// ImGui::End();
 		}
 	}
 	

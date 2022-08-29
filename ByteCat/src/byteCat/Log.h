@@ -21,7 +21,7 @@
 	#ifdef BC_PLATFORM_PC
 		#define LOG_TEXT_LONG(x)			std::cout << (x) << std::endl
 	#elif defined(BC_PLATFORM_ANDROID)
-		#define LOG_TEXT_LONG(x)			__android_log_print(ANDROID_LOG_VERBOSE, "", x)
+		#define LOG_TEXT_LONG(x)			__android_log_print(ANDROID_LOG_VERBOSE, "", "%s", x)
 	#endif
 
 	// Core log/assert macros

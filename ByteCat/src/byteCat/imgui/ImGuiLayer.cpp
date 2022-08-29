@@ -2,10 +2,8 @@
 #include "byteCat/imgui/ImGuiLayer.h"
 #include "byteCat/graphics/renderer/Renderer.h"
 
-#ifdef BC_PLATFORM_PC
+#if defined(BC_PLATFORM_PC) || defined(BC_PLATFORM_MOBILE)
 	#include "platform/openGL/OpenGLImGuiRenderer.h"
-#elif defined(BC_PLATFORM_ANDROID)
-	#include "platform/android/AndroidImGuiRenderer.h"
 #endif
 
 namespace BC
@@ -43,10 +41,9 @@ namespace BC
 			{
 			case Graphics::GraphicsAPI::None:		LOG_CRITICAL("No Graphics API selected!"); return nullptr;
 
-#ifdef BC_PLATFORM_PC
-			case Graphics::GraphicsAPI::OpenGL:	return std::make_shared<Platform::OpenGLImGuiRenderer>();
-#elif defined(BC_PLATFORM_ANDROID)
-			case Graphics::GraphicsAPI::OpenGLES: return std::make_shared<Platform::AndroidImGuiRenderer>();
+#if defined(BC_PLATFORM_PC) || defined(BC_PLATFORM_MOBILE)
+			case Graphics::GraphicsAPI::OpenGL:
+			case Graphics::GraphicsAPI::OpenGLES:	return std::make_shared<Platform::OpenGLImGuiRenderer>();
 #endif
 			}
 
