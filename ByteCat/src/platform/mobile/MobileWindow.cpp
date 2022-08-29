@@ -15,6 +15,8 @@ namespace BC
 		static Inputs::EventListener* eventListener;
 		static GLFMDisplay* nativeWindow;
 		static bool isInFocus = true;
+		static unsigned int windowWidth;
+		static unsigned int windowHeight;
 		
 		MobileWindow::MobileWindow(Graphics::WindowSettings settings, void* appInputData)
 		{			
@@ -64,7 +66,8 @@ namespace BC
 			
 			glfmSetSurfaceCreatedFunc(nativeWindow, [](GLFMDisplay* display, int width, int height)
 				{
-					glViewport(0, 0, width, height);
+					windowWidth = width;
+					windowHeight = height;
 
 					GLFMRenderingAPI api = glfmGetRenderingAPI(display);
 					LOG_INFO("Configured Android window with OpenGLES version %s",
@@ -77,6 +80,17 @@ namespace BC
 			glfmSetSurfaceDestroyedFunc(nativeWindow, [](GLFMDisplay* display)
 				{
 					Inputs::WindowCloseEvent event;
+					eventListener->onEvent(event);
+				});
+
+			glfmSetOrientationChangedFunc(nativeWindow, [](GLFMDisplay* display, GLFMInterfaceOrientation orientation)
+				{
+					int width, height = 0;
+					glfmGetDisplaySize(nativeWindow, &width, &height);
+					windowWidth = width;
+					windowHeight = height;
+				
+					Inputs::WindowResizeEvent event(width, height);
 					eventListener->onEvent(event);
 				});
 
@@ -202,16 +216,12 @@ namespace BC
 
 		unsigned MobileWindow::getWidth() const
 		{
-			int width, height = 0;
-			glfmGetDisplaySize(nativeWindow, &width, &height);
-			return width;
+			return windowWidth;
 		}
 
 		unsigned MobileWindow::getHeight() const
 		{
-			int width, height = 0;
-			glfmGetDisplaySize(nativeWindow, &width, &height);
-			return height;
+			return windowHeight;
 		}
 
 		void MobileWindow::setVsync(bool enabled)

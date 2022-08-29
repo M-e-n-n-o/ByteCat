@@ -172,7 +172,7 @@ namespace BC
 		}
 
 		void WinLinWindow::resize(unsigned int width, unsigned int height)
-		{
+		{			
 			m_windowSetting.width = width;
 			m_windowSetting.height = height;
 

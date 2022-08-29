@@ -3,12 +3,13 @@ cmake_minimum_required(VERSION 3.16.3)
 project(ByteCatApplication VERSION 0.1.0)
 set(CMAKE_CXX_STANDARD 17)
 
-# add_compile_definitions(BC_PLATFORM_ANDROID)
+add_compile_definitions(BC_PLATFORM_ANDROID)
+
 if(CMAKE_SYSTEM_NAME MATCHES "Windows" OR CMAKE_SYSTEM_NAME MATCHES "Linux")
     set(BUILD_PC ON)
 
     if(CMAKE_SYSTEM_NAME MATCHES "Windows")
-        add_compile_definitions(BC_PLATFORM_WINDOWS)
+    # add_compile_definitions(BC_PLATFORM_WINDOWS)
     else()
         add_compile_definitions(BC_PLATFORM_LINUX)
     endif()

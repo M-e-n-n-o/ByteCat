@@ -8,9 +8,7 @@ namespace BC
 	namespace Platform
 	{
 		class MobileWindow : public Graphics::Window
-		{
-		private:
-			
+		{		
 		public:
 			MobileWindow(Graphics::WindowSettings settings, void* appInputData);
 			~MobileWindow();

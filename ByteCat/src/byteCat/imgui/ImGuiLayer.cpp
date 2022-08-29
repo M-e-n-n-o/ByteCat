@@ -4,6 +4,8 @@
 
 #ifdef BC_PLATFORM_PC
 	#include "platform/openGL/OpenGLImGuiRenderer.h"
+#elif defined(BC_PLATFORM_ANDROID)
+	#include "platform/android/AndroidImGuiRenderer.h"
 #endif
 
 namespace BC
@@ -43,6 +45,8 @@ namespace BC
 
 #ifdef BC_PLATFORM_PC
 			case Graphics::GraphicsAPI::OpenGL:	return std::make_shared<Platform::OpenGLImGuiRenderer>();
+#elif defined(BC_PLATFORM_ANDROID)
+			case Graphics::GraphicsAPI::OpenGLES: return std::make_shared<Platform::AndroidImGuiRenderer>();
 #endif
 			}
 

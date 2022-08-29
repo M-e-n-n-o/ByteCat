@@ -1,6 +1,5 @@
 #ifdef BC_PLATFORM_PC
 #include "bcpch.h"
-
 #include "byteCat/app/Time.h"
 #include "GLFW/glfw3.h"
 
