@@ -2,7 +2,7 @@
 #include "byteCat/graphics/components/Texture.h"
 #include "byteCat/graphics/renderer/Renderer.h"
 
-#ifdef BC_PLATFORM_PC
+#if defined(BC_PLATFORM_PC) || defined(BC_PLATFORM_MOBILE)
 	#include "platform/openGL/OpenGLTexture2D.h"
 	#include "platform/openGL/OpenGLTexture3D.h"
 	#include "platform/openGL/OpenGLTextureCube.h"
@@ -18,8 +18,9 @@ namespace BC
 			{
 			case GraphicsAPI::None:		LOG_CRITICAL("No Graphics API selected!"); return nullptr;
 
-#ifdef BC_PLATFORM_PC
-			case GraphicsAPI::OpenGL:	return std::make_shared<Platform::OpenGLTexture2D>(width, height, format);
+#if defined(BC_PLATFORM_PC) || defined(BC_PLATFORM_MOBILE)
+			case GraphicsAPI::OpenGL:
+			case GraphicsAPI::OpenGLES:	return std::make_shared<Platform::OpenGLTexture2D>(width, height, format);
 #endif
 			}
 
@@ -33,8 +34,9 @@ namespace BC
 			{
 			case GraphicsAPI::None:		LOG_CRITICAL("No Graphics API selected!"); return nullptr;
 
-#ifdef BC_PLATFORM_PC
-			case GraphicsAPI::OpenGL:	return std::make_shared<Platform::OpenGLTexture2D>(filePath, TextureFormat::AUTO, mipmapLOD);
+#if defined(BC_PLATFORM_PC) || defined(BC_PLATFORM_MOBILE)
+			case GraphicsAPI::OpenGL:
+			case GraphicsAPI::OpenGLES:	return std::make_shared<Platform::OpenGLTexture2D>(filePath, TextureFormat::AUTO, mipmapLOD);
 #endif
 			}
 
@@ -48,8 +50,9 @@ namespace BC
 			{
 			case GraphicsAPI::None:		LOG_CRITICAL("No Graphics API selected!"); return nullptr;
 
-#ifdef BC_PLATFORM_PC
-			case GraphicsAPI::OpenGL:	return std::make_shared<Platform::OpenGLTexture2D>(filePath, format, mipmapLOD);
+#if defined(BC_PLATFORM_PC) || defined(BC_PLATFORM_MOBILE)
+			case GraphicsAPI::OpenGL:
+			case GraphicsAPI::OpenGLES:	return std::make_shared<Platform::OpenGLTexture2D>(filePath, format, mipmapLOD);
 #endif
 			}
 
@@ -78,8 +81,9 @@ namespace BC
 			{
 			case GraphicsAPI::None:		LOG_CRITICAL("No Graphics API selected!"); return nullptr;
 
-#ifdef BC_PLATFORM_PC
-			case GraphicsAPI::OpenGL:	return std::make_shared<Platform::OpenGLTextureCube>(faces, format);
+#if defined(BC_PLATFORM_PC) || defined(BC_PLATFORM_MOBILE)
+			case GraphicsAPI::OpenGL:
+			case GraphicsAPI::OpenGLES:	return std::make_shared<Platform::OpenGLTextureCube>(faces, format);
 #endif
 			}
 

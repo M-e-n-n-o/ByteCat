@@ -1,8 +1,13 @@
-#ifdef BC_PLATFORM_PC
+#if defined(BC_PLATFORM_PC) || defined(BC_PLATFORM_MOBILE)
 #include "bcpch.h"
 #include <stb_image.h>
-#include <glad/glad.h>
 #include "platform/openGL/OpenGLTextureCube.h"
+
+#if defined(BC_PLATFORM_PC)
+	#include <glad/glad.h>
+#elif defined(BC_PLATFORM_MOBILE)
+	#include <glfm.h>
+#endif
 
 namespace BC
 {
@@ -51,7 +56,8 @@ namespace BC
 
 		void OpenGLTextureCube::bind(unsigned textureUnit) const
 		{
-			glBindTextureUnit(textureUnit, m_id);
+			glActiveTexture(GL_TEXTURE0 + textureUnit);
+			glBindTexture(GL_TEXTURE_CUBE_MAP, m_id);
 		}
 	}
 }

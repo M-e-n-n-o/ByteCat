@@ -1,5 +1,5 @@
 #pragma once
-#ifdef BC_PLATFORM_PC
+#if defined(BC_PLATFORM_PC) || defined(BC_PLATFORM_MOBILE)
 #include "byteCat/graphics/components/ArrayBuffer.h"
 
 namespace BC

@@ -53,13 +53,13 @@ namespace BC
 		static const std::string vertexShader = R"(
 		#version 300 es
 
-		in highp vec3 VertexPos;
-		in mediump vec2 TexCoord;
+		layout (location = 0) in vec3 VertexPos;
+		layout (location = 1) in vec2 TexCoord;
 
-		out mediump vec2 PassTexCoord;
+		out vec2 PassTexCoord;
 	
-		uniform mediump mat4 _modelMatrix;
-		uniform mediump mat4 _projectionMatrix;
+		uniform mat4 _modelMatrix;
+		uniform mat4 _projectionMatrix;
 
 		void main()
 		{
@@ -71,18 +71,18 @@ namespace BC
 		static const std::string fragmentShader = R"(
 		#version 300 es
 
-		in mediump vec2 PassTexCoord;
+		in vec2 PassTexCoord;
 		
-		out highp vec4 FragColor;
+		out vec4 FragColor;
 
-		uniform lowp sampler2D tex;
-		uniform lowp float useTex;
+		uniform sampler2D tex;
+		uniform float useTex;
 	
-		uniform mediump vec4 color;
+		uniform vec4 color;
 
 		void main()
 		{
-			mediump vec4 col = color;
+			vec4 col = color;
 
 			col *= mix(col, texture(tex, PassTexCoord), useTex);
 	

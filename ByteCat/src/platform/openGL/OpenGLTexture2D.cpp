@@ -1,9 +1,14 @@
-#ifdef BC_PLATFORM_PC
+#if defined(BC_PLATFORM_PC) || defined(BC_PLATFORM_MOBILE)
 #include "bcpch.h"
 #include <stb_image.h>
-#include <glad/glad.h>
 #include "platform/openGL/OpenGLTexture2D.h"
 #include "platform/openGL/Helper.h"
+
+#if defined(BC_PLATFORM_PC)
+	#include <glad/glad.h>
+#elif defined(BC_PLATFORM_MOBILE)
+	#include <glfm.h>
+#endif
 
 namespace BC
 {
@@ -90,7 +95,12 @@ namespace BC
 			glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, m_width, m_height, 0, dataFormat, GL_UNSIGNED_BYTE, imgData);
 			glGenerateMipmap(GL_TEXTURE_2D);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_LOD_BIAS, mipmapLOD);
+
+			#if defined(BC_PLATFORM_PC)
+				glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_LOD_BIAS, mipmapLOD);
+			#elif defined(BC_PLATFORM_MOBILE)
+				if (mipmapLOD != 0) LOG_WARN("Changing the LOD does not have any effect on OpenGLES");
+			#endif
 
 			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 			//glBindTexture(GL_TEXTURE_2D, 0);
@@ -111,7 +121,8 @@ namespace BC
 
 		void OpenGLTexture2D::bind(unsigned textureUnit) const
 		{
-			glBindTextureUnit(textureUnit, m_id);
+			glActiveTexture(GL_TEXTURE0 + textureUnit);
+			glBindTexture(GL_TEXTURE_2D, m_id);
 		}
 
 		// unsigned char OpenGLTexture2D::getValue(unsigned channel, unsigned x, unsigned y) const
