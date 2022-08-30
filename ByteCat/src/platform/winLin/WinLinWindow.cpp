@@ -13,6 +13,7 @@ namespace BC
 	{
 		static GLFWwindow* nativeWindow;
 		static Inputs::EventListener* eventListener;
+		static bool minimized = false;
 		
 		WinLinWindow::WinLinWindow(const Graphics::WindowSettings& setting)
 		{
@@ -29,11 +30,11 @@ namespace BC
 			nativeWindow = glfwCreateWindow(m_windowSetting.width, m_windowSetting.height, m_windowSetting.title.c_str(), NULL, NULL);
 			if (m_windowSetting.width == 0 || m_windowSetting.height == 0)
 			{
-				m_isMinimized = true;
+				minimized = true;
 			}
 			else
 			{
-				m_isMinimized = false;
+				minimized = false;
 			}
 
 			if (!nativeWindow)
@@ -64,6 +65,8 @@ namespace BC
 
 			glfwSetWindowFocusCallback(nativeWindow, [](GLFWwindow* window, int focused)
 				{
+					minimized = !focused;
+				
 					if (focused)
 					{
 						Inputs::WindowOnFocusEvent event;
@@ -178,11 +181,11 @@ namespace BC
 
 			if (width == 0 || height == 0)
 			{
-				m_isMinimized = true;
+				minimized = true;
 			}
 			else
 			{
-				m_isMinimized = false;
+				minimized = false;
 			}
 		}
 
@@ -198,6 +201,11 @@ namespace BC
 			{
 				glfwSwapInterval(0);
 			}
+		}
+
+		bool WinLinWindow::isMinimized()
+		{
+			return minimized;
 		}
 
 		void WinLinWindow::captureMouse(bool capture)

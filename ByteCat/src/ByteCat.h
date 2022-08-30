@@ -51,6 +51,7 @@
 #include "byteCat/ecs/components/Mesh.h"
 
 #include "byteCat/utils/Math.h"
+#include "byteCat/utils/Utility.h"
 
 #ifdef BC_PLATFORM_PC
 	#include <imgui.h>

@@ -8,10 +8,13 @@ namespace BC
 {
 	namespace Graphics
 	{
-	#ifdef BC_PLATFORM_PC
+#ifdef BC_PLATFORM_PC
+		static const std::string shaderVersion = "#version 330 core";
+#elif defined(BC_PLATFORM_MOBILE)
+		static const std::string shaderVersion = "#version 300 es";
+#endif
+		
 		static const std::string vertexShader = R"(
-		#version 330 core
-
 		layout (location = 0) in vec3 VertexPos;
 		layout (location = 1) in vec2 TexCoord;
 
@@ -28,8 +31,6 @@ namespace BC
 	)";
 
 		static const std::string fragmentShader = R"(
-		#version 330 core
-
 		in vec2 PassTexCoord;
 		
 		out vec4 FragColor;
@@ -49,54 +50,13 @@ namespace BC
 		}
 	)";
 
-#elif defined(BC_PLATFORM_MOBILE)
-		static const std::string vertexShader = R"(
-		#version 300 es
-
-		layout (location = 0) in vec3 VertexPos;
-		layout (location = 1) in vec2 TexCoord;
-
-		out vec2 PassTexCoord;
-	
-		uniform mat4 _modelMatrix;
-		uniform mat4 _projectionMatrix;
-
-		void main()
-		{
-			PassTexCoord = TexCoord;
-			gl_Position = _projectionMatrix * _modelMatrix * vec4(VertexPos, 1.0);
-		}
-	)";
-
-		static const std::string fragmentShader = R"(
-		#version 300 es
-
-		in vec2 PassTexCoord;
-		
-		out vec4 FragColor;
-
-		uniform sampler2D tex;
-		uniform float useTex;
-	
-		uniform vec4 color;
-
-		void main()
-		{
-			vec4 col = color;
-
-			col *= mix(col, texture(tex, PassTexCoord), useTex);
-	
-			FragColor = col;
-		}
-	)";
-#endif
-
 		inline static std::shared_ptr<Shader> basicShader = nullptr;
 		inline static std::shared_ptr<VertexArray> basicVao = nullptr;
 
 		static void InitBasicGraphics()
 		{
-			basicShader = Shader::Create("Renderer simple 2D", vertexShader, fragmentShader, false);
+			basicShader = Shader::Create("Renderer simple 2D", shaderVersion + vertexShader, shaderVersion + fragmentShader, false);
+			Shader::Create("Renderer simple 2D", "SimpleVertex.glsl", "SimpleFragment.glsl", true);
 			basicShader->setTextureSlots({ "tex" });
 			
 			basicVao = VertexArray::Create();

@@ -64,7 +64,7 @@ public:
 	
 	GraphicsTest() : Layer("Graphics Test")
 	{
-		// texture = Texture2D::Create("wall.jpg");
+		texture = Texture2D::Create("wall.jpg");
 
 		// Input<>::AddCustomKeyCode("jump", KeyCode::Space);
 		// Input<>::AddCustomKeyCode("jump", KeyCode::S);
@@ -83,10 +83,10 @@ public:
 		Renderer2D::Clear({ 1, 0, 0, 1 });
 
 		// Renderer2D::SetColor({ 1, 1, 1, 1 });
-		// Renderer2D::DrawImage({ 1, 0 }, 0, { 1, 1 }, texture);
+		// Renderer2D::DrawImage({ 0, 0 }, 0, { 1, 1 }, texture);
 		
 		Renderer2D::SetColor({ 0, 1, 0, 1 });
-		Renderer2D::DrawRectangle({ -1, 0 }, 10, { 1, 1 });
+		Renderer2D::DrawRectangle({ 0, 0 }, 10, { 1, 1 });
 
 		// if (Input<>::IsPressed("jump"))
 		// {

@@ -19,8 +19,10 @@ public:
 		
         m_window = Window::Create(settings, appInputData);
         m_window->setEventListener(this);
-
+		
         Renderer::Init();
+		
+		Utility::Android::RequestPermissions({ "READ_EXTERNAL_STORAGE", "WRITE_EXTERNAL_STORAGE" });
 		
 		pushLayer(new GraphicsTest());
 	}

@@ -1,16 +1,17 @@
+#ifdef BC_PLATFORM_ANDROID
 #include "bcpch.h"
 #include "byteCat/utils/FileIO.h"
 
 namespace BC
 {
 	namespace Utils
-	{
+	{		
 		std::string FileIO::ReadFileIntoString(const std::string& path)
-		{
+		{        	
 			std::ifstream inputStream(path, std::ios::in);
 
 			if (!inputStream.is_open()) {
-				LOG_ERROR("Could not open file: %s", path.c_str());
+				LOG_ERROR("Could not open file: %s, do you have READ_EXTERNAL_STORAGE permissions?", path.c_str());				
 				return "";
 			}
 
@@ -22,3 +23,11 @@ namespace BC
 		}
 	}
 }
+#endif
+
+
+/*
+ * Nog laten werken:
+ * - Textures vanuit file inladen
+ * - Shaders vanuit file inladen
+ */

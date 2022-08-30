@@ -14,8 +14,6 @@ namespace BC
 			Graphics::WindowSettings m_windowSetting;
 			Graphics::GraphicsContext* m_context;
 			
-			bool m_isMinimized = false;
-			
 		public:
 			WinLinWindow(const Graphics::WindowSettings& setting);
 			~WinLinWindow() { shutdown(); }
@@ -36,7 +34,7 @@ namespace BC
 			void setVsync(bool enabled) override;
 			bool getVsync() const override { return m_windowSetting.vSync; }
 
-			bool isMinimized() override { return m_isMinimized; }
+			bool isMinimized() override;
 
 			void captureMouse(bool capture) override;
 			

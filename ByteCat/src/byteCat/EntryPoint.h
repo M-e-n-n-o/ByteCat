@@ -9,6 +9,7 @@
 	int main(int argc, char** argv)
 #elif defined(BC_PLATFORM_MOBILE)
 	#include <glfm.h>
+
 	void glfmMain(GLFMDisplay* display)
 #endif
 	{
