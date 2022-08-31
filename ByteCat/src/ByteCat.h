@@ -52,6 +52,7 @@
 
 #include "byteCat/utils/Math.h"
 #include "byteCat/utils/Utility.h"
+#include "byteCat/utils/FileIO.h"
 
 #ifdef BC_PLATFORM_PC
 	#include <imgui.h>

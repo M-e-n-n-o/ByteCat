@@ -1,3 +1,4 @@
+#include "byteCat/utils/FileIO.h"
 #if defined(BC_PLATFORM_PC) || defined(BC_PLATFORM_MOBILE)
 #include "bcpch.h"
 #include <stb_image.h>
@@ -49,17 +50,34 @@ namespace BC
 
 		OpenGLTexture2D::OpenGLTexture2D(const std::string& filePath, const Graphics::TextureFormat& format, float mipmapLOD)
 		{
-			std::string finalPath = filePath;
-			finalPath.insert(0, BC_ASSETS_FOLDER);
+			LOG_INFO("Loading texture2D: %s", filePath.c_str());
 
-			LOG_INFO("Loading texture2D: %s", finalPath.c_str());
+			unsigned char* imgData;
 
+		#if defined(BC_PLATFORM_PC)
 			stbi_set_flip_vertically_on_load(1);
-			unsigned char* imgData = stbi_load(finalPath.c_str(), &m_width, &m_height, &m_channels, 0);
+			imgData = stbi_load(Utils::FileIO::GetRelativePath(filePath).c_str(), &m_width, &m_height, &m_channels, 0);
+		#elif defined(BC_PLATFORM_ANDROID)
+			imgData = (unsigned char*) Utils::FileIO::GetImageFromAssets(filePath);
+		#endif
+
+			//auto pair = Utils::FileIO::GetAsset(filePath);
+			//if (pair.first == nullptr)
+			//{
+			//	imgData = stbi_load(Utils::FileIO::GetRelativePath(filePath).c_str(), &m_width, &m_height, &m_channels, 0);
+			//}
+			//else
+			//{
+			//	LOG_INFO("%s", pair.first);
+
+			//	imgData = stbi_load_from_memory(pair.first, pair.second, &m_width, &m_height, &m_channels, 3);
+			//}
+
 			if (!imgData)
 			{
-				LOG_ERROR("Failed to load texture2D: %s", finalPath.c_str());
+				LOG_ERROR("Failed to load texture2D: %s", filePath.c_str());
 				stbi_image_free(imgData);
+				delete imgData;
 				return;
 			}
 
@@ -81,8 +99,9 @@ namespace BC
 				dataFormat = GL_RGB;
 			} else
 			{
-				LOG_ERROR("Image format not supported for texture2D: %s", finalPath.c_str());
+				LOG_ERROR("Image format not supported for texture2D: %s", filePath.c_str());
 				stbi_image_free(imgData);
+				delete imgData;
 				return;
 			}
 
@@ -107,6 +126,7 @@ namespace BC
 
 			// m_textureData = imgData;
 			stbi_image_free(imgData);
+			delete imgData;
 		}
 
 		OpenGLTexture2D::~OpenGLTexture2D()

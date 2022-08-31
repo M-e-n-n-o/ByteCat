@@ -10,11 +10,9 @@
 namespace BC
 {
 	namespace Inputs
-	{
-#ifdef BC_PLATFORM_MOBILE
-		class MobileInputModule {};
-#endif
-		
+	{		
+		class EmptyInputModule {};
+
 		/**
 		 * @brief
 		 * Use this class to poll inputs, start/stop listening to specific Events or send out Events to all listeners
@@ -23,10 +21,8 @@ namespace BC
 		 */
 #ifdef BC_PLATFORM_PC
 		template<class InputModule = PcInputModule>
-#elif defined(BC_PLATFORM_MOBILE)
-		template<class InputModule = MobileInputModule>
 #else
-		template<class InputModule>
+		template<class InputModule = EmptyInputModule>
 #endif
 		class Input : public InputModule
 		{

@@ -56,7 +56,6 @@ namespace BC
 		static void InitBasicGraphics()
 		{			
 			basicShader = Shader::Create("Renderer simple 2D", shaderVersion + vertexShader, shaderVersion + fragmentShader, false);
-			// Shader::Create("Renderer simple 2D", "SimpleVertex.glsl", "SimpleFragment.glsl", true);
 			basicShader->setTextureSlots({ "tex" });
 			
 			basicVao = VertexArray::Create();

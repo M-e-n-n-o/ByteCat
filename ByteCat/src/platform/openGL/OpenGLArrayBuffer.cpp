@@ -35,8 +35,6 @@ namespace BC
 		OpenGLVertexBuffer::~OpenGLVertexBuffer()
 		{
 			glDeleteBuffers(1, &m_id);
-
-			LOG_INFO("deleting...");
 		}
 
 		void OpenGLVertexBuffer::bind() const

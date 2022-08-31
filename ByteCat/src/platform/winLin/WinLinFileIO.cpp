@@ -6,14 +6,20 @@ namespace BC
 {
 	namespace Utils
 	{
+		std::string FileIO::GetRelativePath(const std::string& path)
+		{
+			std::string finalPath = path;
+			return finalPath.insert(0, BC_ASSETS_FOLDER);
+		}
+
 		std::string FileIO::ReadFileIntoString(const std::string& path)
 		{
-			std::string newPath = path;
-			newPath.insert(0, BC_ASSETS_FOLDER);
-			std::ifstream inputStream(newPath, std::ios::in);
-
-			if (!inputStream.is_open()) {
-				LOG_ERROR("Could not open file: %s", newPath.c_str());
+			std::string relativePath = FileIO::GetRelativePath(path);
+			std::ifstream inputStream(relativePath, std::ios::in);
+			
+			if (!inputStream.is_open()) 
+			{
+				LOG_ERROR("Could not open file: %s", relativePath.c_str());
 				return "";
 			}
 

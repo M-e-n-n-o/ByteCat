@@ -160,79 +160,16 @@ namespace BC
                 lJavaVM->DetachCurrentThread();
             }
         }
-
-        // void requestFilePermissions()
-        // {
-        //     LOG_INFO("Requesting Android file permissions...");
-        //
-        //     ANativeActivity* nativeActivity = FILE_COMPAT_ANDROID_ACTIVITY;
-        //     JavaVM* lJavaVM = nativeActivity->vm;
-        //     JNIEnv* lJNIEnv = nullptr;
-        //     bool lThreadAttached = false;
-        //
-        //     // Get JNIEnv from lJavaVM using GetEnv to test whether
-        //     // thread is attached or not to the VM. If not, attach it
-        //     // (and note that it will need to be detached at the end
-        //     //  of the function).
-        //     switch (lJavaVM->GetEnv((void**)&lJNIEnv, JNI_VERSION_1_6))
-        //     {
-        //     case JNI_OK:
-        //         break;
-        //     case JNI_EDETACHED:
-        //     {
-        //         jint lResult = lJavaVM->AttachCurrentThread(&lJNIEnv, nullptr);
-        //         if (lResult == JNI_ERR)
-        //         {
-        //             throw std::runtime_error("Could not attach current thread");
-        //         }
-        //         lThreadAttached = true;
-        //     } break;
-        //     case JNI_EVERSION:
-        //         throw std::runtime_error("Invalid java version");
-        //     }
-        //
-        //     jobjectArray perm_array = lJNIEnv->NewObjectArray(
-        //         2,
-        //         lJNIEnv->FindClass("java/lang/String"),
-        //         lJNIEnv->NewStringUTF("")
-        //     );
-        //
-        //     lJNIEnv->SetObjectArrayElement(
-        //         perm_array, 0,
-        //         permissionName(lJNIEnv, "READ_EXTERNAL_STORAGE")
-        //     );
-        //
-        //     lJNIEnv->SetObjectArrayElement(
-        //         perm_array, 1,
-        //         permissionName(lJNIEnv, "WRITE_EXTERNAL_STORAGE")
-        //     );
-        //
-        //     jobject activity = nativeActivity->clazz;
-        //
-        //     jclass ClassActivity = lJNIEnv->FindClass(
-        //         "android/app/Activity"
-        //     );
-        //
-        //     jmethodID MethodrequestPermissions = lJNIEnv->GetMethodID(
-        //         ClassActivity, "requestPermissions", "([Ljava/lang/String;I)V"
-        //     );
-        //
-        //     // Last arg (0) is just for the callback (that I do not use)
-        //     lJNIEnv->CallVoidMethod(
-        //         activity, MethodrequestPermissions, perm_array, 0
-        //     );
-        //
-        //     if (lThreadAttached)
-        //     {
-        //         lJavaVM->DetachCurrentThread();
-        //     }
-        // }
 		
 		void Utility::Android::RequestPermissions(std::initializer_list<const char*> permissions)
 		{
+            LOG_INFO("Checking for Android permissions:");
+        	
             bool hasPermissions = true;
 			for (const char* p : permissions)
 			{
+                LOG_INFO("%s", p);
+				
 				if (!hasPermission(p))
                 {
                     hasPermissions = false;
@@ -241,7 +178,7 @@ namespace BC
 
         	if(!hasPermissions)
         	{
-                LOG_INFO("Requesting Android permissions...");
+                LOG_INFO("Permissions not received yet, requesting permissions...");
         		requestPermissions(permissions);
 
         		while(true)
