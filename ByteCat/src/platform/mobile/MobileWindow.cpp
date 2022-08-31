@@ -117,7 +117,12 @@ namespace BC
 				});
 			
 			glfmSetRenderFunc(nativeWindow, [](GLFMDisplay* display)
-				{				
+				{
+					// glClearColor(1, 0, 0, 1);
+					// glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+					// Graphics::Renderer::GetRenderer()->clearColor(glm::vec4(1, 0, 0, 1));
+					// Graphics::Renderer::GetRenderer()->clearBuffers();
+				
 					Inputs::WindowRenderEvent event;
 					eventListener->onEvent(event);
 				});

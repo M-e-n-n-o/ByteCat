@@ -50,20 +50,22 @@ namespace BC
             pushLayer(m_imguiLayer);
             pushLayer(new Time());
 
-#ifdef BC_PLATFORM_PC
+		#ifdef BC_PLATFORM_PC
             while (m_isRunning)
             {
                 onFrame();
             }
-#endif
+		#endif
         }
 
         void Application::onFrame()
-        {
-			m_window->update();
-   
+        {   
 			if (m_window->isMinimized())
 			{
+			#ifdef BC_PLATFORM_PC
+                m_window->update();
+			#endif
+				
 			    return;
 			}
    
@@ -93,6 +95,8 @@ namespace BC
 			    }
 			    m_imguiLayer->end();
 			}
+
+            m_window->update();
         }
 
         void Application::stop()

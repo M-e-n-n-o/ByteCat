@@ -8,10 +8,12 @@ namespace BC
 	{
 		std::string FileIO::ReadFileIntoString(const std::string& path)
 		{
-			std::ifstream inputStream(path, std::ios::in);
+			std::string newPath = path;
+			newPath.insert(0, BC_ASSETS_FOLDER);
+			std::ifstream inputStream(newPath, std::ios::in);
 
 			if (!inputStream.is_open()) {
-				LOG_ERROR("Could not open file: %s", path.c_str());
+				LOG_ERROR("Could not open file: %s", newPath.c_str());
 				return "";
 			}
 

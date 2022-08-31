@@ -52,11 +52,11 @@ namespace BC
 
 		inline static std::shared_ptr<Shader> basicShader = nullptr;
 		inline static std::shared_ptr<VertexArray> basicVao = nullptr;
-
+		
 		static void InitBasicGraphics()
-		{
+		{			
 			basicShader = Shader::Create("Renderer simple 2D", shaderVersion + vertexShader, shaderVersion + fragmentShader, false);
-			Shader::Create("Renderer simple 2D", "SimpleVertex.glsl", "SimpleFragment.glsl", true);
+			// Shader::Create("Renderer simple 2D", "SimpleVertex.glsl", "SimpleFragment.glsl", true);
 			basicShader->setTextureSlots({ "tex" });
 			
 			basicVao = VertexArray::Create();

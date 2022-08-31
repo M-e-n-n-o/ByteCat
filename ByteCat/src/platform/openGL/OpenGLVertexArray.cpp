@@ -39,7 +39,7 @@ namespace BC
 		}
 
 		OpenGLVertexArray::~OpenGLVertexArray()
-		{	
+		{
 			glDeleteVertexArrays(1, &m_id);
 		}
 

@@ -61,11 +61,36 @@ public:
 	{
 		LOG_INFO("jaa");
 	}
+
+	// inline static std::shared_ptr<VertexArray> vao;
 	
 	GraphicsTest() : Layer("Graphics Test")
 	{
-		texture = Texture2D::Create("wall.jpg");
+		// vao = VertexArray::Create();
+		//
+		// float data[] =
+		// {
+		// 	// Positions		  // Texture coords
+		// 	0.5f,  0.5f, 0.0f,   1.0f, 1.0f,
+		// 	0.5f, -0.5f, 0.0f,   1.0f, 0.0f,
+		//    -0.5f, -0.5f, 0.0f,   0.0f, 0.0f,
+		//    -0.5f,  0.5f, 0.0f,   0.0f, 1.0f
+		// };
+		//
+		// auto vbo = VertexBuffer::Create(data, sizeof(data));
+		// vbo->setLayout({ {ShaderDataType::Float3, "VertexPos"}, {ShaderDataType::Float2, "TexCoord"} });
+		// vao->addVertexBuffer(vbo);
+		//
+		// unsigned int indices[] =
+		// {
+		// 	0, 2, 1,
+		// 	2, 0, 3
+		// };
+		//
+		// auto ebo = IndexBuffer::Create(indices, sizeof(indices));
+		// vao->setIndexBuffer(ebo);
 
+		
 		// Input<>::AddCustomKeyCode("jump", KeyCode::Space);
 		// Input<>::AddCustomKeyCode("jump", KeyCode::S);
 		// Input<>::AddCustomKeyCode("jump", MouseCode::ButtonLeft);
@@ -79,14 +104,21 @@ public:
 	}
 
 	void onUpdate() override
-	{		
+	{
 		Renderer2D::Clear({ 1, 0, 0, 1 });
 
 		// Renderer2D::SetColor({ 1, 1, 1, 1 });
 		// Renderer2D::DrawImage({ 0, 0 }, 0, { 1, 1 }, texture);
 		
 		Renderer2D::SetColor({ 0, 1, 0, 1 });
-		Renderer2D::DrawRectangle({ 0, 0 }, 10, { 1, 1 });
+
+		for(float x = -1; x < 1; x += 0.1)
+		{
+			for (float y = -1; y < 1; y += 0.1)
+			{
+				Renderer2D::DrawRectangle({ x, y }, 10, { 0.05, 0.05 });
+			}
+		}
 
 		// if (Input<>::IsPressed("jump"))
 		// {
