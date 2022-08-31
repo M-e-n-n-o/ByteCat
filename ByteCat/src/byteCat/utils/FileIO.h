@@ -13,7 +13,7 @@ namespace BC
 			
 #ifdef BC_PLATFORM_ANDROID
 			// Note: Manually delete the data!
-			static void* GetImageFromAssets(const std::string& path);
+			static bool GetDataFromAssets(const std::string& path, std::vector<unsigned char>& buffer);
 #endif
 		};
 	}

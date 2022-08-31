@@ -64,7 +64,7 @@ public:
 	
 	GraphicsTest() : Layer("Graphics Test")
 	{
-		texture = Texture2D::Create("rgbNoise.png");
+		texture = Texture2D::Create("skybox/front.jpg");
 		
 		// Input<>::AddCustomKeyCode("jump", KeyCode::Space);
 		// Input<>::AddCustomKeyCode("jump", KeyCode::S);

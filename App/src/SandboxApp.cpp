@@ -22,7 +22,7 @@ public:
 		
         Renderer::Init();
 		
-		Utility::Android::RequestPermissions({ "READ_EXTERNAL_STORAGE", "WRITE_EXTERNAL_STORAGE" });
+		Utils::Utility::RequestPermissions({ "READ_EXTERNAL_STORAGE", "WRITE_EXTERNAL_STORAGE" });
 
 		pushLayer(new GraphicsTest());
 	}

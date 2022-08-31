@@ -52,32 +52,34 @@ namespace BC
 		{
 			LOG_INFO("Loading texture2D: %s", filePath.c_str());
 
-			unsigned char* imgData;
+			unsigned char* imgData = nullptr;
+			stbi_set_flip_vertically_on_load(1);
 
 		#if defined(BC_PLATFORM_PC)
-			stbi_set_flip_vertically_on_load(1);
 			imgData = stbi_load(Utils::FileIO::GetRelativePath(filePath).c_str(), &m_width, &m_height, &m_channels, 0);
+
 		#elif defined(BC_PLATFORM_ANDROID)
-			imgData = (unsigned char*) Utils::FileIO::GetImageFromAssets(filePath);
+			std::vector<unsigned char> assetContent;
+
+			bool success = Utils::FileIO::GetDataFromAssets(filePath, assetContent);
+			if (!success)
+			{
+				LOG_ERROR("Failed to load texture from Assets: %s", filePath.c_str());
+				return;
+			}
+
+			imgData = stbi_load_from_memory(assetContent.data(), assetContent.size(), &m_width, &m_height, &m_channels, 0);
+
+			// !!!!!!!!!!!!!!!!!!!!!!!!!
+			// !!!!!!!!!!!!!!!!!!!!!!!!!
+			// De breedte en hoogte leest ie goed uit, dus de data dan waarschijnlijk ook, er gaat dus iets anders fout
+			LOG_INFO("%d", m_height);
 		#endif
-
-			//auto pair = Utils::FileIO::GetAsset(filePath);
-			//if (pair.first == nullptr)
-			//{
-			//	imgData = stbi_load(Utils::FileIO::GetRelativePath(filePath).c_str(), &m_width, &m_height, &m_channels, 0);
-			//}
-			//else
-			//{
-			//	LOG_INFO("%s", pair.first);
-
-			//	imgData = stbi_load_from_memory(pair.first, pair.second, &m_width, &m_height, &m_channels, 3);
-			//}
 
 			if (!imgData)
 			{
 				LOG_ERROR("Failed to load texture2D: %s", filePath.c_str());
 				stbi_image_free(imgData);
-				delete imgData;
 				return;
 			}
 
@@ -101,7 +103,6 @@ namespace BC
 			{
 				LOG_ERROR("Image format not supported for texture2D: %s", filePath.c_str());
 				stbi_image_free(imgData);
-				delete imgData;
 				return;
 			}
 
@@ -126,7 +127,6 @@ namespace BC
 
 			// m_textureData = imgData;
 			stbi_image_free(imgData);
-			delete imgData;
 		}
 
 		OpenGLTexture2D::~OpenGLTexture2D()

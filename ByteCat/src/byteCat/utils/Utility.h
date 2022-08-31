@@ -9,12 +9,8 @@ namespace BC
 		public:
 			
 #ifdef BC_PLATFORM_ANDROID
-			class Android
-			{
-			public:
-				// This will lock the application until the user has accepted or denied the request
-				static void RequestPermissions(std::initializer_list<const char*> permissions);
-			};
+			// This will lock the application until the user has accepted or denied the request
+			static void RequestPermissions(std::initializer_list<const char*> permissions);
 #endif
 		};
 	}

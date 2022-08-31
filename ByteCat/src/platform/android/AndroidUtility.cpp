@@ -161,7 +161,7 @@ namespace BC
             }
         }
 		
-		void Utility::Android::RequestPermissions(std::initializer_list<const char*> permissions)
+		void Utility::RequestPermissions(std::initializer_list<const char*> permissions)
 		{
             LOG_INFO("Checking for Android permissions:");
         	
