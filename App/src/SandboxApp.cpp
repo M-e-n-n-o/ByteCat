@@ -22,7 +22,7 @@ public:
 		
 
 		/*
-		* OpenGL calls werken niet totdat de "SurfaceCreatedFunc" is aangeroepen van MobileWindow.
+		* OpenGL calls werken gok ik niet totdat de "SurfaceCreatedFunc" is aangeroepen van MobileWindow.
 		* Hierdoor gaan waarschijnlijk dus ook niet de debug messages aan.
 		* Dus we moeten wachten totdat die functie is aangeroepen en dan pas doorgaan naar na deze comment.
 		* (Hopelijk fixed dat ook het texture probleem)
