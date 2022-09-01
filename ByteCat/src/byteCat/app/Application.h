@@ -50,9 +50,14 @@ namespace BC
 			Graphics::Window& getWindow() const { return *m_window; }
 			static Application& GetInstance() { return *s_instance; }
 
+		protected:
+			// Will be called after the start of the Application (you can have Graphics API calls from here on out)
+			virtual void onApplicationStart() = 0;
+
 		private:
 			
 			void onEvent(Inputs::Event& event) override;
+			bool onWindowCreated(Inputs::WindowCreatedEvent& event);
 			bool onWindowClose(Inputs::WindowCloseEvent& event);
 			bool onWindowResize(Inputs::WindowResizeEvent& event);
 			bool onWindowRender(Inputs::WindowRenderEvent& event);

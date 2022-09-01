@@ -80,6 +80,9 @@ namespace BC
 						LOG_CRITICAL("ByteCat requires at least OpenGLES version 3.2");
 						std::exit(-1);
 					}
+
+					Inputs::WindowCreatedEvent event;
+					eventListener->onEvent(event);
 				});
 			
 			

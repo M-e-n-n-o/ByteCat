@@ -15,9 +15,8 @@ namespace BC
 
 			R,
 			RG,
-			RGB16F,
-			RGBA8,
-			RGBA16F
+			RGB,
+			RGBA
 		};
 
 		class Texture
@@ -83,7 +82,7 @@ namespace BC
 			virtual TextureFormat getFormat() const override = 0;
 			virtual unsigned getId() const override = 0;
 
-			static std::shared_ptr<TextureCube> Create(std::initializer_list<std::string> faces, const TextureFormat& format = TextureFormat::RGB16F);
+			static std::shared_ptr<TextureCube> Create(std::initializer_list<std::string> faces, const TextureFormat& format = TextureFormat::RGB);
 		};
 	}
 }

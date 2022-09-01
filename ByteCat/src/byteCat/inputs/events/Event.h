@@ -10,7 +10,7 @@ namespace BC
 		{
 			None = 0,
 			Other,
-			WindowClose, WindowResize, WindowFocus, WindowLostFocus, WindowMoved, WindowRender,
+			WindowCreated, WindowClose, WindowResize, WindowFocus, WindowLostFocus, WindowMoved, WindowRender,
 			KeyPressed, KeyReleased, KeyTyped,
 			MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled,
 			TouchHover, TouchBegan, TouchMoved, TouchEnded, TouchCancelled

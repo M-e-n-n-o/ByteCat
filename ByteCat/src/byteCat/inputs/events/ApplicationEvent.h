@@ -7,6 +7,14 @@ namespace BC
 {
 	namespace Inputs
 	{
+		class WindowCreatedEvent : public Event
+		{
+		public:
+			EVENT_CLASS_TYPE(WindowCreated)
+
+				int getCategoryFlags() const override { return EventCatApplication; }
+		};
+
 		class WindowResizeEvent : public Event
 		{
 		private:

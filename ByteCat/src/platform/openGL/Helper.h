@@ -19,9 +19,8 @@ namespace BC
 			case Graphics::TextureFormat::DEPTH_STENCIL:	return GL_DEPTH_STENCIL;
 			case Graphics::TextureFormat::R:				return GL_RED;
 			case Graphics::TextureFormat::RG:				return GL_RG;
-			case Graphics::TextureFormat::RGB16F:			return GL_RGB16F;
-			case Graphics::TextureFormat::RGBA8:			return GL_RGBA8;
-			case Graphics::TextureFormat::RGBA16F:		return GL_RGBA16F;
+			case Graphics::TextureFormat::RGB:				return GL_RGB;
+			case Graphics::TextureFormat::RGBA:				return GL_RGBA;
 			}
 
 			return -1;
@@ -35,9 +34,8 @@ namespace BC
 			case Graphics::TextureFormat::DEPTH_STENCIL:	return GL_DEPTH_STENCIL;
 			case Graphics::TextureFormat::R:				return GL_RED;
 			case Graphics::TextureFormat::RG:				return GL_RG;
-			case Graphics::TextureFormat::RGB16F:			return GL_RGB;
-			case Graphics::TextureFormat::RGBA8:			return GL_RGBA;
-			case Graphics::TextureFormat::RGBA16F:		return GL_RGBA;
+			case Graphics::TextureFormat::RGB:				return GL_RGB;
+			case Graphics::TextureFormat::RGBA:				return GL_RGBA;
 			}
 
 			return -1;

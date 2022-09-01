@@ -50,6 +50,8 @@ namespace BC
             pushLayer(m_imguiLayer);
             pushLayer(new Time());
 
+            onApplicationStart();
+
 		#ifdef BC_PLATFORM_PC
             while (m_isRunning)
             {
@@ -111,6 +113,7 @@ namespace BC
         void Application::onEvent(Inputs::Event& event)
         {
 	        Inputs::EventDispatcher dispatcher(event);
+            dispatcher.dispatch<Inputs::WindowCreatedEvent>(BC_BIND_EVENT_FN(Application::onWindowCreated));
             dispatcher.dispatch<Inputs::WindowCloseEvent>(BC_BIND_EVENT_FN(Application::onWindowClose));
             dispatcher.dispatch<Inputs::WindowResizeEvent>(BC_BIND_EVENT_FN(Application::onWindowResize));
             dispatcher.dispatch<Inputs::WindowRenderEvent>(BC_BIND_EVENT_FN(Application::onWindowRender));
@@ -130,6 +133,12 @@ namespace BC
             }
 
             Inputs::Input<>::HandleEvent(event);
+        }
+
+        bool Application::onWindowCreated(Inputs::WindowCreatedEvent& event)
+        {
+            start();
+            return true;
         }
 
         bool Application::onWindowClose(Inputs::WindowCloseEvent& event)

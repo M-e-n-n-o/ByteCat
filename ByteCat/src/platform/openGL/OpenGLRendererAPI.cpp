@@ -18,10 +18,10 @@ namespace BC
 			{
 				switch (severity)
 				{
-				case GL_DEBUG_SEVERITY_HIGH:         LOG_CRITICAL(message); return;
-				case GL_DEBUG_SEVERITY_MEDIUM:       LOG_ERROR("%s", message); return;
-				case GL_DEBUG_SEVERITY_LOW:          LOG_WARN("%s", message); return;
-				case GL_DEBUG_SEVERITY_NOTIFICATION: LOG_WARN("%s", message); return;
+				case GL_DEBUG_SEVERITY_HIGH:         LOG_CRITICAL("OpenGL high severity message:");	LOG_CRITICAL(message); return;
+				case GL_DEBUG_SEVERITY_MEDIUM:       LOG_ERROR("OpenGL medium severity message: %s", message); return;
+				case GL_DEBUG_SEVERITY_LOW:          LOG_WARN("OpenGL low severity message: %s", message); return;
+				case GL_DEBUG_SEVERITY_NOTIFICATION: LOG_WARN("OpenGL notification message: %s", message); return;
 				}
 
 				LOG_ERROR("Unknown OpenGL message severity level!");
@@ -30,7 +30,7 @@ namespace BC
 		
 		OpenGLRendererAPI::OpenGLRendererAPI()
 		{
-			#if defined(BC_ENABLE_LOG) // && defined(BC_PLATFORM_PC)
+			#if defined(BC_ENABLE_LOG)
 				glEnable(GL_DEBUG_OUTPUT);
 				glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 				glDebugMessageCallback(OpenGLMessageCallback, nullptr);

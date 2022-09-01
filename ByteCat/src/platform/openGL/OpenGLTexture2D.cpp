@@ -25,9 +25,8 @@ namespace BC
 			{
 			case Graphics::TextureFormat::R: m_channels = 1; break;
 			case Graphics::TextureFormat::RG: m_channels = 2; break;
-			case Graphics::TextureFormat::RGB16F: m_channels = 3; break;
-			case Graphics::TextureFormat::RGBA8:
-			case Graphics::TextureFormat::RGBA16F: m_channels = 4; break;
+			case Graphics::TextureFormat::RGB: m_channels = 3; break;
+			case Graphics::TextureFormat::RGBA: m_channels = 4; break;
 			default: m_channels = 3;
 			}
 
@@ -81,25 +80,22 @@ namespace BC
 			glGenTextures(1, &m_id);
 			glBindTexture(GL_TEXTURE_2D, m_id);
 
-			int internalFormat = 0;
-			int dataFormat = 0;
 			if (m_channels == 4)
 			{
-				m_format = Graphics::TextureFormat::RGBA16F;
-				internalFormat = TextureFormatToOpenGLInternalFormat(Graphics::TextureFormat::RGBA16F);
-				dataFormat = GL_RGBA;
+				m_format = Graphics::TextureFormat::RGBA;
 			}
 			else if (m_channels == 3)
 			{
-				m_format = Graphics::TextureFormat::RGB16F;
-				internalFormat = TextureFormatToOpenGLInternalFormat(Graphics::TextureFormat::RGB16F);
-				dataFormat = GL_RGB;
+				m_format = Graphics::TextureFormat::RGB;
 			} else
 			{
 				LOG_ERROR("Image format not supported for texture2D: %s", filePath.c_str());
 				stbi_image_free(imgData);
 				return;
 			}
+
+			int internalFormat = TextureFormatToOpenGLInternalFormat(m_format);
+			int dataFormat = TextureFormatToOpenGLFormat(m_format);
 
 			if (format != Graphics::TextureFormat::AUTO)
 			{
@@ -108,6 +104,7 @@ namespace BC
 			}
 
 			glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, m_width, m_height, 0, dataFormat, GL_UNSIGNED_BYTE, imgData);
+
 			glGenerateMipmap(GL_TEXTURE_2D);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 

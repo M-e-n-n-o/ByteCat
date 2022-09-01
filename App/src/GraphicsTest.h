@@ -1,8 +1,6 @@
 #pragma once
 #include <ByteCat.h>
 
-#include <glfm.h>
-
 using namespace BC;
 using namespace App;
 using namespace Inputs;

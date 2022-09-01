@@ -21,9 +21,9 @@
 		auto app = BC::App::CreateApplication(display);
 #endif
 		
+#ifdef BC_PLATFORM_PC
   		app->start();
 
-#ifdef BC_PLATFORM_PC
   		delete app;
 #endif
 	}

@@ -20,6 +20,7 @@ public:
         m_window = Window::Create(settings, appInputData);
         m_window->setEventListener(this);
 		
+		Utils::Utility::RequestPermissions({ "READ_EXTERNAL_STORAGE", "WRITE_EXTERNAL_STORAGE" });
 
 		/*
 		* OpenGL calls werken gok ik niet totdat de "SurfaceCreatedFunc" is aangeroepen van MobileWindow.
@@ -27,12 +28,12 @@ public:
 		* Dus we moeten wachten totdat die functie is aangeroepen en dan pas doorgaan naar na deze comment.
 		* (Hopelijk fixed dat ook het texture probleem)
 		*/
+	}
 
-
-        Renderer::Init();
-		
-		Utils::Utility::RequestPermissions({ "READ_EXTERNAL_STORAGE", "WRITE_EXTERNAL_STORAGE" });
-
+	// You can have Graphics API calls from here on out (not in constructor)
+	void onApplicationStart() override
+	{
+		Renderer::Init();
 		pushLayer(new GraphicsTest());
 	}
 
