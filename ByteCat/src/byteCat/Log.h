@@ -34,11 +34,11 @@
 			#define LOG_CRITICAL(x)			SPDLOG_LOGGER_PRINTF(::BC::Log::GetCoreLogger(), spdlog::level::critical, x)
 			#define LOG_ASSERT(x, y)		{ if(!(x)) { LOG_ERROR("Assertion Failed: {0}", y); BC_DEBUG_BREAK; } }
 		#elif defined(BC_PLATFORM_ANDROID)
-			#define LOG_ESSENTIAL(x)		__android_log_print(ANDROID_LOG_VERBOSE, "ByteCat", x)
+			#define LOG_ESSENTIAL(x)		__android_log_print(ANDROID_LOG_VERBOSE, "ByteCat", "%s", x)
 			#define LOG_INFO(...)			__android_log_print(ANDROID_LOG_INFO, "ByteCat", __VA_ARGS__)
 			#define LOG_WARN(...)			__android_log_print(ANDROID_LOG_WARN, "ByteCat", __VA_ARGS__)
 			#define LOG_ERROR(...)			__android_log_print(ANDROID_LOG_ERROR, "ByteCat", __VA_ARGS__)
-			#define LOG_CRITICAL(x)			__android_log_print(ANDROID_LOG_FATAL, "ByteCat", x)
+			#define LOG_CRITICAL(x)			__android_log_print(ANDROID_LOG_FATAL, "ByteCat", "%s", x)
 			#define LOG_ASSERT(x, y)		
 		#endif
 	#endif
@@ -52,11 +52,11 @@
 			#define LOG_CRITICAL(x)			SPDLOG_LOGGER_PRINTF(::BC::Log::GetClientLogger(), spdlog::level::critical, x)
 			#define LOG_ASSERT(x, y)		{ if(!(x)) { LOG_ERROR("Assertion Failed: {0}", y); BC_DEBUG_BREAK; } }
 		#elif defined(BC_PLATFORM_ANDROID)
-			#define LOG_ESSENTIAL(x)		__android_log_print(ANDROID_LOG_VERBOSE, "ByteCatApp", x);
+			#define LOG_ESSENTIAL(x)		__android_log_print(ANDROID_LOG_VERBOSE, "ByteCatApp", "%s", x);
 			#define LOG_INFO(...)			__android_log_print(ANDROID_LOG_INFO, "ByteCatApp", __VA_ARGS__)
 			#define LOG_WARN(...)			__android_log_print(ANDROID_LOG_WARN, "ByteCatApp", __VA_ARGS__)
 			#define LOG_ERROR(...)			__android_log_print(ANDROID_LOG_ERROR, "ByteCatApp", __VA_ARGS__)
-			#define LOG_CRITICAL(x)			__android_log_print(ANDROID_LOG_FATAL, "ByteCatApp", x)
+			#define LOG_CRITICAL(x)			__android_log_print(ANDROID_LOG_FATAL, "ByteCatApp", "%s", x)
 			#define LOG_ASSERT(x, y)		
 		#endif
 	#endif
@@ -66,8 +66,8 @@
 		#define LOG_ESSENTIAL(x)			std::cout << (x) << std::endl
 		#define LOG_CRITICAL(x)				std::cerr << (x) << std::endl
 	#elif defined(BC_PLATFORM_ANDROID)
-		#define LOG_ESSENTIAL(x)			__android_log_print(ANDROID_LOG_VERBOSE, "ByteCat", x)
-		#define LOG_CRITICAL(x)				__android_log_print(ANDROID_LOG_FATAL, "ByteCat", x)
+		#define LOG_ESSENTIAL(x)			__android_log_print(ANDROID_LOG_VERBOSE, "ByteCat", "%s", x)
+		#define LOG_CRITICAL(x)				__android_log_print(ANDROID_LOG_FATAL, "ByteCat", "%s", x)
 	#endif
 
 	#define LOG_TEXT_LONG(x)

@@ -1,6 +1,8 @@
 #pragma once
 #include <ByteCat.h>
 
+#include <glfm.h>
+
 using namespace BC;
 using namespace App;
 using namespace Inputs;
@@ -64,7 +66,7 @@ public:
 	
 	GraphicsTest() : Layer("Graphics Test")
 	{
-		texture = Texture2D::Create("skybox/front.jpg");
+		texture = Texture2D::Create("dog.png");
 		
 		// Input<>::AddCustomKeyCode("jump", KeyCode::Space);
 		// Input<>::AddCustomKeyCode("jump", KeyCode::S);
@@ -82,18 +84,18 @@ public:
 	{
 		Renderer2D::Clear({ 1, 0, 0, 1 });
 
-		Renderer2D::SetColor({ 1, 1, 1, 1 });
-		Renderer2D::DrawImage({ 0, 0 }, 0, { 1, 1 }, texture);
-		
 		Renderer2D::SetColor({ 0, 1, 0, 1 });
 
-		for(float x = -1; x < 1; x += 0.1)
+		for (float x = -1; x < 1; x += 0.1)
 		{
 			for (float y = -1; y < 1; y += 0.1)
 			{
 				Renderer2D::DrawRectangle({ x, y }, 10, { 0.05, 0.05 });
 			}
 		}
+
+		Renderer2D::SetColor({ 1, 1, 1, 1 });
+		Renderer2D::DrawImage({ 0, 0 }, 0, { 1, 1 }, texture);
 
 		// if (Input<>::IsPressed("jump"))
 		// {

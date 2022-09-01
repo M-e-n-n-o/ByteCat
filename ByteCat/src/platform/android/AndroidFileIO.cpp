@@ -70,6 +70,7 @@ namespace BC
 			int64_t readSize = AAsset_read(asset, buffer.data(), buffer.size());
 
 			AAsset_close(asset);
+
 			return (readSize == buffer.size());
 
 

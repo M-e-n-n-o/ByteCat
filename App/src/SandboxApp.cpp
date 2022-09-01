@@ -20,6 +20,15 @@ public:
         m_window = Window::Create(settings, appInputData);
         m_window->setEventListener(this);
 		
+
+		/*
+		* OpenGL calls werken niet totdat de "SurfaceCreatedFunc" is aangeroepen van MobileWindow.
+		* Hierdoor gaan waarschijnlijk dus ook niet de debug messages aan.
+		* Dus we moeten wachten totdat die functie is aangeroepen en dan pas doorgaan naar na deze comment.
+		* (Hopelijk fixed dat ook het texture probleem)
+		*/
+
+
         Renderer::Init();
 		
 		Utils::Utility::RequestPermissions({ "READ_EXTERNAL_STORAGE", "WRITE_EXTERNAL_STORAGE" });

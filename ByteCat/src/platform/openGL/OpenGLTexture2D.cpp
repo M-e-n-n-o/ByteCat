@@ -69,11 +69,6 @@ namespace BC
 			}
 
 			imgData = stbi_load_from_memory(assetContent.data(), assetContent.size(), &m_width, &m_height, &m_channels, 0);
-
-			// !!!!!!!!!!!!!!!!!!!!!!!!!
-			// !!!!!!!!!!!!!!!!!!!!!!!!!
-			// De breedte en hoogte leest ie goed uit, dus de data dan waarschijnlijk ook, er gaat dus iets anders fout
-			LOG_INFO("%d", m_height);
 		#endif
 
 			if (!imgData)
@@ -111,7 +106,7 @@ namespace BC
 				m_format = format;
 				internalFormat = TextureFormatToOpenGLInternalFormat(format);
 			}
-			
+
 			glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, m_width, m_height, 0, dataFormat, GL_UNSIGNED_BYTE, imgData);
 			glGenerateMipmap(GL_TEXTURE_2D);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
@@ -123,7 +118,7 @@ namespace BC
 			#endif
 
 			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-			//glBindTexture(GL_TEXTURE_2D, 0);
+			// glBindTexture(GL_TEXTURE_2D, 0);
 
 			// m_textureData = imgData;
 			stbi_image_free(imgData);
