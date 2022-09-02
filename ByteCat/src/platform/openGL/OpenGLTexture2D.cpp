@@ -1,9 +1,9 @@
-#include "byteCat/utils/FileIO.h"
 #if defined(BC_PLATFORM_PC) || defined(BC_PLATFORM_MOBILE)
 #include "bcpch.h"
 #include <stb_image.h>
 #include "platform/openGL/OpenGLTexture2D.h"
 #include "platform/openGL/Helper.h"
+#include "byteCat/utils/FileIO.h"
 
 #if defined(BC_PLATFORM_PC)
 	#include <glad/glad.h>

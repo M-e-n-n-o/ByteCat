@@ -125,40 +125,31 @@ namespace BC
                 if ((*it)->m_enabled)
                 {
                     (*it)->onEvent(event);
-                    if (event.handled)
-                    {
-                        break;
-                    }
                 }
             }
 
             Inputs::Input<>::HandleEvent(event);
         }
 
-        bool Application::onWindowCreated(Inputs::WindowCreatedEvent& event)
+        void Application::onWindowCreated(Inputs::WindowCreatedEvent& event)
         {
             start();
-            return true;
         }
 
-        bool Application::onWindowClose(Inputs::WindowCloseEvent& event)
+        void Application::onWindowClose(Inputs::WindowCloseEvent& event)
         {
             stop();
-            return true;
         }
 
-        bool Application::onWindowResize(Inputs::WindowResizeEvent& event)
+        void Application::onWindowResize(Inputs::WindowResizeEvent& event)
         {
             m_window->resize(event.getWidth(), event.getHeight());
             Graphics::Renderer::SetViewport(0, 0, event.getWidth(), event.getHeight());
-
-            return true;
         }
 
-        bool Application::onWindowRender(Inputs::WindowRenderEvent& event)
+        void Application::onWindowRender(Inputs::WindowRenderEvent& event)
         {
             onFrame();
-            return true;
         }
 
         void Application::pushLayer(Layer* layer)

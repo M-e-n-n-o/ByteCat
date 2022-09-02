@@ -57,10 +57,10 @@ namespace BC
 		private:
 			
 			void onEvent(Inputs::Event& event) override;
-			bool onWindowCreated(Inputs::WindowCreatedEvent& event);
-			bool onWindowClose(Inputs::WindowCloseEvent& event);
-			bool onWindowResize(Inputs::WindowResizeEvent& event);
-			bool onWindowRender(Inputs::WindowRenderEvent& event);
+			void onWindowCreated(Inputs::WindowCreatedEvent& event);
+			void onWindowClose(Inputs::WindowCloseEvent& event);
+			void onWindowResize(Inputs::WindowResizeEvent& event);
+			void onWindowRender(Inputs::WindowRenderEvent& event);
 		};
 
 		// Need to be defined in the users application

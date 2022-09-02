@@ -39,8 +39,6 @@ namespace BC
 		class Event
 		{
 		public:
-			bool handled = false;
-
 			virtual ~Event() = default;
 
 			virtual EventType getEventType() const = 0;
@@ -73,7 +71,7 @@ namespace BC
 			{
 				if (m_event.getEventType() == T::getStaticType())
 				{
-					m_event.handled |= func(static_cast<T&>(m_event));
+					func(static_cast<T&>(m_event));
 					return true;
 				}
 				return false;

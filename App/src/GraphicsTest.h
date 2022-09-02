@@ -5,118 +5,159 @@ using namespace BC;
 using namespace App;
 using namespace Inputs;
 
-class CustomEvent : public Event
-{
-public:
-	CustomEvent() = default;
-	
-	EventType getEventType() const override { return EventType::Other; }
-	const char* getName() const override { return "Custom event"; }
-	int getCategoryFlags() const override { return EventCatApplication; }
-};
-
-class CustomEventCallback : public EventCallback
-{
-public:
-	CustomEventCallback(void(* callback)(const Event&))
-		: EventCallback(callback)
-	{
-		
-	}
-
-	bool operator==(const Event& event) const override
-	{
-		if (const CustomEvent* e = dynamic_cast<const CustomEvent*>(&event); e != nullptr)
-		{
-			return true;
-		}
-
-		return false;
-	}
-};
-
 class GraphicsTest : public Layer
 {
-	std::shared_ptr<Texture2D> texture;
+	std::shared_ptr<EcsCoordinator> ecsCoordinator;
 
-	int id0;
-	int id1;
-	int id2;
+	Entity camera;
+	Entity doggo;
 
-public:
-	static void test(const Event& event)
-	{
-		const KeyEvent* keyEvent = static_cast<const KeyEvent*>(&event);
-		
-		if (keyEvent->getKeyCode() == KeyCode::A)
-		{
-			LOG_INFO("a");
-		} else if (keyEvent->getKeyCode() == KeyCode::W)
-		{
-			LOG_INFO("w");
-		}
-	}
-
-	static void test2(const Event& event)
-	{
-		LOG_INFO("jaa");
-	}
-	
+public:	
 	GraphicsTest() : Layer("Graphics Test")
 	{
-		texture = Texture2D::Create("dog.png");
-		
-		// Input<>::AddCustomKeyCode("jump", KeyCode::Space);
-		// Input<>::AddCustomKeyCode("jump", KeyCode::S);
-		// Input<>::AddCustomKeyCode("jump", MouseCode::ButtonLeft);
-		// Input<>::AddCustomKeyCode("jump", GamepadButton::A);
-		
-		//id0 = Input::StartListening(new MouseCallback(EventType::MouseScrolled, test2));
-		//id0 = Input<>::StartListening(new CustomEventCallback(test2));
-		
-		// id1 = Input<>::StartListening(new KeyCallback(KeyCode::W, test));
-		// id2 = Input<>::StartListening(new KeyCallback(KeyCode::A, test));
+		// Zet een submission renderer
+		Renderer::SetSubmissionRenderer(new SimpleRenderer());
+
+		// Maak een nieuwe scene
+		Application::GetInstance().pushLayer(new SceneManager);
+
+		auto scene = SceneManager::CreateScene("TestScene");
+		SceneManager::ActivateScene(scene);
+
+		ecsCoordinator = scene->getEcsCoordinator();
+		ecsCoordinator->registerSystem<RenderSubmitter>();
+		ecsCoordinator->registerSystem<CameraSystem>();
+		ecsCoordinator->registerSystem<SpectatorSystem>();
+
+		// Cube data
+		float dataCube[] =
+		{
+			// Vertex pos		Texture coords
+			0.5, -0.5, 0.5,		0, 0,
+			-0.5, -0.5, 0.5,    1, 0,
+			0.5, 0.5, 0.5,		0, 1,
+
+			-0.5, 0.5, 0.5,		1, 1,
+			0.5, 0.5, -0.5,		0, 1,
+			-0.5, 0.5, -0.5,	1, 1,
+
+			0.5, -0.5, -0.5,	0, 1,
+			-0.5, -0.5, -0.5,	1, 1,
+			0.5, 0.5, 0.5,		0, 0,
+
+			-0.5, 0.5, 0.5,		1, 0,
+			0.5, 0.5, -0.5,		0, 0,
+			-0.5, 0.5, -0.5,	1, 0,
+
+			0.5, -0.5, -0.5,	0, 0,
+			0.5, -0.5, 0.5,		0, 1,
+			-0.5, -0.5, 0.5,	1, 1,
+
+			-0.5, -0.5, -0.5,	1, 0,
+			-0.5, -0.5, 0.5,	0, 0,
+			-0.5, 0.5, 0.5,		0, 1,
+
+			-0.5, 0.5, -0.5,	1, 1,
+			-0.5, -0.5, -0.5,	1, 0,
+			0.5, -0.5, -0.5,	0, 0,
+
+			0.5, 0.5, -0.5,		0, 1,
+			0.5, 0.5, 0.5,		1, 1,
+			0.5, -0.5, 0.5,		1, 0
+		};
+
+		unsigned indicesCube[] =
+		{
+			0, 2, 3,
+			0, 3, 1,
+
+			8, 4, 5,
+			8, 5, 9,
+
+			10, 6, 7,
+			10, 7, 11,
+
+			12, 13, 14,
+			12, 14, 15,
+
+			16, 17, 18,
+			16, 18, 19,
+
+			20, 21, 22,
+			20, 22, 23
+		};
+
+		auto cubeVao = VertexArray::Create();
+
+		auto cubeVbo = VertexBuffer::Create(dataCube, sizeof(dataCube));
+		BufferLayout layoutCube = { { ShaderDataType::Float3, "vertexPos" }, {ShaderDataType::Float2, "texCoord"} };
+		cubeVbo->setLayout(layoutCube);
+		cubeVao->addVertexBuffer(cubeVbo);
+
+		auto cubeEbo = IndexBuffer::Create(indicesCube, sizeof(indicesCube));
+		cubeVao->setIndexBuffer(cubeEbo);
+
+		// Skybox cubemap
+		auto skyboxTexture = TextureCube::Create({ "skybox/right.jpg", "skybox/left.jpg", "skybox/top.jpg", "skybox/bottom.jpg", "skybox/front.jpg", "skybox/back.jpg" });
+
+		auto skyboxShader = Shader::Create("SkyboxShader", "skybox/SkyboxVertex.glsl", "skybox/SkyboxFragment.glsl", true);
+		skyboxShader->setTextureSlots({ "skybox" });
+
+		// Quad
+		float dataQuad[] =
+		{
+		   -1.0f,  1.0f,	0, 1,
+		   -1.0f, -1.0f,	0, 0,
+			1.0f, -1.0f,	1, 0,
+			1.0f,  1.0f,	1, 1
+		};
+
+		unsigned indicesQuad[] =
+		{
+		   0, 1, 2,
+		   2, 3, 0
+		};
+
+		auto quad = VertexArray::Create();
+		auto quadVertexBuffer = VertexBuffer::Create(dataQuad, sizeof(dataQuad));
+		quadVertexBuffer->setLayout({ {ShaderDataType::Float2, "vertexPos"}, {ShaderDataType::Float2, "texCoord"} });
+		quad->addVertexBuffer(quadVertexBuffer);
+		auto quadIndexBuffer = IndexBuffer::Create(indicesQuad, sizeof(indicesQuad));
+		quad->setIndexBuffer(quadIndexBuffer);
+
+		auto dogTexture = Texture2D::Create("dog.png");
+		auto standardShader = Shader::Create("StandardShader", "SimpleVertex.glsl", "SimpleFragment.glsl", true);
+		standardShader->setTextureSlots({ "tex" });
+
+		// Entities toevoegen
+		camera = ecsCoordinator->createEntity("Camera");
+		ecsCoordinator->addComponent<Transform>(camera, { glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1) });
+		ecsCoordinator->addComponent<PerspectiveCamera>(camera, { 70, 0.1f, 1000.0f });
+
+		doggo = ecsCoordinator->createEntity("Doggo");
+		ecsCoordinator->addComponent<Transform>(doggo, { glm::vec3(0, 0, -10), glm::vec3(0, 0, 0), glm::vec3(2, 2, 2) });
+		ecsCoordinator->addComponent<Mesh>(doggo, { quad });
+		ecsCoordinator->addComponent<Material>(doggo, { CullingMode::Back, standardShader, { dogTexture } });
+
+		auto skyboxEntity = ecsCoordinator->createEntity("Skybox");
+		ecsCoordinator->addComponent<Transform>(skyboxEntity, { glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1000, 1000, 1000) });
+		ecsCoordinator->addComponent<Mesh>(skyboxEntity, { cubeVao });
+		ecsCoordinator->addComponent<Material>(skyboxEntity, { CullingMode::Front, skyboxShader, {skyboxTexture} });
 	}
 
 	void onUpdate() override
 	{
-		Renderer2D::Clear({ 1, 0, 0, 1 });
-
-		Renderer2D::SetColor({ 0, 1, 0, 1 });
-
-		for (float x = -1; x < 1; x += 0.1)
-		{
-			for (float y = -1; y < 1; y += 0.1)
-			{
-				Renderer2D::DrawRectangle({ x, y }, 10, { 0.05, 0.05 });
-			}
-		}
-
-		Renderer2D::SetColor({ 1, 1, 1, 1 });
-		Renderer2D::DrawImage({ 0, 0 }, 0, { 1, 1 }, texture);
-
-		// if (Input<>::IsPressed("jump"))
-		// {
-		// 	LOG_INFO("Jump");
-		// }
-		//
-		// if (Input<>::IsPressed(KeyCode::K))
-		// {
-		// 	Input<>::StopListening(id1);
-		// }
+		Transform* cam = ecsCoordinator->getComponent<Transform>(camera);
+		cam->rotation.y += Time::GetDeltaTime() * 20;
 	}
 
 	void onGuiRender() override
 	{
-		// ImGui::ShowDemoWindow();
 
-		// ImGui::Begin("Test");
-		// ImGui::Text("Hoi");
-		// ImGui::End();
 	}
 
 	void onEvent(Event& event) override
 	{
-		// Input<>::HandleEvent(CustomEvent());
+
 	}
 };

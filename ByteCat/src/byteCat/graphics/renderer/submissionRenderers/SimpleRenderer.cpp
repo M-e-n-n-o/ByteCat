@@ -74,6 +74,7 @@ namespace BC
 			{
 			case GraphicsAPI::None:		return false;
 			case GraphicsAPI::OpenGL:	return true;
+			case GraphicsAPI::OpenGLES:	return true;
 			}
 
 			return false;

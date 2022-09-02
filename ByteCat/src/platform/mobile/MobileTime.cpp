@@ -10,9 +10,16 @@ namespace BC
 		void Time::onUpdate()
 		{
 			double currentTime = glfmGetTime();
-			static double lastFrameTime = 0;
-			s_deltaTime = (currentTime - lastFrameTime);
-			lastFrameTime = currentTime;
+			s_deltaTime = (currentTime - s_lastFrameTime);
+			s_lastFrameTime = currentTime;
+		}
+
+		void Time::onEvent(Inputs::Event& event)
+		{
+			if (event.getEventType() == Inputs::EventType::WindowFocus)
+			{
+				s_lastFrameTime = glfmGetTime();
+			}
 		}
 	}
 }

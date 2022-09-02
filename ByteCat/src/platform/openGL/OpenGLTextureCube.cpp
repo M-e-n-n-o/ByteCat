@@ -2,6 +2,7 @@
 #include "bcpch.h"
 #include <stb_image.h>
 #include "platform/openGL/OpenGLTextureCube.h"
+#include "byteCat/utils/FileIO.h"
 
 #if defined(BC_PLATFORM_PC)
 	#include <glad/glad.h>
@@ -24,11 +25,25 @@ namespace BC
 			for (unsigned int i = 0; i < faces.size(); i++)
 			{
 				std::string filePath = faces[i];
-				filePath.insert(0, BC_ASSETS_FOLDER);
 
 				LOG_INFO("Loading cubemap texture face: %s", filePath.c_str());
-				
-				unsigned char* data = stbi_load(filePath.c_str(), &width, &height, &m_channels, 0);
+
+			#if defined(BC_PLATFORM_PC)
+				unsigned char* data = stbi_load(Utils::FileIO::GetRelativePath(filePath).c_str(), &width, &height, &m_channels, 0);
+
+			#elif defined(BC_PLATFORM_ANDROID)
+				std::vector<unsigned char> assetContent;
+
+				bool success = Utils::FileIO::GetDataFromAssets(filePath, assetContent);
+				if (!success)
+				{
+					LOG_ERROR("Failed to load texture from Assets: %s", filePath.c_str());
+					return;
+				}
+
+				unsigned char* data = stbi_load_from_memory(assetContent.data(), assetContent.size(), &width, &height, &m_channels, 0);
+			#endif
+
 				if (data)
 				{
 					glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
