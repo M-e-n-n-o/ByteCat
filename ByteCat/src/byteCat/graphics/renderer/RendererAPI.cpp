@@ -9,6 +9,14 @@ namespace BC
 {
 	namespace Graphics
 	{
+		void RendererAPI::SetDepthTest(bool enable)
+		{
+			if (s_instance != nullptr)
+			{
+				s_instance->SetDepthTest(enable);
+			}
+		}
+
 		void RendererAPI::SetCullingMode(const CullingMode& mode)
 		{
 			if (s_instance != nullptr)

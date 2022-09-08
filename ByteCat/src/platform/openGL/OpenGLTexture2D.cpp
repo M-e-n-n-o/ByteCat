@@ -23,10 +23,10 @@ namespace BC
 
 			switch (format)
 			{
-			case Graphics::TextureFormat::R: m_channels = 1; break;
-			case Graphics::TextureFormat::RG: m_channels = 2; break;
-			case Graphics::TextureFormat::RGB: m_channels = 3; break;
-			case Graphics::TextureFormat::RGBA: m_channels = 4; break;
+			case Graphics::TextureFormat::R8: m_channels = 1; break;
+			case Graphics::TextureFormat::RG8: m_channels = 2; break;
+			case Graphics::TextureFormat::RGB16F: m_channels = 3; break;
+			case Graphics::TextureFormat::RGBA16F: m_channels = 4; break;
 			default: m_channels = 3;
 			}
 
@@ -43,8 +43,6 @@ namespace BC
 
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-
-			//BindTexture(GL_TEXTURE_2D, 0);
 		}
 
 		OpenGLTexture2D::OpenGLTexture2D(const std::string& filePath, const Graphics::TextureFormat& format, float mipmapLOD)
@@ -82,11 +80,11 @@ namespace BC
 
 			if (m_channels == 4)
 			{
-				m_format = Graphics::TextureFormat::RGBA;
+				m_format = Graphics::TextureFormat::RGBA16F;
 			}
 			else if (m_channels == 3)
 			{
-				m_format = Graphics::TextureFormat::RGB;
+				m_format = Graphics::TextureFormat::RGB16F;
 			} else
 			{
 				LOG_ERROR("Image format not supported for texture2D: %s", filePath.c_str());
@@ -135,6 +133,11 @@ namespace BC
 		{
 			glActiveTexture(GL_TEXTURE0 + textureUnit);
 			glBindTexture(GL_TEXTURE_2D, m_id);
+		}
+
+		void OpenGLTexture2D::unbind() const
+		{
+			glBindTexture(GL_TEXTURE_2D, 0);
 		}
 
 		// unsigned char OpenGLTexture2D::getValue(unsigned channel, unsigned x, unsigned y) const

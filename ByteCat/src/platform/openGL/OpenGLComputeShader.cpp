@@ -15,7 +15,7 @@ namespace BC
 
 			if (isFilePath)
 			{
-				computeShader.insert(0, BC_ASSETS_FOLDER);
+				//computeShader.insert(0, BC_ASSETS_FOLDER);
 				computeShader = Utils::FileIO::ReadFileIntoString(computeShader);
 			}
 

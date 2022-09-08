@@ -20,6 +20,7 @@ namespace BC
 			~OpenGLTextureCube();
 
 			void bind(unsigned textureUnit) const override;
+			void unbind() const override;
 
 			unsigned getChannels() const override { return m_channels; }
 			Graphics::TextureFormat getFormat() const override { return m_format; }

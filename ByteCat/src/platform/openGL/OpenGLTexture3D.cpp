@@ -42,6 +42,10 @@ namespace BC
 		{
 			glBindTextureUnit(textureUnit, m_id);
 		}
+		void OpenGLTexture3D::unbind() const
+		{
+			glBindTexture(GL_TEXTURE_3D, 0);
+		}
 	}
 }
 #endif

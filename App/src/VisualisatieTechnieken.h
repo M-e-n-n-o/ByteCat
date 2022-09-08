@@ -115,8 +115,8 @@ public:
 		// Framebuffer + cloud spul
 			 auto& window = Application::GetInstance().getWindow();
 			 fbo = FrameBuffer::Create("Test", window.getWidth(), window.getHeight());
-			 auto colorAttachment = Texture2D::Create(window.getWidth(), window.getHeight(), TextureFormat::RGB);
-			 auto depthAttachment = Texture2D::Create(window.getWidth(), window.getHeight(), TextureFormat::DEPTH);
+			 auto colorAttachment = Texture2D::Create(window.getWidth(), window.getHeight(), TextureFormat::RGB16F);
+			 auto depthAttachment = Texture2D::Create(window.getWidth(), window.getHeight(), TextureFormat::DEPTH32);
 			 fbo->attachTexture(colorAttachment);
 			 fbo->attachTexture(depthAttachment);
 			
@@ -146,7 +146,7 @@ public:
 			cloudShader->loadFloat("numSteps", 20);
 			cloudShader->loadFloat("numStepsLight", 10);
 		
-			auto cloudTexture = Texture3D::Create(128, 128, 128, TextureFormat::RGBA);
+			auto cloudTexture = Texture3D::Create(128, 128, 128, TextureFormat::RGBA16F);
 		
 			auto computeShader = ComputeShader::Create("Cloud Noise Compute", "CloudNoiseCompute.glsl");
 			computeShader->setOutputTexture(cloudTexture);

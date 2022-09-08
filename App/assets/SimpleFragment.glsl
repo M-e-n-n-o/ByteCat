@@ -1,4 +1,4 @@
-#version 300 es
+#version 330 core
 in vec2 PassTexCoord;
 		
 out vec4 FragColor;

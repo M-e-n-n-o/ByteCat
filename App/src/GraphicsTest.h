@@ -12,6 +12,9 @@ class GraphicsTest : public Layer
 	Entity camera;
 	Entity doggo;
 
+	std::shared_ptr<FrameBuffer> fbo;
+	Renderable fboRenderable;
+
 public:	
 	GraphicsTest() : Layer("Graphics Test")
 	{
@@ -129,26 +132,58 @@ public:
 		auto standardShader = Shader::Create("StandardShader", "SimpleVertex.glsl", "SimpleFragment.glsl", true);
 		standardShader->setTextureSlots({ "tex" });
 
+		// Framebuffer
+		auto& window = Application::GetInstance().getWindow();
+		fbo = FrameBuffer::Create("Test", window.getWidth(), window.getHeight());
+		auto colorAttachment = Texture2D::Create(window.getWidth(), window.getHeight(), TextureFormat::RGB16F);
+		fbo->attachTexture(colorAttachment);
+		fbo->attachRenderBuffer(TextureFormat::DEPTH32);
+		fbo->unbind();
+
+		auto fboShader = Shader::Create("Fbo shader", "FboVertex.glsl", "FboFragment.glsl", true);
+		fboShader->setTextureSlots({ "screenTexture" });
+
+		fboRenderable = { CullingMode::Back, quad, fboShader, { colorAttachment }, Math::CreateModelMatrix(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)) };
+
+
 		// Entities toevoegen
 		camera = ecsCoordinator->createEntity("Camera");
 		ecsCoordinator->addComponent<Transform>(camera, { glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1) });
 		ecsCoordinator->addComponent<PerspectiveCamera>(camera, { 70, 0.1f, 1000.0f });
 
-		doggo = ecsCoordinator->createEntity("Doggo");
-		ecsCoordinator->addComponent<Transform>(doggo, { glm::vec3(0, 0, -10), glm::vec3(0, 0, 0), glm::vec3(2, 2, 2) });
-		ecsCoordinator->addComponent<Mesh>(doggo, { quad });
-		ecsCoordinator->addComponent<Material>(doggo, { CullingMode::Back, standardShader, { dogTexture } });
+		for (int i = -30; i < 30; i += 5)
+		{
+			doggo = ecsCoordinator->createEntity("Doggo");
+			ecsCoordinator->addComponent<Transform>(doggo, { glm::vec3(i, 0, -10), glm::vec3(0, 0, 0), glm::vec3(2, 2, 2) });
+			ecsCoordinator->addComponent<Mesh>(doggo, { quad });
+			ecsCoordinator->addComponent<Material>(doggo, { CullingMode::Back, standardShader, { dogTexture } });
+		}
 
-		auto skyboxEntity = ecsCoordinator->createEntity("Skybox");
-		ecsCoordinator->addComponent<Transform>(skyboxEntity, { glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1000, 1000, 1000) });
-		ecsCoordinator->addComponent<Mesh>(skyboxEntity, { cubeVao });
-		ecsCoordinator->addComponent<Material>(skyboxEntity, { CullingMode::Front, skyboxShader, {skyboxTexture} });
+		//auto skyboxEntity = ecsCoordinator->createEntity("Skybox");
+		//ecsCoordinator->addComponent<Transform>(skyboxEntity, { glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1000, 1000, 1000) });
+		//ecsCoordinator->addComponent<Mesh>(skyboxEntity, { cubeVao });
+		//ecsCoordinator->addComponent<Material>(skyboxEntity, { CullingMode::Front, skyboxShader, {skyboxTexture} });
 	}
 
 	void onUpdate() override
 	{
 		Transform* cam = ecsCoordinator->getComponent<Transform>(camera);
-		cam->rotation.y += Time::GetDeltaTime() * 20;
+		cam->rotation.y += Time::GetDeltaTime() * 50;
+
+		Renderer::Submit(fboRenderable);
+	}
+
+	void beforeRender() override
+	{
+		Renderer::RenderSubmissions();
+		fbo->unbind();
+
+		Renderer::Submit(fboRenderable);
+	}
+
+	void onRenderComplete() override
+	{
+		fbo->bind();
 	}
 
 	void onGuiRender() override

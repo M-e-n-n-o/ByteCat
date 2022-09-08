@@ -62,13 +62,13 @@ namespace BC
 
 			if (isFilePath)
 			{
-				vertexShader.insert(0, BC_ASSETS_FOLDER);
+				//vertexShader.insert(0, BC_ASSETS_FOLDER);
 				vertexShader = Utils::FileIO::ReadFileIntoString(vertexShader);
 
-				geometryShader.insert(0, BC_ASSETS_FOLDER);
+				//geometryShader.insert(0, BC_ASSETS_FOLDER);
 				geometryShader = Utils::FileIO::ReadFileIntoString(geometryShader);
 				
-				fragmentShader.insert(0, BC_ASSETS_FOLDER);
+				//fragmentShader.insert(0, BC_ASSETS_FOLDER);
 				fragmentShader = Utils::FileIO::ReadFileIntoString(fragmentShader);
 			}
 

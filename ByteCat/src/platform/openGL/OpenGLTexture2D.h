@@ -24,6 +24,7 @@ namespace BC
 			~OpenGLTexture2D();
 
 			void bind(unsigned textureUnit) const override;
+			void unbind() const override;
 
 			unsigned getWidth() const override { return m_width; }
 			unsigned getHeight() const override { return m_height; }

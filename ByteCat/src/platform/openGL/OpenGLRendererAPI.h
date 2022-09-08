@@ -18,6 +18,7 @@ namespace BC
 			void draw(std::shared_ptr<Graphics::VertexArray> vao, unsigned indexCount) override;
 
 		private:
+			void setDepthTest(bool enable) override;
 			void setCullingMode(const Graphics::CullingMode& mode) override;
 		};
 	}

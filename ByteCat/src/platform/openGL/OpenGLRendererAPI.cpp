@@ -60,13 +60,26 @@ namespace BC
 
 		void OpenGLRendererAPI::clearBuffers()
 		{
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		}
 
 		void OpenGLRendererAPI::draw(std::shared_ptr<Graphics::VertexArray> vao, unsigned indexCount)
 		{
 			unsigned int count = indexCount ? indexCount : vao->getIndexBuffer()->getCount();
 			glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);
+		}
+
+		void OpenGLRendererAPI::setDepthTest(bool enable)
+		{
+			if (enable)
+			{
+				glEnable(GL_DEPTH_TEST);
+				glDepthFunc(GL_LESS);
+			}
+			else
+			{
+				glDisable(GL_DEPTH_TEST);
+			}
 		}
 
 		void OpenGLRendererAPI::setCullingMode(const Graphics::CullingMode& mode)

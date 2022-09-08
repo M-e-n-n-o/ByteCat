@@ -57,6 +57,12 @@ namespace BC
 					eventListener->onEvent(event);
 				});
 
+			glfwSetFramebufferSizeCallback(nativeWindow, [](GLFWwindow* window, int width, int height)
+				{
+					Inputs::WindowResizeEvent event(width, height);
+					eventListener->onEvent(event);
+				});
+
 			glfwSetWindowCloseCallback(nativeWindow, [](GLFWwindow* window)
 				{
 					Inputs::WindowCloseEvent event;

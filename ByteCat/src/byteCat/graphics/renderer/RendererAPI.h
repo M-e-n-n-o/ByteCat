@@ -33,11 +33,13 @@ namespace BC
 			virtual void clearBuffers() = 0;
 			virtual void draw(std::shared_ptr<VertexArray> vao, unsigned int indexCount = 0) = 0;
 
+			static void SetDepthTest(bool enable);
 			static void SetCullingMode(const CullingMode& mode);
 
 			static RendererAPI* Create(const GraphicsAPI& api);
 
 		private:
+			virtual void setDepthTest(bool enable) = 0;
 			virtual void setCullingMode(const CullingMode& mode) = 0;
 		};
 	}

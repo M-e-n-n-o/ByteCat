@@ -2,6 +2,7 @@
 #include "bcpch.h"
 #include <stb_image.h>
 #include "platform/openGL/OpenGLTextureCube.h"
+#include "platform/openGL/Helper.h"
 #include "byteCat/utils/FileIO.h"
 
 #if defined(BC_PLATFORM_PC)
@@ -46,7 +47,7 @@ namespace BC
 
 				if (data)
 				{
-					glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+					glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, TextureFormatToOpenGLInternalFormat(format), width, height, 0, TextureFormatToOpenGLFormat(format), GL_UNSIGNED_BYTE, data);
 					stbi_image_free(data);
 				}
 				else
@@ -73,6 +74,10 @@ namespace BC
 		{
 			glActiveTexture(GL_TEXTURE0 + textureUnit);
 			glBindTexture(GL_TEXTURE_CUBE_MAP, m_id);
+		}
+		void OpenGLTextureCube::unbind() const
+		{
+			glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
 		}
 	}
 }

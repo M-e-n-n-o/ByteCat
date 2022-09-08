@@ -1,5 +1,5 @@
 #pragma once
-#ifdef BC_PLATFORM_PC
+#if defined(BC_PLATFORM_PC) || defined(BC_PLATFORM_MOBILE)
 #include "byteCat/graphics/components/FrameBuffer.h"
 
 namespace BC
@@ -15,6 +15,8 @@ namespace BC
 			unsigned int m_width;
 			unsigned int m_height;
 
+			unsigned int m_colorAttachmentSlot = 0;
+
 			unsigned int m_renderBufferId;
 		
 		public:
@@ -26,7 +28,7 @@ namespace BC
 
 			bool isComplete() const override;
 			
-			void attachTexture(std::shared_ptr<Graphics::Texture2D> texture, unsigned int slot) override;
+			void attachTexture(std::shared_ptr<Graphics::Texture2D> texture) override;
 			void attachRenderBuffer(const Graphics::TextureFormat& format) override;
 		};
 	}
