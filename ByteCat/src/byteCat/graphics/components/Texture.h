@@ -10,13 +10,13 @@ namespace BC
 		{
 			AUTO = 0,
 
-			DEPTH32,
+			DEPTH16,
 			DEPTH24_STENCIL8,
 
 			R8,
 			RG8,
-			RGB16F,
-			RGBA16F
+			RGB8,
+			RGBA8
 		};
 
 		class Texture
@@ -86,7 +86,7 @@ namespace BC
 			virtual TextureFormat getFormat() const override = 0;
 			virtual unsigned getId() const override = 0;
 
-			static std::shared_ptr<TextureCube> Create(std::initializer_list<std::string> faces, const TextureFormat& format = TextureFormat::RGB16F);
+			static std::shared_ptr<TextureCube> Create(std::initializer_list<std::string> faces, const TextureFormat& format = TextureFormat::RGB8);
 		};
 	}
 }

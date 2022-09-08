@@ -32,6 +32,12 @@ public:
 		ecsCoordinator->registerSystem<CameraSystem>();
 		ecsCoordinator->registerSystem<SpectatorSystem>();
 
+		// Skybox cubemap
+		auto skyboxTexture = TextureCube::Create({ "skybox/right.jpg", "skybox/left.jpg", "skybox/top.jpg", "skybox/bottom.jpg", "skybox/front.jpg", "skybox/back.jpg" });
+
+		auto skyboxShader = Shader::Create("SkyboxShader", "skybox/SkyboxVertex.glsl", "skybox/SkyboxFragment.glsl", true);
+		skyboxShader->setTextureSlots({ "skybox" });
+
 		// Cube data
 		float dataCube[] =
 		{
@@ -100,12 +106,6 @@ public:
 		auto cubeEbo = IndexBuffer::Create(indicesCube, sizeof(indicesCube));
 		cubeVao->setIndexBuffer(cubeEbo);
 
-		// Skybox cubemap
-		auto skyboxTexture = TextureCube::Create({ "skybox/right.jpg", "skybox/left.jpg", "skybox/top.jpg", "skybox/bottom.jpg", "skybox/front.jpg", "skybox/back.jpg" });
-
-		auto skyboxShader = Shader::Create("SkyboxShader", "skybox/SkyboxVertex.glsl", "skybox/SkyboxFragment.glsl", true);
-		skyboxShader->setTextureSlots({ "skybox" });
-
 		// Quad
 		float dataQuad[] =
 		{
@@ -135,16 +135,15 @@ public:
 		// Framebuffer
 		auto& window = Application::GetInstance().getWindow();
 		fbo = FrameBuffer::Create("Test", window.getWidth(), window.getHeight());
-		auto colorAttachment = Texture2D::Create(window.getWidth(), window.getHeight(), TextureFormat::RGB16F);
+		auto colorAttachment = Texture2D::Create(window.getWidth(), window.getHeight(), TextureFormat::RGB8);
 		fbo->attachTexture(colorAttachment);
-		fbo->attachRenderBuffer(TextureFormat::DEPTH32);
+		fbo->attachRenderBuffer(TextureFormat::DEPTH16);
 		fbo->unbind();
 
 		auto fboShader = Shader::Create("Fbo shader", "FboVertex.glsl", "FboFragment.glsl", true);
 		fboShader->setTextureSlots({ "screenTexture" });
 
 		fboRenderable = { CullingMode::Back, quad, fboShader, { colorAttachment }, Math::CreateModelMatrix(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)) };
-
 
 		// Entities toevoegen
 		camera = ecsCoordinator->createEntity("Camera");
@@ -159,10 +158,10 @@ public:
 			ecsCoordinator->addComponent<Material>(doggo, { CullingMode::Back, standardShader, { dogTexture } });
 		}
 
-		//auto skyboxEntity = ecsCoordinator->createEntity("Skybox");
-		//ecsCoordinator->addComponent<Transform>(skyboxEntity, { glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1000, 1000, 1000) });
-		//ecsCoordinator->addComponent<Mesh>(skyboxEntity, { cubeVao });
-		//ecsCoordinator->addComponent<Material>(skyboxEntity, { CullingMode::Front, skyboxShader, {skyboxTexture} });
+		auto skyboxEntity = ecsCoordinator->createEntity("Skybox");
+		ecsCoordinator->addComponent<Transform>(skyboxEntity, { glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(900, 900, 900) });
+		ecsCoordinator->addComponent<Mesh>(skyboxEntity, { cubeVao });
+		ecsCoordinator->addComponent<Material>(skyboxEntity, { CullingMode::Front, skyboxShader, {skyboxTexture} });
 	}
 
 	void onUpdate() override
@@ -175,10 +174,12 @@ public:
 
 	void beforeRender() override
 	{
+		RendererAPI::SetDepthTest(true);
 		Renderer::RenderSubmissions();
 		fbo->unbind();
 
 		Renderer::Submit(fboRenderable);
+		RendererAPI::SetDepthTest(false);
 	}
 
 	void onRenderComplete() override

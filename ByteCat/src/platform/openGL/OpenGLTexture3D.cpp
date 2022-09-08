@@ -25,7 +25,7 @@ namespace BC
 			glEnable(GL_TEXTURE_3D);
 			glBindTexture(GL_TEXTURE_3D, m_id);
 
-			glTexImage3D(GL_TEXTURE_3D, 0, TextureFormatToOpenGLInternalFormat(format), width, height, depth, 0, TextureFormatToOpenGLFormat(format), GL_UNSIGNED_BYTE, nullptr);
+			glTexImage3D(GL_TEXTURE_3D, 0, TextureFormatToOpenGLInternalFormat(format), width, height, depth, 0, TextureFormatToOpenGLBaseFormat(format), GL_UNSIGNED_BYTE, nullptr);
 
 			glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 			glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_REPEAT);

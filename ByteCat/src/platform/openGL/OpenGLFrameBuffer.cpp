@@ -1,6 +1,7 @@
 #if defined(BC_PLATFORM_PC) || defined(BC_PLATFORM_MOBILE)
 #include "bcpch.h"
 #include "platform/openGL/OpenGLFrameBuffer.h"
+#include "platform/openGL/Helper.h"
 #include "byteCat/app/Application.h"
 
 #if defined(BC_PLATFORM_PC)
@@ -25,12 +26,7 @@ namespace BC
 		}
 
 		void OpenGLFrameBuffer::bind() const
-		{
-			if (!isComplete())
-			{
-				LOG_WARN("Framebuffer %s is not yet complete", m_name.c_str());
-			}
-			
+		{			
 			glBindFramebuffer(GL_FRAMEBUFFER, m_id);
 			glViewport(0, 0, m_width, m_height);
 		}
@@ -46,7 +42,7 @@ namespace BC
 
 		bool OpenGLFrameBuffer::isComplete() const
 		{
-			if (glCheckNamedFramebufferStatus(m_id, GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE)
+			if (glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE)
 			{
 				return true;
 			}
@@ -58,7 +54,7 @@ namespace BC
 		{
 			switch (texture->getFormat())
 			{
-			case Graphics::TextureFormat::DEPTH32:			
+			case Graphics::TextureFormat::DEPTH16:			
 				glBindTexture(GL_TEXTURE_2D, texture->getId());
 				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, texture->getId(), 0);
 				return;
@@ -70,8 +66,8 @@ namespace BC
 				
 			case Graphics::TextureFormat::R8:
 			case Graphics::TextureFormat::RG8:
-			case Graphics::TextureFormat::RGB16F:
-			case Graphics::TextureFormat::RGBA16F:
+			case Graphics::TextureFormat::RGB8:
+			case Graphics::TextureFormat::RGBA8:
 				glBindTexture(GL_TEXTURE_2D, texture->getId());
 				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + m_colorAttachmentSlot, GL_TEXTURE_2D, texture->getId(), 0);
 				m_colorAttachmentSlot++;
@@ -86,18 +82,16 @@ namespace BC
 			glGenRenderbuffers(1, &m_renderBufferId);
 			glBindRenderbuffer(GL_RENDERBUFFER, m_renderBufferId);
 
-			LOG_INFO("%d, %d", m_width, m_height);
-
 			switch (format)
 			{
-			case Graphics::TextureFormat::DEPTH32:			
-				glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, m_width, m_height);
+			case Graphics::TextureFormat::DEPTH16:		
+				glRenderbufferStorage(GL_RENDERBUFFER, TextureFormatToOpenGLInternalFormat(format), m_width, m_height);
 				glBindRenderbuffer(GL_RENDERBUFFER, 0);
 				glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_renderBufferId);
 				return;
 				
 			case Graphics::TextureFormat::DEPTH24_STENCIL8:	
-				glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, m_width, m_height);
+				glRenderbufferStorage(GL_RENDERBUFFER, TextureFormatToOpenGLInternalFormat(format), m_width, m_height);
 				glBindRenderbuffer(GL_RENDERBUFFER, 0);
 				glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, m_renderBufferId);
 				return;

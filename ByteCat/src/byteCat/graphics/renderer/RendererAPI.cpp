@@ -13,7 +13,7 @@ namespace BC
 		{
 			if (s_instance != nullptr)
 			{
-				s_instance->SetDepthTest(enable);
+				s_instance->setDepthTest(enable);
 			}
 		}
 

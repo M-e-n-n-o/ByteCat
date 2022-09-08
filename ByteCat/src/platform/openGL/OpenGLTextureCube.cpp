@@ -29,6 +29,8 @@ namespace BC
 
 				LOG_INFO("Loading cubemap texture face: %s", filePath.c_str());
 
+			stbi_set_flip_vertically_on_load(0);
+
 			#if defined(BC_PLATFORM_PC)
 				unsigned char* data = stbi_load(Utils::FileIO::GetRelativePath(filePath).c_str(), &width, &height, &m_channels, 0);
 
@@ -47,7 +49,7 @@ namespace BC
 
 				if (data)
 				{
-					glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, TextureFormatToOpenGLInternalFormat(format), width, height, 0, TextureFormatToOpenGLFormat(format), GL_UNSIGNED_BYTE, data);
+					glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, TextureFormatToOpenGLInternalFormat(format), width, height, 0, TextureFormatToOpenGLBaseFormat(format), GL_UNSIGNED_BYTE, data);
 					stbi_image_free(data);
 				}
 				else

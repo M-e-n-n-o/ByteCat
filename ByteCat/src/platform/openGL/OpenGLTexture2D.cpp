@@ -25,8 +25,8 @@ namespace BC
 			{
 			case Graphics::TextureFormat::R8: m_channels = 1; break;
 			case Graphics::TextureFormat::RG8: m_channels = 2; break;
-			case Graphics::TextureFormat::RGB16F: m_channels = 3; break;
-			case Graphics::TextureFormat::RGBA16F: m_channels = 4; break;
+			case Graphics::TextureFormat::RGB8: m_channels = 3; break;
+			case Graphics::TextureFormat::RGBA8: m_channels = 4; break;
 			default: m_channels = 3;
 			}
 
@@ -39,7 +39,7 @@ namespace BC
 			glGenTextures(1, &m_id);
 			glBindTexture(GL_TEXTURE_2D, m_id);
 			
-			glTexImage2D(GL_TEXTURE_2D, 0, TextureFormatToOpenGLInternalFormat(format), m_width, m_height, 0, TextureFormatToOpenGLFormat(format), GL_UNSIGNED_BYTE, nullptr);
+			glTexImage2D(GL_TEXTURE_2D, 0, TextureFormatToOpenGLInternalFormat(format), m_width, m_height, 0, TextureFormatToOpenGLBaseFormat(format), GL_UNSIGNED_BYTE, nullptr);
 
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -80,11 +80,11 @@ namespace BC
 
 			if (m_channels == 4)
 			{
-				m_format = Graphics::TextureFormat::RGBA16F;
+				m_format = Graphics::TextureFormat::RGBA8;
 			}
 			else if (m_channels == 3)
 			{
-				m_format = Graphics::TextureFormat::RGB16F;
+				m_format = Graphics::TextureFormat::RGB8;
 			} else
 			{
 				LOG_ERROR("Image format not supported for texture2D: %s", filePath.c_str());
@@ -93,7 +93,7 @@ namespace BC
 			}
 
 			int internalFormat = TextureFormatToOpenGLInternalFormat(m_format);
-			int dataFormat = TextureFormatToOpenGLFormat(m_format);
+			int dataFormat = TextureFormatToOpenGLBaseFormat(m_format);
 
 			if (format != Graphics::TextureFormat::AUTO)
 			{
