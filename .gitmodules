@@ -14,3 +14,6 @@
 [submodule "ByteCat/vendor/glfm"]
 	path = ByteCat/vendor/glfm
 	url = https://github.com/brackeen/glfm
+[submodule "ByteCat/vendor/openXR"]
+	path = ByteCat/vendor/openXR
+	url = https://github.com/KhronosGroup/OpenXR-SDK/
