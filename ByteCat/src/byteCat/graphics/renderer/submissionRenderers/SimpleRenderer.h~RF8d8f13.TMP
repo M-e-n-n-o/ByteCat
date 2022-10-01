@@ -12,11 +12,13 @@ namespace BC
 			RendererAPI* m_rendererAPI;
 
 			std::vector<std::shared_ptr<Renderable>> m_entities;
+
+			//int m_transparentIndex = 0;
 			std::shared_ptr <CameraData> m_cameraData;
 
 		public:
 			void init(RendererAPI* rendererAPI) override;
-			void submit(const std::shared_ptr<RendererInput>& input) override;
+			void submit(std::shared_ptr<RendererInput>& input) override;
 			void renderSubmissions() override;
 
 			bool supports(const GraphicsAPI& api) override;

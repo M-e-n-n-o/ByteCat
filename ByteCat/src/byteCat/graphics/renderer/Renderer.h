@@ -1,7 +1,9 @@
 #pragma once
+#include <memory>
 #include "byteCat/graphics/renderer/RendererAPI.h"
-#include "byteCat/graphics/renderer/RenderData.h"
+#include "byteCat/graphics/renderer/RendererInput.h"
 #include "byteCat/graphics/renderer/SubmissionRenderer.h"
+#include "byteCat/graphics/renderer/RendererInput.h"
 
 namespace BC
 {
@@ -40,9 +42,8 @@ namespace BC
 			static void SetViewport(unsigned int x, unsigned int y, unsigned int width, unsigned int height);
 
 			// Submission renderer commands
-			static void Submit(const Renderable& renderable);
-			static void SetSceneData(const SceneData& sceneData);
-			static void RenderSubmissions();
+			static void Submit(const std::shared_ptr<RendererInput>& input);
+			static void Render();
 		};
 	}
 }

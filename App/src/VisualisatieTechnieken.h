@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 #include <ByteCat.h>
 
 #include "Spectator.h"
@@ -20,7 +21,7 @@ class VisualisatieTechnieken : public Layer
 	
 	std::shared_ptr<FrameBuffer> fbo;
 	std::shared_ptr<Shader> cloudShader;
-	Renderable renderable;
+	std::shared_ptr<Renderable> renderable;
 
 public:
 	VisualisatieTechnieken() : Layer("Visualisatie Technieken")
@@ -153,7 +154,8 @@ public:
 			computeShader->compute(cloudTexture->getWidth(), cloudTexture->getHeight(), 64);
 			computeShader->waitToFinish();
 		
-			renderable = { CullingMode::Back, quad, cloudShader, {cloudTexture, colorAttachment, depthAttachment}, Math::CreateModelMatrix(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)) };
+			std::vector<std::shared_ptr<Texture>> textures = { cloudTexture, colorAttachment, depthAttachment };
+			renderable = std::make_shared<Renderable>(CullingMode::Back, quad, cloudShader, textures, Math::CreateModelMatrix(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)));
 		
 		// Skybox cubemap
 			auto skyboxTexture = TextureCube::Create({ "skybox/right.jpg", "skybox/left.jpg", "skybox/top.jpg", "skybox/bottom.jpg", "skybox/front.jpg", "skybox/back.jpg" });
@@ -201,7 +203,7 @@ public:
 	
 	void beforeRender() override
 	{
-		Renderer::RenderSubmissions();
+		Renderer::Render();
 		fbo->unbind();
 		
 		Renderer::Submit(renderable);

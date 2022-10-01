@@ -43,12 +43,14 @@
 
 #include "byteCat/ecs/systems/CameraSystem.h"
 #include "byteCat/ecs/systems/RenderSubmitter.h"
+#include "byteCat/ecs/systems/LightSystem.h"
 #include "byteCat/ecs/Entity.h"
 #include "byteCat/ecs/EcsCoordinator.h"
 #include "byteCat/ecs/SceneManager.h"
 #include "byteCat/ecs/components/Transform.h"
 #include "byteCat/ecs/components/Material.h"
 #include "byteCat/ecs/components/Mesh.h"
+#include "byteCat/ecs/components/Light.h"
 
 #include "byteCat/utils/Math.h"
 #include "byteCat/utils/Utility.h"

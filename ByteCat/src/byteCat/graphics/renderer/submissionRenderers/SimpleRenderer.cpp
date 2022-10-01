@@ -10,27 +10,24 @@ namespace BC
 			this->m_rendererAPI = rendererAPI;
 		}
 
-		void SimpleRenderer::submit(const Renderable& renderable)
+		void SimpleRenderer::submit(const std::shared_ptr<RendererInput>& input)
 		{
-			// switch (renderable.renderLayer)
-			// {
-			// case RenderLayer::Opaque:
-			// 	{
-			// 		m_entities.emplace(m_entities.begin() + m_transparentIndex, renderable);
-			// 		m_transparentIndex++;
-			// 		break;
-			// 	}
-			// case RenderLayer::Transparent:
-			// 	{
-			m_entities.push_back(renderable);
-			// 		break;
-			// 	}
-			// }
-		}
+			switch (input->getInputType())
+			{
+			case RendererInput::InputType::Renderable:
+				{
+					auto renderable = std::dynamic_pointer_cast<Renderable>(input);
+					m_entities.push_back(renderable);
+					break;
+				}
 
-		void SimpleRenderer::setSceneData(const SceneData& sceneData)
-		{
-			m_sceneData = sceneData;
+			case RendererInput::InputType::CameraData:
+				{
+					auto cameraData = std::dynamic_pointer_cast<CameraData>(input);
+					m_cameraData = cameraData;
+					break;
+				}
+			}
 		}
 
 		void SimpleRenderer::renderSubmissions()
@@ -40,31 +37,30 @@ namespace BC
 
 			for (int i = 0; i < m_entities.size(); i++)
 			{
-				const auto& entity = m_entities[i];
-				entity.shader->bind();
-				entity.shader->loadMatrix4("_modelMatrix", entity.modelMatrix);
-				entity.shader->loadMatrix4("_viewMatrix", m_sceneData.viewMatrix);
-				entity.shader->loadMatrix4("_projectionMatrix", m_sceneData.projectionMatrix);
+				auto entity = m_entities[i];
+				entity->shader->bind();
+				entity->shader->loadMatrix4("_modelMatrix", entity->modelMatrix);
+				entity->shader->loadMatrix4("_viewMatrix", m_cameraData->viewMatrix);
+				entity->shader->loadMatrix4("_projectionMatrix", m_cameraData->projectionMatrix);
 
 				int unit = 0;
-				for (auto& texture : entity.textures)
+				for (auto& texture : entity->textures)
 				{
 					texture->bind(unit++);
 				}
 
-				entity.vao->bind();
+				entity->vao->bind();
 
-				if (entity.onRender != nullptr)
+				if (entity->onRender != nullptr)
 				{
-					entity.onRender(entity);
+					entity->onRender(entity);
 				}
 
-				RendererAPI::SetCullingMode(entity.cullingMode);
+				RendererAPI::SetCullingMode(entity->cullingMode);
 
-				m_rendererAPI->draw(entity.vao);
+				m_rendererAPI->draw(entity->vao);
 			}
 
-			// m_transparentIndex = 0;
 			m_entities.clear();
 		}
 

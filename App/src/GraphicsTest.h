@@ -13,7 +13,7 @@ class GraphicsTest : public Layer
 	Entity doggo;
 
 	std::shared_ptr<FrameBuffer> fbo;
-	Renderable fboRenderable;
+	std::shared_ptr<Renderable> fboRenderable;
 
 public:	
 	GraphicsTest() : Layer("Graphics Test")
@@ -143,7 +143,8 @@ public:
 		auto fboShader = Shader::Create("Fbo shader", "FboVertex.glsl", "FboFragment.glsl", true);
 		fboShader->setTextureSlots({ "screenTexture" });
 
-		fboRenderable = { CullingMode::Back, quad, fboShader, { colorAttachment }, Math::CreateModelMatrix(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)) };
+		std::vector<std::shared_ptr<Texture>> textures = { colorAttachment };
+		fboRenderable = std::make_shared<Renderable>(CullingMode::Back, quad, fboShader, textures, Math::CreateModelMatrix(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)));
 
 		// Entities toevoegen
 		camera = ecsCoordinator->createEntity("Camera");
@@ -175,7 +176,7 @@ public:
 	void beforeRender() override
 	{
 		RendererAPI::SetDepthTest(true);
-		Renderer::RenderSubmissions();
+		Renderer::Render();
 		fbo->unbind();
 
 		Renderer::Submit(fboRenderable);

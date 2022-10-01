@@ -73,7 +73,7 @@ namespace BC
 			s_rendererAPI->setViewport(x, y, width, height);
 		}
 
-		void Renderer::Submit(const Renderable& renderable)
+		void Renderer::Submit(const std::shared_ptr<RendererInput>& input)
 		{
 			CHECK_INIT
 
@@ -83,23 +83,10 @@ namespace BC
 				return;
 			}
 
-			s_submissionRenderer->submit(renderable);
+			s_submissionRenderer->submit(input);
 		}
 
-		void Renderer::SetSceneData(const SceneData& sceneData)
-		{
-			CHECK_INIT
-
-			if (!s_hasSubmissionRenderer)
-			{
-				LOG_ERROR("No submission renderer has been set!");
-				return;
-			}
-
-			s_submissionRenderer->setSceneData(sceneData);
-		}
-
-		void Renderer::RenderSubmissions()
+		void Renderer::Render()
 		{
 			CHECK_INIT
 

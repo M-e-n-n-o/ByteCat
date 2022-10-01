@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include "byteCat/graphics/renderer/RendererAPI.h"
-#include "byteCat/graphics/renderer/RenderData.h"
+#include "byteCat/graphics/renderer/RendererInput.h"
 
 namespace BC
 {
@@ -18,8 +18,7 @@ namespace BC
 			virtual ~SubmissionRenderer() = default;
 
 			virtual void init(RendererAPI* rendererAPI) = 0;
-			virtual void submit(const Renderable& renderable) = 0;
-			virtual void setSceneData(const SceneData& sceneData) = 0;
+			virtual void submit(const std::shared_ptr<RendererInput>& input) = 0;
 			virtual void renderSubmissions() = 0;
 
 			virtual const std::string& getName() const = 0;

@@ -18,13 +18,13 @@ namespace BC
 			inline static glm::vec3 m_cameraPos;
 
 		public:
-			static void onRenderRenderable(const Graphics::Renderable& renderable)
+			static void onRenderRenderable(const std::shared_ptr<Graphics::Renderable>& renderable)
 			{
-				renderable.shader->loadVector3("_cameraPos", m_cameraPos);
+				renderable->shader->loadVector3("_cameraPos", m_cameraPos);
 
 				static float time = App::Time::GetDeltaTime();
 				time += App::Time::GetDeltaTime();
-				renderable.shader->loadFloat("_time", time);
+				renderable->shader->loadFloat("_time", time);
 				if (time > 10000) { time = 0; }
 			}
 
@@ -43,7 +43,9 @@ namespace BC
 					auto material = m_coordinator->getComponent<Material>(entity);
 
 					glm::mat4 modelMatrix = Utils::Math::CreateModelMatrix(transform->position, transform->rotation, transform->scale);
-					Graphics::Renderer::Submit({ material->cullingMode, mesh->vao, material->shader, material->textures, modelMatrix, onRenderRenderable });
+
+					auto renderable = std::make_shared<Graphics::Renderable>(material->cullingMode, mesh->vao, material->shader, material->textures, modelMatrix, onRenderRenderable);
+					Graphics::Renderer::Submit(renderable);
 				}
 			}
 

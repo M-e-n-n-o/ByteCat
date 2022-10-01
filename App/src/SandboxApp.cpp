@@ -1,6 +1,7 @@
 #include <ByteCat.h>
 #include "VisualisatieTechnieken.h"
 #include "GraphicsTest.h"
+#include "LightingTest.h"
 
 using namespace BC;
 using namespace App;
@@ -27,8 +28,9 @@ public:
 	void onApplicationStart() override
 	{
 		Renderer::Init();
-		pushLayer(new GraphicsTest());
+		//pushLayer(new GraphicsTest());
 		//pushLayer(new VisualisatieTechnieken());
+		pushLayer(new LightingTest());
 	}
 
 	// The end of your application
