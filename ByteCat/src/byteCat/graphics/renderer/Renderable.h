@@ -27,13 +27,5 @@ namespace BC
 				std::vector<std::shared_ptr<Texture>> textures, glm::mat4 modelMatrix, std::function<void(const std::shared_ptr<Renderable>&)> onRender = nullptr) :
 				cullingMode(cullingMode), vao(vao), shader(shader), textures(textures), modelMatrix(modelMatrix), onRender(onRender) {}
 		};
-
-		struct CameraData
-		{
-			glm::mat4 viewMatrix;
-			glm::mat4 projectionMatrix;
-
-			CameraData(glm::mat4 viewMatrix, glm::mat4 projectionMatrix) : viewMatrix(viewMatrix), projectionMatrix(projectionMatrix) {}
-		};
 	}
 }

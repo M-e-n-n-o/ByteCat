@@ -22,7 +22,8 @@ class LightingTest : public Layer
 public:
 	LightingTest() : Layer("Shadow Test")
 	{
-		// Zet een submission renderer
+		// Submit de render passes
+		Renderer::Submit(std::make_shared<ShadowPass>());
 		Renderer::Submit(std::make_shared<ForwardPass>());
 
 		// Maak een nieuwe scene

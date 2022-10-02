@@ -2,7 +2,9 @@
 #include <memory>
 #include "byteCat/graphics/renderer/RendererAPI.h"
 #include "byteCat/graphics/renderer/Renderable.h"
+#include "byteCat/graphics/renderer/CameraData.h"
 #include "byteCat/graphics/renderer/RenderPass.h"
+#include "byteCat/graphics/renderer/LightingData.h"
 
 namespace BC
 {
@@ -27,6 +29,7 @@ namespace BC
 			inline static std::vector<std::shared_ptr<RenderPass>> s_renderPasses;
 			inline static std::vector<std::shared_ptr<Renderable>> s_renderables;
 			inline static std::shared_ptr<CameraData> s_cameraData = nullptr;
+			inline static std::shared_ptr<LightingData> s_lightingData = nullptr;
 
 		public:
 			static void SetAPI(const GraphicsAPI& api);
@@ -42,6 +45,7 @@ namespace BC
 			static void Submit(const std::shared_ptr<RenderPass>& renderPass);
 			static void Submit(const std::shared_ptr<Renderable>& renderable);
 			static void Submit(const std::shared_ptr<CameraData>& cameraData);
+			static void Submit(const std::shared_ptr<LightingData>& lightingData);
 
 			static void Render();
 		};

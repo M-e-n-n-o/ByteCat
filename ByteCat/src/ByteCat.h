@@ -41,8 +41,11 @@
 #include "byteCat/graphics/renderer/RendererAPI.h"
 #include "byteCat/graphics/renderer/Renderer2D.h"
 #include "byteCat/graphics/renderer/Renderable.h"
+#include "byteCat/graphics/renderer/CameraData.h"
+#include "byteCat/graphics/renderer/LightingData.h"
 #include "byteCat/graphics/renderer/RenderPass.h"
 #include "byteCat/graphics/renderer/renderPasses/ForwardPass.h"
+#include "byteCat/graphics/renderer/renderPasses/ShadowPass.h"
 
 #include "byteCat/ecs/systems/CameraSystem.h"
 #include "byteCat/ecs/systems/RenderSubmitter.h"

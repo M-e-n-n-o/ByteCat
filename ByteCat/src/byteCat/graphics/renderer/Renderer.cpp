@@ -47,6 +47,8 @@ namespace BC
 		{
 			CHECK_INIT
 
+			LOG_INFO("Adding render pass: %s", renderPass->getName().c_str());
+
 			s_renderPasses.push_back(renderPass);
 			renderPass->init(s_rendererAPI);
 		}
@@ -63,6 +65,13 @@ namespace BC
 			CHECK_INIT
 
 			s_cameraData = cameraData;
+		}
+
+		void Renderer::Submit(const std::shared_ptr<LightingData>& lightingData)
+		{
+			CHECK_INIT
+
+			s_lightingData = lightingData;
 		}
 
 		void Renderer::Render()
@@ -86,7 +95,7 @@ namespace BC
 
 			for (const auto& pass : s_renderPasses)
 			{
-				pass->execute(s_renderables, s_cameraData);
+				pass->execute(s_renderables, s_cameraData, s_lightingData);
 			}
 
 			s_renderables.clear();
