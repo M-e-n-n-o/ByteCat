@@ -84,17 +84,19 @@ namespace BC
 
 			if (s_renderPasses.size() == 0)
 			{
-				LOG_WARN("No render passes has been submitted to the renderer!");
+				return;
 			}
 
 			if (s_renderables.size() == 0)
 			{
 				LOG_WARN("No renderables has been submitted to the renderer!");
+				return;
 			}
 
 			if (s_cameraData == nullptr)
 			{
 				LOG_WARN("No camera data available while trying to render!");
+				return;
 			}
 
 			for (const auto& pass : s_renderPasses)

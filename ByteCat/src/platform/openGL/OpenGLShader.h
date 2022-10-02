@@ -12,9 +12,10 @@ namespace BC
 			std::string m_name;
 			unsigned int m_programID;
 
-			int m_textureSlot = -1;
+			//int m_textureSlot = -1;
+			std::vector<std::shared_ptr<Graphics::Texture>> m_textures;
 
-			mutable std::unordered_map<std::string, unsigned int> uniformLocationCache;
+			mutable std::unordered_map<std::string, unsigned int> m_uniformLocationCache;
 			
 		public:
 			OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc, bool isFilePath);
@@ -35,7 +36,8 @@ namespace BC
 
 			void linkUniformBuffer(const std::string& bufferName, unsigned int bindingIndex) override;
 
-			int addTextureSlot(const char* textureName) override;
+			void addTexture(const char* textureName, std::shared_ptr<Graphics::Texture> texture) override;
+			void activateTextures() override;
 			
 			const std::string& getName() const override { return m_name; }
 

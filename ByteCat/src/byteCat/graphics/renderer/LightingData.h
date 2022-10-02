@@ -10,8 +10,7 @@ namespace BC
 		struct LightingData
 		{
 			Ecs::DirectionalLight* mainLightSource = nullptr;
-
-			std::vector<Ecs::Light*> lights;
+			glm::vec3 mainLightPosition;
 		};
 	}
 }

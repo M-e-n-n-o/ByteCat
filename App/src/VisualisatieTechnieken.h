@@ -110,9 +110,12 @@ public:
 		
 			rayMarchShader = Shader::Create("RayMarch", "RayMarchVertex.glsl", "RayMarchFragment.glsl", true);
 
+			auto rgbNoise = Texture2D::Create("rgbNoise.png");
+			auto windNoise = Texture2D::Create("windNoise.png");
+
 			auto grassShader = Shader::Create("Grass", "GrassVertex.glsl", "GrassGeometry.glsl", "GrassFragment.glsl", true);
-			grassShader->addTextureSlot("noise");
-			grassShader->addTextureSlot("windNoise");
+			grassShader->addTexture("noise", rgbNoise);
+			grassShader->addTexture("windNoise", windNoise);
 		
 		// Framebuffer + cloud spul
 			 auto& window = Application::GetInstance().getWindow();
@@ -143,28 +146,27 @@ public:
 			auto quadIndexBuffer = IndexBuffer::Create(indicesQuad, sizeof(indicesQuad));
 			quad->setIndexBuffer(quadIndexBuffer);
 		
-			cloudShader = Shader::Create("Cloud shader", "CloudVertex.glsl", "CloudFragment.glsl", true);
-			cloudShader->addTextureSlot("cloudNoise");
-			cloudShader->addTextureSlot("screenTexture");
-			cloudShader->addTextureSlot("depthTexture");
-			cloudShader->loadFloat("numSteps", 20);
-			cloudShader->loadFloat("numStepsLight", 10);
-		
 			auto cloudTexture = Texture3D::Create(128, 128, 128, TextureFormat::RGBA8);
-		
+
 			auto computeShader = ComputeShader::Create("Cloud Noise Compute", "CloudNoiseCompute.glsl");
 			computeShader->setOutputTexture(cloudTexture);
 			computeShader->compute(cloudTexture->getWidth(), cloudTexture->getHeight(), 64);
 			computeShader->waitToFinish();
+
+			cloudShader = Shader::Create("Cloud shader", "CloudVertex.glsl", "CloudFragment.glsl", true);
+			cloudShader->addTexture("cloudNoise", cloudTexture);
+			cloudShader->addTexture("screenTexture", colorAttachment);
+			cloudShader->addTexture("depthTexture", depthAttachment);
+			cloudShader->loadFloat("numSteps", 20);
+			cloudShader->loadFloat("numStepsLight", 10);
 		
-			std::vector<std::shared_ptr<Texture>> textures = { cloudTexture, colorAttachment, depthAttachment };
-			renderable = std::make_shared<Renderable>(CullingMode::Back, quad, cloudShader, textures, Math::CreateModelMatrix(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)));
+			renderable = std::make_shared<Renderable>(CullingMode::Back, quad, cloudShader, Math::CreateModelMatrix(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)));
 		
 		// Skybox cubemap
 			auto skyboxTexture = TextureCube::Create({ "skybox/right.jpg", "skybox/left.jpg", "skybox/top.jpg", "skybox/bottom.jpg", "skybox/front.jpg", "skybox/back.jpg" });
 		
 			auto skyboxShader = Shader::Create("SkyboxShader", "skybox/SkyboxVertex.glsl", "skybox/SkyboxFragment.glsl", true);
-			skyboxShader->addTextureSlot("skybox");
+			skyboxShader->addTexture("skybox", skyboxTexture);
 		
 		
 		// Entities + components aanmaken		
@@ -172,19 +174,16 @@ public:
 			ecsCoordinator->addComponent<Transform>(mandelbrot, { glm::vec3(0, 50, 0), glm::vec3(0, 0, 0), glm::vec3(5, 5, 5) });
 			ecsCoordinator->addComponent<Mesh>(mandelbrot, { cubeVao });
 			ecsCoordinator->addComponent<Material>(mandelbrot, { CullingMode::None, rayMarchShader });
-
-			auto rgbNoise = Texture2D::Create("rgbNoise.png");
-			auto windNoise = Texture2D::Create("windNoise.png");
 		
 			auto grass = ecsCoordinator->createEntity("Test Entity2");
 			ecsCoordinator->addComponent<Transform>(grass, { glm::vec3(0, 40, 0), glm::vec3(-90, 0, 0), glm::vec3(5, 5, 5) });
 			ecsCoordinator->addComponent<Mesh>(grass, { quad });
-			ecsCoordinator->addComponent<Material>(grass, { CullingMode::Back, grassShader, {rgbNoise, windNoise} });
+			ecsCoordinator->addComponent<Material>(grass, { CullingMode::Back, grassShader });
 		
 			skyboxEntity = ecsCoordinator->createEntity("Skybox Entity");		
 			ecsCoordinator->addComponent<Transform>(skyboxEntity, { glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1000, 1000, 1000) });
 			ecsCoordinator->addComponent<Mesh>(skyboxEntity, { cubeVao });
-			ecsCoordinator->addComponent<Material>(skyboxEntity, { CullingMode::Front, skyboxShader, {skyboxTexture} });
+			ecsCoordinator->addComponent<Material>(skyboxEntity, { CullingMode::Front, skyboxShader });
 		
 			camera = ecsCoordinator->createEntity("Camera");		
 			ecsCoordinator->addComponent<Transform>(camera, { glm::vec3(0, 50, -5), glm::vec3(0, 90, 0), glm::vec3(1, 1, 1) });

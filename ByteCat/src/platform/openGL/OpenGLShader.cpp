@@ -194,21 +194,36 @@ namespace BC
 			glUniformBlockBinding(m_programID, uniformBlockIndex, bindingIndex);
 		}
 
-		int OpenGLShader::addTextureSlot(const char* textureName)
+		void OpenGLShader::addTexture(const char* textureName, std::shared_ptr<Graphics::Texture> texture)
 		{
+			if (std::find(m_textures.begin(), m_textures.end(), texture) != m_textures.end())
+			{
+				return;
+			}
+
 			glUseProgram(m_programID);
 
-			m_textureSlot++;
-			loadInt(textureName, m_textureSlot);
+			loadInt(textureName, m_textures.size());
 
-			return m_textureSlot;
+			if (texture != nullptr)
+			{
+				m_textures.push_back(texture);
+			}
+		}
+
+		void OpenGLShader::activateTextures()
+		{
+			for (int i = 0; i < m_textures.size(); i++)
+			{
+				m_textures[i]->bind(i);
+			}
 		}
 
 		int OpenGLShader::getUniformLocation(const std::string& uniformName) const
 		{
-			if (uniformLocationCache.find(uniformName) != uniformLocationCache.end())
+			if (m_uniformLocationCache.find(uniformName) != m_uniformLocationCache.end())
 			{
-				return uniformLocationCache[uniformName];
+				return m_uniformLocationCache[uniformName];
 			}
 
 			GLint location = glGetUniformLocation(m_programID, uniformName.c_str());
@@ -221,7 +236,7 @@ namespace BC
 				return -1;
 			}
 
-			uniformLocationCache[uniformName] = location;
+			m_uniformLocationCache[uniformName] = location;
 
 			return location;
 		}

@@ -29,8 +29,8 @@ namespace BC
 
 			virtual void linkUniformBuffer(const std::string& bufferName, unsigned int bindingIndex) = 0;
 
-			// Returns the slot index
-			virtual int addTextureSlot(const char* textureName) = 0;
+			virtual void addTexture(const char* textureName, std::shared_ptr<Texture> texture) = 0;
+			virtual void activateTextures() = 0;
 
 			virtual const std::string& getName() const = 0;
 

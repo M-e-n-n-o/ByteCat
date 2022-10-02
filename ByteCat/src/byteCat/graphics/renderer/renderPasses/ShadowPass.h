@@ -75,13 +75,11 @@ namespace BC
 
 			void execute(std::vector<std::shared_ptr<Renderable>>& renderables, std::shared_ptr<CameraData>& cameraData, std::shared_ptr<LightingData>& lightingData) override
 			{
-				glm::vec3 lightPos = glm::vec3(0, 5, -5);
 				glm::mat4 lightProjection, lightView;
 				glm::mat4 lightSpaceMatrix;
-				float near_plane = 1.0f, far_plane = 10.0f;
+				float near_plane = 0.1f, far_plane = 20.0f;
 				lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_plane, far_plane);
-				lightView = glm::lookAt(lightPos, glm::vec3(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-				//lightSpaceMatrix = cameraData->projectionMatrix * cameraData->viewMatrix;
+				lightView = glm::lookAt(lightingData->mainLightPosition, glm::vec3(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 				lightSpaceMatrix = lightProjection * lightView;
 
 				m_depthShader->bind();
@@ -96,12 +94,7 @@ namespace BC
 					m_depthShader->bind();
 					m_depthShader->loadMatrix4("model", renderable->modelMatrix);
 
-					int unit = 0;
-					for (auto& texture : renderable->textures)
-					{
-						texture->bind(unit++);
-					}
-
+					renderable->shader->activateTextures();
 					renderable->vao->bind();
 
 					if (renderable->onRender != nullptr)
@@ -114,12 +107,10 @@ namespace BC
 					m_rendererAPI->draw(renderable->vao);
 
 					renderable->shader->bind();
-					renderable->shader->loadMatrix4("lightSpaceMatrix", lightSpaceMatrix);
-					renderable->shader->loadVector3("cameraPos", cameraData->cameraPos);
-					renderable->shader->loadVector3("mainLightSourcePos", lightPos);
+					renderable->shader->loadMatrix4("_lightSpaceMatrix", lightSpaceMatrix);
+					renderable->shader->loadVector3("_mainLightSourcePos", lightingData->mainLightPosition);
 
-					renderable->shader->addTextureSlot("shadowMap");
-					renderable->textures.push_back(m_shadowMap);
+					renderable->shader->addTexture("_shadowMap", m_shadowMap);
 				}
 
 				m_shadowFrameBuffer->unbind();

@@ -50,13 +50,17 @@ namespace BC
 		}
 	)";
 
+		inline static bool s_isInit = false;
+
 		inline static std::shared_ptr<Shader> basicShader = nullptr;
 		inline static std::shared_ptr<VertexArray> basicVao = nullptr;
 		
 		static void InitBasicGraphics()
-		{			
+		{		
+			s_isInit = true;
+
 			basicShader = Shader::Create("Renderer simple 2D", shaderVersion + vertexShader, shaderVersion + fragmentShader, false);
-			basicShader->addTextureSlot("tex");
+			basicShader->addTexture("tex", nullptr);
 			
 			basicVao = VertexArray::Create();
 			
@@ -81,9 +85,11 @@ namespace BC
 
 			auto ebo = IndexBuffer::Create(indices, sizeof(indices));
 			basicVao->setIndexBuffer(ebo);
+
+			Renderer2D::SetColor(glm::vec4(1, 1, 1, 1));
 		};
 
-		#define CHECK_INIT if(Renderer::GetRenderer() == nullptr) { LOG_ERROR("The renderer has not been initialized yet!"); return; } if(!s_isInit) { InitBasicGraphics(); s_isInit = true; }
+		#define CHECK_INIT if(Renderer::GetRenderer() == nullptr) { LOG_ERROR("The renderer has not been initialized yet!"); return; } if(!s_isInit) { InitBasicGraphics(); }
 		
 		void Renderer2D::Clear(const glm::vec4& color)
 		{

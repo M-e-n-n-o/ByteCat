@@ -31,12 +31,9 @@ namespace BC
 					renderable->shader->loadMatrix4("_viewMatrix", cameraData->viewMatrix);
 					renderable->shader->loadMatrix4("_projectionMatrix", cameraData->projectionMatrix);
 
-					int unit = 0;
-					for (auto& texture : renderable->textures)
-					{
-						texture->bind(unit++);
-					}
+					renderable->shader->loadVector3("_cameraPos", cameraData->cameraPos);
 
+					renderable->shader->activateTextures();
 					renderable->vao->bind();
 
 					if (renderable->onRender != nullptr)

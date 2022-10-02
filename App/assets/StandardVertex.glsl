@@ -16,13 +16,13 @@ uniform mat4 _modelMatrix;
 uniform mat4 _viewMatrix;
 uniform mat4 _projectionMatrix;
 
-uniform mat4 lightSpaceMatrix;
+uniform mat4 _lightSpaceMatrix;
 
 void main()
 {
     vs_out.pos = vec3(_modelMatrix * vec4(aPos, 1.0));
     vs_out.normal = transpose(inverse(mat3(_modelMatrix))) * aNormal;
     vs_out.uv = aUv;
-    vs_out.fragPosLightSpace = lightSpaceMatrix * vec4(vs_out.pos, 1.0);
+    vs_out.fragPosLightSpace = _lightSpaceMatrix * vec4(vs_out.pos, 1.0);
     gl_Position = _projectionMatrix * _viewMatrix * vec4(vs_out.pos, 1.0);
 }
