@@ -12,6 +12,8 @@ namespace BC
 			std::string m_name;
 			unsigned int m_programID;
 
+			int m_textureSlot = -1;
+
 			mutable std::unordered_map<std::string, unsigned int> uniformLocationCache;
 			
 		public:
@@ -33,7 +35,7 @@ namespace BC
 
 			void linkUniformBuffer(const std::string& bufferName, unsigned int bindingIndex) override;
 
-			void setTextureSlots(std::initializer_list<const char*> textureNames) override;
+			int addTextureSlot(const char* textureName) override;
 			
 			const std::string& getName() const override { return m_name; }
 

@@ -36,7 +36,7 @@ public:
 		auto skyboxTexture = TextureCube::Create({ "skybox/right.jpg", "skybox/left.jpg", "skybox/top.jpg", "skybox/bottom.jpg", "skybox/front.jpg", "skybox/back.jpg" });
 
 		auto skyboxShader = Shader::Create("SkyboxShader", "skybox/SkyboxVertex.glsl", "skybox/SkyboxFragment.glsl", true);
-		skyboxShader->setTextureSlots({ "skybox" });
+		skyboxShader->addTextureSlot("skybox");
 
 		// Cube data
 		float dataCube[] =
@@ -130,7 +130,7 @@ public:
 
 		auto dogTexture = Texture2D::Create("dog.png");
 		auto standardShader = Shader::Create("StandardShader", "SimpleVertex.glsl", "SimpleFragment.glsl", true);
-		standardShader->setTextureSlots({ "tex" });
+		standardShader->addTextureSlot("tex");
 
 		// Framebuffer
 		auto& window = Application::GetInstance().getWindow();
@@ -141,7 +141,7 @@ public:
 		fbo->unbind();
 
 		auto fboShader = Shader::Create("Fbo shader", "FboVertex.glsl", "FboFragment.glsl", true);
-		fboShader->setTextureSlots({ "screenTexture" });
+		fboShader->addTextureSlot("screenTexture");
 
 		std::vector<std::shared_ptr<Texture>> textures = { colorAttachment };
 		fboRenderable = std::make_shared<Renderable>(CullingMode::Back, quad, fboShader, textures, Math::CreateModelMatrix(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)));

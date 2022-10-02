@@ -111,7 +111,8 @@ public:
 			rayMarchShader = Shader::Create("RayMarch", "RayMarchVertex.glsl", "RayMarchFragment.glsl", true);
 
 			auto grassShader = Shader::Create("Grass", "GrassVertex.glsl", "GrassGeometry.glsl", "GrassFragment.glsl", true);
-			grassShader->setTextureSlots({ "noise", "windNoise" });
+			grassShader->addTextureSlot("noise");
+			grassShader->addTextureSlot("windNoise");
 		
 		// Framebuffer + cloud spul
 			 auto& window = Application::GetInstance().getWindow();
@@ -143,7 +144,9 @@ public:
 			quad->setIndexBuffer(quadIndexBuffer);
 		
 			cloudShader = Shader::Create("Cloud shader", "CloudVertex.glsl", "CloudFragment.glsl", true);
-			cloudShader->setTextureSlots({ "cloudNoise", "screenTexture", "depthTexture" });
+			cloudShader->addTextureSlot("cloudNoise");
+			cloudShader->addTextureSlot("screenTexture");
+			cloudShader->addTextureSlot("depthTexture");
 			cloudShader->loadFloat("numSteps", 20);
 			cloudShader->loadFloat("numStepsLight", 10);
 		
@@ -161,7 +164,7 @@ public:
 			auto skyboxTexture = TextureCube::Create({ "skybox/right.jpg", "skybox/left.jpg", "skybox/top.jpg", "skybox/bottom.jpg", "skybox/front.jpg", "skybox/back.jpg" });
 		
 			auto skyboxShader = Shader::Create("SkyboxShader", "skybox/SkyboxVertex.glsl", "skybox/SkyboxFragment.glsl", true);
-			skyboxShader->setTextureSlots({ "skybox" });
+			skyboxShader->addTextureSlot("skybox");
 		
 		
 		// Entities + components aanmaken		

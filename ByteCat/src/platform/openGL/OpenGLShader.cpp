@@ -194,15 +194,14 @@ namespace BC
 			glUniformBlockBinding(m_programID, uniformBlockIndex, bindingIndex);
 		}
 
-		void OpenGLShader::setTextureSlots(std::initializer_list<const char*> textureNames)
+		int OpenGLShader::addTextureSlot(const char* textureName)
 		{
 			glUseProgram(m_programID);
 
-			int i = 0;
-			for (auto& texture : textureNames)
-			{
-				loadInt(texture, i++);
-			}
+			m_textureSlot++;
+			loadInt(textureName, m_textureSlot);
+
+			return m_textureSlot;
 		}
 
 		int OpenGLShader::getUniformLocation(const std::string& uniformName) const

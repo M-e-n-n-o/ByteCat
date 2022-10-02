@@ -25,7 +25,7 @@ namespace BC
 
 			std::shared_ptr<Shader> m_depthShader;
 
-			std::shared_ptr<Renderable> m_debugRenderable;
+			//std::shared_ptr<Renderable> m_debugRenderable;
 
 		public:
 			ShadowPass() : RenderPass("ShadowPass") {}
@@ -44,32 +44,33 @@ namespace BC
 				m_shadowFrameBuffer->disableReadWrite();
 				m_shadowFrameBuffer->unbind();
 
-				auto debugShader = Shader::Create("Debug depth shader", "DebugDepthVertex.glsl", "DebugDepthFragment.glsl", true);
-				debugShader->setTextureSlots({ "depthMap" });
+				//// Debug code for showing the depth map
+				//auto debugShader = Shader::Create("Debug depth shader", "DebugDepthVertex.glsl", "DebugDepthFragment.glsl", true);
+				//debugShader->setTextureSlots({ "depthMap" });
 
-				float dataQuad[] =
-				{
-				   -1.0f,  1.0f,	0, 1,
-				   -1.0f, -1.0f,	0, 0,
-					1.0f, -1.0f,	1, 0,
-					1.0f,  1.0f,	1, 1
-				};
+				//float dataQuad[] =
+				//{
+				//   -1.0f,  1.0f,	0, 1,
+				//   -1.0f, -1.0f,	0, 0,
+				//	1.0f, -1.0f,	1, 0,
+				//	1.0f,  1.0f,	1, 1
+				//};
 
-				unsigned indicesQuad[] =
-				{
-				   0, 1, 2,
-				   2, 3, 0
-				};
+				//unsigned indicesQuad[] =
+				//{
+				//   0, 1, 2,
+				//   2, 3, 0
+				//};
 
-				auto debugVAO = VertexArray::Create();
-				auto quadVertexBuffer = VertexBuffer::Create(dataQuad, sizeof(dataQuad));
-				quadVertexBuffer->setLayout({ {ShaderDataType::Float2, "vertexPos"}, {ShaderDataType::Float2, "texCoord"} });
-				debugVAO->addVertexBuffer(quadVertexBuffer);
-				auto quadIndexBuffer = IndexBuffer::Create(indicesQuad, sizeof(indicesQuad));
-				debugVAO->setIndexBuffer(quadIndexBuffer);
+				//auto debugVAO = VertexArray::Create();
+				//auto quadVertexBuffer = VertexBuffer::Create(dataQuad, sizeof(dataQuad));
+				//quadVertexBuffer->setLayout({ {ShaderDataType::Float2, "vertexPos"}, {ShaderDataType::Float2, "texCoord"} });
+				//debugVAO->addVertexBuffer(quadVertexBuffer);
+				//auto quadIndexBuffer = IndexBuffer::Create(indicesQuad, sizeof(indicesQuad));
+				//debugVAO->setIndexBuffer(quadIndexBuffer);
 
-				std::vector<std::shared_ptr<Texture>> textures = { m_shadowMap };
-				m_debugRenderable = std::make_shared<Renderable>(CullingMode::Back, debugVAO, debugShader, textures, glm::mat4(1));
+				//std::vector<std::shared_ptr<Texture>> textures = { m_shadowMap };
+				//m_debugRenderable = std::make_shared<Renderable>(CullingMode::Back, debugVAO, debugShader, textures, glm::mat4(1));
 			}
 
 			void execute(std::vector<std::shared_ptr<Renderable>>& renderables, std::shared_ptr<CameraData>& cameraData, std::shared_ptr<LightingData>& lightingData) override
@@ -92,6 +93,7 @@ namespace BC
 
 				for (const auto& renderable : renderables)
 				{
+					m_depthShader->bind();
 					m_depthShader->loadMatrix4("model", renderable->modelMatrix);
 
 					int unit = 0;
@@ -110,16 +112,23 @@ namespace BC
 					RendererAPI::SetCullingMode(renderable->cullingMode);
 
 					m_rendererAPI->draw(renderable->vao);
-				}
 
-				renderables.clear();
+					renderable->shader->bind();
+					renderable->shader->loadMatrix4("lightSpaceMatrix", lightSpaceMatrix);
+					renderable->shader->loadVector3("cameraPos", cameraData->cameraPos);
+					renderable->shader->loadVector3("mainLightSourcePos", lightPos);
+
+					renderable->shader->addTextureSlot("shadowMap");
+					renderable->textures.push_back(m_shadowMap);
+				}
 
 				m_shadowFrameBuffer->unbind();
 
 				auto& window = App::Application::GetInstance().getWindow();
 				m_rendererAPI->setViewport(0, 0, window.getWidth(), window.getHeight());
 
-				Renderer::Submit(m_debugRenderable);
+				//renderables.clear();
+				//Renderer::Submit(m_debugRenderable);
 			}
 		};
 	}

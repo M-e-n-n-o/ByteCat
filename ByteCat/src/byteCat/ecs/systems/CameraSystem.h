@@ -31,7 +31,7 @@ namespace BC
 				auto transform = m_coordinator->getComponent<Transform>(m_mainCamera);
 				auto camera = m_coordinator->getComponent<Camera>(m_mainCamera);
 
-				auto camData = std::make_shared<Graphics::CameraData>(Utils::Math::CreateViewMatrix(transform->position, transform->rotation), camera->getProjectionMatrix(aspect));
+				auto camData = std::make_shared<Graphics::CameraData>(transform->position, Utils::Math::CreateViewMatrix(transform->position, transform->rotation), camera->getProjectionMatrix(aspect));
 				Graphics::Renderer::Submit(camData);
 			}
 

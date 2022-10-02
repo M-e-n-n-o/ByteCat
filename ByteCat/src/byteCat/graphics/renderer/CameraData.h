@@ -8,10 +8,12 @@ namespace BC
 	{
 		struct CameraData
 		{
+			glm::vec3 cameraPos;
+
 			glm::mat4 viewMatrix;
 			glm::mat4 projectionMatrix;
 
-			CameraData(glm::mat4 viewMatrix, glm::mat4 projectionMatrix) : viewMatrix(viewMatrix), projectionMatrix(projectionMatrix) {}
+			CameraData(glm::vec3 cameraPos, glm::mat4 viewMatrix, glm::mat4 projectionMatrix) : cameraPos(cameraPos), viewMatrix(viewMatrix), projectionMatrix(projectionMatrix) {}
 		};
 	}
 }

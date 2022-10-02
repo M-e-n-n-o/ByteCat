@@ -41,38 +41,38 @@ public:
 		// Cube data
 		float dataCube[] =
 		{
-			// Vertex pos		Texture coords
-			0.5, -0.5, 0.5,		0, 0,
-			-0.5, -0.5, 0.5,    1, 0,
-			0.5, 0.5, 0.5,		0, 1,
+			// Vertex pos		Uv's 		Normals
+			0.5, -0.5, 0.5,		0, 0,		0.0, 0.0, 1.0,
+			-0.5, -0.5, 0.5,    1, 0,		0.0, 0.0, 1.0,
+			0.5, 0.5, 0.5,		0, 1,		0.0, 0.0, 1.0,
 
-			-0.5, 0.5, 0.5,		1, 1,
-			0.5, 0.5, -0.5,		0, 1,
-			-0.5, 0.5, -0.5,	1, 1,
+			-0.5, 0.5, 0.5,		1, 1,		0.0, 0.0, 1.0,
+			0.5, 0.5, -0.5,		0, 1,		0.0, 1.0, 0.0,
+			-0.5, 0.5, -0.5,	1, 1,		0.0, 1.0, 0.0,
 
-			0.5, -0.5, -0.5,	0, 1,
-			-0.5, -0.5, -0.5,	1, 1,
-			0.5, 0.5, 0.5,		0, 0,
+			0.5, -0.5, -0.5,	0, 1,		0.0, 0.0, -1.0,
+			-0.5, -0.5, -0.5,	1, 1,		0.0, 0.0, -1.0,
+			0.5, 0.5, 0.5,		0, 0,		0.0, 1.0, 0.0,
 
-			-0.5, 0.5, 0.5,		1, 0,
-			0.5, 0.5, -0.5,		0, 0,
-			-0.5, 0.5, -0.5,	1, 0,
+			-0.5, 0.5, 0.5,		1, 0,		0.0, 1.0, 0.0,
+			0.5, 0.5, -0.5,		0, 0,		0.0, 0.0, -1.0,
+			-0.5, 0.5, -0.5,	1, 0,		0.0, 0.0, -1.0,
 
-			0.5, -0.5, -0.5,	0, 0,
-			0.5, -0.5, 0.5,		0, 1,
-			-0.5, -0.5, 0.5,	1, 1,
+			0.5, -0.5, -0.5,	0, 0,		0.0, -1.0, 0.0,
+			0.5, -0.5, 0.5,		0, 1,		0.0, -1.0, 0.0,
+			-0.5, -0.5, 0.5,	1, 1,		0.0, -1.0, 0.0,
 
-			-0.5, -0.5, -0.5,	1, 0,
-			-0.5, -0.5, 0.5,	0, 0,
-			-0.5, 0.5, 0.5,		0, 1,
+			-0.5, -0.5, -0.5,	1, 0,		0.0, -1.0, 0.0,
+			-0.5, -0.5, 0.5,	0, 0,		-1.0, 0.0, 0.0,
+			-0.5, 0.5, 0.5,		0, 1,		-1.0, 0.0, 0.0,
 
-			-0.5, 0.5, -0.5,	1, 1,
-			-0.5, -0.5, -0.5,	1, 0,
-			0.5, -0.5, -0.5,	0, 0,
+			-0.5, 0.5, -0.5,	1, 1,		-1.0, 0.0, 0.0,
+			-0.5, -0.5, -0.5,	1, 0,		-1.0, 0.0, 0.0,
+			0.5, -0.5, -0.5,	0, 0,		1.0, 0.0, 0.0,
 
-			0.5, 0.5, -0.5,		0, 1,
-			0.5, 0.5, 0.5,		1, 1,
-			0.5, -0.5, 0.5,		1, 0
+			0.5, 0.5, -0.5,		0, 1,		1.0, 0.0, 0.0,
+			0.5, 0.5, 0.5,		1, 1,		1.0, 0.0, 0.0,
+			0.5, -0.5, 0.5,		1, 0,		1.0, 0.0, 0.0
 		};
 
 		unsigned indicesCube[] =
@@ -98,7 +98,7 @@ public:
 
 		auto cubeVao = VertexArray::Create();
 		auto cubeVbo = VertexBuffer::Create(dataCube, sizeof(dataCube));
-		BufferLayout layoutCube = { { ShaderDataType::Float3, "vertexPos" }, {ShaderDataType::Float2, "texCoord"} };
+		BufferLayout layoutCube = { { ShaderDataType::Float3, "vertexPos" }, {ShaderDataType::Float2, "texCoord"}, {ShaderDataType::Float3, "normals" } };
 		cubeVbo->setLayout(layoutCube);
 		cubeVao->addVertexBuffer(cubeVbo);
 		auto cubeEbo = IndexBuffer::Create(indicesCube, sizeof(indicesCube));
@@ -106,16 +106,16 @@ public:
 
 		auto woodTexture = Texture2D::Create("wood.jpg");
 		auto cubeShader = Shader::Create("Cube shader", "StandardVertex.glsl", "StandardFragment.glsl", true);
-		cubeShader->setTextureSlots({ "tex" });
+		cubeShader->addTextureSlot("mainTexture");
 
 		// Skybox cubemap
+
 		auto skyboxTexture = TextureCube::Create({ "skybox/right.jpg", "skybox/left.jpg", "skybox/top.jpg", "skybox/bottom.jpg", "skybox/front.jpg", "skybox/back.jpg" });
 
 		auto skyboxShader = Shader::Create("SkyboxShader", "skybox/SkyboxVertex.glsl", "skybox/SkyboxFragment.glsl", true);
-		skyboxShader->setTextureSlots({ "skybox" });
+		skyboxShader->addTextureSlot("skybox");
 
-
-		// Entities + components aanmaken	
+		// Entities + components aanmaken
 		skyboxEntity = ecsCoordinator->createEntity("Skybox");
 		ecsCoordinator->addComponent<Transform>(skyboxEntity, { glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1000, 1000, 1000) });
 		ecsCoordinator->addComponent<Mesh>(skyboxEntity, { cubeVao });
@@ -136,8 +136,8 @@ public:
 
 		camera = ecsCoordinator->createEntity("Camera");
 		ecsCoordinator->addComponent<Transform>(camera, { glm::vec3(0, 5, -5), glm::vec3(0, 90, 0), glm::vec3(1, 1, 1) });
-		ecsCoordinator->addComponent<OrtographicCamera>(camera, { -10.0f, 10.0f, -10.0f, 10.0f, 1.0f, 10.0f });
-		//ecsCoordinator->addComponent<PerspectiveCamera>(camera, { 70, 0.1f, 1000.0f });
+		//ecsCoordinator->addComponent<OrtographicCamera>(camera, { -10.0f, 10.0f, -10.0f, 10.0f, 1.0f, 10.0f });
+		ecsCoordinator->addComponent<PerspectiveCamera>(camera, { 70, 0.1f, 1000.0f });
 		ecsCoordinator->addComponent<Spectator>(camera, { 10 });
 	}
 
