@@ -77,7 +77,7 @@ namespace BC
 			{
 				glm::mat4 lightProjection, lightView;
 				glm::mat4 lightSpaceMatrix;
-				float near_plane = 0.1f, far_plane = 20.0f;
+				float near_plane = 0.1f, far_plane = 10.0f;
 				lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_plane, far_plane);
 				lightView = glm::lookAt(lightingData->mainLightPosition, glm::vec3(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 				lightSpaceMatrix = lightProjection * lightView;
@@ -89,6 +89,7 @@ namespace BC
 				m_shadowFrameBuffer->bind();
 				m_rendererAPI->clearBuffers();
 
+				RendererAPI::SetCullingMode(CullingMode::Front);
 				for (const auto& renderable : renderables)
 				{
 					m_depthShader->bind();
@@ -102,8 +103,6 @@ namespace BC
 						renderable->onRender(renderable);
 					}
 
-					RendererAPI::SetCullingMode(renderable->cullingMode);
-
 					m_rendererAPI->draw(renderable->vao);
 
 					renderable->shader->bind();
@@ -112,6 +111,8 @@ namespace BC
 
 					renderable->shader->addTexture("_shadowMap", m_shadowMap);
 				}
+
+				RendererAPI::SetCullingMode(CullingMode::Back);
 
 				m_shadowFrameBuffer->unbind();
 
@@ -124,3 +125,7 @@ namespace BC
 		};
 	}
 }
+
+/*
+Nog fixen: Oversampling & PCF
+*/
