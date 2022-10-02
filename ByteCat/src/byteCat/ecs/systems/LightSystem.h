@@ -20,7 +20,7 @@ namespace BC
 
 					if (auto directional = dynamic_cast<DirectionalLight*>(light); directional != nullptr)
 					{
-						lightingData->sun = directional;
+						lightingData->mainLightSource = directional;
 						continue;
 					}
 

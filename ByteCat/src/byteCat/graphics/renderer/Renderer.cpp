@@ -14,6 +14,10 @@ namespace BC
 			{
 				s_graphicsAPI = api;
 			}
+			else
+			{
+				LOG_WARN("Cannot change the Graphics API after setting it the first time");
+			}
 		}
 
 		void Renderer::Init()

@@ -28,6 +28,8 @@ namespace BC
 
 			bool isComplete() const override;
 			
+			void disableReadWrite() const override;
+
 			void attachTexture(std::shared_ptr<Graphics::Texture2D> texture) override;
 			void attachRenderBuffer(const Graphics::TextureFormat& format) override;
 		};

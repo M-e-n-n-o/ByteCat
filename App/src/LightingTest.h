@@ -104,7 +104,9 @@ public:
 		auto cubeEbo = IndexBuffer::Create(indicesCube, sizeof(indicesCube));
 		cubeVao->setIndexBuffer(cubeEbo);
 
+		auto woodTexture = Texture2D::Create("wood.jpg");
 		auto cubeShader = Shader::Create("Cube shader", "StandardVertex.glsl", "StandardFragment.glsl", true);
+		cubeShader->setTextureSlots({ "tex" });
 
 		// Skybox cubemap
 		auto skyboxTexture = TextureCube::Create({ "skybox/right.jpg", "skybox/left.jpg", "skybox/top.jpg", "skybox/bottom.jpg", "skybox/front.jpg", "skybox/back.jpg" });
@@ -122,14 +124,20 @@ public:
 		auto sun = ecsCoordinator->createEntity("Sun");
 		ecsCoordinator->addComponent<DirectionalLight>(sun, { glm::vec3(-0.2f, -1.0f, -0.3f), glm::vec3(1, 1, 1) });
 
-		auto cube = ecsCoordinator->createEntity("Test Entity");
-		ecsCoordinator->addComponent<Transform>(cube, { glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(5, 5, 5) });
+		auto cube = ecsCoordinator->createEntity("Cube");
+		ecsCoordinator->addComponent<Transform>(cube, { glm::vec3(0, 5, 0), glm::vec3(0, 0, 0), glm::vec3(2, 2, 2) });
 		ecsCoordinator->addComponent<Mesh>(cube, { cubeVao });
-		ecsCoordinator->addComponent<Material>(cube, { CullingMode::Back, cubeShader });
+		ecsCoordinator->addComponent<Material>(cube, { CullingMode::Back, cubeShader, { woodTexture } });
+
+		auto ground = ecsCoordinator->createEntity("Ground");
+		ecsCoordinator->addComponent<Transform>(ground, { glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(10, 1, 10) });
+		ecsCoordinator->addComponent<Mesh>(ground, { cubeVao });
+		ecsCoordinator->addComponent<Material>(ground, { CullingMode::Back, cubeShader });
 
 		camera = ecsCoordinator->createEntity("Camera");
-		ecsCoordinator->addComponent<Transform>(camera, { glm::vec3(0, 0, -5), glm::vec3(0, 90, 0), glm::vec3(1, 1, 1) });
-		ecsCoordinator->addComponent<PerspectiveCamera>(camera, { 70, 0.1f, 1000.0f });
+		ecsCoordinator->addComponent<Transform>(camera, { glm::vec3(0, 5, -5), glm::vec3(0, 90, 0), glm::vec3(1, 1, 1) });
+		ecsCoordinator->addComponent<OrtographicCamera>(camera, { -10.0f, 10.0f, -10.0f, 10.0f, 1.0f, 10.0f });
+		//ecsCoordinator->addComponent<PerspectiveCamera>(camera, { 70, 0.1f, 1000.0f });
 		ecsCoordinator->addComponent<Spectator>(camera, { 10 });
 	}
 

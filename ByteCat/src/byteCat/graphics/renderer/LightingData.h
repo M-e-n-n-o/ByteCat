@@ -9,7 +9,7 @@ namespace BC
 	{
 		struct LightingData
 		{
-			Ecs::DirectionalLight* sun = nullptr;
+			Ecs::DirectionalLight* mainLightSource = nullptr;
 
 			std::vector<Ecs::Light*> lights;
 		};

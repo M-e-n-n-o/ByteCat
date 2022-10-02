@@ -16,6 +16,8 @@ namespace BC
 
 			virtual bool isComplete() const = 0;
 
+			virtual void disableReadWrite() const = 0;
+
 			virtual void attachTexture(std::shared_ptr<Texture2D> texture) = 0;
 			virtual void attachRenderBuffer(const TextureFormat& format) = 0;
 

@@ -50,6 +50,12 @@ namespace BC
 			return false;
 		}
 
+		void OpenGLFrameBuffer::disableReadWrite() const
+		{
+			glDrawBuffer(GL_NONE);
+			glReadBuffer(GL_NONE);
+		}
+
 		void OpenGLFrameBuffer::attachTexture(std::shared_ptr<Graphics::Texture2D> texture)
 		{
 			switch (texture->getFormat())

@@ -19,7 +19,7 @@ namespace BC
 				m_rendererAPI = rendererAPI;
 			}
 
-			void execute(std::vector<std::shared_ptr<Renderable>> renderables, std::shared_ptr<CameraData> cameraData, std::shared_ptr<LightingData> lightingData) override
+			void execute(std::vector<std::shared_ptr<Renderable>>& renderables, std::shared_ptr<CameraData>& cameraData, std::shared_ptr<LightingData>& lightingData) override
 			{
 				m_rendererAPI->clearColor(glm::vec4(0.69, 1, 1, 1));
 				m_rendererAPI->clearBuffers();

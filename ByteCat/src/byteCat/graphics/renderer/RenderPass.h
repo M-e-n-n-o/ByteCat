@@ -20,7 +20,7 @@ namespace BC
 			std::string getName() { return m_name; }
 
 			virtual void init(RendererAPI* rendererAPI) = 0;
-			virtual void execute(std::vector<std::shared_ptr<Renderable>> renderables, std::shared_ptr<CameraData> cameraData, std::shared_ptr<LightingData> lightingData) = 0;
+			virtual void execute(std::vector<std::shared_ptr<Renderable>>& renderables, std::shared_ptr<CameraData>& cameraData, std::shared_ptr<LightingData>& lightingData) = 0;
 		};
 	}
 }
