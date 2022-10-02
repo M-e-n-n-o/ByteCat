@@ -27,7 +27,7 @@ public:
 	VisualisatieTechnieken() : Layer("Visualisatie Technieken")
 	{
 		// Zet een submission renderer
-			Renderer::SetSubmissionRenderer(new SimpleRenderer());
+			Renderer::Submit(std::make_shared<ForwardPass>());
 		
 		// Maak een nieuwe scene
 			Application::GetInstance().pushLayer(new SceneManager);

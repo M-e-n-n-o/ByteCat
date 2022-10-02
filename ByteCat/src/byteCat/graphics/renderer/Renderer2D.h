@@ -1,5 +1,6 @@
 #pragma once
 #include "byteCat/graphics/renderer/Renderer.h"
+#include "byteCat/graphics/components/Texture.h"
 
 namespace BC
 {

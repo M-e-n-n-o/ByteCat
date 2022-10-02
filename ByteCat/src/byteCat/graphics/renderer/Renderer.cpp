@@ -31,39 +31,9 @@ namespace BC
 			}
 		}
 
-		void Renderer::SetSubmissionRenderer(SubmissionRenderer* renderer)
-		{
-			if (renderer == nullptr)
-			{
-				delete renderer;
-				return;
-			}
-
-			if (!s_isInit)
-			{
-				LOG_ERROR("Initialize the renderer before setting the submission renderer!");
-				delete renderer;
-				return;
-			}
-
-			if (!renderer->supports(s_graphicsAPI))
-			{
-				LOG_ERROR("Submission renderer: %s does not support the selected graphics API!", renderer->getName().c_str());
-				delete renderer;
-				return;
-			}
-
-			delete s_submissionRenderer;
-			s_submissionRenderer = renderer;
-			s_submissionRenderer->init(s_rendererAPI);
-
-			s_hasSubmissionRenderer = true;
-		}
-
 		void Renderer::Shutdown()
 		{
 			delete s_rendererAPI;
-			delete s_submissionRenderer;
 		}
 
 		void Renderer::SetViewport(unsigned x, unsigned y, unsigned width, unsigned height)
@@ -73,29 +43,53 @@ namespace BC
 			s_rendererAPI->setViewport(x, y, width, height);
 		}
 
-		void Renderer::Submit(const std::shared_ptr<RendererInput>& input)
+		void Renderer::Submit(const std::shared_ptr<RenderPass>& renderPass)
 		{
 			CHECK_INIT
 
-			if (!s_hasSubmissionRenderer)
-			{
-				LOG_ERROR("No submission renderer has been set!");
-				return;
-			}
+			s_renderPasses.push_back(renderPass);
+			renderPass->init(s_rendererAPI);
+		}
 
-			s_submissionRenderer->submit(input);
+		void Renderer::Submit(const std::shared_ptr<Renderable>& renderable)
+		{
+			CHECK_INIT
+
+			s_renderables.push_back(renderable);
+		}
+
+		void Renderer::Submit(const std::shared_ptr<CameraData>& cameraData)
+		{
+			CHECK_INIT
+
+			s_cameraData = cameraData;
 		}
 
 		void Renderer::Render()
 		{
 			CHECK_INIT
 
-			if (!s_hasSubmissionRenderer)
+			if (s_renderPasses.size() == 0)
 			{
-				return;
+				LOG_WARN("No render passes has been submitted to the renderer!");
 			}
 
-			s_submissionRenderer->renderSubmissions();
+			if (s_renderables.size() == 0)
+			{
+				LOG_WARN("No renderables has been submitted to the renderer!");
+			}
+
+			if (s_cameraData == nullptr)
+			{
+				LOG_WARN("No camera data available while trying to render!");
+			}
+
+			for (const auto& pass : s_renderPasses)
+			{
+				pass->execute(s_renderables, s_cameraData);
+			}
+
+			s_renderables.clear();
 		}
 	}
 }
