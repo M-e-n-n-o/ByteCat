@@ -1,8 +1,15 @@
+#if defined(BC_PLATFORM_PC) || defined(BC_PLATFORM_MOBILE)
 #include "bcpch.h"
 #include <stb_image.h>
-#include <glad/glad.h>
-#include "byteCat/utils/Macro.h"
 #include "platform/openGL/OpenGLTextureCube.h"
+#include "platform/openGL/Helper.h"
+#include "byteCat/utils/FileIO.h"
+
+#if defined(BC_PLATFORM_PC)
+	#include <glad/glad.h>
+#elif defined(BC_PLATFORM_MOBILE)
+	#include <glfm.h>
+#endif
 
 namespace BC
 {
@@ -19,19 +26,35 @@ namespace BC
 			for (unsigned int i = 0; i < faces.size(); i++)
 			{
 				std::string filePath = faces[i];
-				filePath.insert(0, BC_ASSETS_FOLDER);
 
-				LOG_INFO("Loading cubemap texture face: {0}", filePath);
-				
-				unsigned char* data = stbi_load(filePath.c_str(), &width, &height, &m_channels, 0);
+				LOG_INFO("Loading cubemap texture face: %s", filePath.c_str());
+
+			stbi_set_flip_vertically_on_load(0);
+
+			#if defined(BC_PLATFORM_PC)
+				unsigned char* data = stbi_load(Utils::FileIO::GetRelativePath(filePath).c_str(), &width, &height, &m_channels, 0);
+
+			#elif defined(BC_PLATFORM_ANDROID)
+				std::vector<unsigned char> assetContent;
+
+				bool success = Utils::FileIO::GetDataFromAssets(filePath, assetContent);
+				if (!success)
+				{
+					LOG_ERROR("Failed to load texture from Assets: %s", filePath.c_str());
+					return;
+				}
+
+				unsigned char* data = stbi_load_from_memory(assetContent.data(), assetContent.size(), &width, &height, &m_channels, 0);
+			#endif
+
 				if (data)
 				{
-					glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+					glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, TextureFormatToOpenGLInternalFormat(format), width, height, 0, TextureFormatToOpenGLBaseFormat(format), GL_UNSIGNED_BYTE, data);
 					stbi_image_free(data);
 				}
 				else
 				{
-					LOG_ERROR("Failed to load cubemap texture face: {0}", filePath);
+					LOG_ERROR("Failed to load cubemap texture face: %s", filePath.c_str());
 					stbi_image_free(data);
 					return;
 				}
@@ -51,7 +74,13 @@ namespace BC
 
 		void OpenGLTextureCube::bind(unsigned textureUnit) const
 		{
-			glBindTextureUnit(textureUnit, m_id);
+			glActiveTexture(GL_TEXTURE0 + textureUnit);
+			glBindTexture(GL_TEXTURE_CUBE_MAP, m_id);
+		}
+		void OpenGLTextureCube::unbind() const
+		{
+			glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
 		}
 	}
 }
+#endif

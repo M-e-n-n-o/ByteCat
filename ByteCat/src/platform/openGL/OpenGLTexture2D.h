@@ -1,4 +1,5 @@
 #pragma once
+#if defined(BC_PLATFORM_PC) || defined(BC_PLATFORM_MOBILE)
 #include "byteCat/graphics/components/Texture.h"
 
 namespace BC
@@ -23,6 +24,7 @@ namespace BC
 			~OpenGLTexture2D();
 
 			void bind(unsigned textureUnit) const override;
+			void unbind() const override;
 
 			unsigned getWidth() const override { return m_width; }
 			unsigned getHeight() const override { return m_height; }
@@ -35,3 +37,4 @@ namespace BC
 		};
 	}
 }
+#endif

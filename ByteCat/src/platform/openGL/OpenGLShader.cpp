@@ -1,9 +1,14 @@
+#if defined(BC_PLATFORM_PC) || defined(BC_PLATFORM_MOBILE)
 #include "bcpch.h"
-#include <glad/glad.h>
 #include <glm/gtc/type_ptr.hpp>
 #include "platform/openGL/OpenGLShader.h"
-#include "byteCat/utils/Macro.h"
 #include "byteCat/utils/FileIO.h"
+
+#if defined(BC_PLATFORM_PC)
+	#include <glad/glad.h>
+#elif defined(BC_PLATFORM_MOBILE)
+	#include <glfm.h>
+#endif
 
 namespace BC
 {
@@ -16,10 +21,10 @@ namespace BC
 			
 			if (isFilePath)
 			{
-				vertexShader.insert(0, BC_ASSETS_FOLDER);
+				// vertexShader.insert(0, BC_ASSETS_FOLDER);
 				vertexShader = Utils::FileIO::ReadFileIntoString(vertexShader);
 				
-				fragmentShader.insert(0, BC_ASSETS_FOLDER);
+				// fragmentShader.insert(0, BC_ASSETS_FOLDER);
 				fragmentShader = Utils::FileIO::ReadFileIntoString(fragmentShader);
 			}
 			
@@ -37,10 +42,10 @@ namespace BC
 			glGetProgramiv(m_programID, GL_LINK_STATUS, &success);
 			if (!success) 
 			{
-				LOG_ERROR("Could not link shader program: {0}", name);
+				LOG_ERROR("Could not link shader program: %s", name.c_str());
 			}
 
-			LOG_INFO("Finished compiling shader program: {0}", name);
+			LOG_INFO("Finished compiling shader program: %s", name.c_str());
 
 			glDeleteShader(vertexShaderID);
 			glDeleteShader(fragmentShaderID);
@@ -50,19 +55,20 @@ namespace BC
 
 		OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& geometrySrc, const std::string& fragmentSrc, bool isFilePath)
 		{
+#if defined(BC_PLATFORM_PC)
 			std::string vertexShader = vertexSrc;
 			std::string geometryShader = geometrySrc;
 			std::string fragmentShader = fragmentSrc;
 
 			if (isFilePath)
 			{
-				vertexShader.insert(0, BC_ASSETS_FOLDER);
+				//vertexShader.insert(0, BC_ASSETS_FOLDER);
 				vertexShader = Utils::FileIO::ReadFileIntoString(vertexShader);
 
-				geometryShader.insert(0, BC_ASSETS_FOLDER);
+				//geometryShader.insert(0, BC_ASSETS_FOLDER);
 				geometryShader = Utils::FileIO::ReadFileIntoString(geometryShader);
 				
-				fragmentShader.insert(0, BC_ASSETS_FOLDER);
+				//fragmentShader.insert(0, BC_ASSETS_FOLDER);
 				fragmentShader = Utils::FileIO::ReadFileIntoString(fragmentShader);
 			}
 
@@ -82,16 +88,17 @@ namespace BC
 			glGetProgramiv(m_programID, GL_LINK_STATUS, &success);
 			if (!success) 
 			{
-				LOG_ERROR("Could not link shader program: {0}", name);
+				LOG_ERROR("Could not link shader program: %s", name.c_str());
 			}
 
-			LOG_INFO("Finished compiling shader program: {0}", name);
+			LOG_INFO("Finished compiling shader program: %s", name.c_str());
 
 			glDeleteShader(vertexShaderID);
 			glDeleteShader(geometryShaderID);
 			glDeleteShader(fragmentShaderID);
 
 			glUseProgram(m_programID);
+#endif
 		}
 
 		OpenGLShader::~OpenGLShader()
@@ -187,22 +194,36 @@ namespace BC
 			glUniformBlockBinding(m_programID, uniformBlockIndex, bindingIndex);
 		}
 
-		void OpenGLShader::setTextureSlots(std::initializer_list<const char*> textureNames)
+		void OpenGLShader::addTexture(const char* textureName, std::shared_ptr<Graphics::Texture> texture)
 		{
+			if (std::find(m_textures.begin(), m_textures.end(), texture) != m_textures.end())
+			{
+				return;
+			}
+
 			glUseProgram(m_programID);
 
-			int i = 0;
-			for (auto& texture : textureNames)
+			loadInt(textureName, m_textures.size());
+
+			if (texture != nullptr)
 			{
-				loadInt(texture, i++);
+				m_textures.push_back(texture);
+			}
+		}
+
+		void OpenGLShader::activateTextures()
+		{
+			for (int i = 0; i < m_textures.size(); i++)
+			{
+				m_textures[i]->bind(i);
 			}
 		}
 
 		int OpenGLShader::getUniformLocation(const std::string& uniformName) const
 		{
-			if (uniformLocationCache.find(uniformName) != uniformLocationCache.end())
+			if (m_uniformLocationCache.find(uniformName) != m_uniformLocationCache.end())
 			{
-				return uniformLocationCache[uniformName];
+				return m_uniformLocationCache[uniformName];
 			}
 
 			GLint location = glGetUniformLocation(m_programID, uniformName.c_str());
@@ -210,12 +231,12 @@ namespace BC
 			{
 				if (uniformName.rfind("_", 0) != 0)
 				{
-					LOG_ERROR("Variable \"{0}\" not found in the shader {1}", uniformName, m_name);
+					LOG_ERROR("Variable \"%s\" not found in the shader %s", uniformName.c_str(), m_name.c_str());
 				}
 				return -1;
 			}
 
-			uniformLocationCache[uniformName] = location;
+			m_uniformLocationCache[uniformName] = location;
 
 			return location;
 		}
@@ -237,19 +258,20 @@ namespace BC
 				std::vector<GLchar> errorLog(maxLength);
 				glGetShaderInfoLog(shaderID, maxLength, &maxLength, &errorLog[0]);
 
-				LOG_ERROR("Shader error info: {0}", m_name);
+				LOG_ERROR("Shader error info: %s", m_name.c_str());
 				std::stringstream log;
 				for (std::vector<GLchar>::const_iterator i = errorLog.begin(); i != errorLog.end(); ++i)
 				{
 					log << *i;
 				}
 
-				LOG_TEXT_LONG(log.str());
+				LOG_TEXT_LONG(log.str().c_str());
 				
-				LOG_ERROR("Could not compile shader: {0}", m_name);
+				LOG_ERROR("Could not compile shader: %s", m_name.c_str());
 			}
 
 			return shaderID;
 		}
 	}
 }
+#endif

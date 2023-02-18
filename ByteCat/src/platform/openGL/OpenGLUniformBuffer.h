@@ -1,4 +1,5 @@
 #pragma once
+#ifdef BC_PLATFORM_PC
 #include "byteCat/graphics/components/UniformBuffer.h"
 
 namespace BC
@@ -28,3 +29,4 @@ namespace BC
 		};
 	}
 }
+#endif

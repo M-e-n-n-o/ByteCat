@@ -1,4 +1,5 @@
 #pragma once
+#if defined(BC_PLATFORM_PC) || defined(BC_PLATFORM_MOBILE)
 #include <vector>
 #include "byteCat/graphics/components/Texture.h"
 
@@ -19,6 +20,7 @@ namespace BC
 			~OpenGLTextureCube();
 
 			void bind(unsigned textureUnit) const override;
+			void unbind() const override;
 
 			unsigned getChannels() const override { return m_channels; }
 			Graphics::TextureFormat getFormat() const override { return m_format; }
@@ -27,3 +29,4 @@ namespace BC
 		};
 	}
 }
+#endif

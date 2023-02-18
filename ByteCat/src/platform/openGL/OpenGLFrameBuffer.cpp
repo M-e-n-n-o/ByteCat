@@ -1,8 +1,14 @@
+#if defined(BC_PLATFORM_PC) || defined(BC_PLATFORM_MOBILE)
 #include "bcpch.h"
-#include <glad/glad.h>
 #include "platform/openGL/OpenGLFrameBuffer.h"
-
+#include "platform/openGL/Helper.h"
 #include "byteCat/app/Application.h"
+
+#if defined(BC_PLATFORM_PC)
+	#include <glad/glad.h>
+#elif defined(BC_PLATFORM_MOBILE)
+	#include <glfm.h>
+#endif
 
 namespace BC
 {
@@ -20,12 +26,7 @@ namespace BC
 		}
 
 		void OpenGLFrameBuffer::bind() const
-		{
-			if (!isComplete())
-			{
-				LOG_WARN("Framebuffer {0} is not yet complete", m_name);
-			}
-			
+		{			
 			glBindFramebuffer(GL_FRAMEBUFFER, m_id);
 			glViewport(0, 0, m_width, m_height);
 		}
@@ -49,27 +50,33 @@ namespace BC
 			return false;
 		}
 
-		void OpenGLFrameBuffer::attachTexture(std::shared_ptr<Graphics::Texture2D> texture, unsigned int slot)
+		void OpenGLFrameBuffer::disableReadWrite() const
+		{
+			glDrawBuffer(GL_NONE);
+			glReadBuffer(GL_NONE);
+		}
+
+		void OpenGLFrameBuffer::attachTexture(std::shared_ptr<Graphics::Texture2D> texture)
 		{
 			switch (texture->getFormat())
 			{
-			case Graphics::TextureFormat::DEPTH:			
+			case Graphics::TextureFormat::DEPTH16:			
 				glBindTexture(GL_TEXTURE_2D, texture->getId());
 				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, texture->getId(), 0);
 				return;
 				
-			case Graphics::TextureFormat::DEPTH_STENCIL:	
+			case Graphics::TextureFormat::DEPTH24_STENCIL8:	
 				glBindTexture(GL_TEXTURE_2D, texture->getId());
 				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, texture->getId(), 0);
 				return;
 				
-			case Graphics::TextureFormat::R:
-			case Graphics::TextureFormat::RG:
-			case Graphics::TextureFormat::RGB16F:
+			case Graphics::TextureFormat::R8:
+			case Graphics::TextureFormat::RG8:
+			case Graphics::TextureFormat::RGB8:
 			case Graphics::TextureFormat::RGBA8:
-			case Graphics::TextureFormat::RGBA16F:
 				glBindTexture(GL_TEXTURE_2D, texture->getId());
-				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + slot, GL_TEXTURE_2D, texture->getId(), 0);
+				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + m_colorAttachmentSlot, GL_TEXTURE_2D, texture->getId(), 0);
+				m_colorAttachmentSlot++;
 				return;
 			}
 
@@ -83,14 +90,14 @@ namespace BC
 
 			switch (format)
 			{
-			case Graphics::TextureFormat::DEPTH:			
-				glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, m_width, m_height);
+			case Graphics::TextureFormat::DEPTH16:		
+				glRenderbufferStorage(GL_RENDERBUFFER, TextureFormatToOpenGLInternalFormat(format), m_width, m_height);
 				glBindRenderbuffer(GL_RENDERBUFFER, 0);
 				glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_renderBufferId);
 				return;
 				
-			case Graphics::TextureFormat::DEPTH_STENCIL:	
-				glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_STENCIL, m_width, m_height);
+			case Graphics::TextureFormat::DEPTH24_STENCIL8:	
+				glRenderbufferStorage(GL_RENDERBUFFER, TextureFormatToOpenGLInternalFormat(format), m_width, m_height);
 				glBindRenderbuffer(GL_RENDERBUFFER, 0);
 				glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, m_renderBufferId);
 				return;
@@ -103,3 +110,4 @@ namespace BC
 		}
 	}
 }
+#endif

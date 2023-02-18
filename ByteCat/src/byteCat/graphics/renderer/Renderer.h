@@ -1,7 +1,10 @@
 #pragma once
+#include <memory>
 #include "byteCat/graphics/renderer/RendererAPI.h"
-#include "byteCat/graphics/renderer/RenderData.h"
-#include "byteCat/graphics/renderer/SubmissionRenderer.h"
+#include "byteCat/graphics/renderer/Renderable.h"
+#include "byteCat/graphics/renderer/CameraData.h"
+#include "byteCat/graphics/renderer/RenderPass.h"
+#include "byteCat/graphics/renderer/LightingData.h"
 
 namespace BC
 {
@@ -19,12 +22,14 @@ namespace BC
 		{
 		private:
 			inline static bool s_isInit = false;
-			inline static bool s_hasSubmissionRenderer = false;
-
-			inline static SubmissionRenderer* s_submissionRenderer = nullptr;
 
 			inline static GraphicsAPI s_graphicsAPI = GraphicsAPI::None;
 			inline static RendererAPI* s_rendererAPI = nullptr;
+
+			inline static std::vector<std::shared_ptr<RenderPass>> s_renderPasses;
+			inline static std::vector<std::shared_ptr<Renderable>> s_renderables;
+			inline static std::shared_ptr<CameraData> s_cameraData = nullptr;
+			inline static std::shared_ptr<LightingData> s_lightingData = nullptr;
 
 		public:
 			static void SetAPI(const GraphicsAPI& api);
@@ -32,17 +37,17 @@ namespace BC
 
 			static void Init();
 			static RendererAPI* GetRenderer() { return s_rendererAPI; }
-			
-			static void SetSubmissionRenderer(SubmissionRenderer* renderer);
 
 			static void Shutdown();
 
 			static void SetViewport(unsigned int x, unsigned int y, unsigned int width, unsigned int height);
 
-			// Submission renderer commands
-			static void Submit(const Renderable& renderable);
-			static void SetSceneData(const SceneData& sceneData);
-			static void RenderSubmissions();
+			static void Submit(const std::shared_ptr<RenderPass>& renderPass);
+			static void Submit(const std::shared_ptr<Renderable>& renderable);
+			static void Submit(const std::shared_ptr<CameraData>& cameraData);
+			static void Submit(const std::shared_ptr<LightingData>& lightingData);
+
+			static void Render();
 		};
 	}
 }

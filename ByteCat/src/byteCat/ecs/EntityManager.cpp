@@ -38,7 +38,7 @@ namespace BC
 		{
 			if (entity > MAX_ENTITIES)
 			{
-				LOG_WARN("Given entity {0} out of range", entity);
+				LOG_WARN("Given entity %d out of range", entity);
 				return;
 			}
 
@@ -59,7 +59,7 @@ namespace BC
 		{
 			if (entity > MAX_ENTITIES)
 			{
-				LOG_WARN("Given entity {0} out of range", entity);
+				LOG_WARN("Given entity %d out of range", entity);
 				return;
 			}
 
@@ -70,7 +70,7 @@ namespace BC
 		{
 			if (entity > MAX_ENTITIES)
 			{
-				LOG_WARN("Given entity {0} out of range", entity);
+				LOG_WARN("Given entity %d out of range", entity);
 			}
 
 			return m_dependencies[entity];

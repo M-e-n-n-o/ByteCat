@@ -26,7 +26,7 @@ namespace BC
 				if (!isComponent)
 				{
 					const char* typeName = typeid(T).name();
-					LOG_WARN("{0} cannot be registered as a component, it is not derrived of Component", typeName);
+					LOG_WARN("%s cannot be registered as a component, it is not derrived of Component", typeName);
 					return;
 				}
 
@@ -34,7 +34,7 @@ namespace BC
 
 				if (m_componentTypes.find(typeName) != m_componentTypes.end())
 				{
-					LOG_WARN("Cannot register the same componentType {0} multiple times", typeName);
+					LOG_WARN("Cannot register the same componentType %s multiple times", typeName);
 					return;
 				}
 
@@ -53,7 +53,7 @@ namespace BC
 				if (!isComponent)
 				{
 					const char* typeName = typeid(T).name();
-					LOG_WARN("Cannot get componentType {0}, it is not derrived of Component", typeName);
+					LOG_WARN("Cannot get componentType %s, it is not derrived of Component", typeName);
 				}
 
 				const char* typeName = T::GetTypeName();
@@ -61,11 +61,11 @@ namespace BC
 
 				if (m_componentTypes.find(typeName) == m_componentTypes.end())
 				{
-					LOG_WARN("ComponentType {0} has not been registered yet", typeName);
+					LOG_WARN("ComponentType %s has not been registered yet", typeName);
 
 					if (autoRegister)
 					{
-						LOG_INFO("Auto registering ComponentType {0}", typeName);
+						LOG_INFO("Auto registering ComponentType %s", typeName);
 						registerComponent<T>();
 					}
 				}
@@ -110,7 +110,7 @@ namespace BC
 				if (!isComponent)
 				{
 					const char* typeName = typeid(T).name();
-					LOG_WARN("Cannot get componentArray of componentType {0}, it is not derrived of Component", typeName);
+					LOG_WARN("Cannot get componentArray of componentType %s, it is not derrived of Component", typeName);
 					return nullptr;
 				}
 
@@ -118,14 +118,14 @@ namespace BC
 
 				if (m_componentTypes.find(typeName) == m_componentTypes.end())
 				{
-					LOG_WARN("ComponentType {0} has not been registered yet", typeName);
+					LOG_WARN("ComponentType %s has not been registered yet", typeName);
 
 					if (!autoRegister)
 					{
 						return nullptr;
 					}
 
-					LOG_INFO("Auto registering ComponentType {0}", typeName);
+					LOG_INFO("Auto registering ComponentType %s", typeName);
 					registerComponent<T>();
 				}
 

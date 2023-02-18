@@ -8,9 +8,13 @@ namespace BC
 {
 	namespace Graphics
 	{
+#ifdef BC_PLATFORM_PC
+		static const std::string shaderVersion = "#version 330 core";
+#elif defined(BC_PLATFORM_MOBILE)
+		static const std::string shaderVersion = "#version 300 es";
+#endif
+		
 		static const std::string vertexShader = R"(
-		#version 330 core
-
 		layout (location = 0) in vec3 VertexPos;
 		layout (location = 1) in vec2 TexCoord;
 
@@ -27,8 +31,6 @@ namespace BC
 	)";
 
 		static const std::string fragmentShader = R"(
-		#version 330 core
-
 		in vec2 PassTexCoord;
 		
 		out vec4 FragColor;
@@ -48,16 +50,20 @@ namespace BC
 		}
 	)";
 
+		inline static bool s_isInit = false;
+
 		inline static std::shared_ptr<Shader> basicShader = nullptr;
 		inline static std::shared_ptr<VertexArray> basicVao = nullptr;
-
+		
 		static void InitBasicGraphics()
-		{
-			basicShader = Shader::Create("Renderer simple 2D", vertexShader, fragmentShader, false);
-			basicShader->setTextureSlots({ "tex" });
+		{		
+			s_isInit = true;
 
+			basicShader = Shader::Create("Renderer simple 2D", shaderVersion + vertexShader, shaderVersion + fragmentShader, false);
+			basicShader->addTexture("tex", nullptr);
+			
 			basicVao = VertexArray::Create();
-
+			
 			float data[] =
 			{
 				// Positions		  // Texture coords
@@ -79,9 +85,11 @@ namespace BC
 
 			auto ebo = IndexBuffer::Create(indices, sizeof(indices));
 			basicVao->setIndexBuffer(ebo);
+
+			Renderer2D::SetColor(glm::vec4(1, 1, 1, 1));
 		};
 
-		#define CHECK_INIT if(Renderer::GetRenderer() == nullptr) { LOG_ERROR("The renderer has not been initialized yet!"); return; } if(!s_isInit) { InitBasicGraphics(); s_isInit = true; }
+		#define CHECK_INIT if(Renderer::GetRenderer() == nullptr) { LOG_ERROR("The renderer has not been initialized yet!"); return; } if(!s_isInit) { InitBasicGraphics(); }
 		
 		void Renderer2D::Clear(const glm::vec4& color)
 		{

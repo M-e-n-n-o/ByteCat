@@ -1,5 +1,6 @@
 #pragma once
 #include "byteCat/graphics/renderer/Renderer.h"
+#include "byteCat/graphics/components/Texture.h"
 
 namespace BC
 {
@@ -11,10 +12,7 @@ namespace BC
 		 * The Renderer still has to be initialized before you will be able to use this renderer!
 		 */
 		class Renderer2D
-		{
-		private:
-			inline static bool s_isInit = false;
-		
+		{		
 		public:
 			static void Clear(const glm::vec4& color);
 			static void SetColor(const glm::vec4& color);

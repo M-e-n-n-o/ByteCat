@@ -1,21 +1,24 @@
 #include "bcpch.h"
 #include "byteCat/graphics/Window.h"
 
-#if defined(BC_PLATFORM_WINDOWS) || defined(BC_PLATFORM_LINUX)
+#ifdef BC_PLATFORM_PC
 	#include "platform/winLin/WinLinWindow.h"
+#elif defined(BC_PLATFORM_MOBILE)
+	#include "platform/mobile/MobileWindow.h"
 #endif
 
 namespace BC
 {
 	namespace Graphics
-	{
-		Window* Window::Create(const WindowSettings& setting)
+	{		
+		Window* Window::Create(const WindowSettings& settings, void* appInputData)
 		{
-#if defined(BC_PLATFORM_WINDOWS) || defined(BC_PLATFORM_LINUX)
+#ifdef BC_PLATFORM_PC
 			LOG_INFO("Detected Windows/Linux platform");
-			return new Platform::WinLinWindow(setting);
-#else
-			LOG_CRITICAL("Platform not supported yet :(");
+			return new Platform::WinLinWindow(settings);
+#elif defined(BC_PLATFORM_MOBILE)
+			LOG_INFO("Detected Mobile platform");
+			return new Platform::MobileWindow(settings, appInputData);
 #endif
 		}
 	}

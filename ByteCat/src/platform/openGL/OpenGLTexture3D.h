@@ -1,4 +1,5 @@
 #pragma once
+#ifdef BC_PLATFORM_PC
 #include "byteCat/graphics/components/Texture.h"
 
 namespace BC
@@ -21,6 +22,7 @@ namespace BC
 			~OpenGLTexture3D();
 			
 			void bind(unsigned textureUnit) const override;
+			void unbind() const override;
 			
 			unsigned getWidth() const override { return m_width; }
 			unsigned getHeight() const override { return m_height; }
@@ -31,3 +33,4 @@ namespace BC
 		};
 	}
 }
+#endif

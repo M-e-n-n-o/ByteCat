@@ -1,4 +1,5 @@
 #pragma once
+#ifdef BC_PLATFORM_PC
 #include <string>
 #include "byteCat/graphics/components/Shader.h"
 
@@ -28,3 +29,4 @@ namespace BC
 		};
 	}
 }
+#endif

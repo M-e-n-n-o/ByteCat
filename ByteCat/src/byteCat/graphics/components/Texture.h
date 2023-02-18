@@ -10,14 +10,13 @@ namespace BC
 		{
 			AUTO = 0,
 
-			DEPTH,
-			DEPTH_STENCIL,
+			DEPTH16,
+			DEPTH24_STENCIL8,
 
-			R,
-			RG,
-			RGB16F,
-			RGBA8,
-			RGBA16F
+			R8,
+			RG8,
+			RGB8,
+			RGBA8
 		};
 
 		class Texture
@@ -26,6 +25,7 @@ namespace BC
 			virtual ~Texture() = default;
 
 			virtual void bind(unsigned int textureUnit = 0) const = 0;
+			virtual void unbind() const = 0;
 
 			virtual unsigned int getChannels() const = 0;
 			virtual TextureFormat getFormat() const = 0;
@@ -38,6 +38,7 @@ namespace BC
 			virtual ~Texture2D() = default;
 
 			virtual void bind(unsigned textureUnit) const override = 0;
+			virtual void unbind() const override = 0;
 
 			virtual unsigned getWidth() const = 0;
 			virtual unsigned getHeight() const = 0;
@@ -60,6 +61,7 @@ namespace BC
 			virtual ~Texture3D() = default;
 
 			virtual void bind(unsigned textureUnit) const override = 0;
+			virtual void unbind() const override = 0;
 
 			virtual unsigned getWidth() const = 0;
 			virtual unsigned getHeight() const = 0;
@@ -78,12 +80,13 @@ namespace BC
 			virtual ~TextureCube() = default;
 
 			virtual void bind(unsigned int textureUnit) const override = 0;
+			virtual void unbind() const override = 0;
 
 			virtual unsigned getChannels() const override = 0;
 			virtual TextureFormat getFormat() const override = 0;
 			virtual unsigned getId() const override = 0;
 
-			static std::shared_ptr<TextureCube> Create(std::initializer_list<std::string> faces, const TextureFormat& format = TextureFormat::RGB16F);
+			static std::shared_ptr<TextureCube> Create(std::initializer_list<std::string> faces, const TextureFormat& format = TextureFormat::RGB8);
 		};
 	}
 }

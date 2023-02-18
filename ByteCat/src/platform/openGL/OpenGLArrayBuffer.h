@@ -1,4 +1,5 @@
 #pragma once
+#if defined(BC_PLATFORM_PC) || defined(BC_PLATFORM_MOBILE)
 #include "byteCat/graphics/components/ArrayBuffer.h"
 
 namespace BC
@@ -42,3 +43,4 @@ namespace BC
 		};
 	}
 }
+#endif

@@ -1,4 +1,6 @@
 #pragma once
+#ifdef BC_PLATFORM_PC
+
 #include "byteCat/graphics/Window.h"
 #include "byteCat/graphics/GraphicsContext.h"
 
@@ -11,8 +13,6 @@ namespace BC
 		private:
 			Graphics::WindowSettings m_windowSetting;
 			Graphics::GraphicsContext* m_context;
-			
-			bool m_isMinimized = false;
 			
 		public:
 			WinLinWindow(const Graphics::WindowSettings& setting);
@@ -34,7 +34,7 @@ namespace BC
 			void setVsync(bool enabled) override;
 			bool getVsync() const override { return m_windowSetting.vSync; }
 
-			bool isMinimized() override { return m_isMinimized; }
+			bool isMinimized() override;
 
 			void captureMouse(bool capture) override;
 			
@@ -45,3 +45,4 @@ namespace BC
 		};
 	}
 }
+#endif

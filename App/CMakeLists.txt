@@ -3,7 +3,14 @@ file(GLOB_RECURSE APP_SRC_FILES CONFIGURE_DEPENDS
     "src/*.cpp"
 )
 
-add_executable(${PROJECT_NAME} ${APP_SRC_FILES})
+if (BUILD_PC)
+    add_executable(${PROJECT_NAME} ${APP_SRC_FILES})
+elseif (BUILD_MOBILE)
+    add_library(${PROJECT_NAME} SHARED ${APP_SRC_FILES})
+
+    set(GLFM_APP_ASSETS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/assets)
+endif()
+
 
 target_include_directories(${PROJECT_NAME} PUBLIC
     "../ByteCat/vendor/spdlog/include"

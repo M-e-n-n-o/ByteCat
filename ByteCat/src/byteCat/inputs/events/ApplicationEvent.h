@@ -7,6 +7,14 @@ namespace BC
 {
 	namespace Inputs
 	{
+		class WindowCreatedEvent : public Event
+		{
+		public:
+			EVENT_CLASS_TYPE(WindowCreated)
+
+				int getCategoryFlags() const override { return EventCatApplication; }
+		};
+
 		class WindowResizeEvent : public Event
 		{
 		private:
@@ -24,11 +32,34 @@ namespace BC
 				int getCategoryFlags() const override { return EventCatApplication; }
 		};
 
-
 		class WindowCloseEvent : public Event
 		{
 		public:
 			EVENT_CLASS_TYPE(WindowClose)
+
+				int getCategoryFlags() const override { return EventCatApplication; }
+		};
+
+		class WindowRenderEvent : public Event
+		{
+		public:
+			EVENT_CLASS_TYPE(WindowRender)
+			
+				int getCategoryFlags() const override { return EventCatApplication; }
+		};
+
+		class WindowOnFocusEvent : public Event
+		{
+		public:
+			EVENT_CLASS_TYPE(WindowFocus)
+
+				int getCategoryFlags() const override { return EventCatApplication; }
+		};
+
+		class WindowLostFocusEvent : public Event
+		{
+		public:
+			EVENT_CLASS_TYPE(WindowLostFocus)
 
 				int getCategoryFlags() const override { return EventCatApplication; }
 		};

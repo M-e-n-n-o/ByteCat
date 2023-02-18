@@ -1,6 +1,7 @@
 #include <ByteCat.h>
 #include "VisualisatieTechnieken.h"
 #include "GraphicsTest.h"
+#include "LightingTest.h"
 
 using namespace BC;
 using namespace App;
@@ -10,17 +11,26 @@ class Sandbox : public Application
 {
 public:
 	// The start of your application
-	Sandbox(): Application()
+	Sandbox(void* appInputData): Application()
 	{		
         Renderer::SetAPI(GraphicsAPI::OpenGL);
-		
-        WindowSettings settings = { "Sandbox App", 1280, 720, true };
-        m_window = Window::Create(settings);
-        m_window->setEventListener(this);
 
-        Renderer::Init();
+		WindowSettings settings = { "Sandbox App", 1280, 720, true };
+		//WindowSettings settings = { WindowSettings::ColorFormat::RGBA8888, WindowSettings::DepthFormat::D16, WindowSettings::StencilFormat::None, WindowSettings::Multisample::None };
 		
-		pushLayer(new GraphicsTest());
+        m_window = Window::Create(settings, appInputData);
+        m_window->setEventListener(this);
+		
+		//Utils::Utility::RequestPermissions({ "READ_EXTERNAL_STORAGE", "WRITE_EXTERNAL_STORAGE" });
+	}
+
+	// You can have Graphics API calls from here on out (not in constructor)
+	void onApplicationStart() override
+	{
+		Renderer::Init();
+		//pushLayer(new GraphicsTest());
+		//pushLayer(new VisualisatieTechnieken());
+		pushLayer(new LightingTest());
 	}
 
 	// The end of your application
@@ -31,7 +41,7 @@ public:
 	}
 };
 
-Application* App::CreateApplication()
+Application* App::CreateApplication(void* data)
 {
-	return new Sandbox();
+	return new Sandbox(data);
 }

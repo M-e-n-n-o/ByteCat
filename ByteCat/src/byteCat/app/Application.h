@@ -1,5 +1,4 @@
 #pragma once
-#include "byteCat/Core.h"
 #include "byteCat/app/LayerStack.h"
 #include "byteCat/inputs/events/Event.h"
 #include "byteCat/graphics/Window.h"
@@ -26,15 +25,22 @@ namespace BC
 			Imgui::ImGuiLayer* m_imguiLayer;
 
 			bool m_isRunning;
-
-			friend int ::main(int argc, char** argv);
-
+		
 		protected:
 			Graphics::Window* m_window;
 
 		public:
 			Application();
 			virtual ~Application();
+
+			// This method gets automatically called, do not call yourself!
+			void start();
+
+			// This method calls all the things that should be called in a frame (you should probably never have to call this yourself)
+			void onFrame();
+			
+			// This method stops the application
+			void stop();
 			
 			// Call this function to push a new layer to the LayerStack
 			void pushLayer(Layer* layer);
@@ -44,15 +50,20 @@ namespace BC
 			Graphics::Window& getWindow() const { return *m_window; }
 			static Application& GetInstance() { return *s_instance; }
 
+		protected:
+			// Will be called after the start of the Application (you can have Graphics API calls from here on out)
+			virtual void onApplicationStart() = 0;
+
 		private:
-			void start();
 			
 			void onEvent(Inputs::Event& event) override;
-			bool onWindowClose(Inputs::WindowCloseEvent& event);
-			bool onWindowResize(Inputs::WindowResizeEvent& event);
+			void onWindowCreated(Inputs::WindowCreatedEvent& event);
+			void onWindowClose(Inputs::WindowCloseEvent& event);
+			void onWindowResize(Inputs::WindowResizeEvent& event);
+			void onWindowRender(Inputs::WindowRenderEvent& event);
 		};
 
 		// Need to be defined in the users application
-		Application* CreateApplication();
+		Application* CreateApplication(void* data);
 	}
 }

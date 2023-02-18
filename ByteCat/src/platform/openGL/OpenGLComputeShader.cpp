@@ -1,6 +1,6 @@
+#ifdef BC_PLATFORM_PC
 #include "bcpch.h"
 #include <glad/glad.h>
-#include "byteCat/utils/Macro.h"
 #include "platform/openGL/OpenGLComputeShader.h"
 #include "platform/openGL/Helper.h"
 #include "byteCat/utils/FileIO.h"
@@ -15,7 +15,7 @@ namespace BC
 
 			if (isFilePath)
 			{
-				computeShader.insert(0, BC_ASSETS_FOLDER);
+				//computeShader.insert(0, BC_ASSETS_FOLDER);
 				computeShader = Utils::FileIO::ReadFileIntoString(computeShader);
 			}
 
@@ -32,11 +32,11 @@ namespace BC
 			if (!success) 
 			{
 				//glGetProgramInfoLog(programID, 512, NULL, infoLog);
-				LOG_ERROR("Could not link shader program: {0}", name);
+				LOG_ERROR("Could not link shader program: %s", name.c_str());
 				//LOG_TEXT_LONG(infoLog);
 			}
 
-			LOG_INFO("Finished compiling compute shader: {0}", name);
+			LOG_INFO("Finished compiling compute shader: %s", name.c_str());
 
 			// Compute shader debug info
 			// int work_grp_cnt[3];
@@ -96,7 +96,7 @@ namespace BC
 				std::vector<GLchar> errorLog(maxLength);
 				glGetShaderInfoLog(shaderID, maxLength, &maxLength, &errorLog[0]);
 
-				LOG_ERROR("Shader error info: {0}", m_name);
+				LOG_ERROR("Shader error info: %s", m_name.c_str());
 				std::stringstream log;
 				for (std::vector<GLchar>::const_iterator i = errorLog.begin(); i != errorLog.end(); ++i)
 				{
@@ -105,10 +105,11 @@ namespace BC
 
 				LOG_TEXT_LONG(log.str());
 
-				LOG_ERROR("Could not compile shader: {0}", m_name);
+				LOG_ERROR("Could not compile shader: %s", m_name.c_str());
 			}
 
 			return shaderID;
 		}
 	}
 }
+#endif

@@ -1,4 +1,5 @@
 #pragma once
+#if defined(BC_PLATFORM_PC) || defined(BC_PLATFORM_MOBILE)
 #include "byteCat/graphics/renderer/RendererAPI.h"
 
 namespace BC
@@ -17,7 +18,9 @@ namespace BC
 			void draw(std::shared_ptr<Graphics::VertexArray> vao, unsigned indexCount) override;
 
 		private:
+			void setDepthTest(bool enable) override;
 			void setCullingMode(const Graphics::CullingMode& mode) override;
 		};
 	}
 }
+#endif

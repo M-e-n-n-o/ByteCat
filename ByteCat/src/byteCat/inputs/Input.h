@@ -2,22 +2,31 @@
 
 #include "byteCat/inputs/EventCallback.h"
 #include "byteCat/inputs/events/Event.h"
-#include "byteCat/inputs/PcInputModule.h"
+
+#if defined(BC_PLATFORM_PC)
+	#include "platform/winLin/WinLinPcInputModule.h"
+#elif defined(BC_PLATFORM_MOBILE)
+	#include "platform/mobile/MobileInputModule.h"
+#endif
 
 namespace BC
 {
 	namespace Inputs
-	{
+	{		
+		class EmptyInputModule {};
+
 		/**
 		 * @brief
 		 * Use this class to poll inputs, start/stop listening to specific Events or send out Events to all listeners
 		 * 
 		 * @tparam InputModule The inputmodule you want to use as your input (e.g. PcInputModule, or your own module)
 		 */
-#ifdef INPUT_MODULE_PC
+#if defined(BC_PLATFORM_PC)
 		template<class InputModule = PcInputModule>
+#elif defined(BC_PLATFORM_MOBILE)
+		template<class InputModule = MobileInputModule>
 #else
-		template<class Extras>
+		template<class InputModule = EmptyInputModule>
 #endif
 		class Input : public InputModule
 		{

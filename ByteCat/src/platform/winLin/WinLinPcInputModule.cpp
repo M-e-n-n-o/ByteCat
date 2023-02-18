@@ -1,11 +1,9 @@
+#ifdef BC_PLATFORM_PC
 #include "bcpch.h"
-
-#if defined(BC_PLATFORM_WINDOWS) || defined(BC_PLATFORM_LINUX)
-#ifdef INPUT_MODULE_PC
 
 #include "GLFW/glfw3.h"
 #include "byteCat/app/Application.h"
-#include "byteCat/inputs/PcInputModule.h"
+#include "platform/winLin/WinLinPcInputModule.h"
 
 namespace BC
 {
@@ -23,7 +21,7 @@ namespace BC
 			
 			if (value == s_customKeyCodes.end())
 			{
-				LOG_ERROR("Custom key: {0} does not exist", customKey);
+				LOG_ERROR("Custom key: %s does not exist", customKey.c_str());
 				return false;
 			}
 		
@@ -126,5 +124,4 @@ namespace BC
 	}
 }
 
-#endif
 #endif

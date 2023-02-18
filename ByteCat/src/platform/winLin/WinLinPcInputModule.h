@@ -1,6 +1,5 @@
 #pragma once
-
-#ifdef INPUT_MODULE_PC
+#ifdef BC_PLATFORM_PC
 
 #include <vector>
 #include "byteCat/inputs/Gamepad.h"

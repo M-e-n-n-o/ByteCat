@@ -1,7 +1,10 @@
 #include "bcpch.h"
 #include "byteCat/graphics/components/VertexArray.h"
 #include "byteCat/graphics/renderer/Renderer.h"
-#include "platform/openGL/OpenGLVertexArray.h"
+
+#if defined(BC_PLATFORM_PC) || defined(BC_PLATFORM_MOBILE)
+	#include "platform/openGL/OpenGLVertexArray.h"
+#endif
 
 namespace BC
 {
@@ -11,8 +14,12 @@ namespace BC
 		{
 			switch (Renderer::GetAPI())
 			{
-			case GraphicsAPI::None:		LOG_CRITICAL("No Graphics API selected!"); return nullptr;
-			case GraphicsAPI::OpenGL:	return std::make_shared<Platform::OpenGLVertexArray>();
+			case GraphicsAPI::None:			LOG_CRITICAL("No Graphics API selected!"); return nullptr;
+				
+#if defined(BC_PLATFORM_PC) || defined(BC_PLATFORM_MOBILE)
+				case GraphicsAPI::OpenGL:
+				case GraphicsAPI::OpenGLES:	return std::make_shared<Platform::OpenGLVertexArray>();
+#endif
 			}
 
 			LOG_CRITICAL("Unsupported Graphics API selected!");

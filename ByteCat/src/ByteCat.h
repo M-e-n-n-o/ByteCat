@@ -36,23 +36,35 @@
 #include "byteCat/graphics/components/Shader.h"
 #include "byteCat/graphics/components/Texture.h"
 #include "byteCat/graphics/components/FrameBuffer.h"
+
 #include "byteCat/graphics/renderer/Renderer.h"
 #include "byteCat/graphics/renderer/RendererAPI.h"
 #include "byteCat/graphics/renderer/Renderer2D.h"
-#include "byteCat/graphics/renderer/submissionRenderers/SimpleRenderer.h"
+#include "byteCat/graphics/renderer/Renderable.h"
+#include "byteCat/graphics/renderer/CameraData.h"
+#include "byteCat/graphics/renderer/LightingData.h"
+#include "byteCat/graphics/renderer/RenderPass.h"
+#include "byteCat/graphics/renderer/renderPasses/ForwardPass.h"
+#include "byteCat/graphics/renderer/renderPasses/ShadowPass.h"
 
 #include "byteCat/ecs/systems/CameraSystem.h"
 #include "byteCat/ecs/systems/RenderSubmitter.h"
+#include "byteCat/ecs/systems/LightSystem.h"
 #include "byteCat/ecs/Entity.h"
 #include "byteCat/ecs/EcsCoordinator.h"
 #include "byteCat/ecs/SceneManager.h"
 #include "byteCat/ecs/components/Transform.h"
 #include "byteCat/ecs/components/Material.h"
 #include "byteCat/ecs/components/Mesh.h"
+#include "byteCat/ecs/components/Light.h"
 
 #include "byteCat/utils/Math.h"
+#include "byteCat/utils/Utility.h"
+#include "byteCat/utils/FileIO.h"
 
-#include <imgui.h>
+#ifdef BC_PLATFORM_PC
+	#include <imgui.h>
+#endif
 
 // -- Start of the engine --
 #include "byteCat/EntryPoint.h"

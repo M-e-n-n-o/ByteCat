@@ -1,21 +1,48 @@
 #pragma once
 
 #include <string>
+#include "byteCat/Platform.h"
 #include "byteCat/inputs/events/Event.h"
 
 namespace BC
 {
 	namespace Graphics
 	{
-		// This struct holds the settings for a window
 		struct WindowSettings
 		{
+#ifdef BC_PLATFORM_PC
 			std::string title;
 			unsigned int width;
 			unsigned int height;
 			bool vSync;
-		};
+#elif defined(BC_PLATFORM_MOBILE)
+			enum class ColorFormat
+			{
+				RGBA8888,
+				RGB565
+			} colorFormat;
 
+			enum class DepthFormat
+			{
+				None,
+				D16,
+				D24
+			} depthFormat;
+
+			enum class StencilFormat
+			{
+				None,
+				S8
+			} stencilFormat;
+
+			enum class Multisample
+			{
+				None,
+				M4x
+			} multisample;
+#endif
+		};
+		
 		/**
 		 * @brief
 		 * This class represents a window from a ByteCat application.
@@ -52,7 +79,8 @@ namespace BC
 			// Sets the eventlistener of the incoming events
 			virtual void setEventListener(Inputs::EventListener* newListener) = 0;
 
-			static Window* Create(const WindowSettings& setting);
+			// Creates a window
+			static Window* Create(const WindowSettings& settings, void* appInputData);
 		};
 	}
 }

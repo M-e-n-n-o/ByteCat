@@ -14,6 +14,10 @@ namespace BC
 			{
 				s_graphicsAPI = api;
 			}
+			else
+			{
+				LOG_WARN("Cannot change the Graphics API after setting it the first time");
+			}
 		}
 
 		void Renderer::Init()
@@ -31,39 +35,9 @@ namespace BC
 			}
 		}
 
-		void Renderer::SetSubmissionRenderer(SubmissionRenderer* renderer)
-		{
-			if (renderer == nullptr)
-			{
-				delete renderer;
-				return;
-			}
-
-			if (!s_isInit)
-			{
-				LOG_ERROR("Initialize the renderer before setting the submission renderer!");
-				delete renderer;
-				return;
-			}
-
-			if (!renderer->supports(s_graphicsAPI))
-			{
-				LOG_ERROR("Submission renderer: {0} does not support the selected graphics API!", renderer->getName());
-				delete renderer;
-				return;
-			}
-
-			delete s_submissionRenderer;
-			s_submissionRenderer = renderer;
-			s_submissionRenderer->init(s_rendererAPI);
-
-			s_hasSubmissionRenderer = true;
-		}
-
 		void Renderer::Shutdown()
 		{
 			delete s_rendererAPI;
-			delete s_submissionRenderer;
 		}
 
 		void Renderer::SetViewport(unsigned x, unsigned y, unsigned width, unsigned height)
@@ -73,42 +47,64 @@ namespace BC
 			s_rendererAPI->setViewport(x, y, width, height);
 		}
 
-		void Renderer::Submit(const Renderable& renderable)
+		void Renderer::Submit(const std::shared_ptr<RenderPass>& renderPass)
 		{
 			CHECK_INIT
 
-			if (!s_hasSubmissionRenderer)
-			{
-				LOG_ERROR("No submission renderer has been set!");
-				return;
-			}
+			LOG_INFO("Adding render pass: %s", renderPass->getName().c_str());
 
-			s_submissionRenderer->submit(renderable);
+			s_renderPasses.push_back(renderPass);
+			renderPass->init(s_rendererAPI);
 		}
 
-		void Renderer::SetSceneData(const SceneData& sceneData)
+		void Renderer::Submit(const std::shared_ptr<Renderable>& renderable)
 		{
 			CHECK_INIT
 
-			if (!s_hasSubmissionRenderer)
-			{
-				LOG_ERROR("No submission renderer has been set!");
-				return;
-			}
-
-			s_submissionRenderer->setSceneData(sceneData);
+			s_renderables.push_back(renderable);
 		}
 
-		void Renderer::RenderSubmissions()
+		void Renderer::Submit(const std::shared_ptr<CameraData>& cameraData)
 		{
 			CHECK_INIT
 
-			if (!s_hasSubmissionRenderer)
+			s_cameraData = cameraData;
+		}
+
+		void Renderer::Submit(const std::shared_ptr<LightingData>& lightingData)
+		{
+			CHECK_INIT
+
+			s_lightingData = lightingData;
+		}
+
+		void Renderer::Render()
+		{
+			CHECK_INIT
+
+			if (s_renderPasses.size() == 0)
 			{
 				return;
 			}
 
-			s_submissionRenderer->renderSubmissions();
+			if (s_renderables.size() == 0)
+			{
+				LOG_WARN("No renderables has been submitted to the renderer!");
+				return;
+			}
+
+			if (s_cameraData == nullptr)
+			{
+				LOG_WARN("No camera data available while trying to render!");
+				return;
+			}
+
+			for (const auto& pass : s_renderPasses)
+			{
+				pass->execute(s_renderables, s_cameraData, s_lightingData);
+			}
+
+			s_renderables.clear();
 		}
 	}
 }

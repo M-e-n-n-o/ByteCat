@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 #include <ByteCat.h>
 
 #include "Spectator.h"
@@ -20,13 +21,13 @@ class VisualisatieTechnieken : public Layer
 	
 	std::shared_ptr<FrameBuffer> fbo;
 	std::shared_ptr<Shader> cloudShader;
-	Renderable renderable;
+	std::shared_ptr<Renderable> renderable;
 
 public:
 	VisualisatieTechnieken() : Layer("Visualisatie Technieken")
 	{
 		// Zet een submission renderer
-			Renderer::SetSubmissionRenderer(new SimpleRenderer());
+			Renderer::Submit(std::make_shared<ForwardPass>());
 		
 		// Maak een nieuwe scene
 			Application::GetInstance().pushLayer(new SceneManager);
@@ -109,14 +110,18 @@ public:
 		
 			rayMarchShader = Shader::Create("RayMarch", "RayMarchVertex.glsl", "RayMarchFragment.glsl", true);
 
+			auto rgbNoise = Texture2D::Create("rgbNoise.png");
+			auto windNoise = Texture2D::Create("windNoise.png");
+
 			auto grassShader = Shader::Create("Grass", "GrassVertex.glsl", "GrassGeometry.glsl", "GrassFragment.glsl", true);
-			grassShader->setTextureSlots({ "noise", "windNoise" });
+			grassShader->addTexture("noise", rgbNoise);
+			grassShader->addTexture("windNoise", windNoise);
 		
 		// Framebuffer + cloud spul
 			 auto& window = Application::GetInstance().getWindow();
 			 fbo = FrameBuffer::Create("Test", window.getWidth(), window.getHeight());
-			 auto colorAttachment = Texture2D::Create(window.getWidth(), window.getHeight(), TextureFormat::RGB16F);
-			 auto depthAttachment = Texture2D::Create(window.getWidth(), window.getHeight(), TextureFormat::DEPTH);
+			 auto colorAttachment = Texture2D::Create(window.getWidth(), window.getHeight(), TextureFormat::RGB8);
+			 auto depthAttachment = Texture2D::Create(window.getWidth(), window.getHeight(), TextureFormat::DEPTH16);
 			 fbo->attachTexture(colorAttachment);
 			 fbo->attachTexture(depthAttachment);
 			
@@ -141,25 +146,27 @@ public:
 			auto quadIndexBuffer = IndexBuffer::Create(indicesQuad, sizeof(indicesQuad));
 			quad->setIndexBuffer(quadIndexBuffer);
 		
-			cloudShader = Shader::Create("Cloud shader", "CloudVertex.glsl", "CloudFragment.glsl", true);
-			cloudShader->setTextureSlots({ "cloudNoise", "screenTexture", "depthTexture" });
-			cloudShader->loadFloat("numSteps", 20);
-			cloudShader->loadFloat("numStepsLight", 10);
-		
 			auto cloudTexture = Texture3D::Create(128, 128, 128, TextureFormat::RGBA8);
-		
+
 			auto computeShader = ComputeShader::Create("Cloud Noise Compute", "CloudNoiseCompute.glsl");
 			computeShader->setOutputTexture(cloudTexture);
 			computeShader->compute(cloudTexture->getWidth(), cloudTexture->getHeight(), 64);
 			computeShader->waitToFinish();
+
+			cloudShader = Shader::Create("Cloud shader", "CloudVertex.glsl", "CloudFragment.glsl", true);
+			cloudShader->addTexture("cloudNoise", cloudTexture);
+			cloudShader->addTexture("screenTexture", colorAttachment);
+			cloudShader->addTexture("depthTexture", depthAttachment);
+			cloudShader->loadFloat("numSteps", 20);
+			cloudShader->loadFloat("numStepsLight", 10);
 		
-			renderable = { CullingMode::Back, quad, cloudShader, {cloudTexture, colorAttachment, depthAttachment}, Math::CreateModelMatrix(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)) };
+			renderable = std::make_shared<Renderable>(CullingMode::Back, quad, cloudShader, Math::CreateModelMatrix(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1)));
 		
 		// Skybox cubemap
 			auto skyboxTexture = TextureCube::Create({ "skybox/right.jpg", "skybox/left.jpg", "skybox/top.jpg", "skybox/bottom.jpg", "skybox/front.jpg", "skybox/back.jpg" });
 		
 			auto skyboxShader = Shader::Create("SkyboxShader", "skybox/SkyboxVertex.glsl", "skybox/SkyboxFragment.glsl", true);
-			skyboxShader->setTextureSlots({ "skybox" });
+			skyboxShader->addTexture("skybox", skyboxTexture);
 		
 		
 		// Entities + components aanmaken		
@@ -167,19 +174,16 @@ public:
 			ecsCoordinator->addComponent<Transform>(mandelbrot, { glm::vec3(0, 50, 0), glm::vec3(0, 0, 0), glm::vec3(5, 5, 5) });
 			ecsCoordinator->addComponent<Mesh>(mandelbrot, { cubeVao });
 			ecsCoordinator->addComponent<Material>(mandelbrot, { CullingMode::None, rayMarchShader });
-
-			auto rgbNoise = Texture2D::Create("rgbNoise.png");
-			auto windNoise = Texture2D::Create("windNoise.png");
 		
 			auto grass = ecsCoordinator->createEntity("Test Entity2");
 			ecsCoordinator->addComponent<Transform>(grass, { glm::vec3(0, 40, 0), glm::vec3(-90, 0, 0), glm::vec3(5, 5, 5) });
 			ecsCoordinator->addComponent<Mesh>(grass, { quad });
-			ecsCoordinator->addComponent<Material>(grass, { CullingMode::Back, grassShader, {rgbNoise, windNoise} });
+			ecsCoordinator->addComponent<Material>(grass, { CullingMode::Back, grassShader });
 		
 			skyboxEntity = ecsCoordinator->createEntity("Skybox Entity");		
 			ecsCoordinator->addComponent<Transform>(skyboxEntity, { glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1000, 1000, 1000) });
 			ecsCoordinator->addComponent<Mesh>(skyboxEntity, { cubeVao });
-			ecsCoordinator->addComponent<Material>(skyboxEntity, { CullingMode::Front, skyboxShader, {skyboxTexture} });
+			ecsCoordinator->addComponent<Material>(skyboxEntity, { CullingMode::Front, skyboxShader });
 		
 			camera = ecsCoordinator->createEntity("Camera");		
 			ecsCoordinator->addComponent<Transform>(camera, { glm::vec3(0, 50, -5), glm::vec3(0, 90, 0), glm::vec3(1, 1, 1) });
@@ -201,7 +205,7 @@ public:
 	
 	void beforeRender() override
 	{
-		Renderer::RenderSubmissions();
+		Renderer::Render();
 		fbo->unbind();
 		
 		Renderer::Submit(renderable);
@@ -218,60 +222,60 @@ public:
 	{		
 		if (captured)
 		{
-			ImGui::Begin("Settings");
-			
-			cloudShader->bind();
-			ImGui::Text("Cloud Settings");
-			{
-				static float cloudScale = 2.5;
-				ImGui::DragFloat("Scale", &cloudScale, 0.1);
-				cloudShader->loadFloat("cloudScale", cloudScale);
-			
-				static float minPos[3] = { -100, -20, -100 };
-				ImGui::DragFloat3("Min position", minPos, 0.1);
-				cloudShader->loadVector3("boxMin", glm::vec3(minPos[0], minPos[1], minPos[2]));
-			
-				static float maxPos[3] = { 100, 30, 100 };
-				ImGui::DragFloat3("Max position", maxPos, 0.1);
-				cloudShader->loadVector3("boxMax", glm::vec3(maxPos[0], maxPos[1], maxPos[2]));
-				
-				static float densityThreshold = 0.52f;
-				ImGui::SliderFloat("Density threshold", &densityThreshold, 0, 1);
-				cloudShader->loadFloat("densityThreshold", densityThreshold);
-			
-				static float densityMultiplier = 0.26f;
-				ImGui::DragFloat("Density multiplier", &densityMultiplier, 0.01);
-				cloudShader->loadFloat("densityMultiplier", densityMultiplier);
-			
-				static float edgeFadeDistance = 30;
-				ImGui::DragFloat("Edge fade distance", &edgeFadeDistance, 0.1);
-				cloudShader->loadFloat("edgeFadeDistance", edgeFadeDistance);
-			}
-			
-			ImGui::Text("Light Settings");
-			{
-				static float sunPos[3] = { 0, 500, 0 };
-				ImGui::DragFloat3("Sun position", sunPos);				
-				cloudShader->loadVector3("lightPos", glm::vec3(sunPos[0], sunPos[1], sunPos[2]));
-			
-				static float sunCol[3] = { 1, 1, 1 };
-				ImGui::SliderFloat3("Sun color", sunCol, 0, 1);
-				cloudShader->loadVector3("lightColor", glm::vec3(sunCol[0], sunCol[1], sunCol[2]));
-			
-				static float lightAbsorptionThroughCloud = 0.37f;
-				ImGui::DragFloat("Light absorption through cloud", &lightAbsorptionThroughCloud, 0.01);
-				cloudShader->loadFloat("lightAbsorptionThroughCloud", lightAbsorptionThroughCloud);
-			
-				static float lightAbsorptionTowardSun = 1.25f;
-				ImGui::DragFloat("Light absorption towards sun", &lightAbsorptionTowardSun, 0.01);
-				cloudShader->loadFloat("lightAbsorptionTowardSun", lightAbsorptionTowardSun);
-			
-				static float darknessThreshold = 0;
-				ImGui::SliderFloat("Darkness Threshold", &darknessThreshold, 0, 1);
-				cloudShader->loadFloat("darknessThreshold", darknessThreshold);
-			}
-			
-			ImGui::End();
+			// ImGui::Begin("Settings");
+			//
+			// cloudShader->bind();
+			// ImGui::Text("Cloud Settings");
+			// {
+			// 	static float cloudScale = 2.5;
+			// 	ImGui::DragFloat("Scale", &cloudScale, 0.1);
+			// 	cloudShader->loadFloat("cloudScale", cloudScale);
+			//
+			// 	static float minPos[3] = { -100, -20, -100 };
+			// 	ImGui::DragFloat3("Min position", minPos, 0.1);
+			// 	cloudShader->loadVector3("boxMin", glm::vec3(minPos[0], minPos[1], minPos[2]));
+			//
+			// 	static float maxPos[3] = { 100, 30, 100 };
+			// 	ImGui::DragFloat3("Max position", maxPos, 0.1);
+			// 	cloudShader->loadVector3("boxMax", glm::vec3(maxPos[0], maxPos[1], maxPos[2]));
+			// 	
+			// 	static float densityThreshold = 0.52f;
+			// 	ImGui::SliderFloat("Density threshold", &densityThreshold, 0, 1);
+			// 	cloudShader->loadFloat("densityThreshold", densityThreshold);
+			//
+			// 	static float densityMultiplier = 0.26f;
+			// 	ImGui::DragFloat("Density multiplier", &densityMultiplier, 0.01);
+			// 	cloudShader->loadFloat("densityMultiplier", densityMultiplier);
+			//
+			// 	static float edgeFadeDistance = 30;
+			// 	ImGui::DragFloat("Edge fade distance", &edgeFadeDistance, 0.1);
+			// 	cloudShader->loadFloat("edgeFadeDistance", edgeFadeDistance);
+			// }
+			//
+			// ImGui::Text("Light Settings");
+			// {
+			// 	static float sunPos[3] = { 0, 500, 0 };
+			// 	ImGui::DragFloat3("Sun position", sunPos);				
+			// 	cloudShader->loadVector3("lightPos", glm::vec3(sunPos[0], sunPos[1], sunPos[2]));
+			//
+			// 	static float sunCol[3] = { 1, 1, 1 };
+			// 	ImGui::SliderFloat3("Sun color", sunCol, 0, 1);
+			// 	cloudShader->loadVector3("lightColor", glm::vec3(sunCol[0], sunCol[1], sunCol[2]));
+			//
+			// 	static float lightAbsorptionThroughCloud = 0.37f;
+			// 	ImGui::DragFloat("Light absorption through cloud", &lightAbsorptionThroughCloud, 0.01);
+			// 	cloudShader->loadFloat("lightAbsorptionThroughCloud", lightAbsorptionThroughCloud);
+			//
+			// 	static float lightAbsorptionTowardSun = 1.25f;
+			// 	ImGui::DragFloat("Light absorption towards sun", &lightAbsorptionTowardSun, 0.01);
+			// 	cloudShader->loadFloat("lightAbsorptionTowardSun", lightAbsorptionTowardSun);
+			//
+			// 	static float darknessThreshold = 0;
+			// 	ImGui::SliderFloat("Darkness Threshold", &darknessThreshold, 0, 1);
+			// 	cloudShader->loadFloat("darknessThreshold", darknessThreshold);
+			// }
+			//
+			// ImGui::End();
 		}
 	}
 	
@@ -284,7 +288,7 @@ public:
 				Application::GetInstance().getWindow().captureMouse(captured);
 				captured = !captured;
 				
-				Input<>::GetMouseVelocity();
+				//Input<>::GetMouseVelocity();
 			}
 		}
 	}

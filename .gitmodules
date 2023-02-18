@@ -11,3 +11,6 @@
 	path = ByteCat/vendor/imgui/imgui
 	url = https://github.com/ocornut/imgui
 	branch = docking
+[submodule "ByteCat/vendor/glfm"]
+	path = ByteCat/vendor/glfm
+	url = https://github.com/brackeen/glfm

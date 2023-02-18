@@ -1,4 +1,5 @@
 #pragma once
+#if defined(BC_PLATFORM_PC) || defined(BC_PLATFORM_MOBILE)
 #include "byteCat/graphics/components/Shader.h"
 
 namespace BC
@@ -11,7 +12,10 @@ namespace BC
 			std::string m_name;
 			unsigned int m_programID;
 
-			mutable std::unordered_map<std::string, unsigned int> uniformLocationCache;
+			//int m_textureSlot = -1;
+			std::vector<std::shared_ptr<Graphics::Texture>> m_textures;
+
+			mutable std::unordered_map<std::string, unsigned int> m_uniformLocationCache;
 			
 		public:
 			OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc, bool isFilePath);
@@ -32,7 +36,8 @@ namespace BC
 
 			void linkUniformBuffer(const std::string& bufferName, unsigned int bindingIndex) override;
 
-			void setTextureSlots(std::initializer_list<const char*> textureNames) override;
+			void addTexture(const char* textureName, std::shared_ptr<Graphics::Texture> texture) override;
+			void activateTextures() override;
 			
 			const std::string& getName() const override { return m_name; }
 
@@ -43,3 +48,4 @@ namespace BC
 		};
 	}
 }
+#endif

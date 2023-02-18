@@ -3,13 +3,31 @@ cmake_minimum_required(VERSION 3.16.3)
 project(ByteCatApplication VERSION 0.1.0)
 set(CMAKE_CXX_STANDARD 17)
 
-# Set external library options
-set(GLFW_BUILD_DOCS OFF)
-set(GLFW_INSTALL OFF)
+if(CMAKE_SYSTEM_NAME MATCHES "Windows" OR CMAKE_SYSTEM_NAME MATCHES "Linux")
+    set(BUILD_PC ON)
 
-# Add external libraries
-add_subdirectory(ByteCat/vendor/glfw)
-add_subdirectory(ByteCat/vendor/glad)
+    if(CMAKE_SYSTEM_NAME MATCHES "Windows")
+        add_compile_definitions(BC_PLATFORM_WINDOWS)
+    else()
+        add_compile_definitions(BC_PLATFORM_LINUX)
+    endif()
+
+    # Set external library options
+    set(GLFW_BUILD_DOCS OFF)
+    set(GLFW_INSTALL OFF)
+
+    # Add external PC libraries
+    add_subdirectory(ByteCat/vendor/glfw)
+    add_subdirectory(ByteCat/vendor/glad)
+elseif(CMAKE_SYSTEM_NAME MATCHES "Android")
+    set(BUILD_MOBILE ON)
+    add_compile_definitions(BC_PLATFORM_ANDROID GLFM_INCLUDE_ES32)
+
+    # Add external mobile libraries
+    add_subdirectory(ByteCat/vendor/glfm)
+endif()
+
+# Add external generic libraries
 add_subdirectory(ByteCat/vendor/imgui)
 
 # Set assets folder
@@ -26,12 +44,6 @@ add_compile_definitions(
     $<$<CONFIG:RelWithDebInfo>:BC_RELEASE>
     $<$<CONFIG:MinSizeRel>:BC_DIST>
 )
-
-if(WIN32)
-    add_compile_definitions(BC_PLATFORM_WINDOWS)
-elseif(UNIX)
-    add_compile_definitions(BC_PLATFORM_LINUX)
-endif()
 
 # Add main projects
 add_subdirectory(App)

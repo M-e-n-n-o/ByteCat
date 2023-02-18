@@ -1,6 +1,12 @@
+#if defined(BC_PLATFORM_PC) || defined(BC_PLATFORM_MOBILE)
 #include "bcpch.h"
-#include <glad/glad.h>
 #include "platform/openGL/OpenGLVertexArray.h"
+
+#if defined(BC_PLATFORM_PC)
+	#include <glad/glad.h>
+#elif defined(BC_PLATFORM_MOBILE)
+	#include <glfm.h>
+#endif
 
 namespace BC
 {
@@ -33,7 +39,7 @@ namespace BC
 		}
 
 		OpenGLVertexArray::~OpenGLVertexArray()
-		{	
+		{
 			glDeleteVertexArrays(1, &m_id);
 		}
 
@@ -116,3 +122,5 @@ namespace BC
 		}
 	}
 }
+
+#endif

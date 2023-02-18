@@ -1,4 +1,5 @@
 #pragma once
+#ifdef BC_PLATFORM_PC
 #include <GLFW/glfw3.h>
 #include "byteCat/graphics/GraphicsContext.h"
 
@@ -19,3 +20,4 @@ namespace BC
 		};
 	}
 }
+#endif

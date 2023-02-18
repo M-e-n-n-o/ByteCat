@@ -1,3 +1,5 @@
+#include "byteCat/app/Application.h"
+#ifdef BC_PLATFORM_PC
 #include "bcpch.h"
 #include <GLFW/glfw3.h>
 #include "platform/winLin/WinLinWindow.h"
@@ -11,6 +13,7 @@ namespace BC
 	{
 		static GLFWwindow* nativeWindow;
 		static Inputs::EventListener* eventListener;
+		static bool minimized = false;
 		
 		WinLinWindow::WinLinWindow(const Graphics::WindowSettings& setting)
 		{
@@ -27,11 +30,11 @@ namespace BC
 			nativeWindow = glfwCreateWindow(m_windowSetting.width, m_windowSetting.height, m_windowSetting.title.c_str(), NULL, NULL);
 			if (m_windowSetting.width == 0 || m_windowSetting.height == 0)
 			{
-				m_isMinimized = true;
+				minimized = true;
 			}
 			else
 			{
-				m_isMinimized = false;
+				minimized = false;
 			}
 
 			if (!nativeWindow)
@@ -41,15 +44,20 @@ namespace BC
 				std::exit(-1);
 			}
 
-			LOG_INFO("Created a Windows/Linux window with title: {0}, width: {1}, height: {2} and vSync: {3}", m_windowSetting.title, m_windowSetting.width, m_windowSetting.height, m_windowSetting.vSync);
+			LOG_INFO("Created a Windows/Linux window with title: %s, width: %d, height: %d and vSync: %d", m_windowSetting.title.c_str(), m_windowSetting.width, m_windowSetting.height, m_windowSetting.vSync);
 
 			m_context = Graphics::GraphicsContext::Create(nativeWindow);
 			m_context->init(m_windowSetting.width, m_windowSetting.height);
 
-			setVsync(m_windowSetting.vSync);
-
+			setVsync(m_windowSetting.vSync);			
 
 			glfwSetWindowSizeCallback(nativeWindow, [](GLFWwindow* window, int width, int height)
+				{
+					Inputs::WindowResizeEvent event(width, height);
+					eventListener->onEvent(event);
+				});
+
+			glfwSetFramebufferSizeCallback(nativeWindow, [](GLFWwindow* window, int width, int height)
 				{
 					Inputs::WindowResizeEvent event(width, height);
 					eventListener->onEvent(event);
@@ -59,6 +67,22 @@ namespace BC
 				{
 					Inputs::WindowCloseEvent event;
 					eventListener->onEvent(event);
+				});
+
+			glfwSetWindowFocusCallback(nativeWindow, [](GLFWwindow* window, int focused)
+				{
+					minimized = !focused;
+				
+					if (focused)
+					{
+						Inputs::WindowOnFocusEvent event;
+						eventListener->onEvent(event);
+						return;
+					}
+
+					Inputs::WindowLostFocusEvent event;
+					eventListener->onEvent(event);
+					return;
 				});
 
 			glfwSetKeyCallback(nativeWindow, [](GLFWwindow* window, int key, int scancode, int action, int mods)
@@ -141,7 +165,7 @@ namespace BC
 			static long fps = 0;
 			if (glfwGetTime() - lastFps > 3)
 			{
-				LOG_INFO("Fps {0}", fps / 3);
+				LOG_INFO("Fps %d", fps / 3);
 				fps = 0;
 				lastFps += 3;
 			}
@@ -157,17 +181,17 @@ namespace BC
 		}
 
 		void WinLinWindow::resize(unsigned int width, unsigned int height)
-		{
+		{			
 			m_windowSetting.width = width;
 			m_windowSetting.height = height;
 
 			if (width == 0 || height == 0)
 			{
-				m_isMinimized = true;
+				minimized = true;
 			}
 			else
 			{
-				m_isMinimized = false;
+				minimized = false;
 			}
 		}
 
@@ -183,6 +207,11 @@ namespace BC
 			{
 				glfwSwapInterval(0);
 			}
+		}
+
+		bool WinLinWindow::isMinimized()
+		{
+			return minimized;
 		}
 
 		void WinLinWindow::captureMouse(bool capture)
@@ -207,3 +236,4 @@ namespace BC
 		}
 	}
 }
+#endif

@@ -1,3 +1,4 @@
+#ifdef BC_PLATFORM_PC
 #include "bcpch.h"
 #include <glad/glad.h>
 #include "platform/openGL/OpenGLUniformBuffer.h"
@@ -50,3 +51,4 @@ namespace BC
 		}
 	}
 }
+#endif

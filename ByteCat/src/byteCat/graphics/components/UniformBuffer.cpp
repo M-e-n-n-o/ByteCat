@@ -1,7 +1,10 @@
 #include "bcpch.h"
 #include "byteCat/graphics/components/UniformBuffer.h"
 #include "byteCat/graphics/renderer/Renderer.h"
+
+#ifdef BC_PLATFORM_PC
 #include "platform/openGL/OpenGLUniformBuffer.h"
+#endif
 
 namespace BC
 {
@@ -16,7 +19,10 @@ namespace BC
 			switch (Renderer::GetAPI())
 			{
 			case GraphicsAPI::None:		LOG_CRITICAL("No Graphics API selected!"); return nullptr;
+
+#ifdef BC_PLATFORM_PC
 			case GraphicsAPI::OpenGL:	return std::make_shared<Platform::OpenGLUniformBuffer>(blockName, bindingIndex, size);
+#endif
 			}
 
 			LOG_CRITICAL("Unsupported Graphics API selected!");
@@ -29,7 +35,10 @@ namespace BC
 			switch (Renderer::GetAPI())
 			{
 			case GraphicsAPI::None:		LOG_CRITICAL("No Graphics API selected!"); return nullptr;
+
+#ifdef BC_PLATFORM_PC
 			case GraphicsAPI::OpenGL:	return std::make_shared<Platform::OpenGLUniformBuffer>(blockName, bindingIndex, size, data);
+#endif
 			}
 
 			LOG_CRITICAL("Unsupported Graphics API selected!");

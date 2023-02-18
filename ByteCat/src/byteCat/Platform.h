@@ -1,12 +1,6 @@
 #pragma once
 
-#ifdef BC_PLATFORM_WINDOWS
-	#ifdef BC_CORE
-		#define BC_CORE_ACCESS
-	#else
-		#define BC_CLIENT_ACCESS
-	#endif
-#elif BC_PLATFORM_LINUX
+#if defined(BC_PLATFORM_WINDOWS) || defined(BC_PLATFORM_LINUX) || defined(BC_PLATFORM_ANDROID)
 	#ifdef BC_CORE
 		#define BC_CORE_ACCESS
 	#else
@@ -25,6 +19,8 @@
 	#elif BC_PLATFORM_LINUX
 		#include <signal.h>
 		#define BC_DEBUG_BREAK raise(SIGTRAP)
+	#elif BC_PLATFORM_ANDROID
+		#define BC_DEBUG_BREAK  
 	#else
 		#error "Platform does not support debugbreak yet!"
 	#endif
@@ -37,8 +33,7 @@
 #endif
 
 #if defined(BC_PLATFORM_WINDOWS) || defined(BC_PLATFORM_LINUX)
-	#define INPUT_MODULE_PC
+	#define BC_PLATFORM_PC
+#elif defined(BC_PLATFORM_ANDROID)
+	#define BC_PLATFORM_MOBILE
 #endif
-
-
-int main(int argc, char** argv);

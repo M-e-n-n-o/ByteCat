@@ -1,8 +1,11 @@
 #include "bcpch.h"
 #include "byteCat/graphics/components/Shader.h"
 #include "byteCat/graphics/renderer/Renderer.h"
-#include "platform/openGL/OpenGLComputeShader.h"
-#include "platform/openGL/OpenGLShader.h"
+
+#if defined(BC_PLATFORM_PC) || defined(BC_PLATFORM_MOBILE)
+	#include "platform/openGL/OpenGLComputeShader.h"
+	#include "platform/openGL/OpenGLShader.h"
+#endif
 
 namespace BC
 {
@@ -12,8 +15,12 @@ namespace BC
 		{
 			switch (Renderer::GetAPI())
 			{
-			case GraphicsAPI::None:		LOG_CRITICAL("No Graphics API selected!"); return nullptr;
-			case GraphicsAPI::OpenGL:	return std::make_shared<Platform::OpenGLShader>(name, vertexSrc, fragmentSrc, isFilePath);
+			case GraphicsAPI::None:			LOG_CRITICAL("No Graphics API selected!"); return nullptr;
+
+#if defined(BC_PLATFORM_PC) || defined(BC_PLATFORM_MOBILE)
+			case GraphicsAPI::OpenGL:
+			case GraphicsAPI::OpenGLES:		return std::make_shared<Platform::OpenGLShader>(name, vertexSrc, fragmentSrc, isFilePath);
+#endif
 			}
 
 			LOG_CRITICAL("Unsupported Graphics API selected!");
@@ -24,8 +31,12 @@ namespace BC
 		{
 			switch (Renderer::GetAPI())
 			{
-			case GraphicsAPI::None:		LOG_CRITICAL("No Graphics API selected!"); return nullptr;
-			case GraphicsAPI::OpenGL:	return std::make_shared<Platform::OpenGLShader>(name, vertexSrc, geometrySrc, fragmentSrc, isFilePath);
+			case GraphicsAPI::None:			LOG_CRITICAL("No Graphics API selected!"); return nullptr;
+
+#if defined(BC_PLATFORM_PC) || defined(BC_PLATFORM_MOBILE)
+			case GraphicsAPI::OpenGL:		return std::make_shared<Platform::OpenGLShader>(name, vertexSrc, geometrySrc, fragmentSrc, isFilePath);
+			case GraphicsAPI::OpenGLES:		LOG_ERROR("Geometry shader is not supported on OpenGLES"); return nullptr;
+#endif
 			}
 
 			LOG_CRITICAL("Unsupported Graphics API selected!");
@@ -37,8 +48,11 @@ namespace BC
 		{
 			switch (Renderer::GetAPI())
 			{
-			case GraphicsAPI::None:		LOG_CRITICAL("No Graphics API selected!"); return nullptr;
-			case GraphicsAPI::OpenGL:	return std::make_shared<Platform::OpenGLComputeShader>(name, computeSrc, isFilePath);
+			case GraphicsAPI::None:			LOG_CRITICAL("No Graphics API selected!"); return nullptr;
+
+#ifdef BC_PLATFORM_PC
+			case GraphicsAPI::OpenGL:		return std::make_shared<Platform::OpenGLComputeShader>(name, computeSrc, isFilePath);
+#endif
 			}
 
 			LOG_CRITICAL("Unsupported Graphics API selected!");
