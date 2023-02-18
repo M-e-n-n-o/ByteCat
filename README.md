@@ -3,7 +3,9 @@
 
 Welcome to the ByteCat graphics engine!
 
-!! This project is still in a very early stage of development !!
+I worked on this engine as a side project during my bachelor's degree in computer science.  
+This project is my biggest work during my education, but has been stopped at the moment   
+due to starting work on a new engine, which could probably be found on my GitHub profile.
 
 
 # 🚀 Future plans
@@ -11,11 +13,11 @@ The ultimate goal for this project is to build an acutal usable and enjoyable to
 with a simple and easy to navigate user interface. Aside from this the ByteCat engine should always be  
 very easy to work with as a regular software engineer and for this reason will stay very code focussed.
 
-A few other big goals for this project are to add solid Android, VR, WebGL and maybe even WebXR support!
+A few other big goals for this project are to add solid VR, WebGL and maybe even WebXR support!
 
 
 # 🏃 Getting started
-ByteCat is currently only supported and tested for Windows and Linux.   
+ByteCat is currently only supported and tested for Windows, Linux & Android.   
 You are always welcome to try and expand on this! :)  
 
 ### Cloning the repository
@@ -53,3 +55,7 @@ been built to test the capabilities of the engine.
 
 ### Volumetric Raymarcher
 https://user-images.githubusercontent.com/57482120/171645189-80581372-28f5-443b-88b9-b728cf9a35f1.mp4
+
+### Android demo
+https://user-images.githubusercontent.com/57482120/219850375-4d847886-6cfd-4a20-afae-f7a11e4b0c2c.mp4
+
